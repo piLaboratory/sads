@@ -93,7 +93,7 @@ values \code{NaN}, with a warning.
   Alonso, D. and McKane, A. J.  2004.  Sampling Hubbell's neutral
   model of biodiversity. \emph{Ecology Letters 7}:901-910
 
-  Hubbell, S. P.  2001.  “The Unified Neutral Theory of Biodiversity”.
+  Hubbell, S. P.  2001.  \emph{The Unified Neutral Theory of Biodiversity}.
   Princeton University Press
 }
 
