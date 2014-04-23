@@ -1,8 +1,0 @@
-plot.fitsadlist <- function(x,ask=FALSE, ...){
-  if (ask) {
-        oask <- devAskNewPage(TRUE)
-        on.exit(devAskNewPage(oask))
-    }
-  par(mfrow=1,2)
-  data <- x$data$x
-  

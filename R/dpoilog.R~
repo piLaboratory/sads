@@ -1,9 +1,0 @@
-dpoilog(x, mu, sig, trunc=0, log=FALSE){
-  if(!is.null(trunc)){
-    if(any(x<=trunc))stop("at least one x larger than truncation value")
-    iconst <- 1-ppoilog(trunc,mu,sig)
-  }
-  else <- iconst <- 1
-  y <- poilog::dpoilog(x,mu,sig)
-  ifelse(log, y, log(y))
-}

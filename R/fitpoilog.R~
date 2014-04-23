@@ -1,3 +1,0 @@
-fit.poilog <- function(x, ...){
-  mle <- poilogMLE(x,startVals=c(mu=mean(log(x))+log(0.5),sig=sd(log(x))))$par
-  LL <- function(mu,sig) -sum(dpoilog(x,))

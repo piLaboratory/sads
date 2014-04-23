@@ -1,4 +1,0 @@
-histsad <- function(x, ...){
-  y <- log2(x)
-  hist(y, breaks=1:ceiling(max(y)))
-}

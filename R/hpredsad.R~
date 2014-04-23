@@ -1,7 +1,0 @@
-hpred <- function(x,sad,breaks=1:ceiling(log2(x)),...){
-  psad <- paste("p",sad,sep="")
-  dots <- list(...)
-  X <- do.call(psad,c(list(q=breaks),dots))
-  
-  data.frame(x=1:S, y=ab)
-}
