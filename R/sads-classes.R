@@ -1,0 +1,5 @@
+setClass("octav", representation("data.frame"))
+setClass("rad", representation("data.frame"))
+setClass("fitsad", representation("mle2", sad="character", distr="character", trunc="numeric"))
+setClass("fitrad", representation("mle2", rad="character", distr="character", trunc="numeric", rad.tab="rad"))
+#setClass("fitsadlist", representation("list"))

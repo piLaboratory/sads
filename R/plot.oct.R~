@@ -1,0 +1,2 @@
+plot.oct <- function(x,...){
+  barplot(height=x$Freq, space=0, ylab="Frequency", xlab="Abundance class")

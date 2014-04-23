@@ -1,0 +1,5 @@
+points.octav <- function(x,...){
+  X <- c(0,as.integer(as.character(x$octave)))
+  X <- X[-length(X)]+diff(X)/2
+  points(X,x$Freq,...)
+}

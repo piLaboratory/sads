@@ -1,0 +1,5 @@
+dlr <- function(n,N,alfa){
+		X<-N/(N+alfa)
+		gama<- function(y) {1/log(1/(1-y))}
+		gama(X)*(X^x)/x
+              }

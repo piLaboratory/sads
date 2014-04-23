@@ -1,0 +1,3 @@
+octav <- function(x, max.oct=ceiling(max(log2((x)))), ...){
+  
+}

@@ -1,0 +1,5 @@
+fitsad <- function(x,sads=c("ls","poilog"),...){
+  if(any(sads)=="ls") ls.m <- fitlogser(x,...)
+  if(any(sads)=="poilog") ln.m <- fitpoilog(x,...)
+  new("fitsadlist",
+  

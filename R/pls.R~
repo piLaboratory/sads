@@ -1,0 +1,4 @@
+pls <- function(q, N, alpha, lower.tail=TRUE,log.p=FALSE){
+  ifelse(lower.tail,y <- 1-sum(dls(1:q,N,alpha)),y <- sum(dls(1:q,N,alpha)))
+  ifelse(log.p, log(y), y)
+}

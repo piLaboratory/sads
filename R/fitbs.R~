@@ -1,0 +1,18 @@
+fitbs <- function(x, trunc, ...){
+  S <- length(x)
+  N <- sum(x)
+  if (!missing(x)){
+    if (!missing(trunc)){
+      if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
+      else{
+        LL <- function() -sum(dtrunc("bs", x = x, coef = list(N = N, S = S), trunc = trunc, log = TRUE))
+        result <- mle2(LL, data = list(x = x), eval.only=TRUE, ...)
+      }
+    }
+    if (missing(trunc)){
+      LL <- function() -sum(dbs(x = x, N = N, S = S, log = TRUE))
+      result <- mle2(LL, data = list(x = x), eval.only=TRUE, ...)
+    }
+    new("fitsad", result, sad = "bs", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
+  }
+}

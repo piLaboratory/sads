@@ -1,0 +1,12 @@
+radpred <- function(x,sad,...){
+  psad <- paste("p",sad,sep="")
+  dots <- list(...)
+  S <- length(x)
+  y <- 1:max(x)
+  #y <- 1:(ceiling(max(x)*1.25))
+  X <- do.call(psad,c(list(q=y,lower.tail=F),dots))
+  #f1 <- splinefun(x=c(1,X),y=c(0,y),method="monoH.FC")
+  f1 <- approxfun(x=c(1,X),y=c(0,y), method="constant")
+  ab <- f1(ppoints(S))
+  data.frame(x=1:S, y=ab)
+}

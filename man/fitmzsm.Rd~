@@ -1,0 +1,128 @@
+\name{fitbs}
+\alias{fitbs}
+\alias{fitrbs}
+\title{Fits MacArthur's Broken-stick Distribution}
+\description{
+  Fits the Broken-stick distribution as a sad or rad model
+  of species abundances
+  by maximum likelihood
+}
+
+\usage{
+fitbs( x, trunc, ...)
+fitrbs( x, trunc, ...)
+}
+
+\arguments{
+  \item{x}{
+    vector of (non-negative integer) abundances of species in a sample
+    or and object of class \code{rad} (for \code{fitrbs} only).
+  }
+  \item{trunc}{
+    
+  }
+  \item{...}{
+    further arguments to be passed to mle2
+    }
+}
+
+\details{
+
+  The Broken-stick distribution was proposed as a rank-abundance model
+  (rad, see \code{\link{fitrad-class}})
+  in community ecology (MacArthur 1960).
+  According to this model, the
+  expected abundance of a given species in a sample taken from a
+  community is:
+
+  n(i) = N/S (sum(from k=i to S) 1/k)
+
+  where n(i) is the abundance in the i-th most abundant species (May
+  1975). Hence the probability (or expected proportion of individuals)
+  in the i-th species is
+
+  p(i) = n(i)/N = n(i) = (sum(from k=i to S) 1/k) / S
+
+  \code{fitrbs} fits this rad model to a vector of species abundances,
+  or to a rank-abundace table of the class \code{\link{rad}}.
+
+  The probability density for a given abundance value
+  in the Broken-stick model is 
+
+  p(x) = (1 - x/N)^(S-2) (S - 1)/N
+
+  
+  Where x is the abundance of a given species in the sample (May 1975).
+  This expression can be used as
+  species abundance model (sad). 
+  see \code{\link{fitsad-class}}.
+  \code{fitbs} fits this sad model to a vector of species abundances.
+    
+  The Broken-stick distribution describes the expected
+  lengths of a stick broken at S-1 random points.
+  It was originally proposed as a null model
+  for resource paritioning among similar species in a community
+  (MacArthur 1960). It depends only on the observed number of
+  elements S in the collection and collection size N.
+  Therefore, once a sample is taken,
+  the Broken-stick has no free parameters.
+
+  Therefore, there is no actual "fitting", but still
+  the functions call
+  \code{mle2} from package 'bbmle' with
+  fixed parameters N and S and \code{eval.only=TRUE}
+  to return an object of classes \code{fitsad}
+  or \code{fitrad} to keep compatibility with other
+  sad and rad models fitted to the same data.
+  Therefore the resulting objects allows most of the
+  operations with sad or rad models, such as
+  comparison with other models through model selection,
+  diagnostic plots and so on
+  (see \code{\link{fitsad-method}} and \code{\link{fitsad-method}} 
+}
+
+\value{
+  \code{fitbs} returns an object fo class 'fitsad'.
+  \code{fitrbs} returns an object fo class 'fitrad'.
+}
+
+\references{
+
+  MacArthur, R.H. 1960. On the relative abundance of species.
+  \emph{Am Nat 94}:25--36.
+
+  Magurran, A.E. 1989. \emph{Ecological diversity and its measurement}.
+  Princenton University Press.
+    
+  May, R.M. 1975. Patterns of Species Abundance and Diversity. In
+  Cody, M.L. and Diamond, J.M. (Eds) \emph{Ecology and Evolution of
+    Communities}. Harvard University Press. pp 81--120.
+
+  
+   }
+
+\author{
+Paulo I. Prado
+}
+
+
+\seealso{
+  'fitsad-class','fitrad-class', 'dbs', 'drbs';
+  'rad.null' in package vegan for a function to fit Broken-stick
+  model with Poisson errors. 
+}
+
+\examples{
+## Magurran (1989) example 5:
+## birds in an Australian forest
+mag5 <- c(103,115,13,2,67,36,51,8,6,61,10,21,
+          7,65,4,49,92,37,16,6,23,9,2,6,5,4,
+          1,3,1,9,2)
+mag5.bs <- fitbs(mag5)
+summary(mag5.bs)## no estimated coefficient
+coef(mag5.bs) ## fixed coeficients N and S
+## Diagnostic plots
+par(mfrow=c(2,2))
+plot(mag5.bs)
+par(mfrow=c(1,1))
+}

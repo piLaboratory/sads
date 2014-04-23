@@ -1,0 +1,4 @@
+points.rad <- function(x,...){
+  dots <- list(...)
+  do.call(points,c(list(x=x[,1],y=x[,2]),dots)) 
+}

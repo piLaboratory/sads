@@ -1,0 +1,62 @@
+\name{plotprofmle}
+\alias{plotprofmle}
+\title{Plot of log-likelihood profiles}
+\description{
+  Given a likleihood profile of a model (object of the class profile.mle
+  or profile.mle2), plots the relative log-likelihood profiles and the
+  plausibility intervals for each (or selected) parameters of a model.
+}
+\usage{plotpromfmle(mleobj, nseg=20, ratio=log(8), which=NULL, auto.mfrow=TRUE,
+                        ask=!auto.mfrow&(prod(par("mfcol")) < length(which) && dev.interactive()),
+                        col.line="blue", varname, ...)
+}
+\arguments{
+
+  \item{mleobj}{
+  object of the class profile.mle or profile.mle2}
+}
+
+\item{nseg}{
+  positive integer; number of segments used by spline to interpolate the
+  line of log-likelihood profile
+}
+\item{ratio}{
+  real positive or NULL; likelihood ratio that defines the likelihood
+  interval to be shown in the plot.
+}
+\item{which}{
+  vector of positive integers; if a subset of profiles is required, the indexes of the mle's in mleobj to be
+  ploted.}
+\item{auto.mfrow}{
+  logical; should the number of columns and rows automatically
+  calculated to fit all plots in a single frame?
+}
+\item{ask}{
+  logical; if ‘TRUE’, the user is _ask_ed before each plot, see ‘par(ask=.)’
+}
+\item{col.line}{
+  name; line color for the plausibility interval.
+}
+\item{varname}{
+vector of names; labels for the x-axes. If NULL defaults the names of
+  mle's in mleobj.  
+}
+
+}
+\details{log-likelihood profile plots are the basic diagnostic for model
+  fitting by maximum likelihood methods. In its original form
+  (e.g. Edwards 1972), they show the minimun of log-likelihood function
+  for a given value of a focal parameter, near the maximun liklelihood
+  estimate (mle) of this parameter. mleprofile objects (classes 'profile.mle' and 'profile.mle2')
+  return the signed square-root of the deviance (=minus twice
+  log-likelihood) difference from the minimum deviance near the values
+  of each maximumn likelihood estimates (mle's).  
+}
+\references{
+}
+\seealso{'profile.mle.class', ‘mle’, ‘mle-class’, 'profile.mle2.class', ‘mle2’, ‘mle2-class’}
+}
+\examples{
+}
+\author{}
+\keyword{}
