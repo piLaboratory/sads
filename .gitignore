@@ -2,4 +2,8 @@
 .RData
 .RHistory
 .Rhistory
-/.Rbuildignore
+.Rbuildignore
+vignettes/*.pdf
+vignettes/*.aux
+vignettes/*.log
+vignettes/*.tex
