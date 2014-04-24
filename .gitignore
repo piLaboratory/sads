@@ -7,3 +7,6 @@ vignettes/*.pdf
 vignettes/*.aux
 vignettes/*.log
 vignettes/*.tex
+vignettes/*.bbl
+vignettes/*.blg
+vignettes/*.dvi
