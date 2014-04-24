@@ -25,6 +25,8 @@
 \author{Paulo Inácio Prado and  Murilo Dantas Miranda \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
   \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
 
+\date{April, 24, 2014}
+
 \maketitle
 
 @ 
@@ -44,40 +46,23 @@ models for SADs.
 The package \code{sads} provides functions to fit the most used models
 to empirical SADs and also to evaluate fits and to compare competing
 models. The package also allows to simulate SADs expected from samples
-from communitie, withg and without aggregation of individuals of the
+from communities, with and without aggregation of individuals of the
 same species.
 
 
 \section{Installation}
 
-Before installing \code{sads} package please install the dependencies, which are the \R \  
-packages:
+The package is planned to be published at CRAN soon. Meanwhile you can install the working version
+from GitHub with the package \code{devtools}
 
-
-\begin{itemize}
-\item \code{bbmle} \citep{Bolkerbbmle}
-\item \code{poilog} \citep{grotan2008}
-\item \code{VGAM} \citep{yee2012}
-\item \code{untb} \citep{Hankin2007}
-\end{itemize}
-
-And then download the beta version of \code{sads} from 
-\url{http://ecologia.ib.usp.br/let/doku.php?id=engl:tutorials:rcode#species_abundance_distributions}.
-and the install the package. For Linux and MAC OS:
 @ 
-<<installation-linux, eval=FALSE>>=
-install.packages("[dir]/sads_0.1.06.tar.gz", repos=NULL)
-@
-
-
-and for windows:
-
-<<installation-windows, eval=FALSE>>=
-install.packages("[dir]/sads_0.1.06.zip", repos=NULL)
+<<installation-github, eval=FALSE>>=
+library(devtools)
+install_github('sads', 'piklprado')
 @ %def 
 
-where \texttt{[dir]} is the directory where you saved the installation file.
-Finally load the package:
+
+And the load the package:
 
 @ 
 <<load-sads-package >>=
@@ -110,7 +95,7 @@ of logarithm of abundances at base 2 (Preston's octaves) and returns a data fram
 A logical argument
 \code{preston} allows to smooth the numbers as proposed by \citet{Preston1948}.
 
-The octave number is the lower limite of the class in log2 scale. 
+The octave number is the lower limit of the class in log2 scale. 
 Hence, for abundance values smaller than one (\emph{e.g.} biomass data) the octave numbers are negative numbers.
 A Preston plot is a histogram of this table, that you get applying the function \code{plot} to the data frame:
 
@@ -188,7 +173,7 @@ AIC(moths.ls)
 \subsection{Model diagnostics}
 \label{sec:model-diagnostics}
 Many other diagnostic and functions are available for sad and rad models. 
-To get likelihood profile and confidence intervals use:
+To get likelihood profiles and confidence intervals use:
 
 \setkeys{Gin}{width=\textwidth}
 
@@ -199,7 +184,7 @@ confint(moths.ls.prf) # conf intervals
 @ %def 
 
 And then use \code{plotprofmle} to plot likelihood profiles at the original scale (relative negative log-likelihood)
-and \code{plot} to plot at  chi-square scale (square-root of twice the relative log-likelihood):
+and function \code{plot} to get plots at chi-square scale (square-root of twice the relative log-likelihood):
 
 \setkeys{Gin}{width=\textwidth}
 
@@ -254,7 +239,7 @@ function \code{fitrad}:
   probability to data in different ways. Function \code{fitsad} fit PDFs to observed abundances and \code{fitrad} fit PDFs 
   to the ranks of the abundances. Finally, \code{radfit} fits a Poisson generalized linear model 
   to the \emph{expected abundances} deduced 
-  from rank-abundance relationships from the correspodending sads and rads models \citep{wilson2009}. 
+  from rank-abundance relationships from the correspodending sads and rads models \citep{wilson1991}. 
   See also the help page of \code{radfit}. 
   Therefore \textbf{likelihoods obtained from these three functions are not comparable}.
 \end{shaded}
@@ -268,11 +253,11 @@ You can fit other models to the same data set, such as the Poisson-lognormal and
 (moths.ln <- fitsad(x=moths,sad="lnorm", trunc=0.5)) # lognormal truncated at 0.5
 @ %def 
 
-and then you cab use the function \code{AICtab} and friends of the \emph{bbmle} package to get a model selection table:
+and then you can use the function \code{AICtab} and friends from the \emph{bbmle} package to get a model selection table:
 
 @ 
 <<Model selection table>>=
-AICtab(moths.ls, moths.pl, moths.ln, base=T)
+AICtab(moths.ls, moths.pl, moths.ln, base=TRUE)
 @ %def 
 
 To compare visually fits first get octave tables:
@@ -330,7 +315,7 @@ are independent identically distributed (\emph{iid}) variables that
 follow a given probability distribution. The sample simulates a given
 number of draws of a fraction $a$ of the total number of individuals of
 the community. For instance, to simulate two Poisson samples of 10\%
-of community with 10 species that follows a lognormal distribution
+of a community with 10 species that follows a lognormal distribution
 with parameters $\mu=3$ and $\sigma=1.5$ use:
 
 @ 
@@ -397,11 +382,11 @@ And the precision of the estimates are their standard deviations
 <<rsads_bias>>=
 ##Mean of estimates
 apply(results,2,sd)
-## relative precisiob
+## relative precision
 apply(results,2,sd)/apply(results,2,mean)
 @ 
 
-And a density plot with lines indicating the mean of estimates and the values of parameters:
+Finally, a density plot with lines indicating the mean of estimates and the values of parameters:
 @ 
 <<rsads-bias-plots, fig=TRUE, height=5, width=10>>=
 par(mfrow=c(1,2))
