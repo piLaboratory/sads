@@ -120,7 +120,7 @@ plot(x,pdf, ylab="Probability", type="h",
 par(mfrow=c(1,1))
 
 ## Fisher logseries is a discrete pdf, hence:
-all.equal(pls(10,N=1000,alpha=50), sum(dls(1:10,N=1000,alpha=50)) # should be TRUE
+all.equal(pls(10,N=1000,alpha=50), sum(dls(1:10,N=1000,alpha=50))) # should be TRUE
 
 ## qls is the inverse of pls
 all.equal(qls(cdf,N=100,alpha=5), x) # should be TRUE

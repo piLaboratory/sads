@@ -1,0 +1,6 @@
+.git/
+.gitignore
+tests/
+README.md
+.RData
+.Rhistory

@@ -7,8 +7,7 @@ A given number of realizations of a probability distribution (species
 abundances in a community) is sampled by a Poisson or Negative Binomial process. 
 }
 \usage{
-rsad(S, frac, sad, samp=c("Poisson","Negbinom"), k , zeroes=FALSE,
-ssize=1, ...)
+rsad(S, frac, sad, Pois.samp = TRUE, k , zeroes = FALSE, ssize=1, ...)
 }
 \arguments{
   \item{S}{
@@ -24,11 +23,10 @@ ssize=1, ...)
     "geom" for the geometric distribution.
   }
   
-  \item{samp}{
-    character; sampling process: "Poisson" (independent sampling of
-    individuals)
-    or "Negbinom" for negative binomial
-    sampling to simulate aggregation of individuals in sampling units.
+  \item{Pois.samp}{
+    logical; if TRUE the sampling process is Poisson (independent sampling of
+    individuals); if FALSE negative binomial
+    sampling is used to simulate aggregation of individuals in sampling units.
   }
   \item{k}{
     positive; size parameter for the sampling binomial negative 
@@ -88,11 +86,17 @@ dexp, dpois, dpoix
 
 \examples{
 
-##A Poisson sample from a community with an exponential sad
-exp.samp <- rsad(S=200,frac=0.05,"exp",rate=1/250)
-hist(exp.samp, prob=TRUE, xlab="Abundance in the sample")
-x<-0:max(exp.samp)
-y<-dtrunc("poix",x,trunc=0,coef=list(frac=0.05, rate=1/250)))## theoretical
-distribution truncated at zero
-lines(x,y, col="blue", type="b", lty=2)
+##A Poisson sample from a community with a lognormal sad
+samp2 <- rsad(S = 100, frac=0.1, sad="lnorm", meanlog=5, sdlog=2)
+## Preston plot
+plot(octav(samp2))
+## Once this is a Poisson sample of a lognormal community, the abundances
+## in the sample should follow a Poisson-lognormal distribution.
+## Adds line of theoretical Poisson-lognormal with
+## mu=meanlog+log(frac) and sigma=sdlog)
+## Predicted by the theoretical Poisson-lognormal truncated at zero
+samp2.pred <- octavpred(samp2, sad="poilog", coef= list(mu=5+log(0.1), sig=2), trunc=0)
+## Adding the line in the Preston plot
+lines(samp2.pred)
+
 }

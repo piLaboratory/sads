@@ -7,7 +7,7 @@ Calculates the correct likelihood for independent observations of a
 continuous variable that follows a given (truncated) density function.
 }
 \usage{
-trueLL(x, dens, dec.places=0, trunc, log=TRUE,...)
+trueLL(x, dens, coef, trunc, dec.places = 0, log = TRUE,...)
 }
 \arguments{
   \item{x}{
@@ -18,11 +18,9 @@ name; root name of the continuous density distribution of the variable -
 e.g., 'lnorm' for the lognormal distribution; 'gamma' for the gamma
 distribution.
 }
-
-\item{dec.places}{
-  positive integer; number of decimal places used in the measurement of
-  the observed values. Observed values will be rounded to this number of
-  decimals. This argument defines the measurement precision, see details. 
+\item{coef}{named list; values of the cofficients of the continuous
+  density distribution, in the same order and with the same names as in
+  the probability function defined by the argument 'dens'.
 }
 
 \item{trunc}{
@@ -31,6 +29,12 @@ distribution.
   is implemented. If this argument is ommited the whole
   distribution is used (default).
   }
+
+\item{dec.places}{
+  positive integer; number of decimal places used in the measurement of
+  the observed values. Observed values will be rounded to this number of
+  decimals. This argument defines the measurement precision, see details. 
+}
 
 \item{log}{
   logical; convert probabilities to logs and sum them to get
@@ -73,7 +77,7 @@ through the argument '...' .
   Fisher, R.A. 1922. On the mathematical foundations of theoretical
   statistics. \emph{Phil. Trans. R. Soc. Lond. A 222}: 309--368.
   
-  Lindsey, J.K. 1999. Some stattistical heresies. \emph{The Statistician
+  Lindsey, J.K. 1999. Some statistical heresies. \emph{The Statistician
     48}(1): 1--40.
 }
 \author{
@@ -94,5 +98,5 @@ logLik(fitdistr(x,"lognormal"))
 ## Which is the sum of log of densities
 sum( dlnorm(x, meanlog=mean(log(x)), sdlog=sd(log(x)), log=TRUE) )
 ## Correct log-likelihood
-trueLL(x, "lnorm", dec.places=1, coef=list(meanlog=mean(log(x)), sdlog=sd(log(x))))
+trueLL(x, "lnorm", coef=list(meanlog=mean(log(x)), sdlog=sd(log(x))), dec.places=1, )
 }

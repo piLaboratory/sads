@@ -24,7 +24,7 @@ community and the sampling process that generated the observed abundance values.
 
 }
 \author{
-Paulo I Prado & Cristiano Strieder
+Paulo I Prado and Murilo Dantas Miranda
 
 Maintainer: P.I. Prado  <prado@ib.usp.br>
 }
@@ -36,6 +36,7 @@ species abundances. \emph{Ecology Letters 10}:1037--1045
 
 \keyword{ species abundance distributions, ecology, environmetrics,
   maximum likelihood estimation }
+
 \seealso{
 vegan-package, poilog-package, untb-package
 }

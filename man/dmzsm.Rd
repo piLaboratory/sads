@@ -34,7 +34,7 @@ pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
   \item{theta}{
     positive real theta > 0; Hubbell's 'fundamental biodiversity number'
   }
-  \item{log}{
+  \item{log, log.p}{
     logical; if TRUE, probabilities p are given as log(p).
   }
   \item{lower.tail}{
@@ -93,7 +93,7 @@ values \code{NaN}, with a warning.
   Alonso, D. and McKane, A. J.  2004.  Sampling Hubbell's neutral
   model of biodiversity. \emph{Ecology Letters 7}:901-910
 
-  Hubbell, S. P.  2001.  “The Unified Neutral Theory of Biodiversity”.
+  Hubbell, S. P.  2001.  \emph{The Unified Neutral Theory of Biodiversity}.
   Princeton University Press
 }
 

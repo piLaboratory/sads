@@ -7,7 +7,7 @@ species and individuals in a sample, returns the number of
 species for each abundance value expected by the Fisher's logseries model
 }
 \usage{
-pred.logser(x, alpha, size, rich)
+pred.logser(x, alpha, J, S)
 }
 
 \arguments{
@@ -17,10 +17,10 @@ pred.logser(x, alpha, size, rich)
   \item{alpha}{
     Fisher's alpha
   }
-  \item{size}{
+  \item{J}{
     Total number of individuals in the sample.
   }
-  \item{rich}{
+  \item{S}{
     Total number of species in the sample.
   }
 }
@@ -32,7 +32,7 @@ pred.logser(x, alpha, size, rich)
   was originally proposed by Fisher (1943) to relate the expected number
   of species in a sample from a biological community to the sample size as:
 
-  S = alpha * log(1 + N/alpha)
+  S = alpha * log(1 + J/alpha)
 
   Where alpha is the single parameter of the logseries distribution,
   often used as a diversity index. From this relation follows that the
@@ -40,25 +40,28 @@ pred.logser(x, alpha, size, rich)
   
   S(x) = alpha*X^x/x
 
-  Where X is a function of alpha and N, that tends to one as the sample
-  size N increases:
+  Where X is a function of alpha and J, that tends to one as the sample
+  size J increases:
 
-  X = N / (alpha+ N)
+  X = J / (alpha + J)
   
-  Since the logseries model is a function that relates S to N using a
+  Since the logseries model is a function that relates S to J using a
   single parameter (alpha), once two of
-  these quantities are know the remaining is determined. So the function
-  allow the input any two among S, N and alpha. If the
-  user does not providThis function returns the expected number of species with abundance x,
+  these quantities are known the remaining is determined. So the function
+  allow the input any two among S, J and alpha. If the
+  user does not provide at least two of these values, an error message
+  is returned.
+  
+  This function returns the expected number of species with abundance x,
   which is
   
   E[S(x)] = x^(-1)*alpha*X^x
-e at least two of these values, an error message is returned.
+
 }
 
 \value{
   A (vector) of expected number of species to each abundance provided by
-  argument 'x'
+  argument \code{x}
 }
 
 \references{
@@ -82,6 +85,6 @@ in package vegan.
 
 \examples{
 data(moths) # Willians' moth data
-pred.logser(1:5, size=sum(moths), rich=length(moths)) #predicted
+pred.logser(1:5, J=sum(moths), S=length(moths)) #predicted
 table(moths)[1:5] # observed 
 }

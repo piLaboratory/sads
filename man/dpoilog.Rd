@@ -41,8 +41,7 @@ qpoilog( p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE)
 
 \details{
  A compound Poisson-lognormal distribution is a Poisson probability distribution
-where its single parameter lambda, is a random variable with lognormal
- distribution. 
+where its single parameter lambda, is a random variable with lognormal distribution. 
 The density function is 
 
 p(x) = (exp(x*mu + x^2*sig/2)*(2*pi*sig)^(-1/2))/x! * g(y)
@@ -83,7 +82,7 @@ which in the context of sads is the observed number of species.
 
 \source{
   The three functions were built from \code{dpoilog} function from \pkg{poilog}
-  package (Vidar \enc{Grøtan}{Grotan} and Steinar Engen).
+  package (Vidar {Grotan} and Steinar Engen).
   
   \code{dpoilog} is just a wraper of \code{poilog::dpoilog} with an additional 'log' argument.
 
@@ -99,7 +98,7 @@ which in the context of sads is the observed number of species.
   assumption of symmetry and the species abundance
   distribution. \emph{Ecology Letters, 11}: 93-105.
 
-  Bulmer,M. G. 1974.On Fitting the Poisson Lognormal Distribution to
+  Bulmer,M. G. 1974. On Fitting the Poisson Lognormal Distribution to
   Species-Abundance Data. \emph{Biometrics, 30}: 101-110.
 
   Engen, S. 1977. Comments on two different approaches to the analysis
@@ -115,6 +114,6 @@ Paulo I. Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda
 }
 
 \seealso{
-dpois, dlnorm; dpoilog and rpoilog in poilog package; \link{\code{rsad}} for random
-generation, \link{\code{fitpoilog}} for maximum likelihood estimation.
+dpois, dlnorm; dpoilog and rpoilog in poilog package; \link{rsad} for random
+generation, \link{fitpoilog} for maximum likelihood estimation.
 }

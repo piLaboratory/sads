@@ -7,11 +7,11 @@
 Density for the Poisson-gamma compound probability distribution.
 }
 \usage{
-dpoig(y, frac, rate, shape, trunc=0, log=FALSE)
+dpoig(x, frac, rate, shape, log=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{y}{
+  \item{x}{
 vector of (non-negative integer) quantiles.
 }
 \item{frac}{
@@ -24,11 +24,6 @@ vector of (non-negative integer) quantiles.
 \item{shape}{
   the shape parameter of the gamma distribution of the
   sampled population (see details).  Must be positive.
-}
-\item{trunc}{
-  truncation point. The most used option is to truncate at zero, since
-  species with zero abundance usually are not known. Default value NULL
-  means no truncation
 }
 
 \item{log}{

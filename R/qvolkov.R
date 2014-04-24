@@ -3,7 +3,7 @@ qvolkov<-function(p, theta, m, J, lower.tail = TRUE, log.p = FALSE){
   if (!all(is.finite(c(J, theta, m)))) stop("all parameters should be finite")
   if (theta <= 0 || J <= 0 || m < 0 || m > 1){
     warning("Function not defined for theta or J <= zero, m <0 or m > 1 \n NaN's returned")
-    vals <- rep(NaN, length(x))
+    vals <- rep(NaN, length(p))
   }
   else{
     if (log.p) p <- exp(p)

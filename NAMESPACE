@@ -2,7 +2,7 @@
 ## Export all names not beggining with .
 ##exportPattern("^[^\\.]")
 #Alternative: export functions explicitly (and do not export internal functions)
-## Density fucntions
+## Density functions
 export(dbs, dgs, dls, dmand, dmzsm, dpareto, dpoilog, dpower, drbs, dvolkov, dzipf)
 ## Probability functions
 export(pbs, pgs,pls, pmand, pmzsm, ppareto, ppoilog, ppower, prbs, pvolkov, pzipf)
@@ -14,7 +14,7 @@ export(fitbs, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm,
 ## Generic fitting and ploting  functions
 export(fitrad, fitsad, octav, pprad, ppsad, qqrad, qqsad, rad)
 ## Accessory functions
-export(plotprofmle, dtrunc, ptrunc, qtrunc, rsad, trueLL)
+export(plotprofmle, pred.logser, dtrunc, ptrunc, qtrunc, rsad, trueLL)
 ## Explicit classes and methods export
 exportClasses(rad,octav,fitsad,fitrad)
 exportMethods(plot, points, lines, AICc, octavpred, radpred)
