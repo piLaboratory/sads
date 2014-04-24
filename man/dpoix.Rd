@@ -7,11 +7,11 @@
 Density for the Poisson-exponential compound probability distribution.
 }
 \usage{
-dpoix(y, frac, rate, trunc=0, log=FALSE)
+dpoix(x, frac, rate, log=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{y}{
+  \item{x}{
 vector of (non-negative integer) quantiles.
 }
 \item{frac}{
@@ -20,9 +20,6 @@ vector of (non-negative integer) quantiles.
 \item{rate}{
   vector of (non-negative) rates of the exponential distribution of the
   sampled population (see details).
-}
-\item{trunc}{
-  The most used option is to truncate at zero, since species with zero abundance usually are not known.
 }
 \item{log}{
   logical; if TRUE, probabilities p are given as log(p)

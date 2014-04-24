@@ -1,12 +1,12 @@
-fitvolkov <- function(x, trunc, start.values, ...){
+fitvolkov <- function(x, trunc, start.value, ...){
   dots <- list(...)
-  if(missing(start.values)){
+  if(missing(start.value)){
     thetahat <- optimal.theta(x)
     mhat <- 0.5
   }
   else{
-    thetahat <- start.values[[1]]
-    mhat <-start.values[[2]]
+    thetahat <- start.value[[1]]
+    mhat <-start.value[[2]]
   }
   if(!"method" %in% names(dots)){
     dots$method <- "L-BFGS-B"

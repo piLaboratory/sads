@@ -1,5 +1,6 @@
 \name{fitsad}
 \alias{fitsad}
+\alias{fitbs}
 \alias{fitgamma}
 \alias{fitgeom}
 \alias{fitlnorm}
@@ -17,10 +18,14 @@
 \description{Fits probability distributions for
   abundances of species in a sample or assemblage by maximum likelihood.
 }
+
 \usage{
 fitsad(x,
-sad = c("gamma","geom","lnorm","ls","mzsm","nbinom","pareto","poilog","power","weibull","volkov"),
-trunc, start.value, trueLL = TRUE , dec.places = 0, ...)
+sad =
+  c("bs",
+  "gamma","geom","lnorm","ls","mzsm","nbinom","pareto","poilog","power","weibull","volkov"), ...)
+
+fitbs(x, trunc, ...)
 
 fitgamma(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
 
@@ -40,7 +45,7 @@ fitpoilog(x, trunc = 0, ...)
 
 fitpower(x, trunc, start.value, upper = 20, ...)
 
-fitvolkovfunction(x, trunc, start.values, ...)
+fitvolkov(x, trunc, start.value, ...)
 
 fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
 }
@@ -54,7 +59,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
     character; root name of community sad distribution to be fitted.
     "gamma" for gamma distribution,
     "geom" for geometric distributions (not geometric series rad model,
-    \link{\code{dgs}}),
+    \link{dgs}),
     "lnorm" for logmormal,
     "ls" for Fisher's logseries,
     "mzsm" for Alonso & McKane's neutral metacommunity distribution,
@@ -80,7 +85,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   }
   
   \item{trueLL}{
-    logical; use 'true likelihood' for continuous models? (see \link{\code{trueLL}}.
+    logical; use 'true likelihood' for continuous models? (see \link{trueLL}).
   }
 
   \item{dec.places}{
@@ -89,21 +94,29 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
     decimals. This argument defines the measurement precision for
     abundance variables. Used for continuous distributions when
     argument \code{trueLL=TRUE} 
-    (see details and \link{\code{trueLL}}.
+    (see details and \link{trueLL}).
   }
 
   \item{upper}{
     real positive; upper bound for the Brent's one-parameter optimization
     method (default), for fits that use this method by default. See
-    details and \link{\code{optim}}.
+    details and \link{optim}.
   }
-}
+  \item{...}{
+    in fitsad further arguments to be passed to the specific fitting
+    function (most used are \code{trunc}, \code{start.value} and
+    \code{trueLL}). 
+    In the specific fitting functions further
+    arguments to be passed to \code{mle2}.
+    }
+  }
+  
 \value{
   An object of class \code{fitsad} which inherits from \code{mle2}
   class and thus has methods for handling
   results of maximum likelihood fits from \code{mle2}
   and also specific methods to handle SADs models
-  (see \code{\link{fitsad-class}}).
+  (see \link{fitsad-class}).
 }
 
 \details{
@@ -112,7 +125,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   can interchangeably use \code{fitsad} or the individual functions
   detailed below 
   (e.g. \code{fitsad(x, sad="geom", ...)} is the same as
-  \code{fitgeom(x, ...) and so on}.
+  \code{fitgeom(x, ...)} and so on).
   
   The distributions are fitted by the
   maximum likelihood method using numerical optimization,
@@ -121,7 +134,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   which can be handled with \code{mle2} methods
   for fitted models and has also some additional
   methods for SADs models (see
-  \code{\link{fitsad-class}} and examples).
+  \link{fitsad-class} and examples).
   
   Functions \code{fitgamma}, \code{fitlnorm}, \code{fitweibull}, fit the
   standard continuous distributions most used as SADs models.
@@ -130,7 +143,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   By default, all continuous distributions
   are fit using the
   correct likelihood for independent observations of a
-  continuous variable (Lindsey 1999, see \link{\code{trueLL}}).
+  continuous variable (Lindsey 1999, see \link{trueLL}).
   Hence, the correct number of decimal places of the abundance
   measure must be given in the argument \code{dec.places}.
   A warning message reminds users about that when \code{trueLL=TRUE}.
@@ -146,7 +159,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   with zero individuals in the sample are in general unknown,
   these functions fit by default zero-truncated distributions.
   Using the geometric distribution as a SAD model is not to be
-  confounded to fitting the Geometric series \link{\code{fitgeom}}
+  confounded to fitting the Geometric series \link{fitgeom}
   as a rank-abundance
   distribution (RAD) model.
 
@@ -177,7 +190,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   operations with sad or rad models, such as
   comparison with other models through model selection,
   diagnostic plots and so on
-  (see \code{\link{fitsad-methods}}).
+  (see \link{fitsad-methods}).
 
   Function \code{fitpoilog} fits the Poisson-lognormal distribution.
   This is a compound distributions that describes the abundances
@@ -193,7 +206,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   by default, as for \code{fitgeom}, \code{fitnbinom}.
   
   \code{fitmzsm} fits the metacommunity Zero-sum multinomial distribution
-  \link{\code{dmzsm}} from the Neutral Theory of Biodiversity
+  \link{dmzsm} from the Neutral Theory of Biodiversity
   (Alonso and McKane 2004). The mZSM describes the SAD of a sample
   taken from a neutral metacommunity under random drift.
   It has two parameters,
@@ -203,7 +216,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   the fit resumes to estimate a single
   parameter, theta. By default, \code{fitmzsm} fits mZSM to a vector of abundances
   with Brent's one-dimensional method of optimization (see
-  \link{\code{optim}}. The logseries distribution (Fisher et al. 1943)
+  \link{optim}). The logseries distribution (Fisher et al. 1943)
   is a limiting case of mZSM (Hubbel 2001), and theta tends to
   Fisher's alpha as J increases. In practice
   the two models provide very similar fits to SADs (see example).
@@ -216,12 +229,11 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   of Biodiversity (Hubbell 2001). It 
   has two
   free parameters, the 'fundamental biodiversity number' theta, and the
-  immigration rate m (see \link{\code{dvolkov}})
+  immigration rate m (see \link{dvolkov})
   \code{fitvolkov} builds on \code{untb::volkov} function to
   fit Volkov's et al SAD model to a vector of abundances.
   The fit can be extremely slow even for vectors
   of moderate size.
-
 }
 
 \references{
@@ -277,12 +289,12 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
 }
 
 \seealso{
-  \link{\code{dls}}, \link{\code{dmzsm}}, \link{\code{dpareto}},
-  \link{\code{dpoilog}}, \link{\code{dpower}}, \link{\code{dvolkov}}
+  \link{dls}, \link{dmzsm}, \link{dpareto},
+  \link{dpoilog}, \link{dpower}, \link{dvolkov}
   for corresponding density functions created for fitting SADs;
   standard distributions \code{dweibull},
   \code{dgamma}, \code{dgeom}, \code{dlnorm}, \code{dnbinom};
-  \link{\code{fitsad-class}}.
+  \link{fitsad-class}.
 }
 
 \examples{
@@ -332,7 +344,7 @@ lines(octavpred(AR.ln))
 lines(octavpred(AR.g), col="red")
 lines(octavpred(AR.wb), col="green")
 legend("topright", c("lognormal", "gamma", "weibull"), lty=1, col=c("blue","red", "green"))
-AICctab(AR.ln, AR.g, AR.wb, nobs=length(ARN82.eB.apr77), weights=T) 
+AICctab(AR.ln, AR.g, AR.wb, nobs=length(ARN82.eB.apr77), weights=TRUE) 
 }
 
 \author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda}

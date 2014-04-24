@@ -4,7 +4,7 @@ pvolkov <- function(q, theta, m , J, lower.tail=TRUE, log.p=FALSE){
   if(!all(is.finite(c(J, theta, m)))) stop("all parameters should be finite")
   if (theta <= 0 || J <= 0 || m < 0 || m > 1){
     warning("Function not defined for theta or J <= zero, m <0 or m > 1 \n NaN's returned")
-    y <- rep(NaN, length(x))
+    y <- rep(NaN, length(q))
   }
   else{
     z <- cumsum(dvolkov(x = 1:max(q), theta = theta, J = J, m = m))

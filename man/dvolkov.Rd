@@ -47,7 +47,7 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
       species abundance distributions, usually the number of individuals in a sample.
     }
     
-    \item{log}{
+    \item{log, log.p}{
       logical; if TRUE, probabilities p are given as log(p).
     }
     
@@ -110,8 +110,8 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
     \emph{Nature 424}:1035--1037
   }
   
-  \seealso{\link{\code{fitvolkov}} for maximum likelihood fit,
-    \link{\code{dmzsm}} for the distribution of abundances in the metacommunity,
+  \seealso{\link{fitvolkov} for maximum likelihood fit,
+    \link{dmzsm} for the distribution of abundances in the metacommunity,
     \code{volkov} in package 'untb'.
   }
   

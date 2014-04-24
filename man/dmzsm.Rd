@@ -34,7 +34,7 @@ pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
   \item{theta}{
     positive real theta > 0; Hubbell's 'fundamental biodiversity number'
   }
-  \item{log}{
+  \item{log, log.p}{
     logical; if TRUE, probabilities p are given as log(p).
   }
   \item{lower.tail}{

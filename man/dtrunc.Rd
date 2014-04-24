@@ -3,7 +3,7 @@
 \alias{ptrunc}
 \title{Left-truncation of density and probability distributions}
 \description{Returns density and probability values for
-  distributions functions left-truncated at a specified value.}
+  distribution functions left-truncated at a specified value.}
 \usage{
 dtrunc(f, x, trunc, coef, log = FALSE)
 ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
@@ -83,8 +83,8 @@ ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
   many functions in package 'sads' have an argument \code{trunc} that
   allows to simulate and fit truncated
   distributions
-  for species abundance distributions (e.g., \link{\code{fitsad}}
-  \link{\code{rsad}}, \link{\code{radpred}}, \link{\code{octavpred}}.
+  for species abundance distributions (e.g., \link{fitsad}
+  \link{rsad}, \link{radpred}, \link{octavpred}.
   Package 'VGAM' has truncated versions of many standard functions;
   see \code{Truncate-methods} in package 'distr'for  general
   methods to build R objects of truncated distributions.
@@ -92,7 +92,7 @@ ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
 
 \source{
   Codes from Nadarajah and Kotz (2006),
-  whihc is a more generic solution
+  which is a more generic solution
   for left and right truncation.
 }
 

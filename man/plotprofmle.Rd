@@ -11,39 +11,42 @@
 }
 
 \usage{
-plotprofmle(mleobj, nseg=20, ratio=log(8), which=NULL,auto.mfrow=TRUE,
-ask=!auto.mfrow & (prod(par("mfcol"))<length(which)&&dev.interactive()),
-col.line="blue", varname, \dots)
+plotprofmle(profobj, nseg=20, ratio=log(8), which=1:length(profobj@profile),
+                        ask = prod(par("mfcol")) < length(which) && dev.interactive(), 
+                        col.line="blue", varname, ...)
 }
 
 \arguments{
-  \item{mleobj}{
+
+  \item{profobj}{
     list of profile data; object of the class 'profile.mle' or 'profile.mle2'
   }
+
   \item{nseg}{
     positive integer; number of segments used by spline to interpolate the
     line of log-likelihood profile
   }
+
   \item{ratio}{
     real positive or NULL; log-likelihood ratio that defines the likelihood
     interval to be shown in the plot.
   }
+
   \item{which}{
     vector of positive integers; if a subset of profiles is required, the indexes of the mle's in mleobj to be
     ploted.}
-  \item{auto.mfrow}{
-    logical; should the number of columns and rows automatically
-    calculated to fit all plots in a single frame?
-  }
+  
   \item{ask}{
     logical; if TRUE, the user is _ask_ed before each plot, see par(ask=.)
   }
+
   \item{col.line}{
     name; line color for the plausibility interval.
   }
+
   \item{varname}{
     vector of names; labels for the x-axes. If NULL defaults the names of
-    mle's in mleobj.  
+    mle's in profobj.  
   }
 
   \item{\dots}{further arguments to be passed to plot}
@@ -60,7 +63,7 @@ col.line="blue", varname, \dots)
   larger, z-profiles tends to be symmetrical V-shaped, and are used to calculate
   confidence intervals using an approximation to the Chi-square
   distribution (see details in Bolker (2008) and in the \pkg{bbmle} vignette
-  (\code{vignette("mle2",package="bbmle")}).
+  (\code{vignette('mle2',package='bbmle')}).
 
   In its original form (e.g. Edwards 1972), likelihood profiles do not
   use z-transformed values, and can be interpreted directly, even if they are
@@ -68,7 +71,7 @@ col.line="blue", varname, \dots)
   values of the parameters that result in a negative log-likelihood
   less or equal to a given value k are exp(k) times as plausible as
   the mle. Hence, exp(k) is a likelihood ratio, and delimits a plausibility interval (or likelihood
-  interval) for the mle's. Function \code{plotprofle} plots profiles of the
+  interval) for the mle's. Function \code{plotprofmle} plots profiles of the
   unstransformed negative log-likelihood functions, along with the limits of
   likelihood interval for a given log-likelihood ratio.
 }
@@ -98,6 +101,6 @@ plotprofmle(birds.pln.p)
 }
 
 \author{
-  \enc{João}{Joao} L.F. Batista, \enc{André}{Andre} Chalom M. Oliveira,
+  Joao L.F. Batista, Andre Chalom M. Oliveira,
   Paulo I. Prado \email{prado@ib.usp.br}
 }

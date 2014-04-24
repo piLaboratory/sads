@@ -1,13 +1,22 @@
 Package: sads
 Type: Package
 Title: Maximum Likelihood Models for Species Abundance Distributions
-Version: 0.1.05
-Date: 2014-04-16
+Version: 0.1.06
+Date: 2014-04-23
 Author: Paulo I. Prado and Murilo Dantas Miranda
 Maintainer: Paulo I. Prado <prado@ib.usp.br>
-Depends: MASS, bbmle, poilog 
-Imports: methods, graphics, VGAM, untb
-Suggests: vegan
-Description: Maximum likelihood tools to fit and compare models of species abundance distributions.
+Depends:
+    MASS,
+    bbmle,
+    poilog
+Imports:
+    methods,
+    graphics,
+    VGAM,
+    untb
+Suggests:
+    vegan
+Description: Maximum likelihood tools to fit and compare models of species
+    abundance distributions.
 License: GPL-2
-LazyData: no
+LazyData: true

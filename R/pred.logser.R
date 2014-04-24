@@ -1,13 +1,15 @@
-pred.logser=function(x,alpha,size,rich){
-  if(missing(alpha)&missing(size)&missing(rich)){
-    stop("Please provide at least two of these: alpha, size, rich")
+pred.logser=function(x, alpha, J, S){
+  if(missing(alpha)&missing(J)&missing(S)){
+    stop("Please provide at least two of these: alpha, J, S")
   }
   if(missing(alpha)){
-    alpha <- as.numeric(coef(fitls(size=size,rich=rich)))
+      f1 <- function(a){ S + a * log((a/(a + J))) }
+      sol <- uniroot(f1, interval = c(1/J, J))
+      alpha <- sol$root
   }
-  if(missing(size)){
-    size <- alpha*exp(rich/alpha) - alpha
+  if(missing(J)){
+    J <- alpha*exp(S/alpha) - alpha
   }
-  X <- size/(alpha + size)
+  X <- J/(alpha + J)
   alpha*(X^x)/x
 }
