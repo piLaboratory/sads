@@ -21,7 +21,7 @@
 
 \begin{document}
 
-\title{Fitting species abundance model with maximum likelihood \\ Quick reference for \code{sads} package}
+\title{Fitting species abundance models with maximum likelihood \\ Quick reference for \code{sads} package}
 \author{Paulo Inácio Prado and  Murilo Dantas Miranda \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
   \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
 
@@ -62,7 +62,7 @@ install_github('sads', 'piklprado')
 @ %def 
 
 
-And the load the package:
+And then load the package:
 
 @ 
 <<load-sads-package >>=
