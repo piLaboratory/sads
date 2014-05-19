@@ -22,7 +22,7 @@
 \begin{document}
 
 \title{Fitting species abundance models with maximum likelihood \\ Quick reference for \code{sads} package}
-\author{Paulo Inácio Prado and  Murilo Dantas Miranda \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
+\author{Paulo In\'acio Prado and  Murilo Dantas Miranda \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
   \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
 
 \date{April, 24, 2014}
