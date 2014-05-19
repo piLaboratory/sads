@@ -40,7 +40,7 @@ setMethod("lines", "rad",
 )
 
 setMethod("plot","octav",
-          function(x,...){
+          function(x, ...){
             dots <- list(...)
             x.hist <- rep(as.integer(as.character(x$octave)), as.integer(as.character(x$Freq)))
             if(!"col" %in% names(dots)) dots$col = "gray"

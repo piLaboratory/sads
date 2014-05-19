@@ -12,6 +12,7 @@ octav <- function(x, oct, preston=FALSE, ...){
       oct <- c(octlower, oct)
     }
   }
+  else oct <- min(oct):max(oct)
   N <- 2^(oct-1)
   oc.class <- cut(y, breaks=c(0, N), labels=oct)
   res <- as.data.frame(table(oc.class))
