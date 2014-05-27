@@ -40,7 +40,7 @@ setMethod("lines", "rad",
 )
 
 setMethod("plot","octav",
-          function(x, prop=FALSE, x.oct=FALSE, par.axis, ...){
+          function(x, prop=FALSE, x.oct=FALSE, par.axis=list(), ...){
             dots <- list(...)
             x.hist <- rep(as.integer(as.character(x$octave)), as.integer(as.character(x$Freq)))
             h1 <- hist(x=x.hist,
