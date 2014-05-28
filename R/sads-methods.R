@@ -54,7 +54,7 @@ setMethod("plot","octav",
             if(!"ylab" %in% names(dots) & !prop) dots$ylab = "N of species"
             if(!"ylab" %in% names(dots) & prop) dots$ylab = "Proportion of species"
             if(!"xlab" %in% names(dots) & !x.oct) dots$xlab = "Abundance class"
-            if(!"xlab" %in% names(dots) & x.oct) dots$xlab = "Abundance octave"
+            if(!"xlab" %in% names(dots) & x.oct) dots$xlab = "Abundance class (log2)"
             if(!"axes" %in% names(dots)){
                 do.call(plot, c(list(x=h1, axes=FALSE),dots))
                 n <- as.numeric(as.character(x[,1]))
