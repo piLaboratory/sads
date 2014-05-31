@@ -55,7 +55,7 @@ qzipf( p, N, s, lower.tail = TRUE, log.p = FALSE)
   power distribution. The Zeta distribution is a special case when
   N=Inf.
 
-  The Zipf distribution has a wide range of application (Li 2011). One
+  The Zipf distribution has a wide range of applications (Li 2011). One
   of its best know application is to describe the probability
   of occurrence of a given word that has a ranking 'x' in a \emph{corpus} that has a total of 'N'
   words. It can be used as well to describe the probability of the

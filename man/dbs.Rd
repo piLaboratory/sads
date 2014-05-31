@@ -89,8 +89,12 @@ qrbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
   }
 
 \value{
-  \code{dmand} gives the (log) density of the density, \code{pmand} gives the (log)
-  distribution function, \code{qmand} gives the quantile function.
+  \code{dbs}  gives the (log) density and  \code{pbs} gives the (log)
+  distribution function of abundances,  and \code{qbs} gives the
+  corresponding quantile function.
+  \code{drbs}  gives the (log) density and  \code{prbs} gives the (log)
+  distribution function of ranks,  and \code{qrbs} gives the
+  corresponding quantile function.
 }
 
 \references{
