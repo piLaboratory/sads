@@ -178,6 +178,32 @@ setMethod("AICc","fitsad",
           }
           )
 
+## copy of the method in bbmle, with a line added to assure df is not NULL
+setMethod("AICc","fitrad",
+          function (object, ..., nobs, k = 2){
+            L <- list(...)
+            if (length(L)) {
+              L <- c(list(object), L)
+              if (missing(nobs) && is.null(attr(object, "nobs"))) 
+                stop("must specify number of observations")
+              nobs <- sapply(L, attr, "nobs")
+              if (length(unique(nobs)) > 1) 
+                stop("nobs different: must have identical data for all objects")
+              logLiks <- sapply(L, logLik)
+              df <- sapply(L, attr, "df")
+              if(is.null(df)) df <- sapply(L, function(object) attr(logLik(object),"df")) ## added to assure that df is not NULL
+              val <- -2 * logLiks + k * df * (df + 1)/(nobs - df - 
+                                                       1)
+              data.frame(AICc = val, df = df)
+            }
+            else {
+              df <- attr(object, "df") 
+              if(is.null(df)) df <- attr(logLik(object),"df") ## added to assure that df is not NULL
+              c(-2 * logLik(object) + k * df + k * df * (df + 1)/(nobs - 
+                                                                  df - 1))
+            }
+          }
+          )
 
 ## radpred generic functions and methods ###
 

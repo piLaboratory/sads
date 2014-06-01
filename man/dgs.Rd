@@ -8,13 +8,13 @@
 
 \description{
 Density, distribution function and quantile function for
-the Geometric Series distribution.
+the Geometric Series distribution, with parameter \code{k}.
 }
 
 \usage{
-dbs( x, k, S, log = FALSE )
-pbs( q, k, S, lower.tail = TRUE, log.p = FALSE )
-qbs( p, k, S, lower.tail = TRUE, log.p = FALSE )
+dgs( x, k, S, log = FALSE )
+pgs( q, k, S, lower.tail = TRUE, log.p = FALSE )
+qgs( p, k, S, lower.tail = TRUE, log.p = FALSE )
 }
 
 \arguments{
@@ -74,8 +74,8 @@ qbs( p, k, S, lower.tail = TRUE, log.p = FALSE )
 
 \references{
   
-  Doi, H. and Mori, T. 2012. The discovery of species–abundance
-  distribution in an ecological community. \emph{Oikos 122:} 179-182.
+  Doi, H. and Mori, T. 2012. The discovery of species-abundance
+  distribution in an ecological community. \emph{Oikos 122:} 179--182.
   
   May, R.M. 1975. Patterns of Species Abundance and Diversity. In
   Cody, M.L. and Diamond, J.M. (Eds) \emph{Ecology and Evolution of

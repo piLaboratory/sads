@@ -1,10 +1,14 @@
 \name{dtrunc}
+
 \alias{dtrunc}
 \alias{ptrunc}
 \alias{qtrunc}
+
 \title{Left-truncation of density, probability and quantile of distributions}
+
 \description{Returns density, probability and quantile values for
   distribution functions left-truncated at a specified value.}
+
 \usage{
 dtrunc(f, x, trunc, coef, log = FALSE)
 ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
@@ -24,12 +28,16 @@ qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
   
   \item{trunc}{
     numeric, trunc>min(x). Truncation value (see details).
-    }
+  }
+  
+  \item{p}{
+    vector of probabilities.
+  }
   
     \item{coef}{
       numeric named list; parameters values of the density or
       distribution function, named accordingly (see details). 
-      }
+    }
   
   \item{log, log.p}{
     logical; if TRUE, probabilities p are given as log(p). 
@@ -118,5 +126,6 @@ B <- (ppois( 1:5 , lambda = 1.5 ) -
 ## checking
 identical(A,B)
 }
+
 
 
