@@ -5,7 +5,7 @@ ppsad <- function (object, sad, coef, trunc=NA, plot=TRUE) {
     trunc <- object@trunc
     x <- object@data$x
   }
-  else if(class(object)=="numeric")
+  else if(class(object)=="numeric"|class(object)=="integer")
     x <- object
   rank <- sort(x)
   S <- length(x)

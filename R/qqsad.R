@@ -1,57 +1,57 @@
 qqsad <- function(object, sad, coef, trunc=NA, distr, plot=TRUE, ...){
-  dots <- list(...)
-  if(class(object)=="fitsad"){
-    sad <- object@sad
-    coef <- as.list(bbmle::coef(object))
-    trunc <- object@trunc
-    distr <- object@distr
-    x <- object@data$x
-  }
-  else if(class(object)=="numeric")
-    x <- object
-  ranque <- sort(x)
-  S <- length(x)
-  if(distr == "D"){
-    q <- 1:sum(x)
-    if(!is.na(trunc)){
-      if(sad == "ls")
-        p <- do.call(ptrunc, list(sad, q = q, coef = c(list(N=(sum(x)),coef)), trunc = trunc))
-      else if(sad == "volkov"|| sad=="mzsm")
-        p <- do.call(ptrunc, list(sad, q = q, coef = c(list(J=(sum(x)),coef)), trunc = trunc))
-      else
-        p <- do.call(ptrunc, list(sad, q = q, coef=coef, trunc=trunc))
+    dots <- list(...)
+    if(class(object)=="fitsad"){
+        sad <- object@sad
+        coef <- as.list(bbmle::coef(object))
+        trunc <- object@trunc
+        distr <- object@distr
+        x <- object@data$x
     }
-    else{
-      psad <- get(paste("p", sad, sep=""), mode = "function")
-      if(sad == "ls")
-        p <- do.call(psad, c(list(q = q, N = sum(x)), coef))
-      else if(sad =="volkov"||sad=="mzsm")
-        p <- do.call(psad, c(list(q = q, J=sum(x)), coef))
-      else{
-        p <- do.call(psad, c(list(q = q), coef))
-      }
+    else if(class(object)=="numeric"|class(object)=="integer")
+        x <- object
+    ranque <- sort(x)
+    S <- length(x)
+    if(distr == "D"){
+        q <- 1:sum(x)
+        if(!is.na(trunc)){
+            if(sad == "ls")
+                p <- do.call(ptrunc, list(sad, q = q, coef = c(list(N=(sum(x)),coef)), trunc = trunc))
+            else if(sad == "volkov"|| sad=="mzsm")
+                p <- do.call(ptrunc, list(sad, q = q, coef = c(list(J=(sum(x)),coef)), trunc = trunc))
+            else
+                p <- do.call(ptrunc, list(sad, q = q, coef=coef, trunc=trunc))
+        }
+        else{
+            psad <- get(paste("p", sad, sep=""), mode = "function")
+            if(sad == "ls")
+                p <- do.call(psad, c(list(q = q, N = sum(x)), coef))
+            else if(sad =="volkov"||sad=="mzsm")
+                p <- do.call(psad, c(list(q = q, J=sum(x)), coef))
+            else{
+                p <- do.call(psad, c(list(q = q), coef))
+            }
+        }
+        f1 <- approxfun(x=c(1, p), y=c(0, q), method="constant")
+        q <- f1(ppoints(S))
     }
-    f1 <- approxfun(x=c(1, p), y=c(0, q), method="constant")
-    q <- f1(ppoints(S))
-  }
-  else if(distr == "C"){
-    p <- ppoints(S)
-    if(!is.na(trunc))
-      q <- do.call(qtrunc, list(sad, p = p, trunc = trunc, coef=coef))
-    else{
-      qsad <- get(paste("q", sad, sep=""), mode = "function")
-      q <- do.call(qsad, c(list(p = p), coef))
+    else if(distr == "C"){
+        p <- ppoints(S)
+        if(!is.na(trunc))
+            q <- do.call(qtrunc, list(sad, p = p, trunc = trunc, coef=coef))
+        else{
+            qsad <- get(paste("q", sad, sep=""), mode = "function")
+            q <- do.call(qsad, c(list(p = p), coef))
+        }
     }
-  }
-  else
-    stop("please choose 'D'iscrete or 'Continuous' for 'distr'")
-  if(plot){
-    if(!"main" %in% names(dots)) dots$main = "Q-Q plot"
-    if(!"xlab" %in% names(dots)) dots$xlab = "Theoretical Quantile"
-    if(!"ylab" %in% names(dots)) dots$ylab = "Sample Quantiles"
-    do.call(graphics::plot, c(list(x=q, y=ranque),dots))
-    ##plot(q, ranque, main = "Q-Q plot", xlab="Theoretical Quantile", ylab="Sample Quantiles")
-    abline(0, 1, col = "red", lty = 2)
-  }
-  return(invisible(data.frame(theoret.q=q, sample.q=ranque)))
+    else
+        stop("please choose 'D'iscrete or 'Continuous' for 'distr'")
+    if(plot){
+        if(!"main" %in% names(dots)) dots$main = "Q-Q plot"
+        if(!"xlab" %in% names(dots)) dots$xlab = "Theoretical Quantile"
+        if(!"ylab" %in% names(dots)) dots$ylab = "Sample Quantiles"
+        do.call(graphics::plot, c(list(x=q, y=ranque),dots))
+        ##plot(q, ranque, main = "Q-Q plot", xlab="Theoretical Quantile", ylab="Sample Quantiles")
+        abline(0, 1, col = "red", lty = 2)
+    }
+    return(invisible(data.frame(theoret.q=q, sample.q=ranque)))
 }
