@@ -1,5 +1,4 @@
-qqsad <- function(object, sad, coef, trunc=NA, distr, plot=TRUE, ...){
-    dots <- list(...)
+qqsad <- function(object, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...){
     if(class(object)=="fitsad"){
         sad <- object@sad
         coef <- as.list(bbmle::coef(object))
@@ -46,12 +45,12 @@ qqsad <- function(object, sad, coef, trunc=NA, distr, plot=TRUE, ...){
     else
         stop("please choose 'D'iscrete or 'Continuous' for 'distr'")
     if(plot){
+        dots <- list(...)
         if(!"main" %in% names(dots)) dots$main = "Q-Q plot"
         if(!"xlab" %in% names(dots)) dots$xlab = "Theoretical Quantile"
         if(!"ylab" %in% names(dots)) dots$ylab = "Sample Quantiles"
         do.call(graphics::plot, c(list(x=q, y=ranque),dots))
-        ##plot(q, ranque, main = "Q-Q plot", xlab="Theoretical Quantile", ylab="Sample Quantiles")
-        abline(0, 1, col = "red", lty = 2)
+        if(line) abline(0, 1, col = "red", lty = 2)
     }
     return(invisible(data.frame(theoret.q=q, sample.q=ranque)))
 }

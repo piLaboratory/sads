@@ -7,7 +7,7 @@
 
 \description{
   This dataset gives the number of captures of 21 species of land snails
-  caughted in the vegetation in 1927. 
+  caughted in the vegetation in 1927, Norway. 
 }
 
 \usage{
@@ -22,7 +22,7 @@ data(okland)
   This is one of the datasets that Isao Motomura used to demonstrate his
   'law of geometric series' of the abundance of species
   in a sample of a biological community. The abundance values and fitted
-  series are in figure 5 of Motomura (1932).
+  series are in figure 2 of Motomura (1932).
 }
 
 \source{
@@ -33,7 +33,7 @@ data(okland)
 \references{
 
 Motomura, I. 1932. On the statistical treatment of communities
-(in Japanese). – \emph{Zool. Mag. (Tokyo) 44:} 379–383.  English translation in Appendix
+(in Japanese).  \emph{Zool. Mag. (Tokyo) 44:} 379--383.  English translation in Appendix
 I in Doi, H. and Mori, T. 2012. The discovery of species-abundance
 distribution in an ecological community. \emph{Oikos 122:} 179--182.
    
