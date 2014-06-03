@@ -8,7 +8,7 @@ qqsad <- function(object, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...)
     }
     else if(class(object)=="numeric"|class(object)=="integer")
         x <- object
-    ranque <- sort(x)
+    x.sorted <- sort(x)
     S <- length(x)
     if(distr == "D"){
         q <- 1:sum(x)
@@ -49,8 +49,8 @@ qqsad <- function(object, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...)
         if(!"main" %in% names(dots)) dots$main = "Q-Q plot"
         if(!"xlab" %in% names(dots)) dots$xlab = "Theoretical Quantile"
         if(!"ylab" %in% names(dots)) dots$ylab = "Sample Quantiles"
-        do.call(graphics::plot, c(list(x=q, y=ranque),dots))
+        do.call(graphics::plot, c(list(x=q, y=x.sorted),dots))
         if(line) abline(0, 1, col = "red", lty = 2)
     }
-    return(invisible(data.frame(theoret.q=q, sample.q=ranque)))
+    return(invisible(data.frame(theoret.q=q, sample.q=x.sorted)))
 }
