@@ -123,12 +123,12 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
   \examples{
 ## Volkov et al 2003 fig 1
 ## But without Preston correction to binning method
-## (only line of Volkov's model)
+## and only the line of expected by Volkov's model
 data( bci )
 bci.oct <- octav( bci, preston = FALSE )
 plot( bci.oct )
-cdf <- pvolkov( bci.oct$upper, theta = 47.226, m = 0.1, J = sum(bci) )
-bci.exp <- diff( c(0,cdf) ) * length(bci)
+CDF <- pvolkov( bci.oct$upper, theta = 47.226, m = 0.1, J = sum(bci) )
+bci.exp <- diff( c(0,CDF) ) * length(bci)
 midpoints <- as.numeric( bci.oct$octave ) - 0.5
 lines( midpoints, bci.exp, type="b" )
 

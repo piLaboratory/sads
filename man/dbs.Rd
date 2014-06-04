@@ -27,12 +27,12 @@ qrbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
   \item{x}{
     vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, this is a vector of abundances (for
-    \code{dbs} and \code{drbs}) or abundance ranks (for \code{drbs})
+    \code{dbs}) or abundance ranks (for \code{drbs})
     of species in a sample.
   }
   \item{q}{vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, a vector of abundances
-    (for \code{dbs} and \code{drbs})
+    (for \code{dbs})
     or abundance ranks (for \code{drbs}) of species in a sample.
   }
   \item{p}{
@@ -89,8 +89,12 @@ qrbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
   }
 
 \value{
-  \code{dmand} gives the (log) density of the density, \code{pmand} gives the (log)
-  distribution function, \code{qmand} gives the quantile function.
+  \code{dbs}  gives the (log) density and  \code{pbs} gives the (log)
+  distribution function of abundances,  and \code{qbs} gives the
+  corresponding quantile function.
+  \code{drbs}  gives the (log) density and  \code{prbs} gives the (log)
+  distribution function of ranks,  and \code{qrbs} gives the
+  corresponding quantile function.
 }
 
 \references{
@@ -114,15 +118,15 @@ Paulo I. Prado and Murilo Dantas Miranda
 
 \examples{
 x <- 1:25
-pdf <- drbs(x=x, N=100, S=25)
-cdf <- prbs(q=x, N=100, S=25)
+PDF <- drbs(x=x, N=100, S=25)
+CDF <- prbs(q=x, N=100, S=25)
 par(mfrow=c(1,2))
-plot(x,cdf, ylab="Cumulative Probability", type="b",
+plot(x,CDF, ylab="Cumulative Probability", type="b",
      main="Broken-stick distribution, CDF")
-plot(x,pdf, ylab="Probability", type="h",
+plot(x,PDF, ylab="Probability", type="h",
      main="Broken-stick distribution, PDF")
 par(mfrow=c(1,1))
 
-## quantile is the inverse of cdf
-sum(qrbs(cdf,N=100, S=25)-x) # should be zero
+## quantile is the inverse of CDF
+all.equal( qrbs( CDF, N=100, S=25), x) # should be zero
 }

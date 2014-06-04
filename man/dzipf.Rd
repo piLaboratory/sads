@@ -55,7 +55,7 @@ qzipf( p, N, s, lower.tail = TRUE, log.p = FALSE)
   power distribution. The Zeta distribution is a special case when
   N=Inf.
 
-  The Zipf distribution has a wide range of application (Li 2011). One
+  The Zipf distribution has a wide range of applications (Li 2011). One
   of its best know application is to describe the probability
   of occurrence of a given word that has a ranking 'x' in a \emph{corpus} that has a total of 'N'
   words. It can be used as well to describe the probability of the
@@ -91,18 +91,18 @@ zeta distribution in
 
 \examples{
 x <- 1:20
-pdf <- dzipf(x=x, N=100, s=2)
-cdf <- pzipf(q=x, N=100, s=2)
+PDF <- dzipf(x=x, N=100, s=2)
+CDF <- pzipf(q=x, N=100, s=2)
 par(mfrow=c(1,2))
-plot(x,cdf, ylab="Cumulative Probability", type="b",
+plot(x,CDF, ylab="Cumulative Probability", type="b",
      main="Zipf distribution, CDF")
-plot(x,pdf, ylab="Probability", type="h",
+plot(x,PDF, ylab="Probability", type="h",
      main="Zipf distribution, PDF")
 par(mfrow=c(1,1))
 
-## quantile is the inverse of cdf
-sum(qzipf(cdf,N=100, s=2)-x) # should be zero
+## quantile is the inverse of CDF
+all.equal( qzipf(CDF, N=100, s=2), x) # should be TRUE
 
 ## Zipf distribution is discrete hence
-all.equal(sum(dzipf(1:10,N=10,s=2)),pzipf(10,N=10,s=2)) # should be TRUE
+all.equal( sum(dzipf(1:10, N=10, s=2)), pzipf(10, N=10, s=2)) # should be TRUE
 }

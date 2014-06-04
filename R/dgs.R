@@ -1,7 +1,6 @@
-dgs <- function(x, k, N, S,  log = FALSE) {
+dgs <- function(x, k, S,  log = FALSE) {
   if (any(x < 1)) warning("at least one x less than one")
   if (S < 1) stop("S must be positive integer")
-  if (N < 1) stop("N must be positive integer")
   if(k<0||k>1) stop("k must be larger than zero and no more than one")
   if(any(x > S)) stop("at least one x larger than S")
   if (!any(is.wholenumber(x))) warning("all x must be integers")

@@ -1,12 +1,18 @@
 \name{dtrunc}
+
 \alias{dtrunc}
 \alias{ptrunc}
-\title{Left-truncation of density and probability distributions}
-\description{Returns density and probability values for
+\alias{qtrunc}
+
+\title{Left-truncation of density, probability and quantile of distributions}
+
+\description{Returns density, probability and quantile values for
   distribution functions left-truncated at a specified value.}
+
 \usage{
 dtrunc(f, x, trunc, coef, log = FALSE)
 ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
+qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
 }
 \arguments{
 
@@ -22,12 +28,16 @@ ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
   
   \item{trunc}{
     numeric, trunc>min(x). Truncation value (see details).
-    }
+  }
+  
+  \item{p}{
+    vector of probabilities.
+  }
   
     \item{coef}{
       numeric named list; parameters values of the density or
       distribution function, named accordingly (see details). 
-      }
+    }
   
   \item{log, log.p}{
     logical; if TRUE, probabilities p are given as log(p). 
@@ -43,6 +53,7 @@ ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
   \code{dtrunc} gives the (log) density defined by \code{f} left-truncated at \code{trunc}.
   \code{ptrunc} gives the (log) distribution function defined by
   \code{f} left-truncated at \code{trunc}.
+  \code{qtrunc} gives the quantile of the density defined by \code{f} left-truncated at \code{trunc}.
 }
 
 \details{
@@ -66,6 +77,7 @@ ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
   is rescaled to integrate to one.
   Accordingly, for discrete distributions, the probabilities
   for all \code{x}>trunc are rescaled to sum one.
+  \code{qtrunc} is the inverse function of \code{ptrunc}.
 
   Left-truncated distributions can be used to
   describe the species abundance distributions (SADs),
@@ -114,5 +126,6 @@ B <- (ppois( 1:5 , lambda = 1.5 ) -
 ## checking
 identical(A,B)
 }
+
 
 

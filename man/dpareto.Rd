@@ -108,7 +108,8 @@ par(mfrow=c(1,1))
 
 ## Quantile is the inverse funtion of probability:
 p.123 <-ppareto(1:3,shape=3,scale=0.99) 
-sum(qpareto(p.123, shape=3, scale=0.99)-1:3) # should be zero
+all.equal(qpareto(p.123, shape=3, scale=0.99), 1:3) 
 }
+
 \author{Paulo I. Prado and Murilo Miranda}
 

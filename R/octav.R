@@ -6,14 +6,14 @@ octav <- function(x, oct, preston=FALSE, ...){
   else if(is(x,"numeric"))
     y <- x[x>0]
   if(missing(oct)){
-    oct <- 1:(ceiling(max(log2(y)))+1)
+    oct <- 0:(ceiling(max(log2(y)))+1)
     if(any(y < 1)){
-      octlower <- ceiling(min(log2((y)))+1):0
+      octlower <- ceiling(min(log2((y)))):-1
       oct <- c(octlower, oct)
     }
   }
   else oct <- min(oct):max(oct)
-  N <- 2^(oct-1)
+  N <- 2^(oct)
   oc.class <- cut(y, breaks=c(0, N), labels=oct)
   res <- as.data.frame(table(oc.class))
   res$upper <- N

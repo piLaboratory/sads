@@ -61,7 +61,7 @@ pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
 
   p(x) = N(x)/(sum(from 1 to S) N(x))
 
-  where S the number of populations in the sample, and
+  where S is the number of populations in the sample, and
   N(x) is the expected number of sampled populations of size x :
   
   N(x) = theta/x (1 - x/J)^(theta -1)

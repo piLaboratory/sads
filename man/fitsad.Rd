@@ -155,7 +155,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   is the cumulative density function of the continuous distribution.
   
   Functions \code{fitgeom}, \code{fitnbinom} are two discrete
-  standard distributions also uded to fit SADs. Since species
+  standard distributions also used to fit SADs. Since species
   with zero individuals in the sample are in general unknown,
   these functions fit by default zero-truncated distributions.
   Using the geometric distribution as a SAD model is not to be

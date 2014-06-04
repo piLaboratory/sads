@@ -110,18 +110,18 @@ Paulo I. Prado and Murilo Miranda
 
 \examples{
 x <- 1:100
-pdf <- dls(x=x, N=100, alpha=5)
-cdf <- pls(q=x, N=100, alpha=5)
+PDF <- dls(x=x, N=100, alpha=5)
+CDF <- pls(q=x, N=100, alpha=5)
 par(mfrow=c(1,2))
-plot(x,cdf, ylab="Cumulative Probability", type="b",
+plot(x,CDF, ylab="Cumulative Probability", type="b",
      main="Logseries distribution, CDF")
-plot(x,pdf, ylab="Probability", type="h",
+plot(x,PDF, ylab="Probability", type="h",
      main="Logseries distribution, PDF")
 par(mfrow=c(1,1))
 
-## Fisher logseries is a discrete pdf, hence:
+## Fisher logseries is a discrete PDF, hence:
 all.equal(pls(10,N=1000,alpha=50), sum(dls(1:10,N=1000,alpha=50))) # should be TRUE
 
 ## qls is the inverse of pls
-all.equal(qls(cdf,N=100,alpha=5), x) # should be TRUE
+all.equal(qls(CDF,N=100,alpha=5), x) # should be TRUE
   }

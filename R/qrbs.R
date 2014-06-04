@@ -6,9 +6,11 @@ qrbs<-function(p, N, S, lower.tail = TRUE, log.p = FALSE){
   if (S <= 0)  stop("S must positive integer")
   d<-NULL
   if (log.p) p <- exp(p)
-  if(!lower.tail) rule=2 else rule=1
+  if(!lower.tail) p <- 1-p
+  ## Ugly: just to make qgs(1, ...) = S
+  p[p==1] <- 1+1e-12
   Y <- 1:S
-  X <- prbs(Y, N=N, S=S, lower.tail=lower.tail)
-  f1 <- approxfun(x=X, y=Y, method="constant", rule=rule)
+  X <- prbs(Y, N=N, S=S)
+  f1 <- approxfun(x=X, y=Y, method="constant", rule=2)
   f1(p)
 }
