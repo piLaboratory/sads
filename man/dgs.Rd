@@ -100,15 +100,15 @@ qgs( p, k, S, lower.tail = TRUE, log.p = FALSE )
 
 \examples{
 x <- 1:25
-pdf <- dgs(x=x, k=0.1, S=25)
-cdf <- pgs(q=x, k=0.1, S=25)
+PDF <- dgs(x=x, k=0.1, S=25)
+CDF <- pgs(q=x, k=0.1, S=25)
 par(mfrow=c(1,2))
-plot(x,cdf, ylab="Cumulative Probability", type="b",
+plot(x,CDF, ylab="Cumulative Probability", type="b",
      main="Geometric series distribution, CDF")
-plot(x,pdf, ylab="Probability, log-scale", type="h",
+plot(x,PDF, ylab="Probability, log-scale", type="h",
      main="Geometric series distribution, PDF", log="y")
 par(mfrow=c(1,1))
 
-## quantile is the inverse of cdf
-sum(qgs(cdf, k=0.1, S=25) - x) # should be zero
+## quantile is the inverse of CDF
+all.equal(qgs(CDF, k=0.1, S=25), x)
 }

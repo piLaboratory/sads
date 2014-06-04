@@ -1,15 +1,17 @@
 \name{dpoig}
 \alias{dpoig}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{Compound Poisson-Gamma Distribution
 }
+
 \description{
 Density for the Poisson-gamma compound probability distribution.
 }
+
 \usage{
 dpoig(x, frac, rate, shape, log=FALSE)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{x}{
 vector of (non-negative integer) quantiles.
@@ -50,16 +52,21 @@ sampled is small enough to approximate a sample with replacement.
 
 The Poisson-gamma distribution is also known as the Negative Binomial
 distribution. The function dpoig is provided to express the Negative
-Binomial explicity as a compound distribution. The Fisher logseries (Fisher 1943) is a limiting case
+Binomial explicity as a compound distribution.
+The Fisher logseries (Fisher 1943) is a limiting case
 where the dispersion parameter of the Negative Binomial tends to zero.
 
 }
 \value{
 (log) density of the (zero-truncated) density
 }
+
 \references{
 
- Fisher, R.A, Corbert, A.S. and Williams, C.B. (1943) The Relation between the number of species and the number of individuals in a random sample of an animal population. \emph{The Journal of Animal Ecology, 12(1)}: 42--58.
+  Fisher, R.A, Corbert, A.S. and Williams, C.B. (1943) The Relation
+  between the number of species and the number of individuals in a
+  random sample of an animal population. \emph{The Journal of Animal
+  Ecology, 12(1)}: 42--58. 
 
   Green,J. and Plotkin, J.B. 2007 A statistical theory for sampling
    species abundances. \emph{Ecology Letters 10}:1037--1045

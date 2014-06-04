@@ -34,7 +34,7 @@ qmand( p, N, s, v, lower.tail = TRUE, log.p = FALSE)
     positive real s > 0; Zipf-Mandelbrodt exponent.
   }
   \item{v}{
-    positive real v > 0; Zipf-Mandelbrodt parameter.  
+    positive real or zero v >= 0; Zipf-Mandelbrodt parameter.  
     }
   \item{log, log.p}{
     logical; if TRUE, probabilities p are given as log(p).
@@ -50,12 +50,12 @@ qmand( p, N, s, v, lower.tail = TRUE, log.p = FALSE)
   of a given element from a set of \code{N} elements. This probability  is inversely proportional to a power \code{s} of the
   rank of the frequency of the element in the set. The density function is
 
-  p(x) = ((x+v)^(-s)) / sum(((1:N)+q)^(-s))
+  p(x) = ((x+v)^(-s)) / sum(((1:N)+v)^(-s))
 
   Since p(x) is proportional to a power of \code{x}, the Zipf-Mandelbrodt distribution is a
   power distribution. The Zipf distribution is a special case when
   v=0. Hence, the Zipf-Mandelbrodt distribution is generalization of the
-  Zipf Law, and is widely used in the same cases. In Ecology, it
+  Zipf Law, and is widely used in the for the same purposes. In Ecology, it
   can be used to describe the probability of the abundance rank \code{x} of given species in a sample or assemblage of \code{N}
   species.
   
@@ -92,18 +92,19 @@ zeta distribution in \pkg{VGAM} package.
 
 \examples{
 x <- 1:100
-pdf <- dmand(x=x, N=100, s=1.5, v=2)
-cdf <- pmand(q=x, N=100, s=1.5, v=2)
+PDF <- dmand(x=x, N=100, s=1.5, v=2)
+CDF <- pmand(q=x, N=100, s=1.5, v=2)
 par(mfrow=c(1,2))
-plot(x,cdf, ylab="Cumulative Probability", type="b",
+plot(x,CDF, ylab="Cumulative Probability", type="b",
      main="Zipf-Mandelbrodt distribution, CDF")
-plot(x,pdf, ylab="Probability", type="h",
+plot(x,PDF, ylab="Probability", type="h",
      main="Zipf-Mandelbrodt distribution, PDF")
 par(mfrow=c(1,1))
 
-## quantile is the inverse of cdf
-sum(qmand(cdf,N=100, s=1.5, v=2)-x) # should be zero
+## quantile is the inverse of CDF
+all.equal( qmand(p=CDF, N=100, s=1.5, v=2), x)
 
-## Zipf distribution is a particular case of ZM when s=0
-sum(dmand(x=x, N=100, s=1.5, v=0)-dzipf(x=x, N=100, s=1.5)) # should be zero
+## Zipf distribution is a particular case of ZM when v=0
+all.equal( dmand(x=x, N=100, s=1.5, v=0), dzipf(x=x, N=100, s=1.5) )
+
 }

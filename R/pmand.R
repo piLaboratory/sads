@@ -1,6 +1,6 @@
 pmand <- function (q, N, s, v, lower.tail = TRUE, log.p = FALSE){
-  if (v <= 0 || s <= 0){
-    warning("Function not defined for v or s <= zero, NaN's returned")
+  if (v < 0 || s <= 0){
+    warning("Function not defined for v < zero or s <= zero, NaN's returned")
     y <- rep(NaN, length(q))
   }
   else{

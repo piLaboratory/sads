@@ -5,8 +5,8 @@ dmand <- function (x, N, s, v, log = FALSE) {
     stop("N must be positive integer")
   if (!any(is.wholenumber(x))) 
     warning("x must be integer")
-  if (s <= 0 || v <= 0){
-    warning("Function not defined for s or v <= zero, NaN's returned")
+  if (s <= 0 || v < 0){
+    warning("Function not defined for s <=zero or v < zero, NaN's returned")
     lny <- rep(NaN, length(x))
   }
   else
