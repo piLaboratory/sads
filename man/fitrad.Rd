@@ -31,9 +31,8 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
   }
   \item{rad}{
     character; root name of community rad distribution to be fitted.
-    "gs" for geometric series (not geometric distribution to model
-    geometric distrbution,
-    \link{dgeom})
+    "gs" for geometric series (not geometric distribution,
+    \link{dgeom}),
     "mand" for Zipf-Mandelbrodt distribution,
     "rbs" for MacArthur's Broken-stick distribution,
     "zipf" for Zipf distribution.
@@ -76,10 +75,9 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
   
   \item{...}{
     in fitrad further arguments to be passed to the specific fitting
-    function (most used are \code{trunc} and \code{start.value}
-    %%and\code{trueLL}
-    ). 
-    In the specific fitting functions further
+    function (most used are \code{trunc} and
+    \code{start.value}%%and\code{trueLL}
+    ). In the specific fitting functions further
     arguments to be passed to \code{mle2}.
     }
   }
@@ -189,6 +187,7 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
 }
 
 \examples{
+
 ## Figure 2 of Motomura (1932)
 data(okland)
 plot(rad(okland))
