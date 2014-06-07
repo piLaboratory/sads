@@ -605,10 +605,16 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
           )
 
 ## Generic and methods for qqsad
+setGeneric("qqsad",
+def = function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...) standardGeneric("qqsad"))
+
+## method for class numeric
+## if x is numeric (abundances), all other arguments should be given.
+## Only trunc, plot and line are optional because they have default values
 setMethod("qqsad",
           signature(x="numeric", sad="character", coef="list",
-                    trunc="numeric", distr="character",
-                    plot="logical", line="logical"),
+                    trunc="ANY", distr="character",
+                    plot="ANY", line="ANY"),
           function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...){
               x.sorted <- sort(x)
               S <- length(x)
@@ -658,16 +664,71 @@ setMethod("qqsad",
           }
           )
 
+## If x is of the class fitsad all other arguments should be ommited
+## plot and line have default values and are optional
 setMethod("qqsad",
-          signature(x="fitsad", sad="ANY", coef="ANY",
-                    trunc="numeric", distr="ANY",
-                    plot="logical", line="logical"),
-          function(object, plot=TRUE, line=TRUE, ...){
-              sad <- object@sad
-              coef <- as.list(bbmle::coef(object))
-              trunc <- object@trunc
-              distr <- object@distr
-              x <- object@data$x
-              qqsad(x=x, sad=sad, coef=coef, trunc=trunc, distr=distr, plot=plot, line=line, ...)
+          signature(x="fitsad", sad="missing", coef="missing",
+                    trunc="missing", distr="missing",
+                    plot="ANY", line="ANY"),
+          function(x, sad, coef, trunc, distr, plot=TRUE, line=TRUE, ...){
+              sad <- x@sad
+              coef <- as.list(bbmle::coef(x))
+              trunc <- x@trunc
+              distr <- x@distr
+              y <- x@data$x
+              qqsad(x=y, sad=sad, coef=coef, trunc=trunc, distr=distr, plot=plot, line=line, ...)
           }
 )
+
+
+## Generic and methods for qqrad
+setGeneric("qqrad",
+def = function(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneric("qqrad"))
+
+## If x is an objetc of class rad
+setMethod("qqrad",
+          signature(x="rad", rad="character", coef="list",
+                    trunc="ANY", plot="ANY", line="ANY"),
+          function(x, rad , coef, trunc=NA, plot=TRUE, line=TRUE, ...){
+              pr <- cumsum(x$abund/sum(x$abund))
+              if(!is.na(trunc))
+                  q <- do.call(qtrunc, list(rad, p = pr, coef = coef, trunc = trunc))
+              else{
+                  qrad <- get(paste("q", rad, sep=""), mode = "function")
+                  q <- do.call(qrad, c(list(p = pr), coef))
+              }
+              if(plot){
+                  dots <- list(...)
+                  if(!"main" %in% names(dots)) dots$main = "Q-Q plot"
+                  if(!"xlab" %in% names(dots)) dots$xlab = "Theoretical Quantile"
+                  if(!"ylab" %in% names(dots)) dots$ylab = "Sample Quantiles"
+                  do.call(graphics::plot, c(list(x=q, y=x$rank),dots))
+                  if(line) abline(0, 1, col = "red", lty = 2)
+              }
+              return(invisible(data.frame(theoret.q=q, sample.q=x$rank)))
+          }
+          )
+
+## If object is of class numeric
+setMethod("qqrad",
+          signature(x="numeric", rad="character", coef="list",
+                    trunc="ANY", plot="ANY", line="ANY"),
+          function(x, rad , coef, trunc=NA, plot=TRUE, line=TRUE, ...){
+              y <- rad(x)
+              qqrad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+          }
+          )
+
+## If object is of class fitrad
+setMethod("qqrad",
+          signature(x="fitrad", rad="missing", coef="missing",
+                    trunc="missing", plot="ANY", line="ANY"),
+          function(x, rad , coef, trunc, plot=TRUE, line=TRUE, ...){
+              rad <- x@rad
+              coef <- as.list(bbmle::coef(x))
+              trunc <- x@trunc
+              y <- x@rad.tab
+              qqrad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+          }
+          )
+
