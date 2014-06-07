@@ -420,7 +420,7 @@ def = function(object, sad, rad, coef, trunc, oct, S, N, ...) standardGeneric("o
 setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
                                  coef="missing", trunc="missing", oct="ANY",
                                  S="missing", N="missing"),
-          function(object, ...){
+          function(object, sad, rad, coef, trunc, oct, S, N, ...){
             dots <- list(...)
             coef <- as.list(bbmle::coef(object))
             trunc <- object@trunc
@@ -462,7 +462,7 @@ setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
 setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
                                  coef="missing", trunc="missing", oct="ANY",
                                  S="missing", N="missing"),
-          function(object, ...){
+          function(object, sad, rad, coef, trunc, oct, S, N, ...){
             dots <- list(...)
             coef <- as.list(bbmle::coef(object))
             trunc <- object@trunc

@@ -11,13 +11,13 @@ export(qbs, qgs, qls, qmand, qpareto, qpoilog, qpower, qrbs, qvolkov, qzipf)
 ## Fitting functions for each distribution
 export(fitbs, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm,
        fitnbinom, fitpareto, fitpoilog, fitpower, fitrbs, fitvolkov, fitweibull, fitzipf)
-## Generic fitting and ploting  functions
-export(fitrad, fitsad, octav, pprad, ppsad, qqrad, qqsad, rad)
+## General fitting and ploting  functions
+export(fitrad, fitsad, octav, octavpred, radpred, pprad, ppsad, qqrad, qqsad, rad)
 ## Accessory functions
 export(plotprofmle, pred.logser, dtrunc, ptrunc, qtrunc, rsad, trueLL)
 ## Explicit classes and methods export
-exportClasses(rad,octav,fitsad,fitrad)
-exportMethods(plot, points, lines, AICc, octavpred, radpred)
+exportClasses(rad, octav, fitsad, fitrad)
+exportMethods(plot, points, lines, AICc, octavpred, radpred, qqsad, qqrad)
 ## IMPORTS ##
 ## Import specific functions from other packages used by new methods
 importFrom("graphics", plot, points, lines)
