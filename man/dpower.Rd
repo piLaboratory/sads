@@ -90,9 +90,9 @@ plot(x,PDF, ylab="Probability", type="h",
 par(mfrow=c(1,1))
 
 ## The power distribution is a discrete PDF, hence:
-all.equal(ppower(10,s=2), sum(dpower(1:10,s=2)) # should be TRUE
+all.equal( ppower(10, s=2), sum(dpower(1:10, s=2)) ) # should be TRUE
 
 ## quantile is the inverse of CDF
-all.equal(qpower(CDF,s=2), x) 
+all.equal(qpower(CDF, s=2), x) 
 
 }
