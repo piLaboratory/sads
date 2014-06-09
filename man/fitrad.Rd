@@ -21,13 +21,13 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
 }
 
 \arguments{
-  \item{x}{vector of (positive integer) quantiles or an object of class
-    \code{rad}. 
+  \item{x}{vector of (positive integer) quantiles or an object of
+    \link{\code{rad-class}}. 
     In the context of
     rads, the numerical vector contains abundances of species in a sample or ecological
-    assemblage according to their abundance. The rad-class object
+    assemblage according to their abundance. The \link{\code{rad-class}} object
     contains ranked abundances of species in a sample or ecological
-  assemblage (see \link{rad-class}).
+  assemblage.
   }
   \item{rad}{
     character; root name of community rad distribution to be fitted.
@@ -83,22 +83,21 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
   }
   
 \value{
-  An object of class \code{fitrad} which inherits from \code{mle2}
-  class and thus has methods for handling
+  An object of \link{\code{fitrad-class}} which inherits from \code{mle2-class}
+  and thus has methods for handling
   results of maximum likelihood fits from \code{mle2}
-  and also specific methods to handle RADs models
-  (see \link{fitrad-class}).
+  and also specific methods to handle RADs models.
 }
 
 \details{
   All these functions fit rank-abundance distributions (RAD) to a vector of
-  abundances or a rank-abundance table of the class \code{rad}.
+  abundances or a rank-abundance table of the \link{\code{rad-class}}.
   RADs assign probabilities p(i) to each rank i, which can be interpreted as
   the expected proportion of total individuals in the sample that are of
   the i-th species.
   
   \code{fitrad} is simply a wraper that calls the specific functions to fit
-  the distribution chosen with the argument \code{rad}. Users
+  the distribution chosen with the argument {\code{rad}. Users
   can interchangeably use \code{fitrad} or the individual functions
   detailed below 
   (e.g. \code{fitrad(x, sad="rbs", ...)} is the same as

@@ -651,7 +651,7 @@ setMethod("qqsad",
                   }
               }
               else
-                  stop("please choose 'D'iscrete or 'Continuous' for 'distr'")
+                  stop("please choose 'D'iscrete or 'C'ontinuous for 'distr'")
               if(plot){
                   dots <- list(...)
                   if(!"main" %in% names(dots)) dots$main = "Q-Q plot"
@@ -678,7 +678,7 @@ setMethod("qqsad",
               y <- x@data$x
               qqsad(x=y, sad=sad, coef=coef, trunc=trunc, distr=distr, plot=plot, line=line, ...)
           }
-)
+          )
 
 
 ## Generic and methods for qqrad
@@ -709,7 +709,7 @@ setMethod("qqrad",
           }
           )
 
-## If object is of class numeric
+## If object is of class numeric arguments rad and coef should be provided
 setMethod("qqrad",
           signature(x="numeric", rad="character", coef="list",
                     trunc="ANY", plot="ANY", line="ANY"),
@@ -719,7 +719,7 @@ setMethod("qqrad",
           }
           )
 
-## If object is of class fitrad
+## If object is of class fitrad arguments rad or coef should be missing
 setMethod("qqrad",
           signature(x="fitrad", rad="missing", coef="missing",
                     trunc="missing", plot="ANY", line="ANY"),
@@ -732,3 +732,111 @@ setMethod("qqrad",
           }
           )
 
+
+## Generic function and methods for ppsad ##
+setGeneric("ppsad",
+def = function(x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneric("ppsad"))
+
+## If x is numeric arguments sad and coef should be provided
+setMethod("ppsad",
+          signature(x="numeric", sad="character", coef="list",
+                    trunc="ANY", plot="ANY", line="ANY"),
+          function (x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
+              x.sorted <- sort(x)
+              S <- length(x)
+              z <- ppoints(S)
+              if(!is.na(trunc)){
+                  if(sad == "ls")
+                      p <- do.call(ptrunc, list(sad, q = x.sorted, coef = c(list(N=(sum(x)),coef)), trunc = trunc))
+                  else if(sad == "volkov"||sad=="mzsm")
+                      p <- do.call(ptrunc, list(sad, q = x.sorted, coef = c(list(J=(sum(x)),coef)), trunc = trunc))
+                  else
+                      p <- do.call(ptrunc, list(sad, q = x.sorted, coef = coef, trunc = trunc))
+              }
+              else{
+                  psad <- get(paste("p", sad, sep=""), mode = "function")
+                  if(sad == "ls")
+                      p <- do.call(psad, c(list(q = x.sorted, N=sum(x)), coef))
+                  else if(sad == "volkov"||sad=="mzsm")
+                      p <- do.call(psad, c(list(q = x.sorted, J=sum(x)), coef))
+                  else{
+                      p <- do.call(psad, c(list(q = x.sorted), coef))
+                  }
+              }
+              if(plot){
+                  dots <- list(...)
+                  if(!"main" %in% names(dots)) dots$main = "P-P plot"
+                  if(!"xlab" %in% names(dots)) dots$xlab = "Theoretical Percentiles"
+                  if(!"ylab" %in% names(dots)) dots$ylab = "Sample Percentiles"
+                  do.call(graphics::plot, c(list(x=p, y=z, ylim=c(0,1)),dots) )
+                  if(line) abline(0, 1, col = "red", lty = 2)
+              }
+              return(invisible(data.frame(theoret.p=p, sample.p=z)))
+          }
+          )
+
+## If argument x is fitsad class, arguments sad and coef should be missing
+setMethod("ppsad",
+          signature(x="fitsad", sad="missing", coef="missing",
+                    trunc="ANY", plot="ANY", line="ANY"),
+          function (x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {          
+              sad <- x@sad
+              coef <- as.list(bbmle::coef(x))
+              trunc <- x@trunc
+              y <- x@data$x
+              ppsad(x=y, sad=sad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+          }
+          )
+
+## Generic function and methods for pprad ##
+setGeneric("pprad",
+def = function(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneric("pprad"))
+
+## If argument is of class rad arguments rad and coef should be provided
+setMethod("pprad",
+          signature(x="rad", rad="character", coef="list",
+                    trunc="ANY", plot="ANY", line="ANY"),
+          function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
+              rad.tab <- x
+              pr <- cumsum(rad.tab$abund/sum(rad.tab$abund))
+              if(!is.na(trunc)){
+                  p <- do.call(ptrunc, list(rad, q = rad.tab$rank, coef = coef, trunc = trunc))
+              }
+              else{
+                  prad <- get(paste("p", rad, sep=""), mode = "function")
+                  p <- do.call(prad, c(list(q = rad.tab$rank), coef))
+              }
+              if(plot){
+                  dots <- list(...)
+                  if(!"main" %in% names(dots)) dots$main = "P-P plot"
+                  if(!"xlab" %in% names(dots)) dots$xlab = "Theoretical Percentiles"
+                  if(!"ylab" %in% names(dots)) dots$ylab = "Sample Percentiles"
+                  do.call(graphics::plot, c(list(x=p, y=pr, ylim=c(0,1)),dots) )
+                  if(line) abline(0, 1, col = "red", lty = 2)
+              }
+              return(invisible(data.frame(theoret.p=p, sample.p=pr)))
+          }
+)
+
+## If argument is of class numeric arguments rad and coef should be provided
+setMethod("pprad",
+          signature(x="numeric", rad="character", coef="list",
+                    trunc="ANY", plot="ANY", line="ANY"),
+          function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
+              y <- rad(x)
+              pprad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+          }
+          )
+
+## If argument is of class fitrad arguments rad and coef should be missing
+setMethod("pprad",
+          signature(x="fitrad", rad="missing", coef="missing",
+                    trunc="ANY", plot="ANY", line="ANY"),
+          function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
+              rad <- x@rad
+              coef <- as.list(bbmle::coef(x))
+              trunc <- x@trunc
+              y <- x@rad.tab
+              pprad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+          }
+          )
