@@ -22,17 +22,17 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
 
 \arguments{
   \item{x}{vector of (positive integer) quantiles or an object of
-    \link{\code{rad-class}}. 
+    \code{\link{rad-class}}. 
     In the context of
     rads, the numerical vector contains abundances of species in a sample or ecological
-    assemblage according to their abundance. The \link{\code{rad-class}} object
+    assemblage according to their abundance. The \code{\link{rad-class}} object
     contains ranked abundances of species in a sample or ecological
-  assemblage.
+    assemblage.
   }
   \item{rad}{
     character; root name of community rad distribution to be fitted.
     "gs" for geometric series (not geometric distribution,
-    \link{dgeom}),
+    \code{\link{dgeom}}),
     "mand" for Zipf-Mandelbrodt distribution,
     "rbs" for MacArthur's Broken-stick distribution,
     "zipf" for Zipf distribution.
@@ -79,11 +79,11 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
     \code{start.value}%%and\code{trueLL}
     ). In the specific fitting functions further
     arguments to be passed to \code{mle2}.
-    }
   }
-  
+}
+
 \value{
-  An object of \link{\code{fitrad-class}} which inherits from \code{mle2-class}
+  An object of \code{\link{fitrad-class}} which inherits from \code{mle2-class}
   and thus has methods for handling
   results of maximum likelihood fits from \code{mle2}
   and also specific methods to handle RADs models.
@@ -91,13 +91,13 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
 
 \details{
   All these functions fit rank-abundance distributions (RAD) to a vector of
-  abundances or a rank-abundance table of the \link{\code{rad-class}}.
+  abundances or a rank-abundance table of the \code{\link{rad-class}}.
   RADs assign probabilities p(i) to each rank i, which can be interpreted as
   the expected proportion of total individuals in the sample that are of
   the i-th species.
   
   \code{fitrad} is simply a wraper that calls the specific functions to fit
-  the distribution chosen with the argument {\code{rad}. Users
+  the distribution chosen with the argument \code{rad}. Users
   can interchangeably use \code{fitrad} or the individual functions
   detailed below 
   (e.g. \code{fitrad(x, sad="rbs", ...)} is the same as
@@ -167,7 +167,7 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
 
   Newman, M.E.J. 2005. Power laws, Pareto distributions and Zipf's law.
   \emph{Contemporary Physics, 46:} 323--351.
-
+  
   Whittaker, R. H. 1965. Dominance and diversity in land plant
   communities. \emph{Science 147}: 250--260.
   

@@ -3,10 +3,22 @@
 
 \docType{methods}
 
+\alias{qqsad}
+\alias{qqrad}
 \alias{qqsad-methods}
+\alias{qqsad,fitsad-method}
+\alias{qqsad,numeric-method}
+\alias{qqsad,integer-method}
 \alias{qqsad,fitsad,missing,missing,missing,missing-method}
 \alias{qqsad,numeric,character,list,ANY,character-method}
 \alias{qqrad-methods}
+\alias{qqrad,fitrad-method}
+\alias{qqrad,rad-method}
+\alias{qqrad,numeric-method}
+\alias{qqrad,integer-method}
+\alias{qqrad,fitrad,missing,missing,missing-method}
+\alias{qqrad,rad,character,list,ANY-method}
+\alias{qqrad,numeric,character,list,ANY-method}
 \alias{qqrad,fitrad,missing,missing,missing,missing-method}
 \alias{qqrad,rad,character,list,ANY,character-method}
 \alias{qqrad,numeric,character,list,ANY,character-method}
@@ -27,7 +39,7 @@ ranks (RAD).
     \item{qqsad}{\code{signature(x = "fitsad", sad = "missing", coef =
       "missing", trunc = "missing", distr = "missing", plot="ANY", line="ANY")}:
       quantile-quantile plot for a fitted model of species abundances (a
-      \link{\code{fitsad-class}} object). Only argument \code{x} should be provided
+      \code{\link{fitsad-class}} object). Only argument \code{x} should be provided
     }
     \item{qqsad}{\code{signature(x = "numeric", sad = "character", coef =
       "list", trunc = "ANY", distr = "character", plot="ANY", line="ANY")}:
@@ -37,7 +49,7 @@ ranks (RAD).
     \item{qqrad}{\code{signature(x = "fitrad", rad = "missing", coef =
       "missing", trunc = "missing", plot="ANY", line="ANY")}:
       quantile-quantile plot for a fitted model of species abundances
-      ranks (a \link{\code{fitrad-class}} object). Only argument \code{x} should be provided
+      ranks (a \code{\link{fitrad-class}} object). Only argument \code{x} should be provided
     }
     \item{qqrad}{\code{signature(x = "rad", rad = "character", coef =
       "list", trunc = "ANY", plot="ANY", line="ANY")}:
@@ -68,8 +80,8 @@ line=TRUE, ...)
   or \code{\link{fitrad-class}}, respectively).
   }
   \item{sad, rad}{character; root name of sad or rad
-  distribution to calculate expected percentiles. See \link{\code{fitsad}} and
-  \link{\code{fitrad}} for available distributions.
+  distribution to calculate expected percentiles. See \code{\link{fitsad}} and
+  \code{\link{fitrad}} for available distributions.
   }
   \item{coef}{named list of numeric values; parameter values of the
     distribution given in \code{sad} or \code{rad}.
@@ -108,9 +120,9 @@ moths.ln <- fitsad(moths,"lnorm", trunc=0.5)
 ## Plots with the model object and with abundance vector 
 par(mfrow=c(2,2))
 qqsad(moths.ls)
-qqsad(moths, sad="ls", coef=as.list(coef(moths.ls)))
+qqsad(moths, sad="ls", coef=as.list(coef(moths.ls)), distr="D")
 qqsad(moths.ln)
-qqsad(moths, sad="lnorm", coef=as.list(coef(moths.ln)), trunc=0.5)
+qqsad(moths, sad="lnorm", coef=as.list(coef(moths.ln)), trunc=0.5, distr="C")
 par(mfrow=c(1,1))
 
 ## An example with RADs

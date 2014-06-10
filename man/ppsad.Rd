@@ -3,10 +3,22 @@
 
 \docType{methods}
 
+\alias{ppsad}
+\alias{pprad}
 \alias{ppsad-methods}
-\alias{ppsad,fitsad,missing,missing,missing,missing-method}
-\alias{ppsad,numeric,character,list,ANY,character-method}
+\alias{ppsad,fitsad-method}
+\alias{ppsad,numeric-method}
+\alias{ppsad,fitsad,missing,missing-method}
+\alias{ppsad,numeric,character,list-method}
+\alias{ppsad,fitsad,missing,missing,missing-method}
+\alias{ppsad,numeric,character,list,ANY-method}
 \alias{pprad-methods}
+\alias{pprad,fitrad-method}
+\alias{pprad,rad-method}
+\alias{pprad,numeric-method}
+\alias{pprad,fitrad,missing,missing-method}
+\alias{pprad,numeric,character,list-method}
+\alias{pprad,rad,character,list-method}
 \alias{pprad,fitrad,missing,missing,missing,missing-method}
 \alias{pprad,rad,character,list,ANY,character-method}
 \alias{pprad,numeric,character,list,ANY,character-method}
@@ -25,19 +37,19 @@ ranks (RAD).
   \describe{
 
     \item{ppsad}{\code{signature(x = "fitsad", sad = "missing", coef =
-      "missing", trunc = "missing", distr = "missing", plot="ANY", line="ANY")}:
+      "missing", trunc = "missing", plot="ANY", line="ANY")}:
       quantile-quantile plot for a fitted model of species abundances (a
-      \link{\code{fitsad-class}} object). Only argument \code{x} should be provided
+      \code{\link{fitsad-class}} object). Only argument \code{x} should be provided.
     }
     \item{ppsad}{\code{signature(x = "numeric", sad = "character", coef =
-      "list", trunc = "ANY", distr = "character", plot="ANY", line="ANY")}:
+      "list", trunc = "ANY", plot="ANY", line="ANY")}:
       quantile-quantile plot of a numeric vector of abundances (\code{x}) vs a species
       abundance distributions defined by the following arguments.
     }
     \item{pprad}{\code{signature(x = "fitrad", rad = "missing", coef =
       "missing", trunc = "missing", plot="ANY", line="ANY")}:
       quantile-quantile plot for a fitted model of species abundances
-      ranks (a \link{\code{fitrad-class}} object). Only argument \code{x} should be provided
+      ranks (a \code{\link{fitrad-class}} object). Only argument \code{x} should be provided.
     }
     \item{pprad}{\code{signature(x = "rad", rad = "character", coef =
       "list", trunc = "ANY", plot="ANY", line="ANY")}:
@@ -54,7 +66,7 @@ ranks (RAD).
 
 \usage{
 \S4method{ppsad}{fitsad}(x, plot=TRUE, line=TRUE, ...)
-\S4method{ppsad}{numeric}(x, sad, coef, trunc=NA, distr, plot=TRUE,
+\S4method{ppsad}{numeric}(x, sad, coef, trunc=NA, plot=TRUE,
 line=TRUE, ...)
 \S4method{pprad}{fitrad}(x, plot=TRUE, line=TRUE, ...)
 \S4method{pprad}{rad}(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...)
@@ -68,8 +80,8 @@ line=TRUE, ...)
   or \code{\link{fitrad-class}}, respectively).
   }
   \item{sad, rad}{character; root name of sad or rad
-  distribution to calculate expected percentiles. See \link{\code{fitsad}} and
-  \link{\code{fitrad}} for available distributions.
+  distribution to calculate expected percentiles. See \code{\link{fitsad}} and
+  \code{\link{fitrad}} for available distributions.
   }
   \item{coef}{named list of numeric values; parameter values of the
     distribution given in \code{sad} or \code{rad}.
@@ -78,10 +90,6 @@ line=TRUE, ...)
   }
   \item{trunc}{non-negative integer, trunc > min(x); truncation point to fit a
     truncated distribution.
-  }
-  \item{distr}{
-    character; type of distribution given in \code{sad}: "D" for
-  discrete or "C" for continuous.
   }
   \item{plot}{
     logical; if 'TRUE' a percentile-percentile plot is produced. If not,
@@ -107,9 +115,9 @@ moths.ln <- fitsad(moths,"lnorm", trunc=0.5)
 ## Plots with the model object and with abundance vector 
 par(mfrow=c(2,2))
 ppsad(moths.ls)
-ppsad(moths, sad="ls", coef=as.list(coef(moths.ls)))
+ppsad(moths, sad="ls", coef=as.list(coef(moths.ls)), distr="D")
 ppsad(moths.ln)
-ppsad(moths, sad="lnorm", coef=as.list(coef(moths.ln)), trunc=0.5)
+ppsad(moths, sad="lnorm", coef=as.list(coef(moths.ln)), trunc=0.5, distr="C")
 par(mfrow=c(1,1))
 
 ## An example with RADs

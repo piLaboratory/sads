@@ -206,7 +206,6 @@ setMethod("AICc","fitrad",
           )
 
 ## radpred generic functions and methods ###
-
 setGeneric("radpred",
 def = function(object, sad, rad, coef, trunc, distr, S, N, ...) standardGeneric("radpred")
            )
@@ -351,7 +350,7 @@ setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
 
 ## if object is missing and rad is given. sad should not be given. All other arguments except distr should be given,
 ## except trunc (optional)
-setMethod("radpred",signature(object="missing", sad="missing", rad="character",
+setMethod("radpred", signature(object="missing", sad="missing", rad="character",
                               coef="list", distr="missing", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, distr, S, N, ...){
             dots <- list(...)
@@ -369,7 +368,7 @@ setMethod("radpred",signature(object="missing", sad="missing", rad="character",
 
 ## if object is missing and sad is given. rad should not be given.
 ## All other arguments except distr should be given, except trunc (optional)
-setMethod("radpred",signature(object="missing", sad="character", rad="missing",
+setMethod("radpred", signature(object="missing", sad="character", rad="missing",
                               coef="list", distr="character", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, distr, S, N, ...){
             if (distr == "D"){
@@ -412,7 +411,6 @@ setMethod("radpred",signature(object="missing", sad="character", rad="missing",
 
           
 ## octavpred generic functions and methods ###
-
 setGeneric("octavpred",
 def = function(object, sad, rad, coef, trunc, oct, S, N, ...) standardGeneric("octavpred"))
 
@@ -517,6 +515,7 @@ setMethod("octavpred", signature(object="numeric",sad="missing", rad="character"
             new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
           }
 )
+
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
 setMethod("octavpred", signature(object="numeric",sad="character", rad="missing",
                                  coef="list", S="missing", N="missing"),
@@ -612,9 +611,7 @@ def = function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...) standar
 ## if x is numeric (abundances), all other arguments should be given.
 ## Only trunc, plot and line are optional because they have default values
 setMethod("qqsad",
-          signature(x="numeric", sad="character", coef="list",
-                    trunc="ANY", distr="character",
-                    plot="ANY", line="ANY"),
+          signature(x="numeric", sad="character", coef="list", distr="character"),
           function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...){
               x.sorted <- sort(x)
               S <- length(x)
@@ -664,12 +661,21 @@ setMethod("qqsad",
           }
           )
 
+## For integer values
+## setMethod("qqsad",
+##           signature(x="integer", sad="character", coef="list", distr="character"),
+##           function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...){
+##               y <- as.numeric(x)
+##               qqsad(x=y, sad=sad, coef=coef, trunc=trunc,
+##                     distr=distr, plot=plot, line=line, ...)
+##           }
+##           )
+
 ## If x is of the class fitsad all other arguments should be ommited
 ## plot and line have default values and are optional
 setMethod("qqsad",
           signature(x="fitsad", sad="missing", coef="missing",
-                    trunc="missing", distr="missing",
-                    plot="ANY", line="ANY"),
+                    trunc="missing", distr="missing"),
           function(x, sad, coef, trunc, distr, plot=TRUE, line=TRUE, ...){
               sad <- x@sad
               coef <- as.list(bbmle::coef(x))
@@ -687,8 +693,7 @@ def = function(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneri
 
 ## If x is an objetc of class rad
 setMethod("qqrad",
-          signature(x="rad", rad="character", coef="list",
-                    trunc="ANY", plot="ANY", line="ANY"),
+          signature(x="rad", rad="character", coef="list"),
           function(x, rad , coef, trunc=NA, plot=TRUE, line=TRUE, ...){
               pr <- cumsum(x$abund/sum(x$abund))
               if(!is.na(trunc))
@@ -711,18 +716,26 @@ setMethod("qqrad",
 
 ## If object is of class numeric arguments rad and coef should be provided
 setMethod("qqrad",
-          signature(x="numeric", rad="character", coef="list",
-                    trunc="ANY", plot="ANY", line="ANY"),
+          signature(x="numeric", rad="character", coef="list"),
           function(x, rad , coef, trunc=NA, plot=TRUE, line=TRUE, ...){
               y <- rad(x)
               qqrad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
           }
           )
 
+## If object is of class integer arguments rad and coef should be provided
+## setMethod("qqrad",
+##           signature(x="integer", rad="character", coef="list",
+##                     trunc="ANY", plot="ANY", line="ANY"),
+##           function(x, rad , coef, trunc=NA, plot=TRUE, line=TRUE, ...){
+##               y <- as.numeric(x)
+##               qqrad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+##           }
+##           )
+
 ## If object is of class fitrad arguments rad or coef should be missing
 setMethod("qqrad",
-          signature(x="fitrad", rad="missing", coef="missing",
-                    trunc="missing", plot="ANY", line="ANY"),
+          signature(x="fitrad", rad="missing", coef="missing", trunc="missing"),
           function(x, rad , coef, trunc, plot=TRUE, line=TRUE, ...){
               rad <- x@rad
               coef <- as.list(bbmle::coef(x))
@@ -739,8 +752,7 @@ def = function(x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneri
 
 ## If x is numeric arguments sad and coef should be provided
 setMethod("ppsad",
-          signature(x="numeric", sad="character", coef="list",
-                    trunc="ANY", plot="ANY", line="ANY"),
+          signature(x="numeric", sad="character", coef="list"),
           function (x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
               x.sorted <- sort(x)
               S <- length(x)
@@ -775,10 +787,19 @@ setMethod("ppsad",
           }
           )
 
+## If object is of class integer arguments rad and coef should be provided
+## setMethod("ppsad",
+##           signature(x="integer", sad="character", coef="list",
+##                     trunc="ANY", plot="ANY", line="ANY"),
+##           function(x, sad , coef, trunc=NA, plot=TRUE, line=TRUE, ...){
+##               y <- as.numeric(x)
+##               ppsad(x=y, sad=sad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+##           }
+##           )
+
 ## If argument x is fitsad class, arguments sad and coef should be missing
 setMethod("ppsad",
-          signature(x="fitsad", sad="missing", coef="missing",
-                    trunc="ANY", plot="ANY", line="ANY"),
+          signature(x="fitsad", sad="missing", coef="missing", trunc="missing"),
           function (x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {          
               sad <- x@sad
               coef <- as.list(bbmle::coef(x))
@@ -794,8 +815,7 @@ def = function(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneri
 
 ## If argument is of class rad arguments rad and coef should be provided
 setMethod("pprad",
-          signature(x="rad", rad="character", coef="list",
-                    trunc="ANY", plot="ANY", line="ANY"),
+          signature(x="rad", rad="character", coef="list"),
           function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
               rad.tab <- x
               pr <- cumsum(rad.tab$abund/sum(rad.tab$abund))
@@ -820,18 +840,26 @@ setMethod("pprad",
 
 ## If argument is of class numeric arguments rad and coef should be provided
 setMethod("pprad",
-          signature(x="numeric", rad="character", coef="list",
-                    trunc="ANY", plot="ANY", line="ANY"),
+          signature(x="numeric", rad="character", coef="list"),
           function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
               y <- rad(x)
               pprad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
           }
           )
 
+## If argument is of class integer arguments rad and coef should be provided
+## setMethod("pprad",
+##           signature(x="integer", rad="character", coef="list",
+##                     trunc="ANY", plot="ANY", line="ANY"),
+##           function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
+##               y <- as.numeric(x)
+##               pprad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+##           }
+##           )
+
 ## If argument is of class fitrad arguments rad and coef should be missing
 setMethod("pprad",
-          signature(x="fitrad", rad="missing", coef="missing",
-                    trunc="ANY", plot="ANY", line="ANY"),
+          signature(x="fitrad", rad="missing", coef="missing"),
           function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
               rad <- x@rad
               coef <- as.list(bbmle::coef(x))
