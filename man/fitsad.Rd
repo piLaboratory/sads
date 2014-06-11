@@ -347,5 +347,6 @@ legend("topright", c("lognormal", "gamma", "weibull"), lty=1, col=c("blue","red"
 AICctab(AR.ln, AR.g, AR.wb, nobs=length(ARN82.eB.apr77), weights=TRUE) 
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda}
+\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda,
+after Ben Bolker, R Core Team, Robin Hanking, Vidar Grotan and Steinar Engen.}
 

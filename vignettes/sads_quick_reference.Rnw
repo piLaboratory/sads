@@ -95,7 +95,7 @@ of logarithm of abundances at base 2 (Preston's octaves) and returns a data fram
 A logical argument
 \code{preston} allows to smooth the numbers as proposed by \citet{Preston1948}.
 
-The octave number is the lower limit of the class in log2 scale. 
+The octave number is the upper limit of the class in log2 scale. 
 Hence, for abundance values smaller than one (\emph{e.g.} biomass data) the octave numbers are negative numbers.
 A Preston plot is a histogram of this table, that you get applying the function \code{plot} to the data frame:
 

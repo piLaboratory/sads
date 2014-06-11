@@ -1,4 +1,4 @@
-octav <- function(x, oct, preston=FALSE, ...){
+octav <- function(x, oct, preston=FALSE){
   if(is(x, "fitsad"))
     y <- x@data$x
   else if(is(x,"fitrad"))
@@ -12,7 +12,10 @@ octav <- function(x, oct, preston=FALSE, ...){
       oct <- c(octlower, oct)
     }
   }
-  else oct <- min(oct):max(oct)
+  else{
+      if(min(oct)>min(y)||max(oct)<max(y)) stop(" 'oct' should include all abundance values in 'x' ")
+      oct <- min(oct):max(oct)
+  }
   N <- 2^(oct)
   oc.class <- cut(y, breaks=c(0, N), labels=oct)
   res <- as.data.frame(table(oc.class))
