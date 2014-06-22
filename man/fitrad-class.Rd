@@ -1,39 +1,44 @@
-\name{fitsad-class}
+\name{fitrad-class}
 
 \docType{class}
 
-\alias{fitsad-class}
-\alias{AICc,fitsad-method}
-\alias{plot,fitsad,ANY-method}
-\alias{ppsad,fitsad-method}
-\alias{ppsad,fitsad,missing,missing-method}
-\alias{ppsad,fitsad,missing,missing,missing-method}
-\alias{qqsad,fitsad-method}
-\alias{qqsad,fitsad,missing,missing,missing,missing-method}
-%\alias{octavpred,fitsad,missing,missing,missing,missing,ANY,missing,missing-method}
-%\alias{radpred,fitsad,missing,missing,missing,missing,missing,missing,missing-method}
+\alias{fitrad-class}
+\alias{AICc,fitrad-method}
+\alias{octavpred,fitrad,missing,missing,missing,missing,ANY,missing,missing-method}
+\alias{plot,fitrad,ANY-method}
+\alias{pprad,fitrad-method}
+\alias{pprad,fitrad,missing,missing-method}
+\alias{pprad,fitrad,missing,missing,missing,missing-method}
+\alias{qqrad,fitrad-method}
+\alias{qqrad,fitrad,missing,missing,missing,missing-method}
+%% \alias{octavpred,fitrad,missing,missing,missing,missing,ANY,missing,missing-method}
+%% \alias{radpred,fitrad,missing,missing,missing,missing,missing,missing,missing-method}
 
-\title{Class \code{"fitsad"} for maximun likelihood fitting of SADs models}
+\title{Class \code{"fitrad"} for maximun likelihood fitting of RADs models}
 
 \description{
   This class extends \code{mle2-class} to encapsulate models of species
-  abundance distributions (SADs) fitted by maximum likelihood.
+  rank-abundance distributions 
+  (RADs) fitted by maximum likelihood.
 }
 
 \section{Objects from the Class}{
-Objects created by a call to function \code{\link{fitsad}}, which fits a
-probability distribution to an abundance vector.
+Objects created by a call to function \code{\link{fitrad}}, which fits
+a probality distribution to an abundance vector.
 }
 
 \section{Slots}{
   \describe{
-    \item{\code{sad}:}{Object of class \code{"character"}; root name of
+    \item{\code{rad}:}{Object of class \code{"character"}; root name of
       the species abundance distribution fitted. See man page of
-      \code{fitsad} for available models.}
+      \code{fitrad} for available models.}
     \item{\code{distr}:}{Object of class \code{"character"}; type of
-      distribution given in the slot \code{sad}: "D" for discrete or "C" for continuous.}
+      distribution given in the slot \code{rad}: "D" for discrete or "C" for continuous.}
     \item{\code{trunc}:}{Object of class \code{"numeric"}; truncation
-      value used in the fitted model. 'NA' for a non-truncated distribution.}
+      value used in the fitted model. 'NA' for a non-truncated
+      distribution.}
+    \item{\code{rad.tab}:}{Object of class \code{"rad"}; rank-abundance
+      table of observed abundances.}
     \item{\code{call}:}{Object of class \code{"language"}; The call to \code{\link{mle2}}.}
     \item{\code{call.orig}:}{Object of class \code{"language"} The call to \code{\link{mle2}},
       saved in its original form (i.e. without data arguments
@@ -62,23 +67,23 @@ Class \code{"\linkS4class{mle2}"}, directly.
 
 \section{Methods}{
   \describe{
-    \item{AICc}{\code{signature(object = "fitsad")}: Akaike information
+    \item{AICc}{\code{signature(object = "fitrad")}: Akaike information
       criterion corrected for small samples. }
-    \item{octavpred}{\code{signature(object = "fitsad", sad = "missing",
+    \item{octavpred}{\code{signature(object = "fitrad", sad = "missing",
 	rad = "missing", coef = "missing", trunc = "missing", oct = "ANY", S =
 	"missing", N = "missing")}: expected number of species per
       abundance octave, see \code{\link{octav}} and \code{\link{octavpred-methods}}.} 
-    \item{plot}{\code{signature(x = "fitsad", y = "ANY")}: diagnostic
+    \item{plot}{\code{signature(x = "fitrad", y = "ANY")}: diagnostic
       plots of the fitted model. }
-    \item{ppsad}{\code{signature(x = "fitsad", sad = "missing", coef =
+    \item{pprad}{\code{signature(x = "fitrad", sad = "missing", coef =
 	"missing", trunc = "missing")}: plot of observed vs predicted
       percentiles of the abundance distribution, details in
   \code{\link{ppsad}}. } 
-    \item{qqsad}{\code{signature(x = "fitsad", sad = "missing", coef =
-	"missing", trunc = "missing", distr = "missing")}: plot of observed vs predicted
+    \item{qqrad}{\code{signature(x = "fitrad", sad = "missing", coef =
+	"missing", trunc = "missing")}: plot of observed vs predicted
       quantiles of the abundance distribution, details in
   \code{\link{qqsad}. } }
-    \item{radpred}{\code{signature(object = "fitsad", sad = "missing",
+    \item{radpred}{\code{signature(object = "fitrad", sad = "missing",
 	rad = "missing", coef = "missing", trunc = "missing", distr =
 	"missing", S = "missing", N = "missing")}: expected abundances
       of the 1st to n-th most abundant species, see \code{\link{rad}} and \code{\link{radpred-methods}}. }
@@ -95,10 +100,10 @@ Class \code{"\linkS4class{mle2}"}, directly.
 after Ben Bolker and  R Core Team.}
 
 
-\note{Class \code{fitsad} only adds three slots to class
+\note{Class \code{fitrad} only adds four slots to class
   \code{mle2}. The descriptions of slots inherited from \code{mle2-class}
   replicate those in \code{\link{mle2-class}}. \code{AICc} has a
-  minor tweak to work with \code{fitsad-class} and so is listed in the
+  minor tweak to work with \code{fitrad-class} and so is listed in the
   'Methods' section.
 }
 
@@ -107,25 +112,25 @@ after Ben Bolker and  R Core Team.}
 }
 
 \seealso{\code{\link{mle2-class}} for all methods available from which
-  \code{fitsad-class} inherits; \code{\link{fitsad}} for details on
-  fitting SADs models; \code{\link{octavpred-methods}} and
+  \code{fitrad-class} inherits; \code{\link{fitrad}} for details on
+  fitting RADs models; \code{\link{octavpred-methods}} and
   \code{\link{radpred-methods}} to get predicted rank-abundance and octave
   plots from fitted models.
 }
 
 \examples{
-moths.ls <- fitsad(moths, "ls")
+ok.gser <- fitrad(okland, "gs")
 ## The class has a plot method to show diagnostic plots
 par(mfrow=c(2,2))
-plot(moths.ls)
+plot(ok.gser)
 par(mfrow=c(1,1))
 ## Some useful methods inherited from mle2-class
-coef(moths.ls)
-confint(moths.ls)
-logLik(moths.ls)
+coef(ok.gser)
+confint(ok.gser)
+logLik(ok.gser)
 ## Model selection
-moths.ln <- fitsad(moths, "lnorm", trunc=0.5)
-AICctab(moths.ls, moths.ln, nobs=length(moths), base=TRUE)
+ok.zipf <- fitrad(okland, "zipf")
+AICctab(ok.gser, ok.zipf, nobs=length(moths), base=TRUE)
 }
 
 \keyword{classes}

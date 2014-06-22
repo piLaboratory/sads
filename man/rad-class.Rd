@@ -6,6 +6,9 @@
 \alias{lines,rad-method}
 \alias{plot,rad,ANY-method}
 \alias{points,rad-method}
+\alias{qqrad,rad-method}
+\alias{qqrad,rad,character,list,ANY-method}
+\alias{qqrad,rad,character,list,ANY,character-method}
 %\alias{pprad,rad,character,list-method}
 %\alias{qqrad,rad,character,list,ANY-method}
 
@@ -47,15 +50,15 @@ Class \code{"\linkS4class{vector}"}, by class "data.frame", distance 3.
       contained in the object as lines in rank-abundance plots created by
       \code{plot} method.}
     \item{plot}{\code{signature(x = "rad", y = "ANY")}: creates a
-      rank-abundance plot from data in the object}
+      rank-abundance plot from data in the object.}
     \item{points}{\code{signature(x = "rad")}: adds rank-abundance data
       contained in the object as points in rank-abundance plots created by
       \code{plot} method. }
     \item{pprad}{\code{signature(x = "rad", rad = "character", coef =
-    	"list")}: creates a percentile-percentile plot, see \code{\link{pprad-methods}}. }
+    	"list")}: percentile-percentile plot, see \code{\link{pprad}}. }
     \item{qqrad}{\code{signature(x = "rad", rad = "character", coef =
-    	"list", trunc = "ANY")}:  creates a quantile-quantile plot, see
-      \code{\link{qqrad-methods}}.}
+    	"list", trunc = "ANY")}:  quantile-quantile plot, see
+      \code{\link{qqrad}}.}
   }
 }
 
@@ -77,7 +80,7 @@ Class \code{"\linkS4class{vector}"}, by class "data.frame", distance 3.
   }
   
 \examples{
-## Creates a rad object from vector of abundances
+## Creates a rad object from a vector of abundances
 birds.rad <- rad(birds)
 
 ## Rank-abundance plot

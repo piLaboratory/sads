@@ -51,16 +51,13 @@
   \emph{Ecology 29}: 254--283.
 }
 
-\seealso{ \code{\link{octav-class}} for methods to create a octave plot 
+\seealso{ \code{\link{octav-class}} for methods to create an octave plot 
   plot; \code{\link{octavpred-methods}} to get a \code{octav} object of
   predicted abundances from a theoretical distribution;  \code{\link{fitsad-class}} and
   \code{\link{fitrad-class}} objects, from which you can also get an
-  object of class \code{octav}; \code{\link{qqrad}} for
-  quantile-quantile plots from a \code{rad} object, and
-  \code{\link{pprad}} for percentile-percentile
-  plots;  man page of \code{prestonfit} in package \code{vegan} for a
+  object of class \code{octav}; man page of \code{prestonfit} in package \code{vegan} for a
   detailed account of Preston's octaves and an alternative way to get
-  octaves and model fitting.  
+  octaves and fitting of species abundances distributions.  
 }
 
 \examples{

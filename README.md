@@ -7,7 +7,7 @@
 
 ### Instalation
 
-Work in progress, planning to publish a first version in CRAN in May 2014.
+Work in progress, planning to publish a first version in CRAN in June 2014.
 
 Meanwhile you can install the current working version with
 

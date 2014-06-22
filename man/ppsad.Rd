@@ -1,27 +1,27 @@
-\name{ppsad-methods}
+\name{ppsad and pprad methods}
 
 
 \docType{methods}
 
 \alias{ppsad}
 \alias{pprad}
-\alias{ppsad-methods}
-\alias{ppsad,fitsad-method}
+%% \alias{ppsad-methods}
+%% \alias{ppsad,fitsad-method}
+%% \alias{ppsad,fitsad,missing,missing-method}
+%% \alias{ppsad,fitsad,missing,missing,missing-method}
 \alias{ppsad,numeric-method}
-\alias{ppsad,fitsad,missing,missing-method}
 \alias{ppsad,numeric,character,list-method}
-\alias{ppsad,fitsad,missing,missing,missing-method}
 \alias{ppsad,numeric,character,list,ANY-method}
-\alias{pprad-methods}
-\alias{pprad,fitrad-method}
+%% \alias{pprad-methods}
+%% \alias{pprad,fitrad-method}
+%% \alias{pprad,fitrad,missing,missing-method}
+%% \alias{pprad,fitrad,missing,missing,missing,missing-method}
 \alias{pprad,rad-method}
-\alias{pprad,numeric-method}
-\alias{pprad,fitrad,missing,missing-method}
-\alias{pprad,numeric,character,list-method}
 \alias{pprad,rad,character,list-method}
-\alias{pprad,fitrad,missing,missing,missing,missing-method}
 \alias{pprad,rad,character,list,ANY,character-method}
 \alias{pprad,numeric,character,list,ANY,character-method}
+\alias{pprad,numeric-method}
+\alias{pprad,numeric,character,list-method}
 
 \title{Percentile-percentile plots for species-abundance and
   rank-abundance models}
@@ -77,7 +77,8 @@ line=TRUE, ...)
   \item{x}{ 
     a numeric vector of abundances of
   species or a fitted sad/rad model (object of \code{\link{fitsad-class}}
-  or \code{\link{fitrad-class}}, respectively).
+  or \code{\link{fitrad-class}}, respectively). For \code{pprad} this
+  argument can be also a rank-abundance table of \link{rad-class}.
   }
   \item{sad, rad}{character; root name of sad or rad
   distribution to calculate expected percentiles. See \code{\link{fitsad}} and
@@ -93,7 +94,7 @@ line=TRUE, ...)
   }
   \item{plot}{
     logical; if 'TRUE' a percentile-percentile plot is produced. If not,
-  a dataframe with theoretical and empirical values for percentiles of
+  only a dataframe with theoretical and empirical values for percentiles of
   the data is invisibly returned.
   }
   \item{line}{
@@ -105,6 +106,10 @@ line=TRUE, ...)
 }
 \keyword{methods}
 
+\references{
+Thas, O. 2010. Comparing distributions. Springer.
+}
+
 \examples{
 ## An example with SADs
 data(moths)
@@ -115,9 +120,9 @@ moths.ln <- fitsad(moths,"lnorm", trunc=0.5)
 ## Plots with the model object and with abundance vector 
 par(mfrow=c(2,2))
 ppsad(moths.ls)
-ppsad(moths, sad="ls", coef=as.list(coef(moths.ls)), distr="D")
+ppsad(moths, sad="ls", coef=as.list(coef(moths.ls)) )
 ppsad(moths.ln)
-ppsad(moths, sad="lnorm", coef=as.list(coef(moths.ln)), trunc=0.5, distr="C")
+ppsad(moths, sad="lnorm", coef=as.list(coef(moths.ln)), trunc=0.5)
 par(mfrow=c(1,1))
 
 ## An example with RADs

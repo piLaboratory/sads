@@ -1,27 +1,31 @@
-\name{qqsad-methods}
+\name{qqsad and qqrad methods}
 
 
 \docType{methods}
 
 \alias{qqsad}
 \alias{qqrad}
-\alias{qqsad-methods}
-\alias{qqsad,fitsad-method}
-\alias{qqsad,numeric-method}
+%% \alias{qqsad-methods}
+%% \alias{qqsad,fitsad-method}
+%% \alias{qqsad,fitsad,missing,missing,missing,missing-method}
 \alias{qqsad,integer-method}
-\alias{qqsad,fitsad,missing,missing,missing,missing-method}
+\alias{qqsad,numeric-method}
 \alias{qqsad,numeric,character,list,ANY,character-method}
-\alias{qqrad-methods}
+%% \alias{qqrad-methods}
 \alias{qqrad,fitrad-method}
-\alias{qqrad,rad-method}
-\alias{qqrad,numeric-method}
-\alias{qqrad,integer-method}
 \alias{qqrad,fitrad,missing,missing,missing-method}
-\alias{qqrad,rad,character,list,ANY-method}
-\alias{qqrad,numeric,character,list,ANY-method}
 \alias{qqrad,fitrad,missing,missing,missing,missing-method}
-\alias{qqrad,rad,character,list,ANY,character-method}
+\alias{qqrad,integer-method}
+\alias{qqrad,numeric-method}
+\alias{qqrad,numeric,character,list,ANY-method}
 \alias{qqrad,numeric,character,list,ANY,character-method}
+%% \alias{qqrad,rad-method}
+%% \alias{qqrad,rad,character,list,ANY-method}
+%% \alias{qqrad,rad,character,list,ANY,character-method}
+
+
+
+
 
 \title{Quantile-quantile plots for species-abundance and
   rank-abundance models}
@@ -77,7 +81,8 @@ line=TRUE, ...)
   \item{x}{ 
     a numeric vector of abundances of
   species or a fitted sad/rad model (object of \code{\link{fitsad-class}}
-  or \code{\link{fitrad-class}}, respectively).
+  or \code{\link{fitrad-class}}, respectively). For \code{qqrad} this
+  argument can be also a rank-abundance table of \link{rad-class}.
   }
   \item{sad, rad}{character; root name of sad or rad
   distribution to calculate expected percentiles. See \code{\link{fitsad}} and
@@ -97,8 +102,8 @@ line=TRUE, ...)
   }
   \item{plot}{
     logical; if 'TRUE' a percentile-percentile plot is produced. If not,
-  a dataframe with theoretical and empirical values for percentiles of
-  the data is invisibly returned.
+    only a dataframe with theoretical and empirical values for percentiles of
+    the data is invisibly returned.
   }
   \item{line}{
     logical; if 'TRUE' and \code{plot} is 'TRUE', the equivalence line y=x with
@@ -109,6 +114,10 @@ line=TRUE, ...)
 }
   
 \keyword{methods}
+
+\references{
+Thas, O. 2010. Comparing distributions. Springer.
+}
 
 \examples{
 ## An example with SADs

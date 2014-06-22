@@ -264,14 +264,16 @@ setMethod("radpred",signature(object="fitrad", sad="missing", rad="missing",
                               coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
           function(object, ...){
             dots <- list()
-            coef <- as.list(bbmle::coef(object))
-            trunc <- object@trunc
-            distr <- object@distr
-            rad <- object@rad
             x <- object@rad.tab$abund
             N <- sum(x)
             S <- length(x)
             y <- 1:S
+            rad <- object@rad
+            coef <- as.list(bbmle::coef(object))
+            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
+            if(rad=="gs") coef <- c(list(S=S),coef)
+            trunc <- object@trunc
+            distr <- object@distr
             if(!is.na(trunc)){
               ab <- do.call(dtrunc, c(list(rad, x = y, coef = coef, trunc = trunc), dots))*N
             }
@@ -291,6 +293,8 @@ setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
             S <- length(object)
             N <- sum(object)
             y <- 1:S
+            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
+            if(rad=="gs") coef <- c(list(S=S),coef)
             if(!missing(trunc)){
               ab <- do.call(dtrunc, c(list(rad, x = y, coef = coef, trunc = trunc), dots))*N
             }
@@ -355,6 +359,8 @@ setMethod("radpred", signature(object="missing", sad="missing", rad="character",
           function(object, sad, rad, coef, trunc, distr, S, N, ...){
             dots <- list(...)
             y <- 1:S
+            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
+            if(rad=="gs") coef <- c(list(S=S),coef)
             if(!missing(trunc)){
               ab <- do.call(dtrunc, c(list(rad, x = y, coef = coef, trunc = trunc), dots))*N
             }
@@ -468,6 +474,8 @@ setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
             x <- object@rad.tab$abund
             S <- length(x)
             N <- sum(x)
+            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
+            if(rad=="gs") coef <- c(list(S=S),coef)
             if(missing(oct)){
               oct <- 1:(ceiling(max(log2(x)))+1)
               if(any(x < 1)){
@@ -496,6 +504,8 @@ setMethod("octavpred", signature(object="numeric",sad="missing", rad="character"
             x <- object
             S <- length(x)
             N <- sum(x)
+            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
+            if(rad=="gs") coef <- c(list(S=S),coef)
             if(missing(oct)){
               oct <- 1:(ceiling(max(log2(x)))+1)
               if(any(x < 1)){
@@ -560,6 +570,8 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
                                  coef="list", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, oct, S, N, ...){
             dots <- list(...)
+            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
+            if(rad=="gs") coef <- c(list(S=S),coef)
             n <- 2^(oct-1)
             if(!missing(trunc)){
               ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
@@ -691,11 +703,13 @@ setMethod("qqsad",
 setGeneric("qqrad",
 def = function(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneric("qqrad"))
 
-## If x is an objetc of class rad
+## If x is an object of class rad
 setMethod("qqrad",
           signature(x="rad", rad="character", coef="list"),
           function(x, rad , coef, trunc=NA, plot=TRUE, line=TRUE, ...){
               pr <- cumsum(x$abund/sum(x$abund))
+              if(rad=="zipf"||rad=="mand") coef <- c(list(N=length(pr)),coef)
+              if(rad=="gs") coef <- c(list(S=length(pr)),coef)
               if(!is.na(trunc))
                   q <- do.call(qtrunc, list(rad, p = pr, coef = coef, trunc = trunc))
               else{
@@ -819,6 +833,8 @@ setMethod("pprad",
           function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
               rad.tab <- x
               pr <- cumsum(rad.tab$abund/sum(rad.tab$abund))
+              if(rad=="zipf"||rad=="mand") coef <- c(list(N=length(pr)),coef)
+              if(rad=="gs") coef <- c(list(S=length(pr)),coef)
               if(!is.na(trunc)){
                   p <- do.call(ptrunc, list(rad, q = rad.tab$rank, coef = coef, trunc = trunc))
               }

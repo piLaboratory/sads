@@ -6,23 +6,34 @@
 Modeling Species Abundance Distributions 
 }
 \description{
-Likelihood-based fit and selection of models for species abundance distributions
+Tools to fit probability distributions to  species abundance
+distributions and species rank-abundance distributions using maximum likelihood.
 }
 \details{
 \tabular{ll}{
 Package: \tab sads\cr
 Type: \tab Package\cr
-Version: \tab 0.1\cr
-Date: \tab 2011-02-02\cr
+Version: \tab 0.1.09\cr
+Date: \tab 2014-06-21\cr
 License: \tab gpl \cr
 LazyLoad: \tab yes\cr
 }
-
-Tools to fit hierachical models for species abundance
-distributions (sads). These models include the theoretical sads in the
-community and the sampling process that generated the observed abundance values.
-
+Species abundance distributions (SADs) are one of the basic patterns of
+ecological communities. The empirical distributions of abundances (SADs)
+or their ranks (RADs) are traditionally
+modelled through probability distributions. Hence, the maximum
+likelihood method can be used to fit and compare competing models for
+SADs. The \code{sads} package provides functions, classe and methods to: 
+\itemize{
+  \item Fit classic SAD models: logseries, lognormal, brokenstick, \dots  
+  \item Fit classic rank-abundance (RADs) models: geometric, brokenstick, zipf,
+  \item zipf-mandelbrodt, \dots
+  \item Tools for the diagnostic and comparison of models 
+  \item Tools to simulate Poisson and Negative Binomial samples from
+  abundances in communities.
 }
+}
+
 \author{
 Paulo I Prado and Murilo Dantas Miranda
 
@@ -30,12 +41,21 @@ Maintainer: P.I. Prado  <prado@ib.usp.br>
 }
 
 \references{
-Green,J. and Plotkin, J.B. 2007 A statistical theory for sampling
-species abundances. \emph{Ecology Letters 10}:1037--1045
+  Magurran, A. E. 2004. Measuring Biological Diversity. Blackwell.
+
+  Magurran, A. E. and McGill, B. J. 2011. Biological Diversity --
+  Frontiers in measurement and assessment Oxford University Press.
+
+  May, R. M. 1975. Patterns of Species Abundance and Diversity. In
+  M. L. Cody and J. M. Diamond (Eds.), (pp. 81-120). Harvard University
+  Press. 
+  
+  Green,J. and Plotkin, J.B. 2007 A statistical theory for sampling
+  species abundances. \emph{Ecology Letters 10}:1037--1045.
 }
 
 \keyword{ species abundance distributions, ecology, environmetrics,
-  maximum likelihood estimation }
+  maximum likelihood estimation}
 
 \seealso{
 vegan-package, poilog-package, untb-package

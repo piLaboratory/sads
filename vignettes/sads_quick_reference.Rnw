@@ -355,8 +355,8 @@ evaluate the bias and variance of the maximum likelihood estimates:
 \setkeys{Gin}{width=\textwidth}
 @ 
 <<rsad-repeated-samples>>=
-results <- matrix(nrow=500,ncol=2)
-for(i in 1:500){
+results <- matrix(nrow=250,ncol=2)
+for(i in 1:250){
     x <- rsad(S = 100, frac=0.1, sad="lnorm", 
               meanlog=5, sdlog=2)
     y <- fitsad(x, "poilog")
