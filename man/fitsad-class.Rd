@@ -5,15 +5,16 @@
 \alias{fitsad-class}
 \alias{AICc,fitsad-method}
 \alias{plot,fitsad,ANY-method}
-\alias{ppsad,fitsad-method}
+%\alias{ppsad,fitsad-method}
 \alias{ppsad,fitsad,missing,missing-method}
 \alias{ppsad,fitsad,missing,missing,missing-method}
-\alias{qqsad,fitsad-method}
+%\alias{qqsad,fitsad-method}
 \alias{qqsad,fitsad,missing,missing,missing,missing-method}
 %\alias{octavpred,fitsad,missing,missing,missing,missing,ANY,missing,missing-method}
 %\alias{radpred,fitsad,missing,missing,missing,missing,missing,missing,missing-method}
 
-\title{Class \code{"fitsad"} for maximun likelihood fitting of SADs models}
+\title{Class \code{"fitsad"} for maximum likelihood fitting
+species abundance distributions}
 
 \description{
   This class extends \code{mle2-class} to encapsulate models of species
@@ -67,7 +68,7 @@ Class \code{"\linkS4class{mle2}"}, directly.
     \item{octavpred}{\code{signature(object = "fitsad", sad = "missing",
 	rad = "missing", coef = "missing", trunc = "missing", oct = "ANY", S =
 	"missing", N = "missing")}: expected number of species per
-      abundance octave, see \code{\link{octav}} and \code{\link{octavpred-methods}}.} 
+      abundance octave, see \code{\link{octav}} and \code{\link{octavpred}}.} 
     \item{plot}{\code{signature(x = "fitsad", y = "ANY")}: diagnostic
       plots of the fitted model. }
     \item{ppsad}{\code{signature(x = "fitsad", sad = "missing", coef =
@@ -108,7 +109,7 @@ after Ben Bolker and  R Core Team.}
 
 \seealso{\code{\link{mle2-class}} for all methods available from which
   \code{fitsad-class} inherits; \code{\link{fitsad}} for details on
-  fitting SADs models; \code{\link{octavpred-methods}} and
+  fitting SADs models; \code{\link{octavpred}} and
   \code{\link{radpred-methods}} to get predicted rank-abundance and octave
   plots from fitted models.
 }

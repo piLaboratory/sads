@@ -6,7 +6,7 @@
 \alias{qqsad}
 \alias{qqrad}
 %% \alias{qqsad-methods}
-%% \alias{qqsad,fitsad-method}
+\alias{qqsad,fitsad-method}
 %% \alias{qqsad,fitsad,missing,missing,missing,missing-method}
 \alias{qqsad,integer-method}
 \alias{qqsad,numeric-method}
@@ -14,18 +14,14 @@
 %% \alias{qqrad-methods}
 \alias{qqrad,fitrad-method}
 \alias{qqrad,fitrad,missing,missing,missing-method}
-\alias{qqrad,fitrad,missing,missing,missing,missing-method}
+%\alias{qqrad,fitrad,missing,missing,missing,missing-method}
 \alias{qqrad,integer-method}
 \alias{qqrad,numeric-method}
 \alias{qqrad,numeric,character,list,ANY-method}
 \alias{qqrad,numeric,character,list,ANY,character-method}
-%% \alias{qqrad,rad-method}
-%% \alias{qqrad,rad,character,list,ANY-method}
-%% \alias{qqrad,rad,character,list,ANY,character-method}
-
-
-
-
+\alias{qqrad,rad-method}
+\alias{qqrad,rad,character,list,ANY-method}
+\alias{qqrad,rad,character,list,ANY,character-method}
 
 \title{Quantile-quantile plots for species-abundance and
   rank-abundance models}

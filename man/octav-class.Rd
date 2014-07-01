@@ -80,7 +80,7 @@ of logarithm of abundances at base 2 (Preston's octaves).
 
 
 \seealso{ \code{\link{octav}} to get an object of the class from a vector
-  of abundances; \code{\link{octavpred-methods}} to get a \code{octav} object of
+  of abundances; \code{\link{octavpred}} to get a \code{octav} object of
   predicted abundances from a theoretical distribution;
   man page of \code{prestonfit} in package \code{vegan} for a detailed account of
   Preston's octaves and an alternative way to get octaves and model fitting.

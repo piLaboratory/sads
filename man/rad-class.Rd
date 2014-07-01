@@ -6,9 +6,9 @@
 \alias{lines,rad-method}
 \alias{plot,rad,ANY-method}
 \alias{points,rad-method}
-\alias{qqrad,rad-method}
-\alias{qqrad,rad,character,list,ANY-method}
-\alias{qqrad,rad,character,list,ANY,character-method}
+%\alias{qqrad,rad-method}
+%\alias{qqrad,rad,character,list,ANY-method}
+%\alias{qqrad,rad,character,list,ANY,character-method}
 %\alias{pprad,rad,character,list-method}
 %\alias{qqrad,rad,character,list,ANY-method}
 

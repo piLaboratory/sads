@@ -433,13 +433,13 @@ setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
             S <- length(x)
             N <- sum(x)
             if(missing(oct)){
-              oct <- 1:(ceiling(max(log2(x)))+1)
-              if(any(x < 1)){
-                octlower <- ceiling(min(log2((x)))+1):0
-                oct <- c(octlower, oct)
-              }
+                oct <- 0:(ceiling(max(log2(x)))+1)
+                if(any(x < 1)){
+                    octlower <- ceiling(min(log2((x)))):-1
+                    oct <- c(octlower, oct)
+                }
             }
-            n <- 2^(oct-1)
+            n <- 2^oct
             if(!is.na(trunc)){
               if(sad == "ls")
                 Y <- do.call(ptrunc, c(list(f=sad, q = n, coef=c(list(N = N),coef),trunc = trunc),dots))
@@ -477,13 +477,13 @@ setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
             if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
             if(rad=="gs") coef <- c(list(S=S),coef)
             if(missing(oct)){
-              oct <- 1:(ceiling(max(log2(x)))+1)
-              if(any(x < 1)){
-                octlower <- ceiling(min(log2((x)))+1):0
-                oct <- c(octlower, oct)
-              }
+                oct <- 0:(ceiling(max(log2(x)))+1)
+                if(any(x < 1)){
+                    octlower <- ceiling(min(log2((x)))):-1
+                    oct <- c(octlower, oct)
+                }
             }
-            n <- 2^(oct-1)
+            n <- 2^oct
             if(!is.na(trunc)){
               ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
             }
@@ -507,13 +507,13 @@ setMethod("octavpred", signature(object="numeric",sad="missing", rad="character"
             if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
             if(rad=="gs") coef <- c(list(S=S),coef)
             if(missing(oct)){
-              oct <- 1:(ceiling(max(log2(x)))+1)
-              if(any(x < 1)){
-                octlower <- ceiling(min(log2((x)))+1):0
-                oct <- c(octlower, oct)
-              }
+                oct <- 0:(ceiling(max(log2(x)))+1)
+                if(any(x < 1)){
+                    octlower <- ceiling(min(log2((x)))):-1
+                    oct <- c(octlower, oct)
+                }
             }
-            n <- 2^(oct-1)
+            n <- 2^oct
             if(!missing(trunc)){
               ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
             }
@@ -535,13 +535,13 @@ setMethod("octavpred", signature(object="numeric",sad="character", rad="missing"
             S <- length(x)
             N <- sum(x)
             if(missing(oct)){
-              oct <- 1:(ceiling(max(log2(x)))+1)
-              if(any(x < 1)){
-                octlower <- ceiling(min(log2((x)))+1):0
-                oct <- c(octlower, oct)
-              }
+                oct <- 0:(ceiling(max(log2(x)))+1)
+                if(any(x < 1)){
+                    octlower <- ceiling(min(log2((x)))):-1
+                    oct <- c(octlower, oct)
+                }
             }
-            n <- 2^(oct-1)
+            n <- 2^oct
             if(!missing(trunc)){
               if(sad == "ls")
                 Y <- do.call(ptrunc, c(list(f=sad, q = n, coef=c(list(N = N),coef),trunc = trunc),dots))
@@ -572,7 +572,7 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
             dots <- list(...)
             if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
             if(rad=="gs") coef <- c(list(S=S),coef)
-            n <- 2^(oct-1)
+            n <- 2^oct
             if(!missing(trunc)){
               ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
             }
@@ -592,7 +592,7 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
                                  coef="list", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, oct, S, N, ...){
             dots <- list(...)
-            n <- 2^(oct-1)
+            n <- 2^oct
             if(!missing(trunc)){
               if(sad == "ls")
                 Y <- do.call(ptrunc, c(list(f=sad, q = n, coef=c(list(N = N),coef),trunc = trunc),dots))

@@ -57,11 +57,11 @@ community. In the community the species abundances are independent
 random variables that follow a lognormal density function, with
 parameters (mu + ln(f), sigma) (Engen et al. 2002).
 
-Hence, a Poisson-exponential distribution is a model for species
+Hence, a Poisson-lognormal distribution is a model for species
 abundances distributions (SAD) in a sample taken from a community
 under the assumptions that (a) species
 abundances in the community are independent identically distributed
-exponential variables, (b) sampling is a Poisson proccess with expected
+lognormal variables, (b) sampling is a Poisson proccess with expected
 value E[x]= f*n where n is the abundance in the community and f the
 fraction of individuals sampled, (c) individuals are sampled with replacement, or the
 fraction of total individuals sampled is small enough to approximate a

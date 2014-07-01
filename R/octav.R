@@ -13,7 +13,7 @@ octav <- function(x, oct, preston=FALSE){
     }
   }
   else{
-      if(min(oct)>min(y)||max(oct)<max(y)) stop(" 'oct' should include all abundance values in 'x' ")
+      if(min(oct)>min(log2(y))||max(oct)<max(log2(y))) stop(" 'oct' should include all abundance values in 'x' ")
       oct <- min(oct):max(oct)
   }
   N <- 2^(oct)

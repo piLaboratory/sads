@@ -140,7 +140,7 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
   operations with rad models, such as
   comparison with other models through model selection,
   diagnostic plots and so on
-  (see \link{fitrad-methods}).
+  (see \link{fitrad-class}).
 
   \code{fitzipf} and \code{fitmand} fits the Zipf distribution and its
   two-parameter generalization, the Zipf-Mandelbrodt distribution. Both

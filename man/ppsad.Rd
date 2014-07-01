@@ -6,14 +6,14 @@
 \alias{ppsad}
 \alias{pprad}
 %% \alias{ppsad-methods}
-%% \alias{ppsad,fitsad-method}
+\alias{ppsad,fitsad-method}
 %% \alias{ppsad,fitsad,missing,missing-method}
 %% \alias{ppsad,fitsad,missing,missing,missing-method}
 \alias{ppsad,numeric-method}
 \alias{ppsad,numeric,character,list-method}
 \alias{ppsad,numeric,character,list,ANY-method}
 %% \alias{pprad-methods}
-%% \alias{pprad,fitrad-method}
+\alias{pprad,fitrad-method}
 %% \alias{pprad,fitrad,missing,missing-method}
 %% \alias{pprad,fitrad,missing,missing,missing,missing-method}
 \alias{pprad,rad-method}

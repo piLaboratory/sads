@@ -4,7 +4,8 @@
 
 \title{Frequencies of species in octaves}
 
-\description{Creates an object of \code{octav-class} from a vector
+\description{Creates an object of \code{octav-class} with number of
+  species in octaves of abundances from a vector
   of abundances or fitted model object.
 }
 
@@ -51,8 +52,8 @@
   \emph{Ecology 29}: 254--283.
 }
 
-\seealso{ \code{\link{octav-class}} for methods to create an octave plot 
-  plot; \code{\link{octavpred-methods}} to get a \code{octav} object of
+\seealso{ \code{\link{octav-class}} for methods to create an octave
+  plot; \code{\link{octavpred}} to get an \code{octav} object of
   predicted abundances from a theoretical distribution;  \code{\link{fitsad-class}} and
   \code{\link{fitrad-class}} objects, from which you can also get an
   object of class \code{octav}; man page of \code{prestonfit} in package \code{vegan} for a

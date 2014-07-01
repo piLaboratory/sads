@@ -190,7 +190,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   operations with sad or rad models, such as
   comparison with other models through model selection,
   diagnostic plots and so on
-  (see \link{fitsad-methods}).
+  (see \link{fitsad-class}).
 
   Function \code{fitpoilog} fits the Poisson-lognormal distribution.
   This is a compound distributions that describes the abundances

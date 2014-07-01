@@ -4,17 +4,18 @@
 
 \alias{fitrad-class}
 \alias{AICc,fitrad-method}
-\alias{octavpred,fitrad,missing,missing,missing,missing,ANY,missing,missing-method}
+%\alias{octavpred,fitrad,missing,missing,missing,missing,ANY,missing,missing-method}
 \alias{plot,fitrad,ANY-method}
-\alias{pprad,fitrad-method}
+%\alias{pprad,fitrad-method}
 \alias{pprad,fitrad,missing,missing-method}
 \alias{pprad,fitrad,missing,missing,missing,missing-method}
-\alias{qqrad,fitrad-method}
+%% \alias{qqrad,fitrad-method}
 \alias{qqrad,fitrad,missing,missing,missing,missing-method}
 %% \alias{octavpred,fitrad,missing,missing,missing,missing,ANY,missing,missing-method}
 %% \alias{radpred,fitrad,missing,missing,missing,missing,missing,missing,missing-method}
 
-\title{Class \code{"fitrad"} for maximun likelihood fitting of RADs models}
+\title{Class \code{"fitrad"} for maximum likelihood fitting species
+  rank-abundance distributions}
 
 \description{
   This class extends \code{mle2-class} to encapsulate models of species
@@ -72,17 +73,17 @@ Class \code{"\linkS4class{mle2}"}, directly.
     \item{octavpred}{\code{signature(object = "fitrad", sad = "missing",
 	rad = "missing", coef = "missing", trunc = "missing", oct = "ANY", S =
 	"missing", N = "missing")}: expected number of species per
-      abundance octave, see \code{\link{octav}} and \code{\link{octavpred-methods}}.} 
+      abundance octave, see \code{\link{octav}} and \code{\link{octavpred}}.} 
     \item{plot}{\code{signature(x = "fitrad", y = "ANY")}: diagnostic
       plots of the fitted model. }
     \item{pprad}{\code{signature(x = "fitrad", sad = "missing", coef =
 	"missing", trunc = "missing")}: plot of observed vs predicted
       percentiles of the abundance distribution, details in
-  \code{\link{ppsad}}. } 
+  \code{\link{pprad}}. } 
     \item{qqrad}{\code{signature(x = "fitrad", sad = "missing", coef =
 	"missing", trunc = "missing")}: plot of observed vs predicted
       quantiles of the abundance distribution, details in
-  \code{\link{qqsad}. } }
+  \code{\link{qqrad}. } }
     \item{radpred}{\code{signature(object = "fitrad", sad = "missing",
 	rad = "missing", coef = "missing", trunc = "missing", distr =
 	"missing", S = "missing", N = "missing")}: expected abundances
@@ -113,8 +114,8 @@ after Ben Bolker and  R Core Team.}
 
 \seealso{\code{\link{mle2-class}} for all methods available from which
   \code{fitrad-class} inherits; \code{\link{fitrad}} for details on
-  fitting RADs models; \code{\link{octavpred-methods}} and
-  \code{\link{radpred-methods}} to get predicted rank-abundance and octave
+  fitting RADs models; \code{\link{octavpred}} and
+  \code{\link{radpred}} to get predicted rank-abundance and octave
   plots from fitted models.
 }
 
