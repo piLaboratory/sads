@@ -5,7 +5,7 @@
 
 **Paulo I. Prado and Murilo Miranda**
 
-### Instalation
+### Installation
 
 Work in progress, planning to publish a first version in CRAN in June 2014.
 
@@ -19,7 +19,12 @@ or from the binaries at our [lab site](http://ecologia.ib.usp.br/let/doku.php?id
 
 
 ### Motivation
-Species abundance distributions (SADs) are one of the basic patterns of ecological communities. The empirical distributions are traditionally modelled through probability distributions. Hence, the maximum likelihood method can be used to fit and compare competing models for SADs. A proper model for SADs is hierarchical: it should take into account not only the abundances in the community but also the sampling process. This can be done by mixing two probability distributions, which results in a new distribution. 
+The distribution of abundances of species is one of the basic patterns of
+  ecological communities. The empirical distributions of abundances (SADs)
+  or their ranks (RADs) are traditionally
+  modelled through probability distributions. Hence, the maximum
+  likelihood method can be used to fit and compare competing models for
+  SADs and RADs.
 
 ### Features
  - Classic SAD models: logseries, lognormal, brokenstick, ... 
