@@ -1,6 +1,5 @@
 \name{qqsad and qqrad methods}
 
-
 \docType{methods}
 
 \alias{qqsad}
@@ -27,9 +26,9 @@
   rank-abundance models}
 
 \description{
-Plots empirical quantiles vs corresponding theoretical values
-expected by a model for species abundances (SAD) or a model for species abundance
-ranks (RAD).
+  Plots empirical quantiles vs corresponding theoretical values
+  expected by a model for species abundances (SAD) or a model for species abundance
+  ranks (RAD).
 }
 
 \section{Methods}{
@@ -37,27 +36,27 @@ ranks (RAD).
   \describe{
 
     \item{qqsad}{\code{signature(x = "fitsad", sad = "missing", coef =
-      "missing", trunc = "missing", distr = "missing", plot="ANY", line="ANY")}:
+	"missing", trunc = "missing", distr = "missing", plot="ANY", line="ANY")}:
       quantile-quantile plot for a fitted model of species abundances (a
       \code{\link{fitsad-class}} object). Only argument \code{x} should be provided
     }
     \item{qqsad}{\code{signature(x = "numeric", sad = "character", coef =
-      "list", trunc = "ANY", distr = "character", plot="ANY", line="ANY")}:
+	"list", trunc = "ANY", distr = "character", plot="ANY", line="ANY")}:
       quantile-quantile plot of a numeric vector of abundances (\code{x}) vs a species
       abundance distributions defined by the following arguments.
     }
     \item{qqrad}{\code{signature(x = "fitrad", rad = "missing", coef =
-      "missing", trunc = "missing", plot="ANY", line="ANY")}:
+	"missing", trunc = "missing", plot="ANY", line="ANY")}:
       quantile-quantile plot for a fitted model of species abundances
       ranks (a \code{\link{fitrad-class}} object). Only argument \code{x} should be provided
     }
     \item{qqrad}{\code{signature(x = "rad", rad = "character", coef =
-      "list", trunc = "ANY", plot="ANY", line="ANY")}:
+	"list", trunc = "ANY", plot="ANY", line="ANY")}:
       quantile-quantile plot of a table of abundance ranks (\code{x}) vs a species
       rank-abundance distribution defined by the following arguments.
     }    
     \item{qqrad}{\code{signature(x = "numeric", rad = "character", coef =
-      "list", trunc = "ANY", plot="ANY", line="ANY")}:
+	"list", trunc = "ANY", plot="ANY", line="ANY")}:
       quantile-quantile plot of a numeric vector of abundances (\code{x}) vs a species
       rank-abundance distribution defined by the following arguments.
     }
@@ -65,55 +64,57 @@ ranks (RAD).
 }
 
 \usage{
-\S4method{qqsad}{fitsad}(x, plot=TRUE, line=TRUE, ...)
+\S4method{qqsad}{fitsad}(x, plot=TRUE, line=TRUE, \dots)
 \S4method{qqsad}{numeric}(x, sad, coef, trunc=NA, distr, plot=TRUE,
-line=TRUE, ...)
-\S4method{qqrad}{fitrad}(x, plot=TRUE, line=TRUE, ...)
-\S4method{qqrad}{rad}(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...)
-\S4method{qqrad}{numeric}(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...)
+line=TRUE, \dots)
+\S4method{qqrad}{fitrad}(x, plot=TRUE, line=TRUE, \dots)
+\S4method{qqrad}{rad}(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, \dots)
+\S4method{qqrad}{numeric}(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, \dots)
 }
 
 \arguments{
   \item{x}{ 
     a numeric vector of abundances of
-  species or a fitted sad/rad model (object of \code{\link{fitsad-class}}
-  or \code{\link{fitrad-class}}, respectively). For \code{qqrad} this
-  argument can be also a rank-abundance table of \link{rad-class}.
+    species or a fitted sad/rad model (object of \code{\link{fitsad-class}}
+    or \code{\link{fitrad-class}}, respectively). For \code{qqrad} this
+    argument can be also a rank-abundance table of \code{\link{rad-class}}.
   }
   \item{sad, rad}{character; root name of sad or rad
-  distribution to calculate expected percentiles. See \code{\link{fitsad}} and
-  \code{\link{fitrad}} for available distributions.
+    distribution to calculate expected percentiles. See \code{\link{fitsad}} and
+    \code{\link{fitrad}} for available distributions.
   }
   \item{coef}{named list of numeric values; parameter values of the
     distribution given in \code{sad} or \code{rad}.
     Parameters should be named as in the corresponding density
     function, and in the same order
   }
-  \item{trunc}{non-negative integer, trunc > min(x); truncation point to fit a
+  \item{trunc}{non-negative integer, \code{trunc > min(x)}; truncation point to fit a
     truncated distribution.
   }
   \item{distr}{
     character; type of distribution given in \code{sad}: "D" for
-  discrete or "C" for continuous.
+    discrete or "C" for continuous.
   }
   \item{plot}{
-    logical; if 'TRUE' a percentile-percentile plot is produced. If not,
-    only a dataframe with theoretical and empirical values for percentiles of
+    logical; if \kbd{TRUE} a percentile-percentile plot is produced. If not,
+    only a data frame with theoretical and empirical values for percentiles of
     the data is invisibly returned.
   }
   \item{line}{
-    logical; if 'TRUE' and \code{plot} is 'TRUE', the equivalence line y=x with
+    logical; if \kbd{TRUE} and \code{plot} is \kbd{TRUE}, the equivalence line y=x with
     \code{abline(0,1)} is added to the plot. If not, no line is drawn.
   }
-  \item{...}{ further arguments to be passed to the \code{plot} function.
+  \item{\dots}{ further arguments to be passed to the \code{plot} function.
   }
 }
-  
+
 \keyword{methods}
 
 \references{
-Thas, O. 2010. Comparing distributions. Springer.
+  Thas, O. 2010. Comparing distributions. Springer.
 }
+
+\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
 
 \examples{
 ## An example with SADs

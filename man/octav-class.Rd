@@ -9,18 +9,19 @@
 \alias{points,octav-method}
 
 \title{Class \code{"octav"} for frequencies in abundance octaves}
+
 \description{ Data frame of frequencies of entities (usually species) in classes
-of logarithm of abundances at base 2 (Preston's octaves).
+  of logarithm of abundances at base 2 (Preston's octaves).
 }
 
 \section{Objects from the Class}{
-  Objects can be created by calls of the form \code{new("octav", ...)},
+  Objects can be created by calls of the form \code{new("octav", \dots)},
   but most often by a call to \code{\link{octav}} or \code{\link{octavpred}.}
 }
 
 \section{Slots}{
   \describe{
-    \item{\code{.Data}:}{Object of class \code{"list"} a dataframe of
+    \item{\code{.Data}:}{Object of class \code{"list"} a data frame of
       three vectors: octave number (factor), which is the upper
       limit of the class in log2; upper limit of the class in arithmetic
       scale (numeric); number of cases in each class (integer). }
@@ -53,19 +54,19 @@ of logarithm of abundances at base 2 (Preston's octaves).
 }
 
 \usage{
-\S4method{lines}{octav}(x, prop=FALSE, ...)
-\S4method{plot}{octav}(x, prop=FALSE, x.oct=FALSE, par.axis=list(), ...)
-\S4method{points}{octav}(x, prop=FALSE, ...)
+\S4method{lines}{octav}(x, prop=FALSE, \dots)
+\S4method{plot}{octav}(x, prop=FALSE, x.oct=FALSE, par.axis=list(), \dots)
+\S4method{points}{octav}(x, prop=FALSE, \dots)
 }
 
 \arguments{
   \item{x}{an object of class \code{octav}}
-  \item{prop}{logical; if 'TRUE' relative frequencies are returned.}
-  \item{x.oct}{logical; if 'TRUE' axis labels are octave numbers, if
-    'FALSE' upper limit of abundance class are used as labels.}
+  \item{prop}{logical; if \kbd{TRUE} relative frequencies are returned.}
+  \item{x.oct}{logical; if \kbd{TRUE} axis labels are octave numbers, if
+    \kbd{FALSE} upper limit of abundance class are used as labels.}
   \item{par.axis}{list; further graphical parameters for the plot axes.}
-  \item{...}{further parameters to be passed to \code{lines}, \code{points} or \code{plot}
-  functions (except axes in \code{plot}, which are set by \code{par.axis}.}
+  \item{\dots}{further parameters to be passed to \code{lines}, \code{points} or \code{plot}
+    functions (except axes in \code{plot}, which are set by \code{par.axis}.}
 }
 
 \references{
@@ -92,7 +93,7 @@ birds.oc <- octav(birds)
 ## default plot
 plot(birds.oc)
 
-## Using line and argument prop to superpose two datasets
+## Using line and argument prop to superpose two data sets
 ## Fisher's et al moth data and Preston's bird data
 moths.oc <- octav(moths)
 plot(moths.oc, col=NULL, border=NA, prop=TRUE)

@@ -64,7 +64,7 @@ qrbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
 
   where n(i) is the abundance in the i-th most abundant element
   (MacArthur 1960, May 1975).
-  Hence the probability (or expected proportion of occurences)
+  Hence the probability (or expected proportion of occurrences)
   in the i-th element is
 
   p(i) = n(i)/N = n(i) = (sum(from k=i to S) 1/k) / S
@@ -73,7 +73,7 @@ qrbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
   probabilities and quantiles based on the expression above, for p(i).
   Therefore, \code{[dpq]rbs} can be used as rank-abundance model
   for species ranks in a sample or biological community
-  see \code{\link{fitrad-class}}.
+  see \code{\link{fitrad}}.
 
   The probability density for a given abundance value in the Broken-stick model
   is given by 
@@ -83,9 +83,9 @@ qrbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
   Where x is the abundance of a given element in the collection (May 1975).
   \code{[dpq]bs} return probabilities and quantiles according to the
   expression above for p(x).
-  Therefore, \code{[dpq]bs} can be used as
+  Therefore, \code{[dpq]bs} can be used as a
   species abundance model
-  see \code{\link{fitsad-class}}.
+  see \code{\link{fitsad}}.
   }
 
 \value{
@@ -107,13 +107,11 @@ qrbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
   Communities}. Harvard University Press. pp 81--120.
   }
 
-\author{
-Paulo I. Prado and Murilo Dantas Miranda
-}
+\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
 
 \seealso{
-  \code{fitbs} and \code{fitrbs} to fit the Broken-stick distribution
-  as a sad and rad model of species abundances.
+  \code{\link{fitbs}} and \code{\link{fitrbs}} to fit the Broken-stick distribution
+  as a abundance (SAD) and rank-abundance (RAD) model.
 }
 
 \examples{

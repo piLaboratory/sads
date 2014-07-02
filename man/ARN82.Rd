@@ -6,7 +6,7 @@
 \title{Biomass of marine animals in colonizing experiments in Baltic Sea}
 
 \description{
-A numeric vector of biomass of species of benthic marine invertebrates that colonized experimental containers laid in the Baltic Sea.
+A numeric vector of biomass of species of benthonic marine invertebrates that colonized experimental containers laid in the Baltic Sea.
 }
 
 \usage{

@@ -6,7 +6,7 @@
 
 \description{Creates an object of \code{octav-class} with number of
   species in octaves of abundances from a vector
-  of abundances or fitted model object.
+  of abundances or from a fitted model.
 }
 
 \usage{octav(x, oct, preston=FALSE)}
@@ -37,7 +37,7 @@
 \details{Preston (1948) popularized the use of histograms with
   logarithmic classes to depict species abundance distributions
   (Magurran 1989). Preston used classes at log base two, which he called
-  'octaves' as their end-points double from one classe to the other. In
+  \sQuote{octaves} as their end-points double from one classe to the other. In
   Preston original method half of the species with abundances equal to the
   limits of octaves are credited to the neighboring octave. If
   \code{preston=TRUE} this non-standard method of class closure is
@@ -46,7 +46,7 @@
 
 \references{
   Magurran, A.E. 1989. \emph{Ecological diversity and its measurement}.
-  Princenton University Press.
+  Princeton University Press.
   
   Preston, F.W. 1948. The commonness and rarity of species.
   \emph{Ecology 29}: 254--283.
@@ -56,18 +56,18 @@
   plot; \code{\link{octavpred}} to get an \code{octav} object of
   predicted abundances from a theoretical distribution;  \code{\link{fitsad-class}} and
   \code{\link{fitrad-class}} objects, from which you can also get an
-  object of class \code{octav}; man page of \code{prestonfit} in package \code{vegan} for a
+  object of class \code{octav}; man page of \code{prestonfit} in package \pkg{vegan} for a
   detailed account of Preston's octaves and an alternative way to get
   octaves and fitting of species abundances distributions.  
 }
 
 \examples{
-## Preston (1948) Table I-B
-(bird.oc1 <- octav(birds, preston=TRUE))
+## BCI tree data
+(bci.oc1 <- octav(bci, preston=TRUE))
 ## Comparing with standard class closure
 par(mfrow=c(1,2))
-plot(octav(birds))
-plot(bird.oc1)
+plot(octav(bci), main="octav(bci, preston=FALSE)")
+plot(bci.oc1, main="octav(bci, preston=TRUE)")
 par(mfrow=c(1,1))
 }
 

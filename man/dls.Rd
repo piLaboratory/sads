@@ -2,10 +2,11 @@
 \alias{dls}
 \alias{pls}
 \alias{qls}
-\title{Fisher's Logseries Distribution}
+\title{Fisher's Log-series distribution}
 
 \description{
-Density, distribution function and quantile function for the Fisher's logseries probability distribution.
+Density, distribution function and quantile function for the Fisher's
+log-series probability distribution with parameter \code{alpha}.
 }
 \usage{
 dls( x, N , alpha, log=FALSE)
@@ -40,14 +41,14 @@ qls(p, N, alpha, lower.tail = TRUE, log.p = FALSE)
 
 \details{
 
-  The Fisher logseries is a limiting case of the Negative Binomial where
+  The Fisher log-series is a limiting case of the Negative Binomial where
   the dispersion parameter of the negative binomial tends to zero. It
   was originally proposed by Fisher (1943) to relate the expected number
   of species in a sample from a biological community to the sample size as:
 
   S = alpha * log(1 + N/alpha)
 
-  Where alpha is the single parameter of the logseries distribution,
+  Where alpha is the single parameter of the log-series distribution,
   often used as a diversity index. From this relation follows that the
   expected number of species with x individuals in the sample is
   
@@ -63,13 +64,13 @@ qls(p, N, alpha, lower.tail = TRUE, log.p = FALSE)
   the probability that a species has
   an abundance of x individuals in a random sample of size N of the
   community. In the community the species abundances are independent
-  random variables that follow a logseries distribution. Thus, a random
-  sample of a logseries is also a logseries distribution.
+  random variables that follow a log-series distribution. Thus, a random
+  sample of a log-series is also a log-series distribution.
   
-  Hence, a logseries distribution is a model for species
+  Hence, a log-series distribution is a model for species
   abundances distributions (SAD) under the assumptions that (a) species
   abundances in the community are independent identically distributed
-  logseries variables, (b) sampling is a Poisson proccess, (c)
+  log-series variables, (b) sampling is a Poisson process, (c)
   sampling is done with replacement, or the fraction
   sampled is small enough to approximate a sample with replacement.
 }
@@ -87,23 +88,24 @@ Invalid values for parameter \code{alpha} will result in return
   assumption of symmetry and the species abundance
   distribution. Ecology Letters, 11: 93-105.
   
-  Fisher, R.A, Corbert, A.S. and Williams, C.B. (1943) The Relation between the number of species and the number of individuals in a random sample of an animal population. The Journal of Animal Ecology, 12(1): 42--58.
+  Fisher, R.A, Corbert, A.S. and Williams, C.B. (1943) The Relation
+  between the number of species and the number of individuals in a
+  random sample of an animal population. The Journal of Animal Ecology,
+  12(1): 42--58.
 
   Green,J. and Plotkin, J.B. 2007 A statistical theory for sampling
   species abundances. Ecology Letters 10:1037--1045
-
 
   Pielou, E.C. 1977. Mathematical Ecology. New York: John Wiley
   and Sons.
 
 }
-\author{
-Paulo I. Prado and Murilo Miranda
-}
+
+\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
 
 \seealso{
   \code{dpois}, \code{dnbinom}, \code{\link{dpoig}}.
-  For for maximum likelihood estimation in the context of species
+  For maximum likelihood estimation in the context of species
   abundance distributions see \code{\link{fitls}}, \code{fisherfit} in \pkg{vegan} package
   and \code{fisher} in \pkg{untb} package.
 }
@@ -114,12 +116,12 @@ PDF <- dls(x=x, N=100, alpha=5)
 CDF <- pls(q=x, N=100, alpha=5)
 par(mfrow=c(1,2))
 plot(x,CDF, ylab="Cumulative Probability", type="b",
-     main="Logseries distribution, CDF")
+     main="Log-Series distribution, CDF")
 plot(x,PDF, ylab="Probability", type="h",
-     main="Logseries distribution, PDF")
+     main="Log-Series distribution, PDF")
 par(mfrow=c(1,1))
 
-## Fisher logseries is a discrete PDF, hence:
+## Fisher log-series is a discrete PDF, hence:
 all.equal(pls(10,N=1000,alpha=50), sum(dls(1:10,N=1000,alpha=50))) # should be TRUE
 
 ## qls is the inverse of pls

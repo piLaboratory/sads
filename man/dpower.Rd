@@ -8,7 +8,7 @@
 
 \description{
 Density, distribution function and quantile function for discrete
-version of power distribution with parameter 's'.
+version of power distribution with parameter \code{s}.
 }
 
 \usage{
@@ -20,7 +20,8 @@ qpower( p, s, lower.tail= TRUE, log.p=FALSE)
 \arguments{
   \item{x}{
     vector of (integer x>0) quantiles. In the context of
-    species abundance distributions, this is a vector of abundances of species in a sample.
+    species abundance distributions, this is a vector of abundances of
+    species in a sample. 
   }
   \item{q}{vector of (integer x>0) quantiles. In the context of
     species abundance distributions, a vector of
@@ -30,7 +31,7 @@ qpower( p, s, lower.tail= TRUE, log.p=FALSE)
     vector of probabilities.
   }
   \item{s}{
-    positive real s > 1; exponent of the power distribution
+    positive real s > 1; exponent of the power distribution.
   }
   \item{log, log.p}{
     logical; if TRUE, probabilities p are given as log(p).
@@ -43,7 +44,7 @@ qpower( p, s, lower.tail= TRUE, log.p=FALSE)
 
 \details{
   The power density is a discrete probability distribution defined for
-  integer x>0:
+  integer x > 0:
 
   p(x) = x^(-s) / zeta (s)
 
@@ -65,16 +66,14 @@ qpower( p, s, lower.tail= TRUE, log.p=FALSE)
 }
 
 \references{
-  Johnson N. L., Kemp, A. W. and Kotz S. (2005) Univariate Discrete
-  Distributions, 3rd edition, Hoboken, New Jersey: Wiley. Section 11.2.20. 
+  Johnson N. L., Kemp, A. W. and Kotz S. (2005) \emph{Univariate Discrete
+  Distributions}, 3rd edition, Hoboken, New Jersey: Wiley. Section 11.2.20. 
 }
 
-\author{
-Paulo I. Prado and Murilo Dantas Miranda
-}
+\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
 
 \seealso{
-'dzeta' in VGAM package; 'fitpower' for maximum likelihood estimation in
+\code{dzeta} in \pkg{VGAM} package; \code{\link{fitpower}} for maximum likelihood estimation in
 the context of species abundance distributions. 
 }
 

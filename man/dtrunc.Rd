@@ -14,12 +14,13 @@ dtrunc(f, x, trunc, coef, log = FALSE)
 ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
 qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
 }
+
 \arguments{
 
   \item{f}{
     character;
     root name of the density or distribution function to be truncated
-    - e.g., "lnorm" for the lognormal distribution; "geom" for the geometric distribution.
+    - e.g., \kbd{"lnorm"} for the lognormal distribution; \kbd{"geom"} for the geometric distribution.
   }
   
   \item{x, q}{
@@ -27,7 +28,7 @@ qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
   }
   
   \item{trunc}{
-    numeric, trunc>min(x). Truncation value (see details).
+    numeric, \code{trunc > min(x)}. Truncation value (see details).
   }
   
   \item{p}{
@@ -73,7 +74,7 @@ qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
   g'(x) and G'(x) defined above for
   a vector of values \code{x} from any
   standard distribution function available in R.
-  This means that the "upper tail" of a continuous distribution
+  This means that the 'upper tail' of a continuous distribution
   is rescaled to integrate to one.
   Accordingly, for discrete distributions, the probabilities
   for all \code{x}>trunc are rescaled to sum one.
@@ -92,19 +93,19 @@ qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
 
 \seealso{
   Distributions for standard distributions in R;
-  many functions in package 'sads' have an argument \code{trunc} that
+  many functions in package \pkg{sads} have an argument \code{trunc} that
   allows to simulate and fit truncated
   distributions
-  for species abundance distributions (e.g., \link{fitsad}
-  \link{rsad}, \link{radpred}, \link{octavpred}.
+  for species abundance distributions (e.g., \code{\link{fitsad}}
+  \code{\link{rsad}}, \code{\link{radpred}}, \code{\link{octavpred}}.
   Package 'VGAM' has truncated versions of many standard functions;
-  see \code{Truncate-methods} in package 'distr'for  general
+  see \code{Truncate-methods} in package \pkg{distr} for  general
   methods to build R objects of truncated distributions.
 }
 
 \source{
   Codes from Nadarajah and Kotz (2006),
-  which is a more generic solution
+  which provide a more generic solution
   for left and right truncation.
 }
 

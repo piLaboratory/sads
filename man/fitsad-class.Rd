@@ -13,8 +13,8 @@
 %\alias{octavpred,fitsad,missing,missing,missing,missing,ANY,missing,missing-method}
 %\alias{radpred,fitsad,missing,missing,missing,missing,missing,missing,missing-method}
 
-\title{Class \code{"fitsad"} for maximum likelihood fitting
-species abundance distributions}
+\title{Class \code{"fitsad"} for maximum likelihood fitting of
+  species abundance distributions}
 
 \description{
   This class extends \code{mle2-class} to encapsulate models of species
@@ -22,8 +22,8 @@ species abundance distributions}
 }
 
 \section{Objects from the Class}{
-Objects created by a call to function \code{\link{fitsad}}, which fits a
-probability distribution to an abundance vector.
+  Objects created by a call to function \code{\link{fitsad}}, which fits a
+  probability distribution to an abundance vector.
 }
 
 \section{Slots}{
@@ -58,7 +58,7 @@ probability distribution to an abundance vector.
 
 
 \section{Extends}{
-Class \code{"\linkS4class{mle2}"}, directly.
+  Class \code{"\linkS4class{mle2}"}, directly.
 }
 
 \section{Methods}{
@@ -74,15 +74,15 @@ Class \code{"\linkS4class{mle2}"}, directly.
     \item{ppsad}{\code{signature(x = "fitsad", sad = "missing", coef =
 	"missing", trunc = "missing")}: plot of observed vs predicted
       percentiles of the abundance distribution, details in
-  \code{\link{ppsad}}. } 
+      \code{\link{ppsad}}. } 
     \item{qqsad}{\code{signature(x = "fitsad", sad = "missing", coef =
 	"missing", trunc = "missing", distr = "missing")}: plot of observed vs predicted
       quantiles of the abundance distribution, details in
-  \code{\link{qqsad}. } }
+      \code{\link{qqsad}. } }
     \item{radpred}{\code{signature(object = "fitsad", sad = "missing",
 	rad = "missing", coef = "missing", trunc = "missing", distr =
 	"missing", S = "missing", N = "missing")}: expected abundances
-      of the 1st to n-th most abundant species, see \code{\link{rad}} and \code{\link{radpred-methods}}. }
+      of the 1st to n-th most abundant species, see \code{\link{rad}} and \code{\link{radpred}}. }
   }
 }
 
@@ -93,7 +93,7 @@ Class \code{"\linkS4class{mle2}"}, directly.
 }
 
 \author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda,
-after Ben Bolker and  R Core Team.}
+  after Ben Bolker and  R Core Team.}
 
 
 \note{Class \code{fitsad} only adds three slots to class
@@ -103,15 +103,16 @@ after Ben Bolker and  R Core Team.}
   'Methods' section.
 }
 
-\source{this class builds on \code{mle2-class} of 'bbmle' package (Bolker
+\source{this class builds on \code{mle2-class} of \pkg{bbmle} package (Bolker
   2012), which in turn builds on \code{mle-class}. 
 }
 
 \seealso{\code{\link{mle2-class}} for all methods available from which
   \code{fitsad-class} inherits; \code{\link{fitsad}} for details on
   fitting SADs models; \code{\link{octavpred}} and
-  \code{\link{radpred-methods}} to get predicted rank-abundance and octave
-  plots from fitted models.
+  \code{\link{radpred}} to get rank-abundance and
+  frequencies of species in octaves predicted 
+  from fitted models.
 }
 
 \examples{

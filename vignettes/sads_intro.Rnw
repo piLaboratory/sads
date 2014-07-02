@@ -17,7 +17,7 @@
 \newcommand{\R}{{\sf R}}
 \newcommand{\code}[1]{\texttt{#1}}
 \SweaveOpts{eval=TRUE, keep.source=TRUE, echo=TRUE}
-
+%\VignetteIndexEntry{Using sads}
 
 \begin{document}
 
@@ -25,7 +25,7 @@
 \author{Paulo In\'acio Prado and  Murilo Dantas Miranda \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
   \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
 
-\date{April, 24, 2014}
+\date{July, 01, 2014}
 
 \maketitle
 
@@ -400,5 +400,5 @@ par(mfrow=c(1,1))
 
 
 \bibliographystyle{ecology}
-\bibliography{sads_quick_reference}
+\bibliography{sads_intro}
 \end{document}

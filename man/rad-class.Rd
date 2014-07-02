@@ -17,13 +17,13 @@
 }
 
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("rad", ...)}, but
-most often by a call to \code{\link{rad}} or \code{\link{radpred}}.
+  Objects can be created by calls of the form \code{new("rad", ...)}, but
+  most often by a call to \code{\link{rad}} or \code{\link{radpred}}.
 }
 
 \section{Slots}{
   \describe{
-    \item{\code{.Data}:}{Object of class \code{"list"}; a dataframe of
+    \item{\code{.Data}:}{Object of class \code{"list"}; a data frame of
       two vectors: abundance rank of each species (integer), from most abundant
       (rank=1) to the least abundant (rank=length(rank)); abundance of each
       species (numeric)}
@@ -38,10 +38,10 @@ most often by a call to \code{\link{rad}} or \code{\link{radpred}}.
 }
 
 \section{Extends}{
-Class \code{"\linkS4class{data.frame}"}, directly.
-Class \code{"\linkS4class{list}"}, by class "data.frame", distance 2.
-Class \code{"\linkS4class{oldClass}"}, by class "data.frame", distance 2.
-Class \code{"\linkS4class{vector}"}, by class "data.frame", distance 3.
+  Class \code{"\linkS4class{data.frame}"}, directly.
+  Class \code{"\linkS4class{list}"}, by class "data.frame", distance 2.
+  Class \code{"\linkS4class{oldClass}"}, by class "data.frame", distance 2.
+  Class \code{"\linkS4class{vector}"}, by class "data.frame", distance 3.
 }
 
 \section{Methods}{
@@ -62,23 +62,23 @@ Class \code{"\linkS4class{vector}"}, by class "data.frame", distance 3.
   }
 }
 
-       
+
 \references{
   Whittaker, R. H. 1965, Dominance and Diversity in Land Plant
   Communities. \emph{Science, 147}: 250--260. 
 }
 
 \author{
-  Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda
+  Paulo I. Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda
 }
 
 \seealso{\code{\link{rad}} to get an object of the class from a vector
-  of abundances; \code{\link{radpred-methods}} to get a \code{rad} object of predicted abundances from a
-    theoretical distribution, \code{\link{qqrad}} for quantile-quantile plots from a
-    \code{rad} object, and \code{\link{pprad}} for
-    percentile-percentile plots.
-  }
-  
+  of abundances; \code{\link{radpred}} to get a \code{rad-class} object of predicted abundances from a
+  theoretical distribution, \code{\link{qqrad}} for quantile-quantile plots from a
+  \code{rad-class} object, and \code{\link{pprad}} for
+  percentile-percentile plots.
+}
+
 \examples{
 ## Creates a rad object from a vector of abundances
 birds.rad <- rad(birds)
@@ -89,7 +89,7 @@ plot(birds.rad)
 ## Same, with non-default graphical parameters
 plot(birds.rad, pch=19, xlab="Abundance rank of species")
 
-## Adding point from another dataset
+## Adding points from another data set
 points(rad(okland), pch=19)
 }
 

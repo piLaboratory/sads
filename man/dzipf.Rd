@@ -6,8 +6,8 @@
 \title{Zipf distribution}
 
 \description{
-Density, distribution function and quantile function for
-Zipf distribution with parameters \code{N} and \code{s}.
+  Density, distribution function and quantile function for
+  Zipf distribution with parameters \code{N} and \code{s}.
 }
 
 \usage{
@@ -45,21 +45,21 @@ qzipf( p, N, s, lower.tail = TRUE, log.p = FALSE)
 
 \details{
   The Zipf distribution describes the probability or frequency of occurrence
-  of a given element from a set of 'N' elements. According to Zipf's
-  law, this probability  is inversely proportional to a power 's' of the frequency
+  of a given element from a set of \code{N} elements. According to Zipf's
+  law, this probability  is inversely proportional to a power \code{s} of the frequency
   rank of the element in the set. The density function is
 
   p(x) = (x^(-s)) / sum((1:N)^(-s))
 
-  Since p(x) is proportional to a power of 'x', the Zipf distribution is a
-  power distribution. The Zeta distribution is a special case when
-  N=Inf.
+  Since p(x) is proportional to a power of \code{x}, the Zipf distribution is a
+  power distribution. The Zeta distribution is a special case at the limit
+  N -> Inf.
 
   The Zipf distribution has a wide range of applications (Li 2011). One
   of its best know application is to describe the probability
-  of occurrence of a given word that has a ranking 'x' in a \emph{corpus} that has a total of 'N'
+  of occurrence of a given word that has a ranking \code{x} in a \emph{corpus} that has a total of \code{N}
   words. It can be used as well to describe the probability of the
-  abundance rank of a given species in a sample or assemblage of 'N' species.
+  abundance rank of a given species in a sample or assemblage of \code{N} species.
 }
 
 \value{
@@ -69,8 +69,8 @@ qzipf( p, N, s, lower.tail = TRUE, log.p = FALSE)
 
 \references{
 
-  Johnson N. L., Kemp, A. W. and Kotz S. (2005) Univariate Discrete
-  Distributions, 3rd edition, Hoboken, New Jersey: Wiley. Section
+  Johnson N. L., Kemp, A. W. and Kotz S. (2005) \emph{Univariate Discrete
+  Distributions}, 3rd edition, Hoboken, New Jersey: Wiley. Section
   11.2.20. 
 
   Li, W. (2011). Zipf's Law
@@ -79,14 +79,12 @@ qzipf( p, N, s, lower.tail = TRUE, log.p = FALSE)
   Zipf's Law. \url{http://en.wikipedia.org/wiki/Zipf's_law}.
 }
 
-\author{
-Paulo I. Prado and Murilo Dantas Miranda
-}
+\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
 
 \seealso{
-\code{dzipf} and \code{rzipf} and related functions in \pkg{zipfR} package; \code{Zeta} for
-zeta distribution in
-\pkg{VGAM} package.
+  \code{dzipf} and \code{rzipf} and related functions in \pkg{zipfR} package; \code{Zeta} for
+  zeta distribution in \pkg{VGAM} package. \code{\link{fitzipf}} to fit
+  Zipf distribution as a rank-abundance model.
 }
 
 \examples{

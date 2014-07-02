@@ -6,18 +6,18 @@
 \alias{fitrbs}
 \alias{fitzipf}
 
-\title{ML fiting of species rank-abundance distributions}
+\title{ML fitting of species rank-abundance distributions}
 
 \description{Fits probability distributions for abundance ranks
   of species in a sample or assemblage by maximum likelihood.
 }
 
 \usage{
-fitrad(x, rad =c("gs", "mand", "rbs", "zipf"), ...)
-fitgs(x, trunc, ...)
-fitmand(x, trunc, start.value, ...)
-fitrbs(x, trunc, ...)
-fitzipf(x, N, trunc, start.value, upper = 20, ...)
+fitrad(x, rad =c("gs", "mand", "rbs", "zipf"), \dots)
+fitgs(x, trunc, \dots)
+fitmand(x, trunc, start.value, \dots)
+fitrbs(x, trunc, \dots)
+fitzipf(x, N, trunc, start.value, upper = 20, \dots)
 }
 
 \arguments{
@@ -31,15 +31,15 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
   }
   \item{rad}{
     character; root name of community rad distribution to be fitted.
-    "gs" for geometric series (not geometric distribution,
+    \kbd{"gs"} for geometric series (not geometric distribution,
     \code{\link{dgeom}}),
-    "mand" for Zipf-Mandelbrodt distribution,
-    "rbs" for MacArthur's Broken-stick distribution,
-    "zipf" for Zipf distribution.
+    \kbd{"mand"} for Zipf-Mandelbrodt distribution,
+    \kbd{"rbs"} for MacArthur's Broken-stick distribution,
+    \kbd{"zipf"} for Zipf distribution.
   }
 
   \item{trunc}{
-    non-negative integer, trunc > min(x); truncation point to fit a
+    non-negative integer, \code{trunc > min(x)}; truncation point to fit a
     truncated distribution.
   }
 
@@ -70,10 +70,10 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
   \item{upper}{
     real positive; upper bound for the Brent's one-parameter optimization
     method (default), for fits that use this method by default. See
-    details and \link{optim}.
+    details and \code{optim}.
   }
   
-  \item{...}{
+  \item{\dots}{
     in fitrad further arguments to be passed to the specific fitting
     function (most used are \code{trunc} and
     \code{start.value}%%and\code{trueLL}
@@ -86,7 +86,7 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
   An object of \code{\link{fitrad-class}} which inherits from \code{mle2-class}
   and thus has methods for handling
   results of maximum likelihood fits from \code{mle2}
-  and also specific methods to handle RADs models.
+  and also specific methods to handle rank-abundance models.
 }
 
 \details{
@@ -96,55 +96,55 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
   the expected proportion of total individuals in the sample that are of
   the i-th species.
   
-  \code{fitrad} is simply a wraper that calls the specific functions to fit
+  \code{fitrad} is simply a wrapper that calls the specific functions to fit
   the distribution chosen with the argument \code{rad}. Users
   can interchangeably use \code{fitrad} or the individual functions
   detailed below 
-  (e.g. \code{fitrad(x, sad="rbs", ...)} is the same as
-  \code{fitrbs(x, ...)} and so on).
+  (e.g. \code{fitrad(x, sad="rbs", \dots)} is the same as
+  \code{fitrbs(x, \dots)} and so on).
   
   The distributions are fitted by the
   maximum likelihood method using numerical optimization,
   with \code{mle2}.
-  The result object is of new class \code{fitrad}
+  The resulting object is of \code{fitrad-class}
   which can be handled with \code{mle2} methods
   for fitted models and has also some additional
   methods for RADs models (see
-  \link{fitrad-class} and examples).
+  \code{\link{fitrad-class}} and examples).
   By default, fitting to one-parameter distributions (\code{fitgs},
-  \code{fitzipf}) use Brent's one-dimensional method of optimization (see
-  \link{optim}).
+  \code{fitzipf}) uses Brent's one-dimensional method of optimization (see
+  \code{\link{optim}}).
 
   \code{fitgs} fits Motomura's  Geometric Series (Whittaker
   1965, May 1975) to abundance ranks. 
   This was the first model fitted to species
-  abundance data (Motomura 1932, apud Doi and Mori 2012),
+  abundance data (Motomura 1932, \emph{apud} Doi and Mori 2012),
   which was subsequently described as the result
-  of niche pre-emption at a constant rate (Numata et. al. 1953 apud Doi
+  of niche pre-emption at a constant rate (Numata et. al. 1953 \emph{apud} Doi
   and Mori 2012). 
   
-    
+  
   \code{fitrbs} fits the Broken-stick distribution
   (MacArthur 1960) to abundance ranks. It is defined only by the observed number of
-  elements S in the collection and collection size N.
+  elements \code{S} in the collection and collection size \code{N}.
   Therefore, once a sample is taken,
   the Broken-stick has no free parameters.
-  Therefore, there is no actual "fitting", but still
+  Therefore, there is no actual fitting, but still
   the \code{fitrbs} calls
   \code{mle2} with
   fixed parameters N and S and \code{eval.only=TRUE}
-  to return an object of classes \code{fitrad}
+  to return an object of \code{fitrad-class}
   to keep compatibility with other
-  rad models fitted to the same data.
+  RAD models fitted to the same data.
   Therefore the resulting objects allows most of the
-  operations with rad models, such as
+  operations with RAD models, such as
   comparison with other models through model selection,
   diagnostic plots and so on
   (see \link{fitrad-class}).
 
-  \code{fitzipf} and \code{fitmand} fits the Zipf distribution and its
+  \code{fitzipf} and \code{fitmand} fit the Zipf distribution and its
   two-parameter generalization, the Zipf-Mandelbrodt distribution. Both
-  are discrete power-law distributions commonly proposed as rad models,
+  are discrete power-law distributions commonly proposed as RAD models,
   though they in general provide poor fit to species abundances (Newman 2005).
   
 }
@@ -168,7 +168,7 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
   Newman, M.E.J. 2005. Power laws, Pareto distributions and Zipf's law.
   \emph{Contemporary Physics, 46:} 323--351.
   
-  Whittaker, R. H. 1965. Dominance and diversity in land plant
+  Whittaker, R.H. 1965. Dominance and diversity in land plant
   communities. \emph{Science 147}: 250--260.
   
 }
@@ -179,10 +179,10 @@ fitzipf(x, N, trunc, start.value, upper = 20, ...)
 }
 
 \seealso{
-  \link{dgs}, \link{dmand}, \link{drbs},
-  \link{zipf},
+  \code{\link{dgs}}, \code{\link{dmand}}, \code{\link{drbs}},
+  \code{\link{dzipf}},
   for corresponding density functions created for fitting RADs;
-  \link{fitrad-class}.
+  \code{\link{fitrad-class}}.
 }
 
 \examples{
