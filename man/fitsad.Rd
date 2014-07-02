@@ -13,66 +13,64 @@
 \alias{fitvolkov}
 \alias{fitweibull}
 
-\title{ML fiting of species abundance distributions}
+\title{ML fitting of species abundance distributions}
 
 \description{Fits probability distributions for
   abundances of species in a sample or assemblage by maximum likelihood.
 }
 
 \usage{
-fitsad(x,
-sad =
-  c("bs",
-  "gamma","geom","lnorm","ls","mzsm","nbinom","pareto","poilog","power","weibull","volkov"), ...)
+fitsad(x, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
+       "poilog","power","weibull","volkov"), \dots)
 
-fitbs(x, trunc, ...)
+fitbs(x, trunc, \dots)
 
-fitgamma(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
+fitgamma(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
 
-fitgeom(x, trunc = 0, start.value, ...)
+fitgeom(x, trunc = 0, start.value, \dots)
 
-fitlnorm(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
+fitlnorm(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
 
-fitls(x, trunc, start.value, upper = length(x), ...)
+fitls(x, trunc, start.value, upper = length(x), \dots)
 
-fitmzsm(x, trunc, start.value, upper = length(x), ...)
+fitmzsm(x, trunc, start.value, upper = length(x), \dots)
 
-fitnbinom(x, trunc, start.value, ...)
+fitnbinom(x, trunc, start.value, \dots)
 
-fitpareto(x, trunc, start.value, trueLL = TRUE, dec.places = 0, upper = 20, ...)
+fitpareto(x, trunc, start.value, trueLL = TRUE, dec.places = 0, upper = 20, \dots)
 
-fitpoilog(x, trunc = 0, ...)
+fitpoilog(x, trunc = 0, \dots)
 
-fitpower(x, trunc, start.value, upper = 20, ...)
+fitpower(x, trunc, start.value, upper = 20, \dots)
 
-fitvolkov(x, trunc, start.value, ...)
+fitvolkov(x, trunc, start.value, \dots)
 
-fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
+fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
 }
 
 \arguments{
   \item{x}{vector of (positive integer) quantiles. In the context of
-    sads, some abundance measurement (e.g., number of individuals,
+    SADs, some abundance measurement (e.g., number of individuals,
     biomass) of species in a sample or ecological assemblage.
   }
   \item{sad}{
     character; root name of community sad distribution to be fitted.
-    "gamma" for gamma distribution,
-    "geom" for geometric distributions (not geometric series rad model,
-    \link{dgs}),
-    "lnorm" for logmormal,
-    "ls" for Fisher's logseries,
-    "mzsm" for Alonso & McKane's neutral metacommunity distribution,
-    "nbinom" for negative binomial,
-    "pareto" for Pareto distribution,
-    "poilog" for Poisson-lognormal distribution,
-    "power" for power-law distribution,
-    "volkov" for Volkov's et al. neutral community distribution,
-    "weibull" for Weibull distribution.
+    \kbd{"gamma"} for gamma distribution,
+    \kbd{"geom"} for geometric distributions (not geometric series rad model,
+    \code{\link{dgs}}),
+    \kbd{"lnorm"} for lognormal,
+    \kbd{"ls"} for Fisher's log-series,
+    \kbd{"mzsm"} for Alonso & McKane's neutral metacommunity distribution,
+    \kbd{"nbinom"} for negative binomial,
+    \kbd{"pareto"} for Pareto distribution,
+    \kbd{"poilog"} for Poisson-lognormal distribution,
+    \kbd{"power"} for power-law distribution,
+    \kbd{"volkov"} for Volkov's et al. neutral community distribution,
+    \kbd{"weibull"} for Weibull distribution.
   }
 
   \item{trunc}{
-    non-negative integer, trunc > min(x); truncation point to fit a
+    non-negative integer, \code{trunc > min(x)}; truncation point to fit a
     truncated distribution.
   }
 
@@ -85,7 +83,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   }
   
   \item{trueLL}{
-    logical; use 'true likelihood' for continuous models? (see \link{trueLL}).
+    logical; use \sQuote{true likelihood} for continuous models? (see \code{\link{trueLL}}).
   }
 
   \item{dec.places}{
@@ -94,47 +92,47 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
     decimals. This argument defines the measurement precision for
     abundance variables. Used for continuous distributions when
     argument \code{trueLL=TRUE} 
-    (see details and \link{trueLL}).
+    (see details and \code{\link{trueLL}}).
   }
 
   \item{upper}{
     real positive; upper bound for the Brent's one-parameter optimization
     method (default), for fits that use this method by default. See
-    details and \link{optim}.
+    details and \code{optim}.
   }
-  \item{...}{
-    in fitsad further arguments to be passed to the specific fitting
+  \item{\dots}{
+    in \code{fitsad} further arguments to be passed to the specific fitting
     function (most used are \code{trunc}, \code{start.value} and
     \code{trueLL}). 
     In the specific fitting functions further
     arguments to be passed to \code{mle2}.
-    }
   }
-  
+}
+
 \value{
-  An object of class \code{fitsad} which inherits from \code{mle2}
-  class and thus has methods for handling
+  An object of \code{fitsad-class} which inherits from \code{mle2-class}
+  and thus has methods for handling
   results of maximum likelihood fits from \code{mle2}
   and also specific methods to handle SADs models
-  (see \link{fitsad-class}).
+  (see \code{\link{fitsad-class}}).
 }
 
 \details{
-  \code{fitsad} is simply a wraper that calls the specific functions to fit
+  \code{fitsad} is simply a wrapper that calls the specific functions to fit
   the distribution chosen with the argument \code{sad}. Users
   can interchangeably use \code{fitsad} or the individual functions
   detailed below 
-  (e.g. \code{fitsad(x, sad="geom", ...)} is the same as
-  \code{fitgeom(x, ...)} and so on).
+  (e.g. \code{fitsad(x, sad="geom", \dots)} is the same as
+  \code{fitgeom(x, \dots)} and so on).
   
   The distributions are fitted by the
   maximum likelihood method using numerical optimization,
   with \code{mle2}.
-  The result object is of new class \code{fitsad}
+  The result object is of \code{fitsad-class}
   which can be handled with \code{mle2} methods
   for fitted models and has also some additional
   methods for SADs models (see
-  \link{fitsad-class} and examples).
+  \code{\link{fitsad-class}} and examples).
   
   Functions \code{fitgamma}, \code{fitlnorm}, \code{fitweibull}, fit the
   standard continuous distributions most used as SADs models.
@@ -143,7 +141,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   By default, all continuous distributions
   are fit using the
   correct likelihood for independent observations of a
-  continuous variable (Lindsey 1999, see \link{trueLL}).
+  continuous variable (Lindsey 1999, see \code{\link{trueLL}}).
   Hence, the correct number of decimal places of the abundance
   measure must be given in the argument \code{dec.places}.
   A warning message reminds users about that when \code{trueLL=TRUE}.
@@ -154,71 +152,71 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   value x will be calculated as CDF(x + 0.5) - CDF( x - 0.5 ), where CDF
   is the cumulative density function of the continuous distribution.
   
-  Functions \code{fitgeom}, \code{fitnbinom} are two discrete
+  Functions \code{fitgeom}, \code{fitnbinom} fits geometric and negative
+  binomial distributions which are two discrete
   standard distributions also used to fit SADs. Since species
   with zero individuals in the sample are in general unknown,
   these functions fit by default zero-truncated distributions.
   Using the geometric distribution as a SAD model is not to be
-  confounded to fitting the Geometric series \link{fitgeom}
-  as a rank-abundance
-  distribution (RAD) model.
+  confounded to fitting the Geometric series \code{\link{fitgs}}
+  as a rank-abundance distribution (RAD) model.
 
   Function \code{fitls} implements the original numerical recipe by Fisher (1943) to
-  fit the logseries distribution, given a vector of species abundances.
+  fit the log-series distribution, given a vector of species abundances.
   Alonso et al. (2008,
   supplementary material) showed that this recipe gives the maximum
-  likelihood estimate of Fisher's alpha, the single parameter of the logseries.
+  likelihood estimate of Fisher's alpha, the single parameter of the log-series.
   Fitting is done through numerical optimization with the \code{uniroot}
   function, following the code of the function \code{fishers.alpha} of the
-  'untb' package. After that, fitted value of the alpha parameter is
-  use to get the Log-likelihood from the logseries density
+  \pkg{untb} package. After that, the estimated value of alpha parameter is
+  use as the starting value to get the Log-likelihood from the lamaseries density
   function \code{dls}, using the function \code{mle2}.
 
   Function \code{fitbs} fits the Broken-stick distribution
   (MacArthur 1960). It is defined only by the observed number of
-  elements S in the collection and collection size N.
+  elements \code{S} in the collection and collection size \code{N}.
   Therefore, once a sample is taken,
   the Broken-stick has no free parameters.
-  Therefore, there is no actual "fitting", but still
-  the \code{fitbs} calls
+  Therefore, there is no actual fitting, but still
+  \code{fitbs} calls
   \code{mle2} with
-  fixed parameters N and S and \code{eval.only=TRUE}
+  fixed parameters \code{N} and \code{S} and \code{eval.only=TRUE}
   to return an object of classes \code{fitsad}
-  or \code{fitrad} to keep compatibility with other
-  sad and rad models fitted to the same data.
+  to keep compatibility with other
+  SADs models fitted to the same data.
   Therefore the resulting objects allows most of the
-  operations with sad or rad models, such as
+  operations with SAD models, such as
   comparison with other models through model selection,
   diagnostic plots and so on
-  (see \link{fitsad-methods}).
+  (see \code{\link{fitsad-class}}).
 
   Function \code{fitpoilog} fits the Poisson-lognormal distribution.
   This is a compound distributions that describes the abundances
   of species in Poisson sample of community that follows a
   lognormal SAD. This is a sampling model of SAD, which is
-  approximated by the 'veil line' truncation of the lognormal
-  (Preston (1948)). The Poisson-lognormal is the analytical
-  solution for this sampling model, as Fisher's logseries
-  is a analytical limit case for a Poisson-gamma
+  approximated by the \sQuote{veil line} truncation of the lognormal
+  (Preston 1948). The Poisson-lognormal is the analytic
+  solution for this sampling model, as Fisher's log-series
+  is a analytic limit case for a Poisson-gamma
   (a.k.a negative binomial) distribution. As geometric and
   negative binomial distributions, the Poisson-lognormal
   includes zero, but the fit is zero-truncated
   by default, as for \code{fitgeom}, \code{fitnbinom}.
   
   \code{fitmzsm} fits the metacommunity Zero-sum multinomial distribution
-  \link{dmzsm} from the Neutral Theory of Biodiversity
+  \code{\link{dmzsm}} from the Neutral Theory of Biodiversity
   (Alonso and McKane 2004). The mZSM describes the SAD of a sample
   taken from a neutral metacommunity under random drift.
   It has two parameters,
-  the number of individuals in the sample (J) and theta,
-  the 'fundamental biodiversity number'.
-  Because J is known from the sample size,
+  the number of individuals in the sample \code{J} and \code{theta},
+  the \sQuote{fundamental biodiversity number}.
+  Because \code{J} is known from the sample size,
   the fit resumes to estimate a single
-  parameter, theta. By default, \code{fitmzsm} fits mZSM to a vector of abundances
+  parameter, \code{theta}. By default, \code{fitmzsm} fits mZSM to a vector of abundances
   with Brent's one-dimensional method of optimization (see
-  \link{optim}). The logseries distribution (Fisher et al. 1943)
-  is a limiting case of mZSM (Hubbel 2001), and theta tends to
-  Fisher's alpha as J increases. In practice
+  \code{optim}). The log-series distribution (Fisher et al. 1943)
+  is a limiting case of mZSM (Hubbel 2001), and \code{theta} tends to
+  Fisher's alpha as \code{J} increases. In practice
   the two models provide very similar fits to SADs (see example).
 
   Function \code{fitvolkov} fits the SAD model for a community
@@ -228,10 +226,11 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   a stochastic process compatible with the Neutral Theory
   of Biodiversity (Hubbell 2001). It 
   has two
-  free parameters, the 'fundamental biodiversity number' theta, and the
-  immigration rate m (see \link{dvolkov})
-  \code{fitvolkov} builds on \code{untb::volkov} function to
-  fit Volkov's et al SAD model to a vector of abundances.
+  free parameters, the \sQuote{fundamental biodiversity number} \code{theta}, and the
+  immigration rate \code{m} (see \code{\link{dvolkov}})
+  \code{fitvolkov} builds on function \code{volkov} from package
+  \pkg{untb} to
+  fit Volkov's \emph{et al.} SAD model to a vector of abundances.
   The fit can be extremely slow even for vectors
   of moderate size.
 }
@@ -243,7 +242,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
 
   Alonso, D. and Ostling, A., and Etienne, R.S. 2008 The implicit
   assumption of symmetry and the species abundance
-  distribution. Ecology Letters, 11: 93-105.
+  distribution. \emph{Ecology Letters, 11}: 93-105.
 
   Bolker, B. and R Development Core Team 2012. bbmle: Tools for
   general maximum likelihood estimation. R package version 1.0.5.2.
@@ -254,10 +253,10 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
   random sample of an animal population.
   \emph{The Journal of Animal Ecology, 12(1)}: 42--58.
 
-  Grotan, V. and Engen, S. 2008. poilog: Poisson lognormal and
+  \enc{Grøtan}{Grotan}, V. and Engen, S. 2008. poilog: Poisson lognormal and
   bivariate Poisson lognormal distribution. R package version 0.4.
   
-  Hankin, R.K.S. 2007. Introducing untb, an {R} Package For Simulating Ecological Drift
+  Hankin, R.K.S. 2007. Introducing untb, an \R Package For Simulating Ecological Drift
   Under the Unified Neutral Theory of Biodiversity. \emph{Journal
     of Statistical Software 22} (12). 
   
@@ -281,20 +280,20 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, ...)
 }
 
 \source{all fitting functions builds on \code{mle2} and methods
-  from 'bbmle' package (Bolker 2012), which in turn builds on
+  from \pkg{bbmle} package (Bolker 2012), which in turn builds on
   \code{mle} function and associated classes and methods;
   \code{fitls} and \code{fitvolkov} uses codes and functions from
-  'untb' package (Hankin 2007); \code{fitpoilog} builds on
-  'poilog' package (Grotan & Engen 2008).
+  \pkg{untb} package (Hankin 2007); \code{fitpoilog} builds on
+  \pkg{poilog} package (\enc{Grøtan}{Grotan} & Engen 2008).
 }
 
 \seealso{
-  \link{dls}, \link{dmzsm}, \link{dpareto},
-  \link{dpoilog}, \link{dpower}, \link{dvolkov}
+  \code{\link{dls}}, \code{\link{dmzsm}}, \code{\link{dpareto}},
+  \code{\link{dpoilog}}, \code{\link{dpower}},\code{ \link{dvolkov}}
   for corresponding density functions created for fitting SADs;
   standard distributions \code{dweibull},
   \code{dgamma}, \code{dgeom}, \code{dlnorm}, \code{dnbinom};
-  \link{fitsad-class}.
+  \code{\link{fitsad-class}}.
 }
 
 \examples{
@@ -306,7 +305,7 @@ mag5 <- c(103,115,13,2,67,36,51,8,6,61,10,21,
           1,3,1,9,2)
 mag5.bs <- fitsad(mag5, "bs") 
 summary(mag5.bs)## no estimated coefficient
-coef(mag5.bs) ## fixed coeficients N and S
+coef(mag5.bs) ## fixed coefficients N and S
 ## Diagnostic plots
 par(mfrow=c(2,2))
 plot(mag5.bs)
@@ -315,7 +314,7 @@ par(mfrow=c(1,1))
 
 data(moths) #Fisher's moths data
 moths.mzsm <- fitmzsm(moths) ## same as fitsad(moths, sad="mzsm")
-## fit to logseries
+## fit to log-series
 moths.ls <- fitsad(moths, sad="ls")
 coef(moths.ls)
 coef(moths.mzsm) ## Compare with theta=38.9, Alonso&McKanne (2004)
@@ -335,7 +334,7 @@ moths.pln <- fitsad(moths, "poilog")
 AICtab(moths.ln, moths.pln, moths.ls, moths.mzsm, weights=TRUE)
 
 ## Biomass as abundance variable
-data(ARN82.eB.apr77) #benthic marine animals
+data(ARN82.eB.apr77) #benthonic marine animals
 AR.ln <- fitsad(ARN82.eB.apr77, sad="lnorm", dec.places=2)
 AR.g <- fitsad(ARN82.eB.apr77, sad="gamma", dec.places=2)
 AR.wb <- fitsad(ARN82.eB.apr77, sad="weibull", dec.places=2)                
@@ -347,5 +346,7 @@ legend("topright", c("lognormal", "gamma", "weibull"), lty=1, col=c("blue","red"
 AICctab(AR.ln, AR.g, AR.wb, nobs=length(ARN82.eB.apr77), weights=TRUE) 
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda}
+\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda,
+  after Ben Bolker, R Core Team, Robin Hanking, Vidar \enc{Grøtan}{Grotan} and Steinar Engen.}
 
+\encoding{UTF-8}

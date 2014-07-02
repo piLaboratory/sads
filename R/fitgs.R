@@ -6,14 +6,13 @@ fitgs <- function(x, trunc, ...){
   if (!missing(trunc)){
     if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
     else{
-      LL <- function(k,S) -sum(dtrunc("gs", x = y, coef = list( k = k, S = S),
+      LL <- function(k) -sum(dtrunc("gs", x = y, coef = list( k = k, S = S),
                                           trunc = trunc, log = TRUE))
       }
   }
   if (missing(trunc)){
-    LL <- function(k,S) -sum(dgs(y, k, S, log = TRUE))
+    LL <- function(k) -sum(dgs(y, k, S, log = TRUE))
   }
-  result <- mle2(LL, start = list(k=0.01, S=S), data = list(x = y), method = "Brent", lower = 1e-16, upper = 1-1e-16,
-                 fixed=list(S=S), ...)
+  result <- mle2(LL, start = list(k=0.01), data = list(x = y), method = "Brent", lower = 1e-16, upper = 1-1e-16, ...)
   new("fitrad", result, rad = "gs", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc), rad.tab=rad.tab)
 }

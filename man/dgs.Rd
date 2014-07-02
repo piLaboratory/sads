@@ -24,7 +24,7 @@ qgs( p, k, S, lower.tail = TRUE, log.p = FALSE )
     of species in a sample.
   }
   \item{k}{
-    positive real, 0<k<1; geometric series coefficient; the ratio between
+    positive real, 0 < k < 1; geometric series coefficient; the ratio between
     the abundances of i-th and (i+1)-th species. 
   }
   \item{q}{vector of (non-negative integer) quantiles. In the context of
@@ -49,7 +49,7 @@ qgs( p, k, S, lower.tail = TRUE, log.p = FALSE )
 
 \details{  
   The Geometric series distribution gives the probability (or expected
-  proportion of occurences) of the i-th most abundant element
+  proportion of occurrences) of the i-th most abundant element
   in a collection:
   
   p(i) = C * k * (1-k)^(i-1)
@@ -86,15 +86,14 @@ qgs( p, k, S, lower.tail = TRUE, log.p = FALSE )
   The Geometric series is NOT the same as geometric distribution. In
   the context of community ecology, the first can be used
   as a rank-abundance model and the former as a species-abundance
-  model. See \code{fitsad-class} and \code{fitrad-class} and vignettes
-  of sads package.
-}
-  
-\author{
-  Paulo I. Prado and Murilo Dantas Miranda
+  model. See \code{\link{fitsad}} and \code{\link{fitrad}} and vignettes
+  of \pkg{sads} package.
 }
 
-\seealso{ \code{fitgs}, \code{fitrad} to fit the Geometric series as a
+\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
+
+
+\seealso{ \code{\link{fitgs}}, \code{\link{fitrad}} to fit the Geometric series as a
   rank-abundance model.
   }
 

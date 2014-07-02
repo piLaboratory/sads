@@ -6,7 +6,7 @@
 \description{
   Density and distribution function
   %and quantile function
-  for Alonso & McKane's mZSM distribution
+  for Alonso & McKane's mZSM distribution with parameter \code{theta}.
 }
 
 \usage{
@@ -32,7 +32,7 @@ pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
     species abundance distributions, usually the number of individuals in a sample.
   }
   \item{theta}{
-    positive real theta > 0; Hubbell's 'fundamental biodiversity number'
+    positive real theta > 0; Hubbell's \sQuote{fundamental biodiversity number}
   }
   \item{log, log.p}{
     logical; if TRUE, probabilities p are given as log(p).
@@ -53,10 +53,10 @@ pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
   of populations (the metacommunity).
   The total number of individuals in the metacommunity is fixed (zero-sum assumption).
   The populations in the metacommunity undergo a stochastic
-  birth-death-imigration process,
+  birth-death-immigration process,
   with equal demographic rates (neutrality or ecological
-  equivalence assumptiom, Hubbell 2001).
-  Alonso et McKane (2004) proposed an approximation for the density
+  equivalence assumption, Hubbell 2001).
+  Alonso and McKane (2004) proposed an approximation for the density
   function for a large Poisson sample (J>100):
 
   p(x) = N(x)/(sum(from 1 to S) N(x))
@@ -73,15 +73,15 @@ pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
   the assumptions that (a) species
   abundances in the community follows the stationary distribution
   of a neutral, zero-sum stochastic process of birth, death and speciation (or migration);
-  (b) sampling is a Poisson proccess with expected
-  value well aproximated by N(x), (c) individuals are sampled with replacement, or the
+  (b) sampling is a Poisson process with expected
+  value well approximated by N(x), (c) individuals are sampled with replacement, or the
   fraction of total individuals sampled is small enough to approximate a
   sample with replacement.
 }
 
 \value{
   
-\code{dmzsm} gives the (log) density of the density, \code{pmzsm} gives the (log)
+\code{dmzsm} gives the (log) density of the density and \code{pmzsm} gives the (log)
 distribution function.
 
 Invalid values for parameters \code{J} or \code{theta} will result in return
@@ -90,21 +90,19 @@ values \code{NaN}, with a warning.
 
 \references{
   
-  Alonso, D. and McKane, A. J.  2004.  Sampling Hubbell's neutral
-  model of biodiversity. \emph{Ecology Letters 7}:901-910
+  Alonso, D. and McKane, A.J.  2004.  Sampling Hubbell's neutral
+  model of biodiversity. \emph{Ecology Letters 7}:901-910.
 
-  Hubbell, S. P.  2001.  \emph{The Unified Neutral Theory of Biodiversity}.
-  Princeton University Press
+  Hubbell, S.P.  2001.  \emph{The Unified Neutral Theory of Biodiversity}.
+  Princeton University Press.
 }
 
-\author{
-Paulo I. Prado and Murilo Dantas Miranda
-}
+\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
 
 \seealso{
-  \code{fitmzsm} for maximum likelihood estimation;
+  \code{\link{fitmzsm}} for maximum likelihood estimation;
   \code{alonso.eqn12}
-  in package 'untb' which is based on the exact formulation of mZSM.
+  in package \pkg{untb} which is based on the exact formulation of mZSM.
 }
 
 \examples{

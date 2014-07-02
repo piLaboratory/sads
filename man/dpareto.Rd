@@ -74,28 +74,33 @@ a power-law.
 In ecology the Pareto distribution can be used to describe the distribution
 of abundances among species in a biological assemblage
 (a.k.a. biological community) or in a sample taken from such an
-assemblage. Though much less used than the lognormal to fit sads, it can fit better the extremities
+assemblage. Though much less used than the lognormal to fit SADs, it can fit better the extremities
 of the empirical distributions to which the lognormal applies (Johnson et al. 1995, p.608).
 }
 
 \note{
 
-These functions implement the Pareto distribution of the first kind sensu
-Johnson et al. (1995, pp.574).
-
-The pdf and cdf are defined as zero for all \code{x < scale}, but the
-functions \code{[dp]pareto} currently return an error if \code{scale > min(x)}, to avoid some
-fitting and ploting problems.
+  These functions implement the Pareto distribution of the first kind sensu
+  Johnson et al. (1995, pp.574).
+  
+  The pdf and cdf are defined as zero for all \code{x < scale}, but the
+  functions \code{[dp]pareto} currently return an error if \code{scale > min(x)}, to avoid some
+  fitting and plotting problems.
 }
 
 \references{
- Johnson, N. L., Kotz, S. and Balakrishnan, N. (1995) Continuous
-Univariate Distributions, volume 2, chapter 20.  Wiley, New York.
+  Johnson, N.L., Kotz, S. and Balakrishnan, N. 1995. \emph{Continuous
+    Univariate Distributions}, volume 2, chapter 20.  Wiley, New York.
 }
 
 \seealso{
-\code{Pareto} in packages \pkg{VGAM} and \pkg{actuar} for more general and flexible implementations; \code{\link{fitpareto}} for maximum likelihood estimation in the context of species abundance distributions.
+  \code{Pareto} in packages \pkg{VGAM} and \pkg{actuar} for more general
+  and flexible implementations; \code{\link{fitpareto}} for maximum
+  likelihood estimation in the context of species abundance
+  distributions.
 }
+
+\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
 
 \examples{
 par(mfrow=c(1,2))
@@ -106,10 +111,10 @@ curve(ppareto(x, shape=3, scale=1), 1,8, ylab="Probability",
 par(mfrow=c(1,1))
 
 
-## Quantile is the inverse funtion of probability:
+## Quantile is the inverse function of probability:
 p.123 <-ppareto(1:3,shape=3,scale=0.99) 
 all.equal(qpareto(p.123, shape=3, scale=0.99), 1:3) 
 }
 
-\author{Paulo I. Prado and Murilo Miranda}
+
 

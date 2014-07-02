@@ -20,13 +20,12 @@ fitzipf <- function(x, N, trunc, start.value, upper = 20, ...){
     sss <- start.value
   }
   if(missing(trunc)){
-    LL <- function(N, s) -sum(dzipf(y, N, s, log = TRUE))
+    LL <- function(s) -sum(dzipf(y, N=N, s, log = TRUE))
   }
   else{
-    LL <- function(N, s) -sum(dtrunc("zipf", x = y, coef = list(N = N, s = s), trunc = trunc, log = TRUE))
+    LL <- function(s) -sum(dtrunc("zipf", x = y, coef = list(N = N, s = s), trunc = trunc, log = TRUE))
   }
-  result <-  mle2(LL, start = list(N=N, s = sss), data = list(x = y), method = "Brent", lower = 0, upper = upper,
-                  fixed=list(N=N), ...)
+  result <-  mle2(LL, start = list(s = sss), data = list(x = y), method = "Brent", lower = 0, upper = upper, ...)
   if(abs(as.numeric(result@coef) - upper) < 0.001)
     warning("mle equal to upper bound provided. \n Try increase value for the 'upper' argument")
   new("fitrad", result, rad="zipf", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc), rad.tab=rad.tab)

@@ -17,15 +17,15 @@
 \newcommand{\R}{{\sf R}}
 \newcommand{\code}[1]{\texttt{#1}}
 \SweaveOpts{eval=TRUE, keep.source=TRUE, echo=TRUE}
-
+%\VignetteIndexEntry{Using sads}
 
 \begin{document}
 
 \title{Fitting species abundance models with maximum likelihood \\ Quick reference for \code{sads} package}
-\author{Paulo Inácio Prado and  Murilo Dantas Miranda \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
+\author{Paulo In\'acio Prado and  Murilo Dantas Miranda \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
   \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
 
-\date{April, 24, 2014}
+\date{July, 01, 2014}
 
 \maketitle
 
@@ -95,7 +95,7 @@ of logarithm of abundances at base 2 (Preston's octaves) and returns a data fram
 A logical argument
 \code{preston} allows to smooth the numbers as proposed by \citet{Preston1948}.
 
-The octave number is the lower limit of the class in log2 scale. 
+The octave number is the upper limit of the class in log2 scale. 
 Hence, for abundance values smaller than one (\emph{e.g.} biomass data) the octave numbers are negative numbers.
 A Preston plot is a histogram of this table, that you get applying the function \code{plot} to the data frame:
 
@@ -141,11 +141,12 @@ plot(arn.rad, ylab="Biomass")
 \section{Model fitting}
 \label{sec:ajuste-e-selecao}
 The \emph{sads} package provides maximum-likelihood fits of many
-probability distributions to empirical sads. The working horse is the
+probability distributions to empirical sads. The working horses are the
 functions \code{fitsad} for fitting species abundance distributions
 and \code{fitrad} for fitting rank-abundance distributions. The first
-argument of these functions is the vector of observed abundances and
-the second argument is the name of the model to be fitted.
+argument of these functions is the vector of observed abundances 
+\footnote{\code{fitrad} also accepts a rank-abundance table returned by function \code{rad} as its first argument.} 
+and the second argument is the name of the model to be fitted.
 Please refer to the help
 page of the functions for details on the models. For more information
 on the fitting procedure see also the vignette of
@@ -211,13 +212,13 @@ of number of species in each octave
 and abundances of each species. The two last plots (bottom) are quantile-quantile and percentile-percentile graphs of 
 the observed vs. predicted abundances. The straight line indicates the expected relation in case of perfect fit.
 
-\subsection{Rank-abundance models}
+\subsection{SADs vs RADs}
 
 Species-abundance models assigns a probability to each abundance
 value. Hence these models are probability density functions (PDFs) of
-abundances of a species taken at random from the
-community. Rank-abundance models assigns a probability for each
-\textbf{abundance rank}. They are PDFs for rankings. The models are
+abundances of species. 
+Rank-abundance models assigns a probability for each
+\textbf{abundance rank}. They are PDFs for rankings of species. The models are
 interchangeable \citep{May1975}, but currently only four rad models
 are available in package sads trough the argument \code{rad} of
 function \code{fitrad}:
@@ -355,8 +356,8 @@ evaluate the bias and variance of the maximum likelihood estimates:
 \setkeys{Gin}{width=\textwidth}
 @ 
 <<rsad-repeated-samples>>=
-results <- matrix(nrow=500,ncol=2)
-for(i in 1:500){
+results <- matrix(nrow=250,ncol=2)
+for(i in 1:250){
     x <- rsad(S = 100, frac=0.1, sad="lnorm", 
               meanlog=5, sdlog=2)
     y <- fitsad(x, "poilog")
@@ -399,5 +400,5 @@ par(mfrow=c(1,1))
 
 
 \bibliographystyle{ecology}
-\bibliography{sads_quick_reference}
+\bibliography{sads_intro}
 \end{document}

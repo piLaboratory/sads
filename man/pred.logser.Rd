@@ -1,6 +1,9 @@
 \name{pred.logser}
+
 \alias{pred.logser}
-\title{Predicted number of species of Fisher's Logseries}
+
+\title{Predicted number of species by Fisher's Logseries}
+
 \description{
 Given a vector of species abundances, Fisher's alpha and total number of
 species and individuals in a sample, returns the number of
@@ -15,7 +18,7 @@ pred.logser(x, alpha, J, S)
     Vector of (non-negative integer) abundances of species in a sample.
   }
   \item{alpha}{
-    Fisher's alpha
+    Fisher's alpha, the single parameter of log-series.
   }
   \item{J}{
     Total number of individuals in the sample.
@@ -48,7 +51,7 @@ pred.logser(x, alpha, J, S)
   Since the logseries model is a function that relates S to J using a
   single parameter (alpha), once two of
   these quantities are known the remaining is determined. So the function
-  allow the input any two among S, J and alpha. If the
+  allow the input of any two among S, J and alpha. If the
   user does not provide at least two of these values, an error message
   is returned.
   
@@ -69,18 +72,20 @@ pred.logser(x, alpha, J, S)
   Pielou, E.C. 1977. \emph{Mathematical Ecology}. New York: John Wiley
   and Sons.
 
-  Fisher, R.A, Corbert, A.S. and Williams, C.B. (1943) The Relation
+  Fisher, R.A, Corbert, A.S. and Williams, C.B. 1943. The Relation
   between the number of species and the number of individuals in a
   random sample of an animal population. \emph{The Journal of Animal Ecology, 12(1)}: 42--58.
 }
 
+
 \author{
-Paulo I. Prado
+Paulo I. Prado \email{prado@ib.usp.br}.
 }
 
 \seealso{
-dpoig, dls, uniroot, fit.logser, fishers.alpha in package untb and fisherfit
-in package vegan. 
+\code{\link{dls}} for the log-series distribution;  and
+\code{\link{fitls}}, \code{fishers.alpha} in package \pkg{untb} and \code{fisherfit}
+in package \pkg{vegan} for fitting the log-series to abundance data. 
 }
 
 \examples{

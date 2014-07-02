@@ -72,18 +72,16 @@ values \code{NaN}, with a warning.
 
 \references{
 
-  Johnson N. L., Kemp, A. W. and Kotz S. (2005) Univariate Discrete
-  Distributions, 3rd edition, Hoboken, New Jersey: Wiley. Section
+  Johnson N.L., Kemp, A.W. and Kotz S. 2005. \emph{Univariate Discrete
+  Distributions}, 3rd edition, Hoboken, New Jersey: Wiley. Section
   11.2.20. 
 
-  Magurran, A. E., and McGill, B. J. (2011). Biological Diversity -
-  Frontiers in measurement and assessment. Oxford: Oxford University Press.
+  Magurran, A.E. and McGill, B.J. 2011. \emph{Biological Diversity -
+  Frontiers in measurement and assessment}. Oxford: Oxford University Press.
   
 }
 
-\author{
-Paulo I. Prado and Murilo Dantas Miranda
-}
+\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
 
 \seealso{
 \code{dmand} and \code{rmand} and related functions in \pkg{mandR} package; \code{Zeta} for

@@ -1,8 +1,8 @@
 Package: sads
 Type: Package
 Title: Maximum Likelihood Models for Species Abundance Distributions
-Version: 0.1.08
-Date: 2014-06-03
+Version: 0.1.10
+Date: 2014-07-01
 Author: Paulo I. Prado and Murilo Dantas Miranda
 Maintainer: Paulo I. Prado <prado@ib.usp.br>
 Depends:
@@ -17,6 +17,9 @@ Imports:
 Suggests:
     vegan
 Description: Maximum likelihood tools to fit and compare models of species
-    abundance distributions.
+    abundance distributions and species rank-abundance distributions.
 License: GPL-2
 LazyData: true
+Encoding: UTF-8
+URL: http://piklprado.github.io/sads, https://github.com/piklprado/sads
+BugReports: https://github.com/piklprado/sads/issues 
