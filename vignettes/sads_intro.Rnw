@@ -52,11 +52,17 @@ same species.
 
 \section{Installation}
 
-The package is available on  CRAN. To install and load the package \code{sads} open an \R session and type:
+The package is available on  CRAN, and thus can be installed in a \R session with the command:
 
 @ 
 <<installation-and <- load, eval=FALSE>>=
 install.packages('sads')
+@ %def 
+
+and then loaded with
+
+@ 
+<<load-package>>=
 library(sads)
 @ %def 
 
@@ -64,7 +70,9 @@ library(sads)
 \section{Exploratory analyses}
 \label{sec:analise-exploratoria}
 
-Thorugh this document we use two data sets of abundances from the sads package. To information about these data please refer to their help pages:
+Through this document we use two data sets of abundances from the sads
+package. To information about these data please refer to their help
+pages: 
 
 @ 
 <<Loading datasets>>=
@@ -85,8 +93,7 @@ of logarithm of abundances at base 2 (Preston's octaves) and returns a data fram
 (arn.oc <- octav(ARN82.eB.apr77))
 @ %def 
 
-A logical argument
-\code{preston} allows to smooth the numbers as proposed by \citet{Preston1948}.
+A logical argument \code{preston} allows to smooth the numbers as proposed by \citet{Preston1948}. 
 
 The octave number is the upper limit of the class in log2 scale. 
 Hence, for abundance values smaller than one (\emph{e.g.} biomass data) the octave numbers are negative numbers.
@@ -145,10 +152,10 @@ page of the functions for details on the models. For more information
 on the fitting procedure see also the vignette of
 the \emph{bbmle} package, on top of which the package \emph{sads} is built.
 
-To fit a logseries distribution use the argument \code{sad='ls'}:
+To fit a log-series distribution use the argument \code{sad='ls'}:
 
 @ 
-<<Fitting a logseries model>>=
+<<Fitting a log-series model>>=
 (moths.ls <- fitsad(moths,'ls'))
 @ %def 
 
@@ -233,7 +240,7 @@ function \code{fitrad}:
   probability to data in different ways. Function \code{fitsad} fit PDFs to observed abundances and \code{fitrad} fit PDFs 
   to the ranks of the abundances. Finally, \code{radfit} fits a Poisson generalized linear model 
   to the \emph{expected abundances} deduced 
-  from rank-abundance relationships from the correspodending sads and rads models \citep{wilson1991}. 
+  from rank-abundance relationships from the corresponding sads and rads models \citep{wilson1991}. 
   See also the help page of \code{radfit}. 
   Therefore \textbf{likelihoods obtained from these three functions are not comparable}.
 \end{shaded}
@@ -322,7 +329,7 @@ set.seed(42)# fix random seed to make example reproducible
 The function returns a data frame with a sample numeric label,
 species numeric label and species abundance in each sample. By
 default, \code{rsad} returns a vector of abundances of single Poisson
-sample with zeroes ommited:
+sample with zeroes omitted:
 
 @ 
 <<rsad-example2>>=
@@ -338,7 +345,7 @@ model to the sample:
 
 @ 
 <<rsad-poilog-fit>>=
-(samp2.pl <- fitsad(samp2, 'poilog'))
+(samp2.pl <- fitsad(samp2, "poilog"))
 ## checking correspondence of parameter mu
 coef(samp2.pl)[1] - log(0.1)
 @ %def 
