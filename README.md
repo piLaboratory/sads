@@ -8,7 +8,7 @@
 ### Installation
 
 ```r
-install.packages(sads)
+install.packages('sads')
 library(sads)
 ```
 Or download binaries from [CRAN](http://cran.rstudio.com/).
@@ -17,7 +17,7 @@ Or download binaries from [CRAN](http://cran.rstudio.com/).
 
 Master branch on GitHub has the release version, as available on CRAN. 
 
-If you want to install the developer version use 
+If you want to install the developer version: 
 
 ```r
 library(devtools)
