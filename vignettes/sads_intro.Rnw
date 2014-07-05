@@ -25,7 +25,7 @@
 \author{Paulo In\'acio Prado and  Murilo Dantas Miranda \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
   \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
 
-\date{July, 01, 2014}
+\date{July, 04, 2014}
 
 \maketitle
 
@@ -52,27 +52,20 @@ same species.
 
 \section{Installation}
 
-The package is planned to be published at CRAN soon. Meanwhile you can install the working version
-from GitHub with the package \code{devtools}
+The package is available on  CRAN. To install and load the package \code{sads} open an \R session and type:
 
 @ 
-<<installation-github, eval=FALSE>>=
-library(devtools)
-install_github('sads', 'piklprado')
-@ %def 
-
-
-And then load the package:
-
-@ 
-<<load-sads-package >>=
+<<installation-and <- load, eval=FALSE>>=
+install.packages('sads')
 library(sads)
 @ %def 
+
 
 \section{Exploratory analyses}
 \label{sec:analise-exploratoria}
 
-We'll use two data sets in the sads package:
+Thorugh this document we use two data sets of abundances from the sads package. To information about these data please refer to their help pages:
+
 @ 
 <<Loading datasets>>=
 data(moths)# William's moth data
@@ -398,6 +391,13 @@ abline(v=c(mean(results[,2]), 2), col=2:3)
 par(mfrow=c(1,1))
 @ %def 
 
+\section{Bugs and issues}
+\label{sec:bugs-issues}
+
+The package project is hosted on GitHub
+(\url{https://github.com/piklprado/sads/}. Please report bugs and
+issues and give us your feedback at
+\url{https://github.com/piklprado/sads/issues}.
 
 \bibliographystyle{ecology}
 \bibliography{sads_intro}
