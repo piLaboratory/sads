@@ -11,7 +11,7 @@
 install.packages('sads')
 library(sads)
 ```
-Or download binaries from [CRAN](http://cran.rstudio.com/).
+Or download binaries from [CRAN](http://cran.r-project.org/web/packages/sads).
 
 ***Developer version***
 
