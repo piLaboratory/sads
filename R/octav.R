@@ -8,7 +8,7 @@ octav <- function(x, oct, preston=FALSE){
   if(missing(oct)){
     oct <- 0:(ceiling(max(log2(y)))+1)
     if(any(y < 1)){
-      octlower <- ceiling(min(log2((y)))):-1
+      octlower <- floor(min(log2((y)))):-1
       oct <- c(octlower, oct)
     }
   }
