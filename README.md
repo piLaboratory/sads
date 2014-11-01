@@ -21,7 +21,7 @@ If you want to install the developer version:
 
 ```r
 library(devtools)
-install_github('sads', 'piklprado', 'dev')
+install_github(repo = 'piklprado/sads', ref= 'dev')
 ```
 
 ### More info

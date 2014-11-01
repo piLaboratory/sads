@@ -78,6 +78,15 @@ trueLL(x, dens, coef, trunc, dec.places = 0, breaks, counts, log = TRUE, \dots)
   density function and D is half the measurement precision:
 
   D = 10^(-'dec.places')/2
+
+  For continuous variables aggregated in discrete classes, such as
+  frequency tables of histograms, the probability of a given observation
+  is
+
+  prod ( integral_L^U f(x) dx )
+
+  where L and U are the lower and upper limits of the classes, as
+  defined by argument \code{breaks}.
   
   Because products of probabilities quickly tends to
   zero, probabilities are usually converted to their logs and then
