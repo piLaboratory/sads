@@ -10,7 +10,7 @@
 }
 
 \usage{
-trueLL(x, dens, coef, trunc, dec.places = 0, log = TRUE, \dots)
+trueLL(x, dens, coef, trunc, dec.places = 0, breaks, counts, log = TRUE, \dots)
 }
 
 \arguments{
@@ -40,6 +40,17 @@ trueLL(x, dens, coef, trunc, dec.places = 0, log = TRUE, \dots)
     decimals. This argument defines the measurement precision, see details. 
   }
 
+  \item{breaks}{
+    if \code{counts} is provided a numeric vector giving the breakpoints
+    between count classes. Else, any valid object to be passed to the
+    argument \code{breaks} of the function \code{\link{hist}}.
+  }
+
+  \item{counts}{
+    integer vector; number of values in \code{x} in each class interval
+    defined by \code{breaks}.
+  }
+  
   \item{log}{
     logical; convert probabilities to logs and sum them to get
     log-likelihoods? The log-likelihood value is returned if \kbd{TRUE} and the likelihood
@@ -104,5 +115,17 @@ logLik(fitdistr(x,"lognormal"))
 ## Which is the sum of log of densities
 sum( dlnorm(x, meanlog=mean(log(x)), sdlog=sd(log(x)), log=TRUE) )
 ## Correct log-likelihood
-trueLL(x, "lnorm", coef=list(meanlog=mean(log(x)), sdlog=sd(log(x))), dec.places=1, )
+trueLL(x, "lnorm", coef=list(meanlog=mean(log(x)), sdlog=sd(log(x))),
+dec.places=1, )
+
+## Data in classes
+xoc <- octav(x)
+xc <- as.numeric(as.character(xoc$octave))
+xb <- 2^(c(min(xc)-1, xc))
+xh <- hist(x, breaks=xb, plot=FALSE)
+xll <- trueLL(x, dens="lnorm", breaks = xb, counts = xoc$Freq,
+   coef = list(meanlog=mean(log(x)), sd=sd(log(x))))
+xp <- diff(plnorm(xh$breaks, mean(log(x)), sd(log(x))))
+xll2 <- sum( rep(log(xp), xh$counts))
+all.equal(xll, xll2) # should be TRUE
 }

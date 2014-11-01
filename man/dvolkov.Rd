@@ -131,7 +131,7 @@ bci.oct <- octav( bci, preston = FALSE )
 plot( bci.oct )
 CDF <- pvolkov( bci.oct$upper, theta = 47.226, m = 0.1, J = sum(bci) )
 bci.exp <- diff( c(0,CDF) ) * length(bci)
-midpoints <- as.numeric( bci.oct$octave ) - 0.5
+midpoints <- as.numeric( as.character( bci.oct$octave ) ) - 0.5
 lines( midpoints, bci.exp, type="b" )
 
 ## the same with octavpred
