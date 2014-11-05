@@ -75,7 +75,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
   }
 
   \item{start.value}{
-    numeric named list; starting values of free parameters to be
+    named numeric vector; starting values of free parameters to be
     passed to \code{mle2}.
     Parameters should be named as in the corresponding density
     function,
