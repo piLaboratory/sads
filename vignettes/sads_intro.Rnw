@@ -17,7 +17,7 @@
 \newcommand{\R}{{\sf R}}
 \newcommand{\code}[1]{\texttt{#1}}
 \SweaveOpts{eval=TRUE, keep.source=TRUE, echo=TRUE}
-%\VignetteIndexEntry{Using sads}
+\VignetteIndexEntry{Introduction to sads}
 
 \begin{document}
 
@@ -25,7 +25,7 @@
 \author{Paulo In\'acio Prado and  Murilo Dantas Miranda \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
   \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
 
-\date{July, 01, 2014}
+\date{December, 23, 2014}
 
 \maketitle
 
@@ -52,49 +52,41 @@ same species.
 
 \section{Installation}
 
-<<<<<<< HEAD
-The package is available on  CRAN, and thus can be installed in a \R session with the command:
+The package is available on  CRAN, and thus can be installed in \R with the command:
 
 @ 
-<<installation-and <- load, eval=FALSE>>=
+<<installation, eval=FALSE>>=
 install.packages('sads')
+library(sads)
 @ %def 
 
-and then loaded with
+and then loaded by
 
-@ 
-<<load-package>>=
+<<load-sads, eval=TRUE>>=
 library(sads)
-=======
-The package is planned to be published at CRAN soon. Meanwhile you can install the working version
-from GitHub with the package \code{devtools}
+@ %def 
 
-@ 
-<<installation-github, eval=FALSE>>=
+\subsection{Developer version}
+\label{sec:developer-version}
+
+You can install the current developer version from GitHub with: 
+
+@
+<<install-dev-version, eval=FALSE >>=
 library(devtools)
-install_github('sads', 'piklprado')
->>>>>>> provisorio
-@ %def 
-
-
-And then load the package:
-
+install_github(repo = 'piklprado/sads', ref= 'dev')
 @ 
-<<load-sads-package >>=
-library(sads)
-@ %def 
+
+
+
 
 \section{Exploratory analyses}
 \label{sec:analise-exploratoria}
 
-<<<<<<< HEAD
 Through this document we use two data sets of abundances from the sads
 package. To information about these data please refer to their help
 pages: 
 
-=======
-We'll use two data sets in the sads package:
->>>>>>> provisorio
 @ 
 <<Loading datasets>>=
 data(moths)# William's moth data
@@ -117,7 +109,7 @@ of logarithm of abundances at base 2 (Preston's octaves) and returns a data fram
 A logical argument \code{preston} allows to smooth the numbers as proposed by \citet{Preston1948}. 
 
 The octave number is the upper limit of the class in log2 scale. 
-Hence, for abundance values smaller than one (\emph{e.g.} biomass data) the octave numbers are negative numbers.
+Hence, for abundance values smaller than one (\emph{e.g.} biomass data) the octave numbers are negative.
 A Preston plot is a histogram of this table, that you get applying the function \code{plot} to the data frame:
 
 \setkeys{Gin}{width=0.75\textwidth}
@@ -246,7 +238,7 @@ function \code{fitrad}:
 
 \begin{itemize}
 \item ``gs'': geometric series (which is NOT geometric PDF, available
-  in \code{fitsads} as ``geom'';
+  in \code{fitsad} as ``geom'';
 \item ``rbs'': broken-stick model \citep{macarthur1957, May1975}
 \item ``zipf'': zipf power-law distribution
 \item ``mand'': zipf-mandelbrot power-law distribution
@@ -259,7 +251,7 @@ function \code{fitrad}:
   package provide similar estimates of model coefficients 
   but not comparable likelihood values. This is because each function fit models that assigns 
   probability to data in different ways. Function \code{fitsad} fit PDFs to observed abundances and \code{fitrad} fit PDFs 
-  to the ranks of the abundances. Finally, \code{radfit} fits a Poisson generalized linear model 
+  to the ranks of the abundances. Finally, \code{radfit} of \emph{vegan} fits a Poisson generalized linear model 
   to the \emph{expected abundances} deduced 
   from rank-abundance relationships from the corresponding sads and rads models \citep{wilson1991}. 
   See also the help page of \code{radfit}. 
@@ -271,8 +263,8 @@ function \code{fitrad}:
 You can fit other models to the same data set, such as the Poisson-lognormal and a truncated lognormal:
 @ 
 <<Fitting two other models>>=
-(moths.pl <- fitsad(x=moths,sad="poilog"))#default is zero-truncated
-(moths.ln <- fitsad(x=moths,sad="lnorm", trunc=0.5)) # lognormal truncated at 0.5
+(moths.pl <- fitsad(x=moths, sad="poilog"))#default is zero-truncated
+(moths.ln <- fitsad(x=moths, sad="lnorm", trunc=0.5)) # lognormal truncated at 0.5
 @ %def 
 
 and then you can use the function \code{AICtab} and friends from the \emph{bbmle} package to get a model selection table:
@@ -388,7 +380,7 @@ results[,1] <- results[,1]-log(0.1)
 @ 
 
 Bias is estimated as the difference between the mean of estimates and
-the value of parameters
+the value of parameters:
 
 @ 
 <<rsads_bias>>=
@@ -419,6 +411,12 @@ abline(v=c(mean(results[,2]), 2), col=2:3)
 par(mfrow=c(1,1))
 @ %def 
 
+\section{Bugs and issues}
+\label{sec:bugs-issues}
+
+The package project is hosted on GitHub (\url{https://github.com/piklprado/sads/}). 
+Please report bugs and issues and give us your feedback at 
+\url{https://github.com/piklprado/sads/issues}.
 
 \bibliographystyle{ecology}
 \bibliography{sads_intro}

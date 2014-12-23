@@ -152,7 +152,6 @@ setMethod("plot","fitrad",
           )
 
 ## copy of the method in bbmle, with a line added to assure df is not NULL
-## and argument trueLL
 setMethod("AICc","fitsad",
           function (object, ..., nobs, k = 2){
             L <- list(...)

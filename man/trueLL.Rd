@@ -14,11 +14,6 @@
   given the measurement precision.
 }
 
-<<<<<<< HEAD
-\usage{
-trueLL(x, dens, coef, trunc, dec.places = 0, breaks, counts, log = TRUE, \dots)
-}
-=======
 \section{Methods}{
   \describe{
     
@@ -33,7 +28,6 @@ trueLL(x, dens, coef, trunc, dec.places = 0, breaks, counts, log = TRUE, \dots)
       continuous distribution named by \code{dens} with parameters defined in \code{coef}.
     }
 }}
->>>>>>> provisorio
 
 \arguments{
   \item{x}{
@@ -113,12 +107,6 @@ trueLL(x, dens, coef, trunc, dec.places = 0, breaks, counts, log = TRUE, \dots)
   Because products of probabilities quickly tends to
   zero, probabilities are usually converted to their logs and then
   summed to give the log-likelihood function.
-}
-
-\value{
-  (log)-likelihood for the observations, under the (truncated) probability density
-  model defined by the argument \code{dens} and their parameters, passed
-  through the \code{\dots} argument.
 }
 
 \references{

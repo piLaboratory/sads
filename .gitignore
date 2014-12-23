@@ -10,3 +10,4 @@ vignettes/*.tex
 vignettes/*.bbl
 vignettes/*.blg
 vignettes/*.dvi
+testes/
