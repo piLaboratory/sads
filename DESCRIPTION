@@ -6,10 +6,10 @@ Date: 2014-11-01
 Author: Paulo I. Prado and Murilo Dantas Miranda
 Maintainer: Paulo I. Prado <prado@ib.usp.br>
 Depends:
-    MASS,
     bbmle,
     poilog
 Imports:
+    MASS,
     methods,
     graphics,
     VGAM,

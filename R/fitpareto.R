@@ -1,4 +1,4 @@
-fitpareto <- function(x, trunc, start.value, trueLL = TRUE, dec.places = 0, upper = 20, ...){
+fitpareto <- function(x, trunc, start.value, upper = 20, ...){
   dots <- list(...)
   if (!missing(trunc)){
     if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
@@ -18,9 +18,5 @@ fitpareto <- function(x, trunc, start.value, trueLL = TRUE, dec.places = 0, uppe
                  data = list(x = x), method = "Brent", lower = 0, upper = upper, ...)
   if(abs(as.numeric(result@coef) - upper) < 0.001) 
     warning("mle equal to upper bound provided. \n Try value for the 'upper' argument")
-  if(trueLL){
-    warning("trueLL used, \n check if the precision in your data matches the dec.places argument \n")
-    result@min <- -trueLL(x = x, dens = "pareto", coef = as.list(coef(result)), trunc, dec.places = dec.places, log = TRUE, ...)
-  }
   new("fitsad", result, sad="pareto", distr = "C", trunc = ifelse(missing(trunc), NaN, trunc)) 
 }

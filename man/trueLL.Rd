@@ -1,21 +1,43 @@
-\name{trueLL}
+\name{trueLL-methods}
 
-\alias{trueLL}
+\docType{methods}
 
-\title{True likelihood for continuous variables}
+\alias{trueLL-methods}
+\alias{trueLL,fitsad,ANY,missing,missing,numeric-method}
+\alias{trueLL,numeric,character,list,ANY,numeric-method}
+
+\title{True likelihood for continuous variables}}
 
 \description{
   Calculates the correct likelihood for independent observations of a
-  continuous variable that follows a given (truncated) density function.
+  continuous variable that follows a given (truncated) density function,
+  given the measurement precision.
 }
 
+<<<<<<< HEAD
 \usage{
 trueLL(x, dens, coef, trunc, dec.places = 0, breaks, counts, log = TRUE, \dots)
 }
+=======
+\section{Methods}{
+  \describe{
+    
+    \item{\code{signature(x = "fitsad", dens = "ANY", coef = "missing", trunc = "missing", dec.places = "numeric")}}{
+      (log) likelihood value of an abundance distribution model \code{x} fitted with
+      function \code{fitsad}.
+    }
+    
+    \item{\code{signature(x = "numeric", dens = "character", coef = "list",
+	trunc = "ANY", dec.places = "numeric")}}{
+      (log) likelihood value of a vector of abundances \code{x}, fitted to a
+      continuous distribution named by \code{dens} with parameters defined in \code{coef}.
+    }
+}}
+>>>>>>> provisorio
 
 \arguments{
   \item{x}{
-    vector of observed values.
+    vector of observed values or an object of \code{\link{fitsad-class}}
   }
   \item{dens}{
     character; root name of the continuous density distribution of the variable -
@@ -98,6 +120,7 @@ trueLL(x, dens, coef, trunc, dec.places = 0, breaks, counts, log = TRUE, \dots)
   model defined by the argument \code{dens} and their parameters, passed
   through the \code{\dots} argument.
 }
+
 \references{
   Fisher, R.A. 1922. On the mathematical foundations of theoretical
   statistics. \emph{Phil. Trans. R. Soc. Lond. A 222}: 309--368.
@@ -105,10 +128,10 @@ trueLL(x, dens, coef, trunc, dec.places = 0, breaks, counts, log = TRUE, \dots)
   Lindsey, J.K. 1999. Some statistical heresies. \emph{The Statistician
     48}(1): 1--40.
 }
+
 \author{
   Paulo I. Prado \email{prado@ib.usp.br}
 }
-
 
 \seealso{
   \code{logLik} in the package \pkg{MASS} and \code{logLik-methods} in
@@ -116,14 +139,15 @@ trueLL(x, dens, coef, trunc, dec.places = 0, breaks, counts, log = TRUE, \dots)
 }
 
 \examples{
-##Random sample of a lognormal distribution with precision=0.1
-x <- round(rlnorm(500,meanlog=3,sdlog=0.5),1)
+##Random sample of a lognormal distribution with precision = 0.1
+x <- round(rlnorm(500, meanlog = 3, sdlog = 0.5), 1)
 ## Log-likelihood given by fitdistr
 library(MASS)
-logLik(fitdistr(x,"lognormal"))
+logLik(fitdistr(x, "lognormal"))
 ## Which is the sum of log of densities
 sum( dlnorm(x, meanlog=mean(log(x)), sdlog=sd(log(x)), log=TRUE) )
 ## Correct log-likelihood
+<<<<<<< HEAD
 trueLL(x, "lnorm", coef=list(meanlog=mean(log(x)), sdlog=sd(log(x))),
 dec.places=1, )
 
@@ -137,4 +161,10 @@ xll <- trueLL(x, dens="lnorm", breaks = xb, counts = xoc$Freq,
 xp <- diff(plnorm(xh$breaks, mean(log(x)), sd(log(x))))
 xll2 <- sum( rep(log(xp), xh$counts))
 all.equal(xll, xll2) # should be TRUE
+=======
+trueLL(x, "lnorm", coef=list(meanlog=mean(log(x)), sdlog=sd(log(x))), dec.places=1)
+>>>>>>> provisorio
 }
+
+\keyword{methods}
+

@@ -48,7 +48,7 @@ fitzipf(x, N, trunc, start.value, upper = 20, \dots)
   }
   
   \item{start.value}{
-    numeric named list; starting values of free parameters to be
+    numeric named vector; starting values of free parameters to be
     passed to \code{mle2}.
     Parameters should be named as in the corresponding density
     function, and in the same order.

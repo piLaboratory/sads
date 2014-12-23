@@ -25,11 +25,11 @@ fitsad(x, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
 
 fitbs(x, trunc, \dots)
 
-fitgamma(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
+fitgamma(x, trunc, start.value,  \dots)
 
 fitgeom(x, trunc = 0, start.value, \dots)
 
-fitlnorm(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
+fitlnorm(x, trunc, start.value,  \dots)
 
 fitls(x, trunc, start.value, upper = length(x), \dots)
 
@@ -37,7 +37,7 @@ fitmzsm(x, trunc, start.value, upper = length(x), \dots)
 
 fitnbinom(x, trunc, start.value, \dots)
 
-fitpareto(x, trunc, start.value, trueLL = TRUE, dec.places = 0, upper = 20, \dots)
+fitpareto(x, trunc, start.value,  upper = 20, \dots)
 
 fitpoilog(x, trunc = 0, \dots)
 
@@ -45,7 +45,7 @@ fitpower(x, trunc, start.value, upper = 20, \dots)
 
 fitvolkov(x, trunc, start.value, \dots)
 
-fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
+fitweibull(x, trunc, start.value,  \dots)
 }
 
 \arguments{
@@ -75,25 +75,25 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
   }
 
   \item{start.value}{
-    numeric named list; starting values of free parameters to be
+    named numeric vector; starting values of free parameters to be
     passed to \code{mle2}.
     Parameters should be named as in the corresponding density
     function,
     and in the same order.
   }
   
-  \item{trueLL}{
-    logical; use \sQuote{true likelihood} for continuous models? (see \code{\link{trueLL}}).
-  }
+  %% \item{trueLL}{
+  %%   logical; use \sQuote{true likelihood} for continuous models? (see \code{\link{trueLL}}).
+  %% }
 
-  \item{dec.places}{
-    positive integer; number of decimal places used in the measurement of
-    the observed values. Observed values will be rounded to this number of
-    decimals. This argument defines the measurement precision for
-    abundance variables. Used for continuous distributions when
-    argument \code{trueLL=TRUE} 
-    (see details and \code{\link{trueLL}}).
-  }
+  %% \item{dec.places}{
+  %%   positive integer; number of decimal places used in the measurement of
+  %%   the observed values. Observed values will be rounded to this number of
+  %%   decimals. This argument defines the measurement precision for
+  %%   abundance variables. Used for continuous distributions when
+  %%   argument \code{trueLL=TRUE} 
+  %%   (see details and \code{\link{trueLL}}).
+  %% }
 
   \item{upper}{
     real positive; upper bound for the Brent's one-parameter optimization
@@ -102,8 +102,8 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
   }
   \item{\dots}{
     in \code{fitsad} further arguments to be passed to the specific fitting
-    function (most used are \code{trunc}, \code{start.value} and
-    \code{trueLL}). 
+    function (most used are \code{trunc}, \code{start.value})
+    %%and \code{trueLL}). 
     In the specific fitting functions further
     arguments to be passed to \code{mle2}.
   }
@@ -138,19 +138,22 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
   standard continuous distributions most used as SADs models.
   Functions \code{power} and \code{pareto} fit power-law continuous distributions
   with one and two-parameters, that have been suggested as SADs models.
-  By default, all continuous distributions
-  are fit using the
-  correct likelihood for independent observations of a
-  continuous variable (Lindsey 1999, see \code{\link{trueLL}}).
-  Hence, the correct number of decimal places of the abundance
-  measure must be given in the argument \code{dec.places}.
-  A warning message reminds users about that when \code{trueLL=TRUE}.
-  When the abundance measure is the number of individuals of each
-  species in the sample,
-  the default value \code{dec.places=0}
-  is the correct choice. In this case, the probability of a given abundance
-  value x will be calculated as CDF(x + 0.5) - CDF( x - 0.5 ), where CDF
-  is the cumulative density function of the continuous distribution.
+  As species with null abundances in the sample are in general unknown, the
+  fit to continuous distribution can be improved by truncation to some value
+  above zero (see example).
+  %% By default, all continuous distributions
+  %% are fit using the
+  %% correct likelihood for independent observations of a
+  %% continuous variable (Lindsey 1999, see \code{\link{trueLL}}).
+  %% Hence, the correct number of decimal places of the abundance
+  %% measure must be given in the argument \code{dec.places}.
+  %% A warning message reminds users about that when \code{trueLL=TRUE}.
+  %% When the abundance measure is the number of individuals of each
+  %% species in the sample,
+  %% the default value \code{dec.places=0}
+  %% is the correct choice. In this case, the probability of a given abundance
+  %% value x will be calculated as CDF(x + 0.5) - CDF( x - 0.5 ), where CDF
+  %% is the cumulative density function of the continuous distribution.
   
   Functions \code{fitgeom}, \code{fitnbinom} fits geometric and negative
   binomial distributions which are two discrete
@@ -300,16 +303,16 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
 
 ## Magurran (1989) example 5:
 ## birds in an Australian forest
-mag5 <- c(103,115,13,2,67,36,51,8,6,61,10,21,
-          7,65,4,49,92,37,16,6,23,9,2,6,5,4,
-          1,3,1,9,2)
+mag5 <- c(103, 115, 13, 2, 67, 36, 51, 8, 6, 61, 10, 21,
+          7, 65, 4, 49, 92, 37, 16, 6, 23, 9, 2, 6, 5, 4, 
+          1, 3, 1, 9, 2)
 mag5.bs <- fitsad(mag5, "bs") 
 summary(mag5.bs)## no estimated coefficient
 coef(mag5.bs) ## fixed coefficients N and S
 ## Diagnostic plots
-par(mfrow=c(2,2))
+par(mfrow=c(2, 2))
 plot(mag5.bs)
-par(mfrow=c(1,1))
+par(mfrow=c(1, 1))
 
 
 data(moths) #Fisher's moths data
@@ -319,9 +322,9 @@ moths.ls <- fitsad(moths, sad="ls")
 coef(moths.ls)
 coef(moths.mzsm) ## Compare with theta=38.9, Alonso&McKanne (2004)
 ## Diagnostic plots
-par(mfrow=c(2,2))
+par(mfrow=c(2, 2))
 plot(moths.mzsm)
-par(mfrow=c(1,1))
+par(mfrow=c(1, 1))
 ## Graphical comparison
 plot(rad(moths))
 lines(radpred(moths.ls))

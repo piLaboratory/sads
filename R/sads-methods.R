@@ -152,6 +152,7 @@ setMethod("plot","fitrad",
           )
 
 ## copy of the method in bbmle, with a line added to assure df is not NULL
+## and argument trueLL
 setMethod("AICc","fitsad",
           function (object, ..., nobs, k = 2){
             L <- list(...)
@@ -165,8 +166,7 @@ setMethod("AICc","fitsad",
               logLiks <- sapply(L, logLik)
               df <- sapply(L, attr, "df")
               if(is.null(df)) df <- sapply(L, function(object) attr(logLik(object),"df")) ## added to assure that df is not NULL
-              val <- -2 * logLiks + k * df * (df + 1)/(nobs - df - 
-                                                       1)
+              val <- -2 * logLiks + k * df * (df + 1)/(nobs - df - 1)
               data.frame(AICc = val, df = df)
             }
             else {
@@ -192,8 +192,7 @@ setMethod("AICc","fitrad",
               logLiks <- sapply(L, logLik)
               df <- sapply(L, attr, "df")
               if(is.null(df)) df <- sapply(L, function(object) attr(logLik(object),"df")) ## added to assure that df is not NULL
-              val <- -2 * logLiks + k * df * (df + 1)/(nobs - df - 
-                                                       1)
+              val <- -2 * logLiks + k * df * (df + 1)/(nobs - df - 1)
               data.frame(AICc = val, df = df)
             }
             else {
@@ -882,5 +881,39 @@ setMethod("pprad",
               trunc <- x@trunc
               y <- x@rad.tab
               pprad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+          }
+          )
+
+## Generic function and methods for trueLL ##
+setGeneric("trueLL",
+           def = function(x, dens, coef, trunc, dec.places = 0, log = TRUE, ...) standardGeneric("trueLL")
+           )
+
+## If x is numeric arguments dens, coef and decimal places should be provided
+setMethod("trueLL",
+          signature(x="numeric", dens="character", coef="list", dec.places = "numeric", log="ANY"),
+          function(x, dens, coef, trunc, dec.places = 0, log = TRUE, ...){
+              dots <- list(...)
+              D <- 10^(-dec.places)/2
+              x <- round(x, dec.places)
+              if(missing(trunc)||is.na(trunc)){
+                  cdf <- get(paste("p", dens, sep=""), mode = "function")
+                  probs <- do.call(cdf, c(list(q = x+D), as.list(coef), dots)) - do.call(cdf, c(list(q = x-D), as.list(coef), dots))
+              }
+              else{
+                  probs <- do.call(ptrunc, c(list(dens, q = x+D, coef = as.list(coef), trunc=trunc), dots))-
+                      do.call(ptrunc, c(list(dens, q = x-D, coef = as.list(coef), trunc=trunc), dots))
+              }
+              if(log) sum(log(probs)) else prod(probs)
+          }
+          )
+
+## If x is of class fitsad only argument dec.places should be provided
+setMethod("trueLL",
+          signature(x="fitsad", coef="missing", trunc="missing", dec.places = "numeric", log="ANY"),
+          function(x, dens, coef, trunc, dec.places, log, ...){
+              if(x@distr != "C") stop("trueLL only makes sense for continuous distributions models")
+              trueLL(x = x@data$x, dens = x@sad, coef = as.list(x@coef),
+                               trunc=x@trunc, dec.places = dec.places, log, ...)
           }
           )
