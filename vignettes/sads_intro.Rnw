@@ -44,15 +44,13 @@ traditionally modelled through probability distributions. Hence, the
 maximum likelihood method can be used to fit and compare competing
 models for SADs. 
 The package \code{sads} provides functions to fit the most used models
-to empirical SADs and also to evaluate fits and to compare competing
-models. The package also allows to simulate SADs expected from samples
-from communities, with and without aggregation of individuals of the
-same species.
+to empirical SADs. These functions can also evaluate fits and compare competing
+models. The package also allows the simulation of SADs expected from communities' samples, with and without aggregation of individuals of the same species.
 
 
 \section{Installation}
 
-The package is available on  CRAN, and thus can be installed in \R with the command:
+The package is available on  CRAN and can be installed in \R with the command:
 
 @ 
 <<installation, eval=FALSE>>=
@@ -60,7 +58,7 @@ install.packages('sads')
 library(sads)
 @ %def 
 
-and then loaded by
+then loaded by
 
 <<load-sads, eval=TRUE>>=
 library(sads)
@@ -69,7 +67,7 @@ library(sads)
 \subsection{Developer version}
 \label{sec:developer-version}
 
-You can install the current developer version from GitHub with: 
+The current developer version may be installed from GitHub with:
 
 @
 <<install-dev-version, eval=FALSE >>=
@@ -83,8 +81,8 @@ install_github(repo = 'piklprado/sads', ref= 'dev')
 \section{Exploratory analyses}
 \label{sec:analise-exploratoria}
 
-Through this document we use two data sets of abundances from the sads
-package. To information about these data please refer to their help
+Throughout this document we'll use two data sets of abundances from the sads
+package. For more information on these data please refer to their help
 pages: 
 
 @ 
@@ -106,11 +104,11 @@ of logarithm of abundances at base 2 (Preston's octaves) and returns a data fram
 (arn.oc <- octav(ARN82.eB.apr77))
 @ %def 
 
-A logical argument \code{preston} allows to smooth the numbers as proposed by \citet{Preston1948}. 
+A logical argument \code{preston} allows smoothing the numbers as proposed by \citet{Preston1948}. 
 
 The octave number is the upper limit of the class in log2 scale. 
 Hence, for abundance values smaller than one (\emph{e.g.} biomass data) the octave numbers are negative.
-A Preston plot is a histogram of this table, that you get applying the function \code{plot} to the data frame:
+A Preston plot is a histogram of this table, obtainable by applying the function \code{plot} to the data frame:
 
 \setkeys{Gin}{width=0.75\textwidth}
 @ 
