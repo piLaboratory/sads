@@ -225,13 +225,13 @@ the observed vs. predicted abundances. The straight line indicates the expected 
 
 \subsection{SADs vs RADs}
 
-Species-abundance models assigns a probability to each abundance
-value. Hence these models are probability density functions (PDFs) of
+Species-abundance models assign a probability for each abundance
+value. Thus, these models are probability density functions (PDFs) of
 abundances of species. 
-Rank-abundance models assigns a probability for each
+Rank-abundance models assign a probability for each
 \textbf{abundance rank}. They are PDFs for rankings of species. The models are
 interchangeable \citep{May1975}, but currently only four rad models
-are available in package sads trough the argument \code{rad} of
+are available in package sads through the argument \code{rad} of
 function \code{fitrad}:
 
 \begin{itemize}
@@ -247,8 +247,8 @@ function \code{fitrad}:
   
   fits by \code{fitsad}, \code{fitrad} and \code{radfit} of \emph{vegan} 
   package provide similar estimates of model coefficients 
-  but not comparable likelihood values. This is because each function fit models that assigns 
-  probability to data in different ways. Function \code{fitsad} fit PDFs to observed abundances and \code{fitrad} fit PDFs 
+  but not comparable likelihood values. The reason for this is the fact each function fits models that assign 
+  probability to data in different ways. Function \code{fitsad} fits PDFs to observed abundances and \code{fitrad} fits PDFs 
   to the ranks of the abundances. Finally, \code{radfit} of \emph{vegan} fits a Poisson generalized linear model 
   to the \emph{expected abundances} deduced 
   from rank-abundance relationships from the corresponding sads and rads models \citep{wilson1991}. 
@@ -258,14 +258,14 @@ function \code{fitrad}:
 
 \section{Model selection}
 
-You can fit other models to the same data set, such as the Poisson-lognormal and a truncated lognormal:
+It's possible to fit other models to the same data set, such as the Poisson-lognormal and a truncated lognormal:
 @ 
 <<Fitting two other models>>=
 (moths.pl <- fitsad(x=moths, sad="poilog"))#default is zero-truncated
 (moths.ln <- fitsad(x=moths, sad="lnorm", trunc=0.5)) # lognormal truncated at 0.5
 @ %def 
 
-and then you can use the function \code{AICtab} and friends from the \emph{bbmle} package to get a model selection table:
+moreover, the function \code{AICtab} and friends from the \emph{bbmle} package can be used to get a model selection table:
 
 @ 
 <<Model selection table>>=
@@ -282,7 +282,7 @@ head(moths.ln.oc <- octavpred(moths.ln))
 @ %def 
 
 
-and then use \code{lines} to superimpose the predicted values in the octave plot:
+then use \code{lines} to superimpose the predicted values on the octave plot:
 
 \setkeys{Gin}{width=0.75\textwidth}
 @ 
@@ -306,7 +306,7 @@ head(moths.pl.rad <- radpred(moths.pl))
 head(moths.ln.rad <- radpred(moths.ln))
 @ %def 
 
-and then plot observed and predicted values:
+then plot observed and predicted values:
 
 @ 
 <<Rad-plots, fig=TRUE>>=
@@ -321,11 +321,10 @@ legend("topright",
 
 \section{Simulations}
 
-The function \code{rsad} returns random samples of a community which
-has $S$ species. The mean abundance of the species in the communities
+The function \code{rsad} returns random samples of a community with $S$ species. The mean abundances of the species in the communities
 are independent identically distributed (\emph{iid}) variables that
 follow a given probability distribution. The sample simulates a given
-number of draws of a fraction $a$ of the total number of individuals of
+number of draws of a fraction $a$ from the total number of individuals in
 the community. For instance, to simulate two Poisson samples of 10\%
 of a community with 10 species that follows a lognormal distribution
 with parameters $\mu=3$ and $\sigma=1.5$ use:
@@ -338,7 +337,7 @@ set.seed(42)# fix random seed to make example reproducible
 @ 
 
 The function returns a data frame with a sample numeric label,
-species numeric label and species abundance in each sample. By
+species' numeric label and species' abundance in each sample. By
 default, \code{rsad} returns a vector of abundances of single Poisson
 sample with zeroes omitted:
 
@@ -361,7 +360,7 @@ model to the sample:
 coef(samp2.pl)[1] - log(0.1)
 @ %def 
 
-Not bad. By repeating the sampling and the fit many times you can
+Not bad. By repeating the sampling and the fit many times it's possible to
 evaluate the bias and variance of the maximum likelihood estimates:
 
 \setkeys{Gin}{width=\textwidth}
