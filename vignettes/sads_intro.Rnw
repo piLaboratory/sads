@@ -25,7 +25,7 @@
 \author{Paulo In\'acio Prado and  Murilo Dantas Miranda \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
   \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
 
-\date{December, 23, 2014}
+\date{February, 08, 2015}
 
 \maketitle
 
