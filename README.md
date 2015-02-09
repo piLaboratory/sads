@@ -1,4 +1,4 @@
-# sads 1
+# sads
 
 
 ### R package for fitting species abundance distributions
