@@ -44,8 +44,9 @@ traditionally modelled through probability distributions. Hence, the
 maximum likelihood method can be used to fit and compare competing
 models for SADs. 
 The package \code{sads} provides functions to fit the most used models
-to empirical SADs. These functions can also evaluate fits and compare competing
-models. The package also allows the simulation of SADs expected from communities' samples, with and without aggregation of individuals of the same species.
+to empirical SADs. The resulting objects have methods to evaluate fits and compare competing
+models. The package also allows the simulation of SADs expected from communities' 
+samples, with and without aggregation of individuals of the same species.
 
 
 \section{Installation}
@@ -156,7 +157,7 @@ probability distributions to empirical sads. The working horses are the
 functions \code{fitsad} for fitting species abundance distributions
 and \code{fitrad} for fitting rank-abundance distributions. The first
 argument of these functions is the vector of observed abundances 
-\footnote{\code{fitrad},which also accepts a rank-abundance table returned by function \code{rad} as its first argument.} 
+\footnote{\code{fitrad} also accepts a rank-abundance table returned by function \code{rad} as its first argument.} 
 The second argument is the name of the model to be fitted.
 Please refer to the help
 page of the functions for details on the models. For more information
@@ -171,7 +172,7 @@ To fit a log-series distribution use the argument \code{sad='ls'}:
 @ %def 
 
 The resulting model object inherits from \emph{mle2}
-\citep{Bolkerbbmle}, and from all other usual methods for model objects, such as
+\citep{Bolkerbbmle}, and has all usual methods for model objects, such as
 summaries, log-likelihood, and AIC values:
 @ 
 <<Operations on fitsad object>>=
@@ -248,7 +249,7 @@ function \code{fitrad}:
   fits by \code{fitsad}, \code{fitrad} and \code{radfit} of \emph{vegan} 
   package provide similar estimates of model coefficients 
   but not comparable likelihood values. The reason for this is the fact each function fits models that assign 
-  probability to data in different ways. Function \code{fitsad} fits PDFs to observed abundances and \code{fitrad} fits PDFs 
+  probability values to data in different ways. Function \code{fitsad} fits PDFs to observed abundances and \code{fitrad} fits PDFs 
   to the ranks of the abundances. Finally, \code{radfit} of \emph{vegan} fits a Poisson generalized linear model 
   to the \emph{expected abundances} deduced 
   from rank-abundance relationships from the corresponding sads and rads models \citep{wilson1991}. 
