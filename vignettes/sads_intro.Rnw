@@ -67,7 +67,7 @@ library(sads)
 \subsection{Developer version}
 \label{sec:developer-version}
 
-The current developer version may be installed from GitHub with:
+The current developer version can be installed from GitHub with:
 
 @
 <<install-dev-version, eval=FALSE >>=
