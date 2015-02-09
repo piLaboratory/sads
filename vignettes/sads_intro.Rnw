@@ -156,8 +156,8 @@ probability distributions to empirical sads. The working horses are the
 functions \code{fitsad} for fitting species abundance distributions
 and \code{fitrad} for fitting rank-abundance distributions. The first
 argument of these functions is the vector of observed abundances 
-\footnote{\code{fitrad} also accepts a rank-abundance table returned by function \code{rad} as its first argument.} 
-and the second argument is the name of the model to be fitted.
+\footnote{\code{fitrad},which also accepts a rank-abundance table returned by function \code{rad} as its first argument.} 
+The second argument is the name of the model to be fitted.
 Please refer to the help
 page of the functions for details on the models. For more information
 on the fitting procedure see also the vignette of
@@ -171,7 +171,7 @@ To fit a log-series distribution use the argument \code{sad='ls'}:
 @ %def 
 
 The resulting model object inherits from \emph{mle2}
-\citep{Bolkerbbmle}, and all usual methods for model objects, such as
+\citep{Bolkerbbmle}, and from all other usual methods for model objects, such as
 summaries, log-likelihood, and AIC values:
 @ 
 <<Operations on fitsad object>>=
@@ -195,7 +195,7 @@ moths.ls.prf <- profile(moths.ls)
 confint(moths.ls.prf) # conf intervals
 @ %def 
 
-And then use \code{plotprofmle} to plot likelihood profiles at the original scale (relative negative log-likelihood)
+Then use \code{plotprofmle} to plot likelihood profiles at the original scale (relative negative log-likelihood)
 and function \code{plot} to get plots at chi-square scale (square-root of twice the relative log-likelihood):
 
 \setkeys{Gin}{width=\textwidth}
@@ -209,7 +209,7 @@ par(mfrow=c(1,1))
 @ %def
 
 
-When applied on a sad model object the function \code{plot} returns four diagnostic plots:
+When applied on a sad model object, the function \code{plot} returns four diagnostic plots:
 @ 
 <<Plot-of-predicted-values, fig=TRUE>>=
 par(mfrow=c(2,2))
@@ -220,7 +220,7 @@ par(mfrow=c(1,1))
 
 The first two plots (top right and left) are the octave and rank-abundance plots with the predicted values 
 of number of species in each octave 
-and abundances of each species. The two last plots (bottom) are quantile-quantile and percentile-percentile graphs of 
+and of each species' abundance. The two last plots (bottom) are quantile-quantile and percentile-percentile graphs of 
 the observed vs. predicted abundances. The straight line indicates the expected relation in case of perfect fit.
 
 \subsection{SADs vs RADs}
