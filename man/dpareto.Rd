@@ -54,7 +54,7 @@ values \code{NaN}, with a warning.
 
 \details{
 The Pareto distribution is a continuous power-law density distribution
-with \code{scale} and \code{shape} parameters that has the form:
+with \code{scale} and \code{shape} parameters with the form:
 
 f(x) = shape * scale^shape / x^(shape+1)
 
