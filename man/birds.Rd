@@ -17,17 +17,17 @@ data(birds)
 }
 
 \format{
-  A unnamed vector of integers
+  An unnamed vector of integers
 }
 
 \details{
-  This is one of the datasets that F. W. Preston used  to show the
+  This is one of the datasets that F. W. Preston used in order to show the
   application of the lognormal distribution to describe the abundance of species
   in a sample of a biological community.
 }
 
 \source{
-  Table IA of Preston (1948), which did not provide species names.
+  Table IA of Preston (1948), which did not provide species' names.
 }
 
 
