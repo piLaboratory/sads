@@ -96,7 +96,7 @@ fitweibull(x, trunc, start.value,  \dots)
   %% }
 
   \item{upper}{
-    real positive; upper bound for the Brent's one-parameter optimization
+    real positive; upper bound for Brent's one-parameter optimization
     method (default), for fits that use this method by default. See
     details and \code{optim}.
   }
@@ -161,7 +161,7 @@ fitweibull(x, trunc, start.value,  \dots)
   with zero individuals in the sample are in general unknown,
   these functions fit by default zero-truncated distributions.
   Using the geometric distribution as a SAD model is not to be
-  confounded to fitting the Geometric series \code{\link{fitgs}}
+  confounded for fitting the Geometric series \code{\link{fitgs}}
   as a rank-abundance distribution (RAD) model.
 
   Function \code{fitls} implements the original numerical recipe by Fisher (1943) to
@@ -172,7 +172,7 @@ fitweibull(x, trunc, start.value,  \dots)
   Fitting is done through numerical optimization with the \code{uniroot}
   function, following the code of the function \code{fishers.alpha} of the
   \pkg{untb} package. After that, the estimated value of alpha parameter is
-  use as the starting value to get the Log-likelihood from the lamaseries density
+  used as the starting value to get the Log-likelihood from the lamaseries density
   function \code{dls}, using the function \code{mle2}.
 
   Function \code{fitbs} fits the Broken-stick distribution
@@ -187,20 +187,20 @@ fitweibull(x, trunc, start.value,  \dots)
   to return an object of classes \code{fitsad}
   to keep compatibility with other
   SADs models fitted to the same data.
-  Therefore the resulting objects allows most of the
+  Therefore, the resulting objects allows most of the
   operations with SAD models, such as
   comparison with other models through model selection,
   diagnostic plots and so on
   (see \code{\link{fitsad-class}}).
 
   Function \code{fitpoilog} fits the Poisson-lognormal distribution.
-  This is a compound distributions that describes the abundances
-  of species in Poisson sample of community that follows a
+  This is a compound distribution that describes the abundances
+  of species in a Poisson sample of community that follows a
   lognormal SAD. This is a sampling model of SAD, which is
   approximated by the \sQuote{veil line} truncation of the lognormal
   (Preston 1948). The Poisson-lognormal is the analytic
   solution for this sampling model, as Fisher's log-series
-  is a analytic limit case for a Poisson-gamma
+  is an analytic limit case for a Poisson-gamma
   (a.k.a negative binomial) distribution. As geometric and
   negative binomial distributions, the Poisson-lognormal
   includes zero, but the fit is zero-truncated
