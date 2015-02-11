@@ -32,7 +32,7 @@ dpoix(x, frac, rate, log=FALSE)
 }
 \details{
   A compound Poisson-exponential distribution is a Poisson probability distribution
-  where its single parameter lambda, is frac*n, where n
+  where its single parameter lambda, is frac*n, at which n
   is a random variable with exponential distribution. Thus, the expected value and variance are E[X] =
   Var[X] = frac*n . The density function is
 
@@ -46,7 +46,7 @@ dpoix(x, frac, rate, log=FALSE)
   function.  
 
   Hence, a Poisson-exponential distribution is a model for species
-  abundances distributions (SAD) in a sample taken from a community under the assumptions that (a) species
+  abundances distributions (SAD) in a sample taken from a community under the assumptions: (a) species
   abundances in the community are independent identically distributed
   exponential variables, (b) sampling is a Poisson process with expected
   value 'frac*n', (c) individuals are sampled with replacement, or the
