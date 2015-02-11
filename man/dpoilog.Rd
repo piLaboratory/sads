@@ -43,7 +43,7 @@ qpoilog( p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE)
 
 \details{
   A compound Poisson-lognormal distribution is a Poisson probability distribution
-  where its single parameter lambda, is a random variable with lognormal distribution. 
+  where its single parameter lambda is a random variable with lognormal distribution. 
   The density function is 
 
   p(x) = (exp(x*mu + x^2*sig/2)*(2*pi*sig)^(-1/2))/x! * g(y)
@@ -55,13 +55,13 @@ qpoilog( p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE)
 
   In ecology, this distribution gives the probability that a species has
   an abundance of x individuals in a random sample of a fraction 'f' of the
-  community. In the community the species abundances are independent
+  community. In the community, the species abundances are independent
   random variables that follow a lognormal density function, with
   parameters (mu + ln(f), sigma) (Engen et al. 2002).
 
   Hence, a Poisson-lognormal distribution is a model for species
   abundances distributions (SAD) in a sample taken from a community
-  under the assumptions that (a) species
+  under the assumptions: (a) species
   abundances in the community are independent identically distributed
   lognormal variables, (b) sampling is a Poisson process with expected
   value E[x]= f*n where n is the abundance in the community and f the
