@@ -34,17 +34,17 @@ dpoig(x, frac, rate, shape, log=FALSE)
 
 \details{
   A compound Poisson-gamma distribution is a Poisson probability distribution
-  where its single parameter, the process mean rate, is frac*n, where n
+  where its single parameter, the process mean rate, is frac*n, at which n
   is a random variable with gamma distribution. The density function
   is given by Green & Plotkin (2007) 
 
   In ecology, this distribution gives the probability that a species has
   an abundance of x individuals in a random sample of a fraction frac of
   the community. In the community the species abundances are independent
-  random variables that follow an gamma density function.
+  random variables that follow a gamma density function.
 
   Hence, a Poisson-gamma distribution is a model for species
-  abundances distributions (SAD) under the assumptions that (a) species
+  abundances distributions (SAD) under the assumptions: (a) species
   abundances in the community are independent identically distributed
   gamma variables, (b) sampling is a Poisson process with expected
   value frac*n, (c) the sampling is done with replacement, or the fraction
