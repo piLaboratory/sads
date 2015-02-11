@@ -74,7 +74,7 @@ qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
   g'(x) and G'(x) defined above for
   a vector of values \code{x} from any
   standard distribution function available in R.
-  This means that the 'upper tail' of a continuous distribution
+  This means the 'upper tail' of a continuous distribution
   is rescaled to integrate to one.
   Accordingly, for discrete distributions, the probabilities
   for all \code{x}>trunc are rescaled to sum one.
