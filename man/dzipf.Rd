@@ -56,9 +56,9 @@ qzipf( p, N, s, lower.tail = TRUE, log.p = FALSE)
   N -> Inf.
 
   The Zipf distribution has a wide range of applications (Li 2011). One
-  of its best know application is to describe the probability
-  of occurrence of a given word that has a ranking \code{x} in a \emph{corpus} that has a total of \code{N}
-  words. It can be used as well to describe the probability of the
+  of its best known applications is describing the probability
+  of occurrence of a given word that has a ranking \code{x} in a \emph{corpus} with a total of \code{N}
+  words. It can also be used to describe the probability of the
   abundance rank of a given species in a sample or assemblage of \code{N} species.
 }
 

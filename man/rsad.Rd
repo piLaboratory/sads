@@ -62,7 +62,7 @@ rsad(S, frac, sad, Pois.samp = TRUE, k , zeroes = FALSE, ssize=1, \dots)
   binomial sampling with replacement of a vector of \code{S} realizations of a random variable,
   with the sampling intensity given by \code{frac}. The resulting values are
   realizations of a Poisson (or a Negative Binomial) random variable where the
-  parameter that correspond to the mean (=expected value of the variable) follows a probability
+  parameter that corresponds to the mean (=expected value of the variable) follows a probability
   distribution given by the argument \code{sad}.
 }
 

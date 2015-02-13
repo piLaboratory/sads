@@ -63,7 +63,7 @@ qls(p, N, alpha, lower.tail = TRUE, log.p = FALSE)
   supplementary material). In ecology, this density distribution gives
   the probability that a species has
   an abundance of x individuals in a random sample of size N of the
-  community. In the community the species abundances are independent
+  community. In the community, the species abundances are independent
   random variables that follow a log-series distribution. Thus, a random
   sample of a log-series is also a log-series distribution.
   

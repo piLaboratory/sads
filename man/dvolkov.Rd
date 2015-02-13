@@ -77,7 +77,7 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
   are replaced by the offspring of other individuals picked at random;
   (2) replacement of a dead individual by an immigrant --
   with probability m individuals picked at random
-  are replaced by an immigrants taken at random from a pool
+  are replaced by immigrants taken at random from a pool
   of potential colonizers (the metacommunity).
 
   Volkov et al. (2003, eq.7) provide the stationary solution for

@@ -37,7 +37,7 @@
 \details{Preston (1948) popularized the use of histograms with
   logarithmic classes to depict species abundance distributions
   (Magurran 1989). Preston used classes at log base two, which he called
-  \sQuote{octaves} as their end-points double from one classe to the other. In
+  \sQuote{octaves} as their end-points double from one class to the other. In
   Preston original method half of the species with abundances equal to the
   limits of octaves are credited to the neighboring octave. If
   \code{preston=TRUE} this non-standard method of class closure is

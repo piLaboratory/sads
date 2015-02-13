@@ -71,8 +71,8 @@ qrbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
 
   \code{[dpq]rbs} stands for "rank-abundance Broken-stick" and return
   probabilities and quantiles based on the expression above, for p(i).
-  Therefore, \code{[dpq]rbs} can be used as rank-abundance model
-  for species ranks in a sample or biological community
+  Therefore, \code{[dpq]rbs} can be used as a rank-abundance model
+  for species' ranks in a sample or in a biological community
   see \code{\link{fitrad}}.
 
   The probability density for a given abundance value in the Broken-stick model

@@ -82,7 +82,7 @@
   observations. In its original formulation, however, the likelihood is
   proportional to the product of probabilities, not probabilities
   densities (Fisher 1922, stressed by Lindsey 1999).  For continuous
-  variables these probabilities are calculated through integration of
+  variables, these probabilities are calculated through integration of
   the probability density function in an interval. For observed values
   of continuous variables, this interval is defined by the measurement
   precision.  The likelihood function is thus any function proportional
