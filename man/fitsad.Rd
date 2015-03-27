@@ -128,19 +128,23 @@ fitweibull(x, trunc, start.value,  \dots)
   The distributions are fitted by the
   maximum likelihood method using numerical optimization,
   with \code{mle2}.
-  The result object is of \code{fitsad-class}
+  The resulting object is of \code{fitsad-class}
   which can be handled with \code{mle2} methods
   for fitted models and has also some additional
   methods for SADs models (see
   \code{\link{fitsad-class}} and examples).
   
-  Functions \code{fitgamma}, \code{fitlnorm}, \code{fitweibull}, fit the
+  Functions \code{fitgamma}, \code{fitlnorm} and \code{fitweibull} fit the
   standard continuous distributions most used as SADs models.
   Functions \code{power} and \code{pareto} fit power-law continuous distributions
   with one and two-parameters, that have been suggested as SADs models.
   As species with null abundances in the sample are in general unknown, the
-  fit to continuous distribution can be improved by truncation to some value
-  above zero (see example).
+  fit to continuous distributions can be improved by truncation to some value
+  above zero (see example). Convergence problems can occur when fitting
+  with truncation, and can be solved with sensible starting values.
+  \code{fitgamma} uses Chapman's (1956) fitting method to find starting
+  values for the truncated gamma distribution.
+
   %% By default, all continuous distributions
   %% are fit using the
   %% correct likelihood for independent observations of a
@@ -172,19 +176,19 @@ fitweibull(x, trunc, start.value,  \dots)
   Fitting is done through numerical optimization with the \code{uniroot}
   function, following the code of the function \code{fishers.alpha} of the
   \pkg{untb} package. After that, the estimated value of alpha parameter is
-  used as the starting value to get the Log-likelihood from the lamaseries density
+  used as the starting value to get the Log-likelihood from the log-series density
   function \code{dls}, using the function \code{mle2}.
 
   Function \code{fitbs} fits the Broken-stick distribution
   (MacArthur 1960). It is defined only by the observed number of
   elements \code{S} in the collection and collection size \code{N}.
-  Therefore, once a sample is taken,
+  Thus once a sample is taken,
   the Broken-stick has no free parameters.
   Therefore, there is no actual fitting, but still
   \code{fitbs} calls
   \code{mle2} with
   fixed parameters \code{N} and \code{S} and \code{eval.only=TRUE}
-  to return an object of classes \code{fitsad}
+  to return an object of class \code{fitsad}
   to keep compatibility with other
   SADs models fitted to the same data.
   Therefore, the resulting objects allows most of the
@@ -251,6 +255,10 @@ fitweibull(x, trunc, start.value,  \dots)
   general maximum likelihood estimation. R package version 1.0.5.2.
   http://CRAN.R-project.org/package=bbmle
 
+  Chapman, D. G. 1956. Estimating the parameters of a truncated gamma
+  distribution. \emph{The Annals of Mathematical Statistics, 27(2)}:
+  498--506.
+
   Fisher, R.A, Corbert, A.S. and Williams, C.B. (1943) The Relation
   between the number of species and the number of individuals in a
   random sample of an animal population.
@@ -265,9 +273,6 @@ fitweibull(x, trunc, start.value,  \dots)
   
   Hubbell, S.P.  2001.  \emph{The Unified Neutral Theory of Biodiversity}.
   Princeton University Press
-  
-  Lindsey, J.K. 1999. Some statistical heresies. \emph{The Statistician
-    48}(1): 1--40.
   
   MacArthur, R.H. 1960. On the relative abundance of species.
   \emph{Am Nat 94}:25--36.
