@@ -433,10 +433,11 @@ setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
             if(missing(oct)){
                 oct <- 0:(ceiling(max(log2(x)))+1)
                 if(any(x < 1)){
-                    octlower <- ceiling(min(log2((x)))):-1
+                    octlower <- floor(min(log2((x)))):-1
                     oct <- c(octlower, oct)
                 }
             }
+            oct <- unique(oct)
             n <- 2^oct
             if(!is.na(trunc)){
               if(sad == "ls")
@@ -477,10 +478,11 @@ setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
             if(missing(oct)){
                 oct <- 0:(ceiling(max(log2(x)))+1)
                 if(any(x < 1)){
-                    octlower <- ceiling(min(log2((x)))):-1
+                    octlower <- floor(min(log2((x)))):-1
                     oct <- c(octlower, oct)
                 }
             }
+            oct <- unique(oct)
             n <- 2^oct
             if(!is.na(trunc)){
               ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
@@ -507,10 +509,11 @@ setMethod("octavpred", signature(object="numeric",sad="missing", rad="character"
             if(missing(oct)){
                 oct <- 0:(ceiling(max(log2(x)))+1)
                 if(any(x < 1)){
-                    octlower <- ceiling(min(log2((x)))):-1
+                    octlower <- floor(min(log2((x)))):-1
                     oct <- c(octlower, oct)
                 }
             }
+            oct <- unique(oct)
             n <- 2^oct
             if(!missing(trunc)){
               ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
@@ -535,10 +538,11 @@ setMethod("octavpred", signature(object="numeric",sad="character", rad="missing"
             if(missing(oct)){
                 oct <- 0:(ceiling(max(log2(x)))+1)
                 if(any(x < 1)){
-                    octlower <- ceiling(min(log2((x)))):-1
+                    octlower <- floor(min(log2((x)))):-1
                     oct <- c(octlower, oct)
                 }
             }
+            oct <- unique(oct)
             n <- 2^oct
             if(!missing(trunc)){
               if(sad == "ls")

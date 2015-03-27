@@ -16,6 +16,7 @@ octav <- function(x, oct, preston=FALSE){
       if(min(oct)>min(log2(y))||max(oct)<max(log2(y))) stop(" 'oct' should include all abundance values in 'x' ")
       oct <- min(oct):max(oct)
   }
+  oct <- unique(oct)
   N <- 2^(oct)
   oc.class <- cut(y, breaks=c(0, N), labels=oct)
   res <- as.data.frame(table(oc.class))
