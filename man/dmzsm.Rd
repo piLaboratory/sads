@@ -59,12 +59,12 @@ pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
   Alonso and McKane (2004) proposed an approximation for the density
   function for a large Poisson sample (J>100):
 
-  p(x) = N(x)/(sum(from 1 to S) N(x))
+  \deqn{p(x) = \frac{N(x)}{\sum_1^S N(x)}}{p(x) = N(x)/(sum(from 1 to S) N(x))}
 
   where S is the number of populations in the sample, and
   N(x) is the expected number of sampled populations of size x :
   
-  N(x) = theta/x (1 - x/J)^(theta -1)
+  \deqn{N(x) = \frac{\theta}{x (1 - x/J)^{\theta -1}}}{N(x) = theta/x (1 - x/J)^(theta -1)}
   
   Therefore, the mZSM 
   is a model for species

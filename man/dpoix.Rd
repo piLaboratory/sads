@@ -33,8 +33,8 @@ dpoix(x, frac, rate, log=FALSE)
 \details{
   A compound Poisson-exponential distribution is a Poisson probability distribution
   where its single parameter lambda, is frac*n, at which n
-  is a random variable with exponential distribution. Thus, the expected value and variance are E[X] =
-  Var[X] = frac*n . The density function is
+  is a random variable with exponential distribution. Thus, the expected
+  value and variance are E[X] = Var[X] = frac*n . The density function is
 
   p(y) = rate*frac^y / (frac + rate)^(y+1)
 

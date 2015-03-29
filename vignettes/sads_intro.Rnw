@@ -17,7 +17,7 @@
 \newcommand{\R}{{\sf R}}
 \newcommand{\code}[1]{\texttt{#1}}
 \SweaveOpts{eval=TRUE, keep.source=TRUE, echo=TRUE}
-\VignetteIndexEntry{Introduction to sads}
+%\VignetteIndexEntry{Introduction to sads}
 
 \begin{document}
 

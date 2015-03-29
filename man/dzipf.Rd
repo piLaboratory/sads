@@ -49,7 +49,7 @@ qzipf( p, N, s, lower.tail = TRUE, log.p = FALSE)
   law, this probability  is inversely proportional to a power \code{s} of the frequency
   rank of the element in the set. The density function is
 
-  p(x) = (x^(-s)) / sum((1:N)^(-s))
+  \deqn{p(x) = \frac{x^{-s}}{\sum_{i=1}^N i^{-s}}}{p(x) = ((x+v)^(-s)) / sum(((1:N)+v)^(-s))}
 
   Since p(x) is proportional to a power of \code{x}, the Zipf distribution is a
   power distribution. The Zeta distribution is a special case at the limit

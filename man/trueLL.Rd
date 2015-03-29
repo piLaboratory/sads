@@ -6,7 +6,7 @@
 \alias{trueLL,fitsad,ANY,missing,missing,numeric-method}
 \alias{trueLL,numeric,character,list,ANY,numeric-method}
 
-\title{True likelihood for continuous variables}}
+\title{True likelihood for continuous variables}
 
 \description{
   Calculates the correct likelihood for independent observations of a

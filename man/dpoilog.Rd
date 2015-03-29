@@ -46,10 +46,12 @@ qpoilog( p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE)
   where its single parameter lambda is a random variable with lognormal distribution. 
   The density function is 
 
-  p(x) = (exp(x*mu + x^2*sig/2)*(2*pi*sig)^(-1/2))/x! * g(y)
+  \deqn{p(x) = \frac{e^{x \mu + x^2 \sigma/2} (2 \pi \sigma)^{-1/2}}{x!}
+  \, g(y)}{p(x) = (exp(x*mu + x^2*sig/2)*(2*pi*sig)^(-1/2))/x! * g(y)}
 
-  where g(y) =
-  int_-infty^infty exp(-exp(y))*exp(((-y-mu-x*sig)^2)/(2*sig)) dy
+    where
+    \deqn{g(y) = \int_{-\infty}^\infty  \, e^{-e^y} \frac{e^{(-y-\mu-x
+	  \sigma)^2}}{2 \sigma}  \, dy}{g(y) = int_-infty^infty exp(-exp(y))*exp(((-y-mu-x*sig)^2)/(2*sig)) dy}
 
   (Bulmer 1974 eq.5). For x = 0, 1, 2, ... .
 
