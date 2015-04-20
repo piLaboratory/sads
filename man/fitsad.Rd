@@ -343,9 +343,12 @@ AICtab(moths.ln, moths.pln, moths.ls, moths.mzsm, weights=TRUE)
 
 ## Biomass as abundance variable
 data(ARN82.eB.apr77) #benthonic marine animals
-AR.ln <- fitsad(ARN82.eB.apr77, sad="lnorm", dec.places=2)
-AR.g <- fitsad(ARN82.eB.apr77, sad="gamma", dec.places=2)
-AR.wb <- fitsad(ARN82.eB.apr77, sad="weibull", dec.places=2)                
+#AR.ln <- fitsad(ARN82.eB.apr77, sad="lnorm", dec.places=2)
+AR.ln <- fitsad(ARN82.eB.apr77, sad="lnorm")
+#AR.g <- fitsad(ARN82.eB.apr77, sad="gamma", dec.places=2)
+AR.g <- fitsad(ARN82.eB.apr77, sad="gamma")
+#AR.wb <- fitsad(ARN82.eB.apr77, sad="weibull", dec.places=2)                
+AR.wb <- fitsad(ARN82.eB.apr77, sad="weibull")
 plot(octav(ARN82.eB.apr77))
 lines(octavpred(AR.ln))
 lines(octavpred(AR.g), col="red")
