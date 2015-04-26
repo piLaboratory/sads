@@ -26,7 +26,7 @@
 
 \value{
   an object of class \code{octav}, which is a data frame with three vectors:
-  \item{octav}{factor; octave number, which is the upper
+  \item{octav}{integer; octave number, which is the upper
     limit of the class in log2.}
   \item{upper}{numeric; upper limit of the class in arithmetic
     scale.}
