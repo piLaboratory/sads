@@ -10,7 +10,8 @@
 }
 
 \usage{
-rsad(S, frac, sad, Pois.samp = TRUE, k , zeroes = FALSE, ssize=1, \dots)
+rsad(S, frac, sad = c("gamma", "geom", "lnorm", "rnbinom", "rpoilog", "rweibull"), 
+	Pois.samp = TRUE, k , zeroes = FALSE, ssize=1, \dots)
 }
 
 \arguments{
@@ -23,8 +24,9 @@ rsad(S, frac, sad, Pois.samp = TRUE, k , zeroes = FALSE, ssize=1, \dots)
   }
   \item{sad}{
     character; root name of community sad distribution - e.g., \kbd{lnorm}
-    for the lognormal distribution; 
-    \kbd{geom} for the geometric distribution.
+    for the lognormal distribution; \kbd{geom} for the geometric distribution.
+	Note that only the following distributions have random generators implemented:
+	\kbd{gamma}, \kbd{geom}, \kbd{lnorm}, \kbd{rnbinom}, \kbd{rpoilog}, \kbd{rweibull}
   }  
   \item{Pois.samp}{
     logical; if \kbd{TRUE} the sampling process is Poisson (independent sampling of
