@@ -457,7 +457,7 @@ setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
                 Y <- do.call(psad, c(list(q = n),coef,dots))
             }
             Y <- c(Y[1], diff(Y))*S
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y))
           }
           )
 
@@ -492,7 +492,7 @@ setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
               ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
             }
 			Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y$counts))
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y$counts))
           }
           )
          
@@ -523,7 +523,7 @@ setMethod("octavpred", signature(object="numeric",sad="missing", rad="character"
               ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
             }
 			Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y$count))
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y$count))
           }
 )
 
@@ -562,7 +562,7 @@ setMethod("octavpred", signature(object="numeric",sad="character", rad="missing"
                 Y <- do.call(psad, c(list(q = n),coef,dots))
             }
             Y <- c(Y[1], diff(Y))*S
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y))
           }
           )
 
@@ -583,7 +583,7 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
               ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
             }
 			Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y$count))
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y$count))
           }
 )
 
@@ -613,7 +613,7 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
                 Y <- do.call(psad, c(list(q = n),coef,dots))
             }
             Y <- c(Y[1], diff(Y))*S
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y))
           }
           )
 
