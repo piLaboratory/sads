@@ -11,7 +11,7 @@ fitbs <- function(x, trunc, ...){
     }
     if (missing(trunc)){
       LL <- function(N,S) -sum(dbs(x = x, N = N, S = S, log = TRUE))
-      result <- mle2(LL, data = list(x = x), fixed=list(N=n, S=s), eval.only=TRUE, ...)
+	  result <- do.call("mle2", c(list(minuslogl=LL, data = list(x = x), fixed=list(N=n, S=s), eval.only=TRUE), ...))
     }
     new("fitsad", result, sad = "bs", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
   }
