@@ -3,7 +3,7 @@
 ##exportPattern("^[^\\.]")
 #Alternative: export functions explicitly (and do not export internal functions)
 ## Density functions
-export(dbs, dgs, dls, dmand, dmzsm, dpareto, dpoilog, dpower, drbs, dvolkov, dzipf)
+export(dbs, dgs, dls, dmand, dmzsm, dpareto, dpoilog, dpower, drbs, dvolkov, dzipf, dpoig, dpoix)
 ## Probability functions
 export(pbs, pgs,pls, pmand, pmzsm, ppareto, ppoilog, ppower, prbs, pvolkov, pzipf)
 ## Quantile functions
