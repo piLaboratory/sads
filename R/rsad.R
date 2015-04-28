@@ -1,7 +1,7 @@
 rsad <- function(S, frac, sad=c("gamma", "geom", "lnorm","nbinom", "poilog", "weibull"), Pois.samp=TRUE, k, zeroes=FALSE, ssize=1, ...){
     if(ssize<1)stop("ssize must be at least one")
 	sad <- match.arg(sad)
-    sad <- paste("r",sad,sep="")
+	sad <- get (paste("r", sad, sep=""), mode = "function")
     dots <- list(...)
     com <- do.call(sad,c(list(n=S),dots))
     if(Pois.samp) sam=rpois(S*ssize,lambda=frac*com)
