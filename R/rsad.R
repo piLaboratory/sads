@@ -1,4 +1,4 @@
-rsad <- function(S, frac, sad=c("gamma", "geom", "lnorm","rnbinom", "rpoilog", "rweibull"), Pois.samp=TRUE, k, zeroes=FALSE, ssize=1, ...){
+rsad <- function(S, frac, sad=c("gamma", "geom", "lnorm","nbinom", "poilog", "weibull"), Pois.samp=TRUE, k, zeroes=FALSE, ssize=1, ...){
     if(ssize<1)stop("ssize must be at least one")
 	sad <- match.arg(sad)
     sad <- paste("r",sad,sep="")
