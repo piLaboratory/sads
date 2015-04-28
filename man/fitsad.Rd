@@ -23,7 +23,7 @@
 
 \usage{
 fitsad(x, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
-       "poilog","power","weibull","volkov", "fitpoig", "fitpoix"), \dots)
+       "poilog","power","weibull","volkov","poig","poix"), \dots)
 
 fitbs(x, trunc, \dots)
 
