@@ -1,3 +1,4 @@
+library(sads)
 qpoilog<-function(p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE){
   if (length(mu) > 1 | length(sig) > 1) stop("vectorization of mu and sig is currently not implemented")
   if (!all(is.finite(c(mu, sig)))) stop("all parameters should be finite")
@@ -30,3 +31,29 @@ qpoilog<-function(p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE){
   }
   return(d)
 }
+
+qpoilog(0.005, 10, 1)
+
+qfinder <- function(dist, want, coef, ini) {
+	want <- 0.005
+	ini <- 30; guess <- ini
+	f <- "ppoilog"; coef<- list(mu=10, sig=1)
+	# phase 1: double the guess until you overshoot
+	repeat {
+		my.q <- do.call(f, c(q=guess, coef))
+		if (my.q > want) break;
+		guess <- 2*guess
+	}
+	# phase 2: bissect
+	lower <- guess/2
+	upper <- guess
+	repeat {
+		if (upper-lower == 1) break;
+		guess <- round((lower + upper)/2)
+		my.q <- do.call(f, c(q=guess, coef))
+		if(my.q > want) upper <- guess else lower <- guess
+	}
+	upper
+}
+
+qfinder("poilog", 0.005, list(mu=10, sig=1), 30)
