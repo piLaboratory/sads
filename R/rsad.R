@@ -1,6 +1,5 @@
-rsad <- function(S, frac, sad=c("gamma", "geom", "lnorm","nbinom", "poilog", "weibull"), Pois.samp=TRUE, k, zeroes=FALSE, ssize=1, ...){
+rsad <- function(S, frac, sad, Pois.samp=TRUE, k, zeroes=FALSE, ssize=1, ...){
     if(ssize<1)stop("ssize must be at least one")
-	sad <- match.arg(sad)
 	sad <- get (paste("r", sad, sep=""), mode = "function")
     dots <- list(...)
     com <- do.call(sad,c(list(n=S),dots))
