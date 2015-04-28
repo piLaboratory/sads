@@ -1,29 +1,23 @@
-fitls <- function(x, trunc, start.value, upper = length(x), ...){
-  S <- length(x)
-  N <- sum(x)
+fitpoix <- function(x, trunc = 0, start.value, ...){
   if (missing(start.value)){
-    f1 <- function(a) {
-      S + a*log((a/(a + N)))
-    }
-    sol <- uniroot(f1, interval = c(1/N, N))
-    alfa <- sol$root
-    X <- N/(N + alfa)
+	  ## NEEDS BETTER START VALUE!!
+  	  frac = 0.5
+	  rate = 1/mean(x)
   }
   else{
-    alfa <- start.value
+    frac <- start.value[1]
+    rate <- start.value[2]
   }
   if (!missing(trunc)){
     if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
     else{
-      LL <- function(alpha) -sum(dtrunc("ls", x = x, coef = list(N = N, alpha = alpha), trunc = trunc, log = TRUE))
-      result <- mle2(LL, start = list(alpha = alfa), data = list(x = x), method = "Brent", lower = 0, upper = upper, ...)
+      LL <- function(frac, rate) -sum(dtrunc("poix", x = x, coef = list(frac = frac, rate = rate), trunc = trunc, log = TRUE))
+      result <- mle2(LL, start = list(frac = frac, rate=rate), data = list(x = x), ...)
     }
   }
   if (missing(trunc)){
-    LL <- function(alpha) -sum(dls(x, N, alpha, log = TRUE))
-    result <- mle2(LL, start = list(alpha = alfa), data = list(x = x), method = "Brent", lower = 0, upper = upper, ...)
+    LL <- function(frac, rate) -sum(dpoix(x, frac, rate, log = TRUE))
+    result <- mle2(LL, start = list(frac=frac, rate=rate), data = list(x = x), ...)
   }
-  if(abs(as.numeric(result@coef) - upper) < 0.0000001)
-    warning("mle equal to upper bound provided. \n Try new value for the 'upper' argument")
-  new("fitsad", result, sad = "ls", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
+  new("fitsad", result, sad = "poix", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
 }

@@ -12,6 +12,8 @@
 \alias{fitpower}
 \alias{fitvolkov}
 \alias{fitweibull}
+\alias{fitpoig}
+\alias{fitpoix}
 
 \title{ML fitting of species abundance distributions}
 
@@ -21,7 +23,7 @@
 
 \usage{
 fitsad(x, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
-       "poilog","power","weibull","volkov"), \dots)
+       "poilog","power","weibull","volkov", "fitpoig", "fitpoix"), \dots)
 
 fitbs(x, trunc, \dots)
 
@@ -46,6 +48,10 @@ fitpower(x, trunc, start.value, upper = 20, \dots)
 fitvolkov(x, trunc, start.value, \dots)
 
 fitweibull(x, trunc, start.value,  \dots)
+
+fitpoig(x, trunc = 0, start.value, \dots)
+
+fitpoix(x, trunc = 0, start.value, \dots)
 }
 
 \arguments{
@@ -197,18 +203,20 @@ fitweibull(x, trunc, start.value,  \dots)
   diagnostic plots and so on
   (see \code{\link{fitsad-class}}).
 
-  Function \code{fitpoilog} fits the Poisson-lognormal distribution.
-  This is a compound distribution that describes the abundances
+  Functions \code{fitpoilog}, \code{fitpoix} and \code{fitpoig}
+  fit the Poisson-lognormal, Poisson-exponential and Poisson-gamma distributions.
+  These are compound distributions that describe the abundances
   of species in a Poisson sample of community that follows a
-  lognormal SAD. This is a sampling model of SAD, which is
+  lognormal, exponential or gamma SAD. 
+  The Poisson-lognormal is
   approximated by the \sQuote{veil line} truncation of the lognormal
   (Preston 1948). The Poisson-lognormal is the analytic
   solution for this sampling model, as Fisher's log-series
   is an analytic limit case for a Poisson-gamma
   (a.k.a negative binomial) distribution. As geometric and
-  negative binomial distributions, the Poisson-lognormal
-  includes zero, but the fit is zero-truncated
-  by default, as for \code{fitgeom}, \code{fitnbinom}.
+  negative binomial distributions, these compound distributions
+  include zero, but the fit is zero-truncated
+  by default.
   
   \code{fitmzsm} fits the metacommunity Zero-sum multinomial distribution
   \code{\link{dmzsm}} from the Neutral Theory of Biodiversity
