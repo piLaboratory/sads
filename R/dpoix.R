@@ -1,11 +1,13 @@
 dpoix <- function(x, frac, rate, log=FALSE) {
-	if(any(!is.wholenumber(x)))
-		stop("dpoix is a discrete PDF; all x's must be integers")
+	x[ ! is.wholenumber(x) | x < 0 ] <- NaN
+	frac[ !is.finite(frac) | frac <= 0 ] <- NaN
+	rate[ !is.finite(rate) | rate <= 0 ] <- NaN
 	b <- x*log(frac)
 	m <- log(rate)
 	n <- (x+1)*log(rate+frac)
-	vals <- exp(b+m-n)
-	if(log) log(vals) else vals
+	vals <- b+m-n
+	if (any(is.nan(vals))) warning ("NaNs produced")
+	if(log) vals else exp(vals)
 }
 
 

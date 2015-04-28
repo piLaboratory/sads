@@ -1,8 +1,11 @@
 dpoig <- function(x, frac, rate, shape, log=FALSE) {
-	if(any(!is.wholenumber(x)))
-		stop("dpoig is a discrete PDF; all x's must be integers")
+	x[ ! is.wholenumber(x) | x < 0 ] <- NaN
+	frac[ !is.finite(frac) | frac <= 0 ] <- NaN
+	rate[ !is.finite(rate) | rate <= 0 ] <- NaN
+	shape[ !is.finite(shape) | shape <= 0 ] <- NaN
 	b <- x*log(frac)+shape*log(rate)+lgamma(x+shape)
 	c <- lfactorial(x)+lgamma(shape)+(x+shape)*log(frac+rate)
-	vals<-exp(b-c)
-	if(log)log(vals) else vals
+	vals<-b-c
+	if (any(is.nan(vals))) warning ("NaNs produced")
+	if(log)vals else exp(vals)
 }
