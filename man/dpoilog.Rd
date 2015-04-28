@@ -13,7 +13,7 @@
 \usage{
 dpoilog( x, mu, sig, log=FALSE)
 ppoilog( q, mu, sig, lower.tail=TRUE, log.p=FALSE)
-qpoilog( p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE)
+qpoilog( p, mu, sig, lower.tail = TRUE, log.p = FALSE)
 }
 
 \arguments{
@@ -35,9 +35,6 @@ qpoilog( p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE)
   \item{lower.tail}{
     logical; if TRUE (default), probabilities are P[X <= x],
     otherwise, P[X > x].
-  }
-  \item{S}{positive integer; initial value for bisection method.
-    (see note)
   }
 }
 
@@ -75,13 +72,6 @@ qpoilog( p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE)
 \value{
   'dpoilog' gives the (log) density of the density, 'ppoilog' gives the (log)
   distribution function, 'qpoilog' gives the quantile function.
-}
-
-\note{
-  parameter \code{S} in \code{qpoilog} is just a starting value for the
-  bisection method, and does not affect the final result, only the
-  convergence velocity. A good guess is the total number of observations,
-  which in the context of SADs is the observed number of species.
 }
 
 \source{
