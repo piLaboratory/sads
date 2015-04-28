@@ -22,9 +22,9 @@
 \section{Slots}{
   \describe{
     \item{\code{.Data}:}{Object of class \code{"list"} a data frame of
-      three vectors: octave number (factor), which is the upper
+      three vectors: octave number (integer), which is the upper
       limit of the class in log2; upper limit of the class in arithmetic
-      scale (numeric); number of cases in each class (integer). }
+      scale (numeric); number of cases in each class (numeric). }
     \item{\code{names}:}{Object of class \code{"character"}; names of
       the three vectors of \code{.Data}, \code{"octave"},
       \code{"upper"}, and \code{"Freq"}, respectively.  }
