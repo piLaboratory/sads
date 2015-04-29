@@ -16,8 +16,8 @@ cumsumW <- function(f, q, coef, lower.tail, log.p, pad) {
 		z <- cumsum(do.call(dist, c(list(x=0:max(q)), coef)))
 	y <- z[q+1]
 	y[! is.wholenumber(q) ] <- NaN
-  if(!lower.tail) y <- 1-y
-  if(log.p) y <- log(y)
+	if(!lower.tail) y <- 1-y
+	if(log.p) y <- log(y)
 	y[is.na(y)] <- NaN
 	return (y)
 }
