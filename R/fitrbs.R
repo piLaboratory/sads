@@ -16,6 +16,6 @@ fitrbs <- function(x, trunc, ...){
   else{
     LL <- function(N, S) -sum(dtrunc("rbs", x = y, coef = list(N = N, S = S), trunc = trunc, log = TRUE))
   }
-  result <-  mle2(LL, start = list(N=N, S = S), data = list(x = y), fixed=list(N=N, S=S), eval.only=T, ...)
+  result <- do.call("mle2", c(list(LL, start = list(N=N, S = S), data = list(x = y), fixed=list(N=N, S=S), eval.only=T), ...))
   new("fitrad", result, rad="rbs", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc), rad.tab=rad.tab)
 }

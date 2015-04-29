@@ -13,6 +13,6 @@ fitgs <- function(x, trunc, ...){
   if (missing(trunc)){
     LL <- function(k) -sum(dgs(y, k, S, log = TRUE))
   }
-  result <- mle2(LL, start = list(k=0.01), data = list(x = y), method = "Brent", lower = 1e-16, upper = 1-1e-16, ...)
+  result <- do.call("mle2", c(list(LL, start = list(k=0.01), data = list(x = y), method = "Brent", lower = 1e-16, upper = 1-1e-16), ...))
   new("fitrad", result, rad = "gs", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc), rad.tab=rad.tab)
 }
