@@ -1,8 +1,15 @@
 dpoilog <- function(x, mu, sig, log = FALSE){
-	x[ ! is.wholenumber(x) | x < 0] <- NaN
-	mu[ !is.finite(mu) ] <- NaN
-	sig[ !is.finite(sig) | sig <= 0] <- NaN
+	#### FIX: poilog::dpoilog throws an error if an invalid parameter is entered
+	#### so we have to circumvent the error here:
+	if (length(mu) > 1 | length(sig) > 1) stop ("Vectorization of parameters not implemented")
+	to.NaN <- ! is.wholenumber(x) | x < 0
+	if (!is.finite(mu)) to.NaN <- 1:length(x)
+	if (!is.finite(sig) | sig <= 0) to.NaN <- 1:length(x)
+	x[! is.wholenumber(x) | x < 0] <- 0
+	mu[ !is.finite(mu) ] <- 1
+	sig[ !is.finite(sig) | sig <= 0] <- 1
 	y <- poilog::dpoilog(x, mu, sig)
+	y[to.NaN] <- NaN
 	if (any(is.nan(y))) warning ("NaNs produced")
 	if (log) return(log(y))
 	else return(y)

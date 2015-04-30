@@ -7,13 +7,17 @@ is.wholenumber	<-function(x, tol = .Machine$double.eps^0.5){
 qfinder <- function(dist, want, coef) {
 	if (any(sapply(coef, length) > 1)) stop("Vectorization not implemented for the parameters")
 	f <- get(paste("p",dist, sep=""), mode="function")
-	guess <- 1
-	last <- 0
-	# "phase 0": is 1 overshooting? Is q = Inf?
-	if (do.call(f, c(q=0, coef)) >= want) return (0);
-	if (do.call(f, c(q=1, coef)) >= want) return (1);
+	# "phase 0": are the params invalid? is 0 overshooting? Is q = Inf?
+	if (want < 0) return (NaN);
     if (want >= 0.999999999999999999) return (Inf); 
+	q0 <- do.call(f, c(q=0, coef))
+	if (!is.nan(q0)) if (q0 >= want) return (0);
+	q1 <- do.call(f, c(q=1, coef))
+	if (is.nan(q1)) return (NaN);
+	if (q1 >= want) return (1);
 	# phase 1: double the guess until you overshoot
+	guess <- 2
+	last <- 0
 	repeat {
 		my.q <- do.call(f, c(q=guess, coef))
 		if (my.q > want) break;
