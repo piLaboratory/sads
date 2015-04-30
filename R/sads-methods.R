@@ -405,7 +405,7 @@ setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
 				Y <- do.call(psad, c(list(q = n),coef,dots))
             }
             Y <- c(Y[1], diff(Y))*S
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y))
           }
           )
 
@@ -437,11 +437,11 @@ setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
               drad <- get(paste("d",rad,sep=""),mode="function")
               ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
             }
-            Y <- as.numeric(table(cut(ab,breaks=c(2^(min(oct)-2),n))))  
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
+			Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y$counts))
           }
           )
-          
+         
 ## if object is a numeric vector of abundances and rad argument is given (sad, S, N,  arguments should be missing)
 setMethod("octavpred", signature(object="numeric",sad="missing", rad="character",
                                  coef="list", trunc="ANY", oct="ANY", S="missing", N="missing"),
@@ -466,8 +466,8 @@ setMethod("octavpred", signature(object="numeric",sad="missing", rad="character"
               drad <- get(paste("d",rad,sep=""),mode="function")
               ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
             }
-            Y <- as.numeric(table(cut(ab,breaks=c(2^(min(oct)-2),n))))  
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
+			Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y$count))
           }
 )
 
@@ -496,7 +496,7 @@ setMethod("octavpred", signature(object="numeric",sad="character", rad="missing"
 				Y <- do.call(psad, c(list(q = n),coef,dots))
             }
             Y <- c(Y[1], diff(Y))*S
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y))
           }
           )
 
@@ -514,8 +514,8 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
               drad <- get(paste("d",rad,sep=""),mode="function")
               ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
             }
-            Y <- as.numeric(table(cut(ab,breaks=c(2^(min(oct)-2),n))))  
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
+			Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y$count))
           }
 )
 
@@ -535,7 +535,7 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
 				Y <- do.call(psad, c(list(q = n),coef,dots))
             }
             Y <- c(Y[1], diff(Y))*S
-            new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y))
           }
           )
 
