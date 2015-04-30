@@ -5,6 +5,7 @@ is.wholenumber	<-function(x, tol = .Machine$double.eps^0.5){
 # bissection algorith for finding the quantile of a *discrete*
 # and *unbounded* probability distribution function
 qfinder <- function(dist, want, coef) {
+	if (any(sapply(coef, length) > 1)) stop("Vectorization not implemented for the parameters")
 	f <- get(paste("p",dist, sep=""), mode="function")
 	guess <- 1
 	last <- 0
