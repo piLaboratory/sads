@@ -222,23 +222,11 @@ setMethod("radpred",signature(object="fitsad", sad="missing", rad="missing",
             if (distr == "D"){
               y <- 1:N
               if(!is.na(trunc)){
-                if(sad=="ls") 
-                  X <- do.call(ptrunc, c(list(sad, q = y, coef = c(list(N = N),coef),
-                                              lower.tail=F, trunc = trunc)))
-                else if(sad=="mzsm"||sad=="volkov") 
-                  X <- do.call(ptrunc, list(sad, q = y, coef = c(list(J = N), coef),
-                                            lower.tail=F, trunc = trunc))
-                else
-                  X <- do.call(ptrunc, list(sad, q = y, coef = coef, lower.tail=F, trunc = trunc))
-              }
-              else {
-                psad <- get(paste("p", sad, sep=""), mode = "function")
-                if(sad=="ls")
-                  X <- do.call(psad, c(list(q = y, lower.tail = F, N = N),coef))
-                else if(sad=="mzsm"||sad=="volkov")
-                  X <- do.call(psad, c(list(q = y, lower.tail = F, J = N), coef))
-                else
-                  X <- do.call(psad, c(list(q = y, lower.tail = F), coef))
+				  X <- do.call(ptrunc, list(sad, q = y, coef = coef, lower.tail=F, trunc = trunc))
+			  }
+			  else {
+				  psad <- get(paste("p", sad, sep=""), mode = "function")
+				  X <- do.call(psad, c(list(q = y, lower.tail = F), coef))
               }
               f1 <- approxfun(x=c(1, X), y=c(0, y), method="constant")
               ab <- f1(ppoints(S))
@@ -268,8 +256,6 @@ setMethod("radpred",signature(object="fitrad", sad="missing", rad="missing",
             y <- 1:S
             rad <- object@rad
             coef <- as.list(bbmle::coef(object))
-            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
-            if(rad=="gs") coef <- c(list(S=S),coef)
             trunc <- object@trunc
             distr <- object@distr
             if(!is.na(trunc)){
@@ -291,8 +277,6 @@ setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
             S <- length(object)
             N <- sum(object)
             y <- 1:S
-            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
-            if(rad=="gs") coef <- c(list(S=S),coef)
             if(!missing(trunc)){
               ab <- do.call(dtrunc, c(list(rad, x = y, coef = coef, trunc = trunc), dots))*N
             }
@@ -315,23 +299,11 @@ setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
               if (distr == "D"){
                   y <- 1:N
                   if(!missing(trunc)){
-                      if(sad=="ls") 
-                          X <- do.call(ptrunc, c(list(sad, q = y, coef = c(list(N = N),coef),
-                                                      lower.tail=F, trunc = trunc)))
-                      else if(sad=="mzsm"||sad=="volkov") 
-                          X <- do.call(ptrunc, list(sad, q = y, coef = c(list(J = N), coef),
-                                                    lower.tail=F, trunc = trunc))
-                      else
-                          X <- do.call(ptrunc, list(sad, q = y, coef = coef, lower.tail=F, trunc = trunc))
+					  X <- do.call(ptrunc, list(sad, q = y, coef = coef, lower.tail=F, trunc = trunc))
                   }
                   else {
                       psad <- get(paste("p", sad, sep=""), mode = "function")
-                      if(sad=="ls")
-                          X <- do.call(psad, c(list(q = y, lower.tail = F, N = N),coef))
-                      else if(sad=="mzsm"||sad=="volkov")
-                          X <- do.call(psad, c(list(q = y, lower.tail = F, J = N), coef))
-                      else
-                          X <- do.call(psad, c(list(q = y, lower.tail = F), coef))
+					  X <- do.call(psad, c(list(q = y, lower.tail = F), coef))
                   }
                   f1 <- approxfun(x=c(1, X), y=c(0, y), method="constant")
                   ab <- f1(ppoints(S))
@@ -357,8 +329,6 @@ setMethod("radpred", signature(object="missing", sad="missing", rad="character",
           function(object, sad, rad, coef, trunc, distr, S, N, ...){
             dots <- list(...)
             y <- 1:S
-            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
-            if(rad=="gs") coef <- c(list(S=S),coef)
             if(!missing(trunc)){
               ab <- do.call(dtrunc, c(list(rad, x = y, coef = coef, trunc = trunc), dots))*N
             }
@@ -378,23 +348,11 @@ setMethod("radpred", signature(object="missing", sad="character", rad="missing",
             if (distr == "D"){
               y <- 1:N
               if(!missing(trunc)){
-                if(sad=="ls") 
-                  X <- do.call(ptrunc, c(list(sad, q = y, coef = c(list(N = N),coef),
-                                              lower.tail=F, trunc = trunc)))
-                else if(sad=="mzsm"||sad=="volkov") 
-                  X <- do.call(ptrunc, list(sad, q = y, coef = c(list(J = N), coef),
-                                            lower.tail=F, trunc = trunc))
-                else
-                  X <- do.call(ptrunc, list(sad, q = y, coef = coef, lower.tail=F, trunc = trunc))
+				  X <- do.call(ptrunc, list(sad, q = y, coef = coef, lower.tail=F, trunc = trunc))
               }
               else {
-                psad <- get(paste("p", sad, sep=""), mode = "function")
-                if(sad=="ls")
-                  X <- do.call(psad, c(list(q = y, lower.tail = F, N = N),coef))
-                else if(sad=="mzsm"||sad=="volkov")
-                  X <- do.call(psad, c(list(q = y, lower.tail = F, J = N), coef))
-                else
-                  X <- do.call(psad, c(list(q = y, lower.tail = F), coef))
+				  psad <- get(paste("p", sad, sep=""), mode = "function")
+				  X <- do.call(psad, c(list(q = y, lower.tail = F), coef))
               }
               f1 <- approxfun(x=c(1, X), y=c(0, y), method="constant")
               ab <- f1(ppoints(S))
@@ -440,21 +398,11 @@ setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
             oct <- unique(oct)
             n <- 2^oct
             if(!is.na(trunc)){
-              if(sad == "ls")
-                Y <- do.call(ptrunc, c(list(f=sad, q = n, coef=c(list(N = N),coef),trunc = trunc),dots))
-              else if(sad == "mzsm"||sad=="volkov")
-                Y <- do.call(ptrunc, c(list(f=sad, q = n, coef = c(list(J = N),coef), trunc = trunc),dots))
-              else
-                Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
+				Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
             }
             else{
-              psad <- get(paste("p",sad,sep=""),mode="function")
-              if(sad == "ls")
-                Y <- do.call(psad, c(list(q = n, N = N),coef,dots))
-              else if(sad == "mzsm" || sad == "volkov")
-                Y <- do.call(psad, c(list(q = n, J = N),coef,dots))
-              else
-                Y <- do.call(psad, c(list(q = n),coef,dots))
+				psad <- get(paste("p",sad,sep=""),mode="function")
+				Y <- do.call(psad, c(list(q = n),coef,dots))
             }
             Y <- c(Y[1], diff(Y))*S
             new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
@@ -473,8 +421,6 @@ setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
             x <- object@rad.tab$abund
             S <- length(x)
             N <- sum(x)
-            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
-            if(rad=="gs") coef <- c(list(S=S),coef)
             if(missing(oct)){
                 oct <- 0:(ceiling(max(log2(x)))+1)
                 if(any(x < 1)){
@@ -504,8 +450,6 @@ setMethod("octavpred", signature(object="numeric",sad="missing", rad="character"
             x <- object
             S <- length(x)
             N <- sum(x)
-            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
-            if(rad=="gs") coef <- c(list(S=S),coef)
             if(missing(oct)){
                 oct <- 0:(ceiling(max(log2(x)))+1)
                 if(any(x < 1)){
@@ -545,21 +489,11 @@ setMethod("octavpred", signature(object="numeric",sad="character", rad="missing"
             oct <- unique(oct)
             n <- 2^oct
             if(!missing(trunc)){
-              if(sad == "ls")
-                Y <- do.call(ptrunc, c(list(f=sad, q = n, coef=c(list(N = N),coef),trunc = trunc),dots))
-              else if(sad == "mzsm"||sad=="volkov")
-                Y <- do.call(ptrunc, c(list(f=sad, q = n, coef = c(list(J = N),coef), trunc = trunc),dots))
-              else
-                Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
+				Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
             }
             else{
-              psad <- get(paste("p",sad,sep=""),mode="function")
-              if(sad == "ls")
-                Y <- do.call(psad, c(list(q = n, N = N),coef,dots))
-              else if(sad == "mzsm" || sad == "volkov")
-                Y <- do.call(psad, c(list(q = n, J = N),coef,dots))
-              else
-                Y <- do.call(psad, c(list(q = n),coef,dots))
+				psad <- get(paste("p",sad,sep=""),mode="function")
+				Y <- do.call(psad, c(list(q = n),coef,dots))
             }
             Y <- c(Y[1], diff(Y))*S
             new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
@@ -572,8 +506,6 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
                                  coef="list", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, oct, S, N, ...){
             dots <- list(...)
-            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
-            if(rad=="gs") coef <- c(list(S=S),coef)
             n <- 2^oct
             if(!missing(trunc)){
               ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
@@ -596,21 +528,11 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
             dots <- list(...)
             n <- 2^oct
             if(!missing(trunc)){
-              if(sad == "ls")
-                Y <- do.call(ptrunc, c(list(f=sad, q = n, coef=c(list(N = N),coef),trunc = trunc),dots))
-              else if(sad == "mzsm"||sad=="volkov")
-                Y <- do.call(ptrunc, c(list(f=sad, q = n, coef = c(list(J = N),coef), trunc = trunc),dots))
-              else
                 Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
             }
             else{
-              psad <- get(paste("p",sad,sep=""),mode="function")
-              if(sad == "ls")
-                Y <- do.call(psad, c(list(q = n, N = N),coef,dots))
-              else if(sad == "mzsm" || sad == "volkov")
-                Y <- do.call(psad, c(list(q = n, J = N),coef,dots))
-              else
-                Y <- do.call(psad, c(list(q = n),coef,dots))
+				psad <- get(paste("p",sad,sep=""),mode="function")
+				Y <- do.call(psad, c(list(q = n),coef,dots))
             }
             Y <- c(Y[1], diff(Y))*S
             new("octav", data.frame(octave = oct, upper = factor(n), Freq = Y))
@@ -632,23 +554,12 @@ setMethod("qqsad",
               if(distr == "D"){
                   q <- 1:sum(x)
                   if(!is.na(trunc)){
-                      if(sad == "ls")
-                          p <- do.call(ptrunc, list(sad, q = q, coef = c(list(N=(sum(x)),coef)), trunc = trunc))
-                      else if(sad == "volkov"|| sad=="mzsm")
-                          p <- do.call(ptrunc, list(sad, q = q, coef = c(list(J=(sum(x)),coef)), trunc = trunc))
-                      else
-                          p <- do.call(ptrunc, list(sad, q = q, coef=coef, trunc=trunc))
+					  p <- do.call(ptrunc, list(sad, q = q, coef=coef, trunc=trunc))
                   }
                   else{
-                      psad <- get(paste("p", sad, sep=""), mode = "function")
-                      if(sad == "ls")
-                          p <- do.call(psad, c(list(q = q, N = sum(x)), coef))
-                      else if(sad =="volkov"||sad=="mzsm")
-                          p <- do.call(psad, c(list(q = q, J=sum(x)), coef))
-                      else{
-                          p <- do.call(psad, c(list(q = q), coef))
-                      }
-                  }
+					  psad <- get(paste("p", sad, sep=""), mode = "function")
+					  p <- do.call(psad, c(list(q = q), coef))
+				  }
                   f1 <- approxfun(x=c(1, p), y=c(0, q), method="constant")
                   q <- f1(ppoints(S))
               }
@@ -710,8 +621,6 @@ setMethod("qqrad",
           signature(x="rad", rad="character", coef="list"),
           function(x, rad , coef, trunc=NA, plot=TRUE, line=TRUE, ...){
               pr <- cumsum(x$abund/sum(x$abund))
-              if(rad=="zipf"||rad=="mand") coef <- c(list(N=length(pr)),coef)
-              if(rad=="gs") coef <- c(list(S=length(pr)),coef)
               if(!is.na(trunc))
                   q <- do.call(qtrunc, list(rad, p = pr, coef = coef, trunc = trunc))
               else{
@@ -774,22 +683,11 @@ setMethod("ppsad",
               S <- length(x)
               z <- ppoints(S)
               if(!is.na(trunc)){
-                  if(sad == "ls")
-                      p <- do.call(ptrunc, list(sad, q = x.sorted, coef = c(list(N=(sum(x)),coef)), trunc = trunc))
-                  else if(sad == "volkov"||sad=="mzsm")
-                      p <- do.call(ptrunc, list(sad, q = x.sorted, coef = c(list(J=(sum(x)),coef)), trunc = trunc))
-                  else
-                      p <- do.call(ptrunc, list(sad, q = x.sorted, coef = coef, trunc = trunc))
+				  p <- do.call(ptrunc, list(sad, q = x.sorted, coef = coef, trunc = trunc))
               }
-              else{
-                  psad <- get(paste("p", sad, sep=""), mode = "function")
-                  if(sad == "ls")
-                      p <- do.call(psad, c(list(q = x.sorted, N=sum(x)), coef))
-                  else if(sad == "volkov"||sad=="mzsm")
-                      p <- do.call(psad, c(list(q = x.sorted, J=sum(x)), coef))
-                  else{
-                      p <- do.call(psad, c(list(q = x.sorted), coef))
-                  }
+			  else{
+				  psad <- get(paste("p", sad, sep=""), mode = "function")
+				  p <- do.call(psad, c(list(q = x.sorted), coef))
               }
               if(plot){
                   dots <- list(...)
@@ -835,8 +733,6 @@ setMethod("pprad",
           function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
               rad.tab <- x
               pr <- cumsum(rad.tab$abund/sum(rad.tab$abund))
-              if(rad=="zipf"||rad=="mand") coef <- c(list(N=length(pr)),coef)
-              if(rad=="gs") coef <- c(list(S=length(pr)),coef)
               if(!is.na(trunc)){
                   p <- do.call(ptrunc, list(rad, q = rad.tab$rank, coef = coef, trunc = trunc))
               }
