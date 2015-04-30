@@ -1,8 +1,5 @@
 ppoix <- function(q, frac, rate, lower.tail=TRUE, log.p=FALSE) {
-  if (length(frac) > 1 | length(rate) > 1) stop("vectorization of frac and rate is currently not implemented")
-  z <- cumsum(dpoix(0:max(q), frac, rate))
-  y <- z[q+1]
-  if(!lower.tail) y <- 1-y
-  if(log.p) y <- log(y)
-  return(y)
+	y <- suppressWarnings(cumsumW("poix", q, list(frac=frac, rate=rate), lower.tail, log.p, pad=FALSE))
+	if(any(is.nan(y))) warning("NaNs produced")
+	return(y)
 }
