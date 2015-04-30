@@ -3,7 +3,7 @@ ppower <- function(q, s, lower.tail = TRUE, log.p = FALSE){
 	s[ !is.finite(s) | s <= 1 ] <- NaN
 	y <- c()
 	for (i in 1:length(q)){
-		if (q[i] == 0) y[i] <- NaN
+		if (is.nan(q[i])) y[i] <- NaN
 		else y[i] <- log(sum(1/(1:q[i])^s)) - log(zeta(s))
 	}
 	y <- exp(y)
