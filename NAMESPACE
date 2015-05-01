@@ -1,3 +1,5 @@
+# C Functions 
+useDynLib(sads, volkov)
 ## EXPORTS ##
 ## Export all names not beggining with .
 ##exportPattern("^[^\\.]")
@@ -25,7 +27,7 @@ importFrom("graphics", plot, points, lines)
 #importFrom("bbmle", AICc)
 ## Import a single function from VGAM and untb
 importFrom("VGAM",zeta)
-importFrom("untb", volkov, optimal.theta)
+importFrom("untb", optimal.theta) # REMOVING volkov as to not create namespace clash
 ## Import all packages listed as Imports or Depends
 import(
     methods,
