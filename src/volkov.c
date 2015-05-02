@@ -10,27 +10,24 @@
 double f(double y, void * _data) { 
 	double * data = (double *) _data;
 	return exp( data[1] + lgamma(data[0]+y) + lgamma(data[2]-data[0]+data[3]-y) - lgamma(1+y) 
-		- lgamma(data[3]-y)- y * data[4]/ data[3] );
-}
-
-double integrate(int n, double lJm, int J, double upper, double theta, int N) {
-	double ln = lJm - lgamma(n+1) - lgamma(J-n+1);
-	double data[5]; data[0] = n; data[1] = ln; data[2] = J; data[3] = upper; data[4] = theta;
-	return gauss_legendre(N,f,data,0,upper);
+		- lgamma(data[3]-y) - y * data[4]/ data[3] );
 }
 
 extern
 void volkov ( double * res, double * theta0, double * m0, int * J0, int * N0) {
-	int J = J0[0], N = N0[0];
-	double theta = theta0[0], m = m0[0], upper = m*(J-1)/(1-m), total = 0;
+	double data[5]; /* Stores: n, ln, J, upper(=gam), theta */
+	double total = 0;
+	data[2] = J0[0]; data[3] = m0[0]*(J0[0]-1)/(1-m0[0]); data[4] = theta0[0];
 	/* some preliminary calculations to speed up
 	   lJm is the term that only depends on J and m */
-	double lJm = lgamma(J+1) + lgamma(upper) - lgamma(J+upper);
-	for (int i = 0; i < J; i++) {
-		res[i] = theta * integrate(i+1, lJm, J, upper, theta, N);
+	double lJm = lgamma(data[2]+1) + lgamma(data[3]) - lgamma(data[2]+data[3]);
+	for (int i = 0; i < J0[0]; i++) {
+		data[0] = i + 1.0;
+		data[1] = lJm - lgamma(i+2) - lgamma(data[2]-i);
+		res[i] = data[4] * gauss_legendre(N0[0],f,data,0,data[3]);
 		total += res[i];
 	}
-	for (int i = 0; i < J; i++) {
+	for (int i = 0; i < J0[0]; i++) {
 		res[i] /= total;
 	}
 }
