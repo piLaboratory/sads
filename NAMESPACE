@@ -25,9 +25,9 @@ exportMethods(plot, points, lines, AICc, octavpred, radpred, qqsad, qqrad, trueL
 ## Import specific functions from other packages used by new methods
 importFrom("graphics", plot, points, lines)
 #importFrom("bbmle", AICc)
-## Import a single function from VGAM and untb
+## Import a single function from VGAM and GUILDS
 importFrom("VGAM",zeta)
-importFrom("untb", optimal.theta) # REMOVING volkov as to not create namespace clash
+importFrom("GUILDS", maxLikelihood.ESF)
 ## Import all packages listed as Imports or Depends
 import(
     methods,
