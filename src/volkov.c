@@ -1,25 +1,22 @@
 #include <math.h>
 #include <Rmath.h>
 #include <R.h>
+#include "gauss_legendre.h"
 
 /*** Calculates the Volkov distribution density
      Based on code from untb::volkov, by Robin K. S. Hankin
      http://cran.r-project.org/web/packages/untb/ */
 
-double f(double y, int n, double ln, int J, double upper, double theta) {
-	return exp(ln + lgamma(n+y) + lgamma(J-n+upper-y) - lgamma(1+y) - lgamma(upper-y)- y*theta/upper);
+double f(double y, void * _data) { 
+	double * data = (double *) _data;
+	return exp( data[1] + lgamma(data[0]+y) + lgamma(data[2]-data[0]+data[3]-y) - lgamma(1+y) 
+		- lgamma(data[3]-y)- y * data[4]/ data[3] );
 }
 
 double integrate(int n, double lJm, int J, double upper, double theta, int N) {
-	double h = upper/N;
 	double ln = lJm - lgamma(n+1) - lgamma(J-n+1);
-	/* upper = J causes NaN, slight approximation here */
-	double part = f(0, n, ln, J, upper, theta) + f(upper-1.0/N/N, n, ln, J, upper, theta);
-	for (int i = 1; i < N; i+=2)
-		part += 4.0 * f(i*h, n, ln, J, upper, theta);
-	for (int i = 2; i < N; i+=2)
-		part += 2.0 * f(i*h, n, ln, J, upper, theta);
-	return part * h / 3.0;
+	double data[5]; data[0] = n; data[1] = ln; data[2] = J; data[3] = upper; data[4] = theta;
+	return gauss_legendre(N,f,data,0,upper);
 }
 
 extern
