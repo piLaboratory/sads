@@ -10,8 +10,7 @@ double f(double y, int n, double ln, int J, double upper, double theta) {
 	return exp(ln + lgamma(n+y) + lgamma(J-n+upper-y) - lgamma(1+y) - lgamma(upper-y)- y*theta/upper);
 }
 
-double integrate(int n, double lJm, int J, double upper, double theta) {
-	int N = 5000; /* hardcoded subdividions, may transform in f parameter later */
+double integrate(int n, double lJm, int J, double upper, double theta, int N) {
 	double h = upper/N;
 	double ln = lJm - lgamma(n+1) - lgamma(J-n+1);
 	/* upper = J causes NaN, slight approximation here */
@@ -24,14 +23,14 @@ double integrate(int n, double lJm, int J, double upper, double theta) {
 }
 
 extern
-void volkov ( double * res, double * theta0, double * m0, int * J0) {
-	int J = J0[0];
+void volkov ( double * res, double * theta0, double * m0, int * J0, int * N0) {
+	int J = J0[0], N = N0[0];
 	double theta = theta0[0], m = m0[0], upper = m*(J-1)/(1-m), total = 0;
 	/* some preliminary calculations to speed up
 	   lJm is the term that only depends on J and m */
 	double lJm = lgamma(J+1) + lgamma(upper) - lgamma(J+upper);
 	for (int i = 0; i < J; i++) {
-		res[i] = theta * integrate(i+1, lJm, J, upper, theta);
+		res[i] = theta * integrate(i+1, lJm, J, upper, theta, N);
 		total += res[i];
 	}
 	for (int i = 0; i < J; i++) {
