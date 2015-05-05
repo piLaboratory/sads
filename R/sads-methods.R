@@ -213,8 +213,9 @@ def = function(object, sad, rad, coef, trunc, distr, S, N, ...) standardGeneric(
 setMethod("radpred",signature(object="fitsad", sad="missing", rad="missing",
                               coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
           function (object){
-			  radpred(object=object@data$x, sad=object@sad, coef=as.list(bbmle::coef(object)),
-					  trunc=object@trunc, distr=object@distr)
+			  ab = object@data$x
+			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
+					  trunc=object@trunc, distr=object@distr, S=length(ab), N=sum(ab))
 		  }
 		  )
 
@@ -232,7 +233,7 @@ setMethod("radpred",signature(object="fitrad", sad="missing", rad="missing",
 ## if object is a numeric vector of abundances and rad argument is given (sad, S, N, distr,  arguments should be missing)
 # Extracts information from object and uses method below
 setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
-                              coef="list", distr="missing", S="missing", N="missing"),
+                              coef="list", trunc="ANY", distr="missing", S="missing", N="missing"),
           function(object, sad, rad, coef, trunc){
 			  if(missing(trunc)) trunc <- NaN
 			  radpred(rad=rad, coef=coef, trunc=trunc, S=length(object), N= sum(object))
@@ -241,42 +242,17 @@ setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
 
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
 setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
-                              coef="list", distr="ANY", S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, distr, ...){
-              if( missing(distr) ) stop("Argument 'distr' missing, please choose \"D\" or \"C\"")
-              dots <- list(...)
-              S <- length(object)
-              N <- sum(object)
-			  if (distr == "D"){
-				  y <- 1:N
-				  if(!missing(trunc) & ! is.nan(trunc)){
-					  X <- do.call(ptrunc, list(sad, q = y, coef = coef, lower.tail=F, trunc = trunc))
-				  }
-				  else {
-					  psad <- get(paste("p", sad, sep=""), mode = "function")
-					  X <- do.call(psad, c(list(q = y, lower.tail = F), coef))
-				  }
-				  f1 <- approxfun(x=c(1, X), y=c(0, y), method="constant")
-				  ab <- f1(ppoints(S))
-			  }
-              else if(distr == "C"){
-                  Y <- ppoints(S)
-                  if(!missing(trunc) & ! is.nan(trunc)){
-                      ab <- do.call(qtrunc, list(sad, p = Y, coef = coef, lower.tail=F, trunc = trunc))
-                  }
-                  else{
-                      qsad <- get(paste("q", sad, sep=""), mode = "function")
-                      ab <- do.call(qsad, c(list(p = Y, lower.tail = F), coef))
-                  }
-              }
-              new("rad", data.frame(rank=1:S, abund=ab))
-          }
-          )
+                              coef="list", trunc="ANY", distr="character", S="missing", N="missing"),
+          function(object, sad, rad, coef, trunc, distr){
+			  if(missing(trunc)) trunc <- NaN
+			  radpred(sad=sad, coef=coef, trunc=trunc, distr=distr, S=length(object), N= sum(object))
+		  }
+		  )
 
 ## if object is missing and rad is given. sad should not be given. All other arguments except distr should be given,
 ## except trunc (optional). This is the base method for all signatures using "rad" or "fitrad" 
 setMethod("radpred", signature(object="missing", sad="missing", rad="character",
-                              coef="list", distr="missing", S="numeric", N="numeric"),
+                              coef="list", trunc="ANY", distr="missing", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, distr, S, N, ...){
             dots <- list(...)
             y <- 1:S
@@ -293,31 +269,32 @@ setMethod("radpred", signature(object="missing", sad="missing", rad="character",
 
 ## if object is missing and sad is given. rad should not be given.
 ## All other arguments except distr should be given, except trunc (optional)
+# This is the base method for all signatures using "sad" or "fitsad" 
 setMethod("radpred", signature(object="missing", sad="character", rad="missing",
-                              coef="list", distr="character", S="numeric", N="numeric"),
+                              coef="list", trunc="ANY", distr="character", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, distr, S, N, ...){
-            if (distr == "D"){
-              y <- 1:N
-              if(!missing(trunc)){
-				  X <- do.call(ptrunc, list(sad, q = y, coef = coef, lower.tail=F, trunc = trunc))
-              }
-              else {
-				  psad <- get(paste("p", sad, sep=""), mode = "function")
-				  X <- do.call(psad, c(list(q = y, lower.tail = F), coef))
-              }
-              f1 <- approxfun(x=c(1, X), y=c(0, y), method="constant")
-              ab <- f1(ppoints(S))
-            }
-            else if(distr == "C"){
+#            if (distr == "D"){
+ #             y <- 1:N
+  #            if(!missing(trunc) & ! is.nan(trunc)){
+#				  X <- do.call(ptrunc, list(sad, q = y, coef = coef, lower.tail=F, trunc = trunc))
+ #             }
+  #            else {
+#				  psad <- get(paste("p", sad, sep=""), mode = "function")
+#				  X <- do.call(psad, c(list(q = y, lower.tail = F), coef))
+ #             }
+#              f1 <- approxfun(x=c(1, X), y=c(0, y), method="constant")
+ #             ab <- f1(ppoints(S))
+  #          }
+#            else if(distr == "C"){
               Y <- ppoints(S)
-              if(!missing(trunc)){
+              if(!missing(trunc) & !is.nan(trunc)){
                 ab <- do.call(qtrunc, list(sad, p = Y, coef = coef, lower.tail=F, trunc = trunc))
               }
               else{
                 qsad <- get(paste("q", sad, sep=""), mode = "function")
                 ab <- do.call(qsad, c(list(p = Y, lower.tail = F), coef))
               }
-            }
+#            }
             new("rad", data.frame(rank=1:S, abund=ab))
           }
           )
