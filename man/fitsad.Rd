@@ -181,6 +181,8 @@ fitweibull(x, trunc, start.value,  \dots)
   The total number of individuals in the sample, \code{N}, is treated as a fixed
   parameter in this implementation, in order to maintain coherence with 
   similar parameters from \code{fitvolkov} and \code{fitmzsm} (see below).
+  Fixed parameters in the model specification do not contribute to the model
+  degrees of freedom, and are not accounted in standard error calculations.
 
   Function \code{fitbs} fits the Broken-stick distribution
   (MacArthur 1960). It is defined only by the observed number of
