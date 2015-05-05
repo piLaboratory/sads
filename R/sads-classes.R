@@ -11,8 +11,10 @@ setClass("octav", representation("data.frame"), validity = function(object) {
 setClass("rad", representation("data.frame"), validity = function(object) {
 		 if(dim(object)[2] != 2) return("rad objects must have 2 columns")
 		 if(! (is.numeric(object[,1]) & is.numeric(object[,2]))) return ("All columns must be of numeric or integer class")
-		 if(any(object[,2]!=object[order(-object[,2]),2])) return("The abund column of the rad class must be in descending order")
-		 if(any(object[,1] < 0) | any(object[,2] < 0)) return("No negative values are allowed in the rad object")
+		 if(any(is.na(object[,2]))) warning("NAs generated in the rad object!!")
+		 ab = object[!is.na(object[,2]),2]
+		 if(any(ab!=ab[order(-ab)])) return("The abund column of the rad class must be in descending order")
+		 if(any(object[,1] < 0) | any(ab < 0)) return("No negative values are allowed in the rad object")
 		 TRUE
 }
 )
