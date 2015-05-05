@@ -209,79 +209,24 @@ def = function(object, sad, rad, coef, trunc, distr, S, N, ...) standardGeneric(
            )
 
 ## if object is of class fitsad (no other argument should be provided)
+# Extracts information from object and uses method below
 setMethod("radpred",signature(object="fitsad", sad="missing", rad="missing",
                               coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
           function (object){
-            coef <- as.list(bbmle::coef(object))
-            trunc <- object@trunc
-            distr <- object@distr
-            sad <- object@sad
-            x <- object@data$x
-            N <- sum(x)
-            S <- length(x)
-            if (distr == "D"){
-              y <- 1:N
-              if(!is.na(trunc)){
-                if(sad=="ls") 
-                  X <- do.call(ptrunc, c(list(sad, q = y, coef = c(list(N = N),coef),
-                                              lower.tail=F, trunc = trunc)))
-                else if(sad=="mzsm"||sad=="volkov") 
-                  X <- do.call(ptrunc, list(sad, q = y, coef = c(list(J = N), coef),
-                                            lower.tail=F, trunc = trunc))
-                else
-                  X <- do.call(ptrunc, list(sad, q = y, coef = coef, lower.tail=F, trunc = trunc))
-              }
-              else {
-                psad <- get(paste("p", sad, sep=""), mode = "function")
-                if(sad=="ls")
-                  X <- do.call(psad, c(list(q = y, lower.tail = F, N = N),coef))
-                else if(sad=="mzsm"||sad=="volkov")
-                  X <- do.call(psad, c(list(q = y, lower.tail = F, J = N), coef))
-                else
-                  X <- do.call(psad, c(list(q = y, lower.tail = F), coef))
-              }
-              f1 <- approxfun(x=c(1, X), y=c(0, y), method="constant")
-              ab <- f1(ppoints(S))
-            }
-            else if(distr == "C"){
-              Y <- ppoints(S)
-              if(!is.na(trunc)){
-                ab <- do.call(qtrunc, list(sad, p = Y, coef = coef, lower.tail=F, trunc = trunc))
-              }
-              else{
-                qsad <- get(paste("q", sad, sep=""), mode = "function")
-                ab <- do.call(qsad, c(list(p = Y, lower.tail = F), coef))
-              }
-            }
-            new("rad", data.frame(rank=1:S, abund=ab))
-          }
-          )
+			  radpred(object=object@data$x, sad=object@sad, coef=as.list(bbmle::coef(object)),
+					  trunc=object@trunc, distr=object@distr)
+		  }
+		  )
 
 ## if object is of class fitrad (no other argument should be provided)
+# Extracts information from object and uses method below
 setMethod("radpred",signature(object="fitrad", sad="missing", rad="missing",
                               coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
-          function(object, ...){
-            dots <- list()
-            x <- object@rad.tab$abund
-            N <- sum(x)
-            S <- length(x)
-            y <- 1:S
-            rad <- object@rad
-            coef <- as.list(bbmle::coef(object))
-            if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
-            if(rad=="gs") coef <- c(list(S=S),coef)
-            trunc <- object@trunc
-            distr <- object@distr
-            if(!is.na(trunc)){
-              ab <- do.call(dtrunc, c(list(rad, x = y, coef = coef, trunc = trunc), dots))*N
-            }
-            else{
-              drad <- get(paste("d", rad, sep=""),  mode = "function")
-              ab <- do.call(drad, c(list(x = y), coef, dots))*N
-            }
-            new("rad", data.frame(rank=1:S, abund=ab))
-          }
-          )
+          function(object){
+			  radpred(object=object@rad.tab$abund, rad=object@rad, 
+					  coef=as.list(bbmle::coef(object), trunc=object@trunc))
+		  }
+		  )
 
 ## if object is a numeric vector of abundances and rad argument is given (sad, S, N, distr,  arguments should be missing)
 setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
@@ -293,7 +238,7 @@ setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
             y <- 1:S
             if(rad=="zipf"||rad=="mand") coef <- c(list(N=S),coef)
             if(rad=="gs") coef <- c(list(S=S),coef)
-            if(!missing(trunc)){
+            if(!missing(trunc) & ! is.nan(trunc)){
               ab <- do.call(dtrunc, c(list(rad, x = y, coef = coef, trunc = trunc), dots))*N
             }
             else{
@@ -314,7 +259,7 @@ setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
               N <- sum(object)
               if (distr == "D"){
                   y <- 1:N
-                  if(!missing(trunc)){
+                  if(!missing(trunc) & ! is.nan(trunc)){
                       if(sad=="ls") 
                           X <- do.call(ptrunc, c(list(sad, q = y, coef = c(list(N = N),coef),
                                                       lower.tail=F, trunc = trunc)))
@@ -338,7 +283,7 @@ setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
               }
               else if(distr == "C"){
                   Y <- ppoints(S)
-                  if(!missing(trunc)){
+                  if(!missing(trunc) & ! is.nan(trunc)){
                       ab <- do.call(qtrunc, list(sad, p = Y, coef = coef, lower.tail=F, trunc = trunc))
                   }
                   else{
