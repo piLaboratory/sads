@@ -8,13 +8,12 @@ fitpoilog <- function(x, trunc = 0, ...){
       }
       else pl.par <- poilogMLE(x, startVals = c(mu = mean(log(x)) + log(0.5), sig = sd(log(x))))$par
       LL <- function(mu, sig) -sum(dtrunc("poilog", x = x, coef = list(mu = mu, sig = sig), trunc = trunc, log = TRUE))
-      result <-  mle2(LL, start = as.list(pl.par), data = list(x = x), ...)
     }
   }
   if (missing(trunc)){
     pl.par <- poilogMLE(x, startVals = c(mu = mean(log(x)) + log(0.5), sig = sd(log(x))), zTrunc = FALSE)$par
     LL <- function(mu, sig) -sum(dpoilog(x, mu, sig, log = TRUE))
-    result <-  mle2(LL, start = as.list(pl.par), data = list(x = x), ...)
   }
+  result <- do.call("mle2", c(list(LL, start = as.list(pl.par), data = list(x = x)), ...))
   new("fitsad", result, sad="poilog", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
 }
