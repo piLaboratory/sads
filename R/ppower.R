@@ -1,5 +1,6 @@
 ppower <- function(q, s, lower.tail = TRUE, log.p = FALSE){
-	s[ !is.finite(s) | s <= 1 ] <- NaN
+  if (length(s) > 1) stop("vectorization of parameters is not implemented")
+	if( !is.finite(s) | s <= 1 ) return(rep(NaN, length(q)))
 	y <- c()
 	for (i in 1:length(q)){
 		if (is.nan(q[i])) y[i] <- NaN

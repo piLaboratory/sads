@@ -22,7 +22,7 @@ qfinder <- function(dist, want, coef) {
 		my.q <- do.call(f, c(q=guess, coef))
 		if (my.q > want) break;
 		# Is there a bug in pdist?
-		if (my.q == last) stop ("quantile function did not converge!")
+		if (my.q - last < 1e-8) stop ("quantile function did not converge!")
 		last = my.q
 		guess <- 2*guess
 	}
