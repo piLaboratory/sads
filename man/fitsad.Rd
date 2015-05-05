@@ -178,6 +178,9 @@ fitweibull(x, trunc, start.value,  \dots)
   \pkg{untb} package. After that, the estimated value of alpha parameter is
   used as the starting value to get the Log-likelihood from the log-series density
   function \code{dls}, using the function \code{mle2}.
+  The total number of individuals in the sample, \code{N}, is treated as a fixed
+  parameter in this implementation, in order to maintain coherence with 
+  similar parameters from \code{fitvolkov} and \code{fitmzsm} (see below).
 
   Function \code{fitbs} fits the Broken-stick distribution
   (MacArthur 1960). It is defined only by the observed number of
