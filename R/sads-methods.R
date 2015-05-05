@@ -223,29 +223,21 @@ setMethod("radpred",signature(object="fitsad", sad="missing", rad="missing",
 setMethod("radpred",signature(object="fitrad", sad="missing", rad="missing",
                               coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
           function(object){
-			  radpred(object=object@rad.tab$abund, rad=object@rad, 
-					  coef=as.list(bbmle::coef(object), trunc=object@trunc))
+			  ab = object@rad.tab$abund
+			  radpred(rad=object@rad, coef=as.list(bbmle::coef(object)), 
+					  trunc=object@trunc, S=length(ab), N=sum(ab))
 		  }
 		  )
 
 ## if object is a numeric vector of abundances and rad argument is given (sad, S, N, distr,  arguments should be missing)
+# Extracts information from object and uses method below
 setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
                               coef="list", distr="missing", S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, ...){
-            dots <- list(...)
-            S <- length(object)
-            N <- sum(object)
-            y <- 1:S
-            if(!missing(trunc) & ! is.nan(trunc)){
-              ab <- do.call(dtrunc, c(list(rad, x = y, coef = coef, trunc = trunc), dots))*N
-            }
-            else{
-              drad <- get(paste("d", rad, sep=""),  mode = "function")
-              ab <- do.call(drad, c(list(x = y), coef, dots))*N
-            }
-            new("rad", data.frame(rank=1:S, abund=ab))
-          }
-          )
+          function(object, sad, rad, coef, trunc){
+			  if(missing(trunc)) trunc <- NaN
+			  radpred(rad=rad, coef=coef, trunc=trunc, S=length(object), N= sum(object))
+		  }
+		  )
 
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
 setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
@@ -282,13 +274,13 @@ setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
           )
 
 ## if object is missing and rad is given. sad should not be given. All other arguments except distr should be given,
-## except trunc (optional)
+## except trunc (optional). This is the base method for all signatures using "rad" or "fitrad" 
 setMethod("radpred", signature(object="missing", sad="missing", rad="character",
                               coef="list", distr="missing", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, distr, S, N, ...){
             dots <- list(...)
             y <- 1:S
-            if(!missing(trunc)){
+            if(!missing(trunc) & !is.nan(trunc)){
               ab <- do.call(dtrunc, c(list(rad, x = y, coef = coef, trunc = trunc), dots))*N
             }
             else{
