@@ -8,7 +8,7 @@ qfinder <- function(dist, want, coef) {
 	if (any(sapply(coef, length) > 1)) stop("Vectorization not implemented for the parameters")
 	f <- get(paste("p",dist, sep=""), mode="function")
 	# "phase 0": are the params invalid? is 0 overshooting? Is q = Inf?
-	if (want < 0) return (NaN);
+	if (want < 0) return (0);
     if (want >= 0.999999999999999999) return (Inf); 
 	q0 <- do.call(f, c(q=0, coef))
 	if (!is.nan(q0)) if (q0 >= want) return (0);
@@ -48,11 +48,12 @@ cumsumW <- function(f, q, coef, lower.tail, log.p, pad) {
 	if (any(sapply(coef, length) > 1)) stop("Vectorization not implemented for the parameters")
 	dist <- get(paste("d", f, sep=""), mode="function")
 	if (pad)
-		z <- c(NaN, cumsum(do.call(dist, c(list(x=1:max(q)), coef))))
+		z <- c(0, cumsum(do.call(dist, c(list(x=1:max(q)), coef))))
 	else
 		z <- cumsum(do.call(dist, c(list(x=0:max(q)), coef)))
 	y <- z[q+1]
-	y[! is.wholenumber(q) ] <- NaN
+	if (any(!is.wholenumber(q))) warning("non integer values in q")
+	y[! is.wholenumber(q) ] <- 0
 	if(!lower.tail) y <- 1-y
 	if(log.p) y <- log(y)
 	y[is.na(y)] <- NaN
