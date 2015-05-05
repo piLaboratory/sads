@@ -1,4 +1,4 @@
-qpareto <- function (p, shape, scale = min(q), lower.tail = TRUE, log.p = FALSE) {
+qpareto <- function (p, shape, scale = min(p), lower.tail = TRUE, log.p = FALSE) {
   shape[shape <= 0] <- NaN
   scale[scale <= 0] <- NaN
   if (log.p) p <- exp(p)
