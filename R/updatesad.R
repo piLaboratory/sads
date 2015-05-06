@@ -18,3 +18,4 @@ updatesad <- function(object, ...) {
 	else # fitrad
 		return (new("fitrad", newobj, rad=object@rad, distr=object@distr, trunc=object@trunc, rad.tab=object@rad.tab))
 }
+updaterad <- function(object, ...) updatesad(object, ...)
