@@ -12,7 +12,7 @@
 }
 
 \usage{
-dvolkov( x, theta, m, J, order=32, log = FALSE )
+dvolkov( x, theta, m, J, order=96, log = FALSE )
 pvolkov( q, theta, m , J, lower.tail = TRUE, log.p = FALSE )
 qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
 }
@@ -36,8 +36,9 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
     positive real, theta > 0; Hubbell's \sQuote{fundamental biodiversity number}.
   }
   \item{order}{
-	  order of the approximation for the numerical integration. The default of 32
-	  usually gives a rounding error of 1e-8; orders greater than 128 are overkill
+	  order of the approximation for the numerical integration. The default of 96
+	  usually gives a rounding error of 1e-8 for moderate dataset; 
+	  orders greater than 128 are probably overkill
   }
   \item{m}{
     positive real, 0 <= m <= 1; immigration rate (see details).
