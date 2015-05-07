@@ -1,18 +1,18 @@
 \name{dmzsm}
 \alias{dmzsm}
 \alias{pmzsm}
+\alias{qmzsm}
 \title{Metacommunity zero-sum multinomial distribution}
 
 \description{
-  Density and distribution function
-  %and quantile function
+  Density, distribution and quantile function
   for Alonso & McKane's mZSM distribution with parameter \code{theta}.
 }
 
 \usage{
 dmzsm(x, J, theta, log = FALSE)
 pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
-%% qmzsm( p, N, s, v, lower.tail = TRUE, log.p = FALSE)
+qmzsm( p, N, s, v, lower.tail = TRUE, log.p = FALSE)
 }
 
 \arguments{
@@ -24,9 +24,9 @@ pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
   \item{q}{vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, a vector of abundance of species in a sample.
   }
-  %% \item{p}{
-  %%   vector of probabilities.
-  %% }
+   \item{p}{
+     vector of probabilities.
+   }
   \item{J}{
     positive integer 0 < J < Inf, sample size.  In the context of
     species abundance distributions, usually the number of individuals in a sample.
@@ -81,8 +81,8 @@ pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
 
 \value{
   
-\code{dmzsm} gives the (log) density of the density and \code{pmzsm} gives the (log)
-distribution function.
+\code{dmzsm} gives the (log) density function, \code{pmzsm} gives the (log)
+distribution function, and \code{qmzsm} gives the quantile function.
 
 Invalid values for parameters \code{J} or \code{theta} will result in return
 values \code{NaN}, with a warning.
@@ -97,7 +97,7 @@ values \code{NaN}, with a warning.
   Princeton University Press.
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
+\author{Paulo I Prado \email{prado@ib.usp.br}, Murilo Dantas Miranda and Andre Chalom}
 
 \seealso{
   \code{\link{fitmzsm}} for maximum likelihood estimation;

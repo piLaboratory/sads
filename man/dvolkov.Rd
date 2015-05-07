@@ -136,7 +136,7 @@ lines( midpoints, bci.exp, type="b" )
 
 ## the same with octavpred
 bci.exp2 <- octavpred( bci, sad = "volkov",
-                      coef = list(theta = 47.226, m = 0.1) )
+                      coef = list(theta = 47.226, m = 0.1, J=sum(bci)) )
 lines( bci.exp2 )
 
 }
