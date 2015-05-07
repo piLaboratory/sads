@@ -13,7 +13,7 @@
 \usage{
 dpareto(x, shape, scale = min(x), log = FALSE)
 ppareto(q, shape, scale = min(q), lower.tail = TRUE, log.p = FALSE)
-qpareto(p, shape, scale = min(q), lower.tail = TRUE, log.p = FALSE)
+qpareto(p, shape, scale = min(p), lower.tail = TRUE, log.p = FALSE)
 }
 
 \arguments{

@@ -6,7 +6,7 @@
 \alias{radpred,fitsad,missing,missing,missing,missing,missing,missing,missing-method}
 \alias{radpred,missing,character,missing,list,ANY,character,numeric,numeric-method}
 \alias{radpred,missing,missing,character,list,ANY,missing,numeric,numeric-method}
-\alias{radpred,numeric,character,missing,list,ANY,ANY,missing,missing-method}
+\alias{radpred,numeric,character,missing,list,ANY,character,missing,missing-method}
 \alias{radpred,numeric,missing,character,list,ANY,missing,missing,missing-method}
 
 \title{Predicted ranked abundance of species}
@@ -45,7 +45,7 @@
     }
 
     \item{\code{signature(object = "numeric", sad = "character", rad =
-	"missing", coef = "list", trunc = "ANY", distr = "ANY", S =
+	"missing", coef = "list", trunc = "ANY", distr = "character", S =
 	"missing", N = "missing")}}{
       same as previous method, but with
       \code{S} and \code{N} taken from a vector of abundances given by

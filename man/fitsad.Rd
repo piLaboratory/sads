@@ -178,6 +178,11 @@ fitweibull(x, trunc, start.value,  \dots)
   \pkg{untb} package. After that, the estimated value of alpha parameter is
   used as the starting value to get the Log-likelihood from the log-series density
   function \code{dls}, using the function \code{mle2}.
+  The total number of individuals in the sample, \code{N}, is treated as a fixed
+  parameter in this implementation, in order to maintain coherence with 
+  similar parameters from \code{fitvolkov} and \code{fitmzsm} (see below).
+  Fixed parameters in the model specification do not contribute to the model
+  degrees of freedom, and are not accounted in standard error calculations.
 
   Function \code{fitbs} fits the Broken-stick distribution
   (MacArthur 1960). It is defined only by the observed number of
@@ -343,17 +348,14 @@ AICtab(moths.ln, moths.pln, moths.ls, moths.mzsm, weights=TRUE)
 
 ## Biomass as abundance variable
 data(ARN82.eB.apr77) #benthonic marine animals
-#AR.ln <- fitsad(ARN82.eB.apr77, sad="lnorm", dec.places=2)
 AR.ln <- fitsad(ARN82.eB.apr77, sad="lnorm")
-#AR.g <- fitsad(ARN82.eB.apr77, sad="gamma", dec.places=2)
 AR.g <- fitsad(ARN82.eB.apr77, sad="gamma")
-#AR.wb <- fitsad(ARN82.eB.apr77, sad="weibull", dec.places=2)                
 AR.wb <- fitsad(ARN82.eB.apr77, sad="weibull")
 plot(octav(ARN82.eB.apr77))
 lines(octavpred(AR.ln))
 lines(octavpred(AR.g), col="red")
 lines(octavpred(AR.wb), col="green")
-legend("topright", c("lognormal", "gamma", "weibull"), lty=1, col=c("blue","red", "green"))
+legend("topright", c("lognormal", "gamma", "weibull"),lty=1, col=c("blue","red", "green"))
 AICctab(AR.ln, AR.g, AR.wb, nobs=length(ARN82.eB.apr77), weights=TRUE) 
 }
 
