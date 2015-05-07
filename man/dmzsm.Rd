@@ -12,7 +12,7 @@
 \usage{
 dmzsm(x, J, theta, log = FALSE)
 pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
-qmzsm( p, N, s, v, lower.tail = TRUE, log.p = FALSE)
+qmzsm(p, J, theta, lower.tail = TRUE, log.p = FALSE)
 }
 
 \arguments{
