@@ -17,7 +17,7 @@ export(fitbs, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm,
 ## General fitting and ploting  functions
 export(fitrad, fitsad, octav, octavpred, radpred, pprad, ppsad, qqrad, qqsad, rad)
 ## Accessory functions
-export(plotprofmle, pred.logser, dtrunc, ptrunc, qtrunc, rsad, trueLL)
+export(plotprofmle, pred.logser, dtrunc, ptrunc, qtrunc, rsad, trueLL, updatesad, updaterad)
 ## Explicit classes and methods export
 exportClasses(rad, octav, fitsad, fitrad)
 exportMethods(plot, points, lines, AICc, octavpred, radpred, qqsad, qqrad, trueLL)

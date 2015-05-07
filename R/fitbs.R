@@ -14,6 +14,6 @@ fitbs <- function(x, trunc, ...){
 	result <- do.call("mle2", c(list(minuslogl=LL, data = list(x = x), fixed=list(N=n, S=s), eval.only=TRUE), ...))
 	#BUGFIX: the show method on mle2 class always expects the "convergence" slot to be set.
 	result@details$convergence = 0 
-    new("fitsad", result, sad = "bs", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
+    new("fitsad", result, sad = "bs", distr = "C", trunc = ifelse(missing(trunc), NaN, trunc))
   }
 }
