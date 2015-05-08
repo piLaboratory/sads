@@ -64,8 +64,8 @@ cumsumW <- function(f, q, coef, lower.tail, log.p, pad) {
 # work for large mu or integer s, so it may be nice to reimplement this function later
 # LiE (s, mu) calculates Li_s (exp(mu))
 LiE <- function(s, mu) {
-	if(is.wholenumber(s)) return (NaN);
-	if(abs(mu) > 5.3) return (NaN);
+	if(is.wholenumber(s) | is.nan(s) | is.nan(mu)) return (NaN);
+	if(abs(mu) > 5) return (NaN);
 	t <- function(k) zeta(s-k)*mu^k/factorial(k)
 	n <- 0
 	m <- gamma(1-s)*(-mu)^(s-1); tol <- 1e-14*abs(m)
