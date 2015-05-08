@@ -59,3 +59,20 @@ cumsumW <- function(f, q, coef, lower.tail, log.p, pad) {
 	y[is.na(y)] <- NaN
 	return (y)
 }
+
+## LiE approximates the PolyLogarithm function. The approximate formula does not 
+# work for large mu or integer s, so it may be nice to reimplement this function later
+# LiE (s, mu) calculates Li_s (exp(mu))
+LiE <- function(s, mu) {
+	if(is.wholenumber(s)) return (NaN);
+	if(abs(mu) > 5.3) return (NaN);
+	t <- function(k) zeta(s-k)*mu^k/factorial(k)
+	n <- 0
+	m <- gamma(1-s)*(-mu)^(s-1); tol <- 1e-14*abs(m)
+	repeat {
+		my.t <- t(n); m <- m + my.t
+		if(abs(my.t) < tol) break;
+		n <- n+1
+	}
+	m
+}
