@@ -3,7 +3,7 @@
 
 ### R package for fitting species abundance distributions
 
-**Paulo I. Prado and Murilo Miranda**
+**Paulo I. Prado, Murilo Miranda and Andre Chalom**
 
 ### Installation
 
