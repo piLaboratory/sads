@@ -9,7 +9,8 @@ export(dbs, dgs, dls, dmand, dmzsm, dpareto, dpoilog, dpower, drbs, dvolkov, dzi
 ## Probability functions
 export(pbs, pgs,pls, pmand, pmzsm, ppareto, ppoilog, ppower, prbs, pvolkov, pzipf, ppoig, ppoix)
 ## Quantile functions
-export(qbs, qgs, qls, qmand, qpareto, qpoilog, qpower, qrbs, qvolkov, qzipf, qpoig, qpoix)
+export(qbs, qgs, qls, qmand, qmzsm, qpareto, qpoilog, qpower, qrbs, qvolkov, qzipf, qpoig, qpoix)
+
 ## Fitting functions for each distribution
 export(fitbs, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm,
        fitnbinom, fitpareto, fitpoilog, fitpower, fitrbs, fitvolkov, fitweibull, fitzipf,
