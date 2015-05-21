@@ -1,13 +1,12 @@
 fitvolkov <- function(x, trunc, start.value, ...){
   dots <- list(...)
   if(missing(start.value)){
-    thetahat <- optimal.theta(x)
-    mhat <- 0.5
+	  sink("/dev/null") # as the following function outputs lots of garbage...
+	  start.value = maxLikelihood.ESF(c(5, 0.5), x)$par
+	  sink()
   }
-  else{
-    thetahat <- start.value[[1]]
-    mhat <-start.value[[2]]
-  }
+  thetahat <- start.value[1]
+  mhat <-start.value[2]
   if(!"method" %in% names(dots)){
     dots$method <- "L-BFGS-B"
     if(!"lower" %in% names(dots)) dots$lower=c(theta=thetahat/5, m=1e-4)

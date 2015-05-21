@@ -1,20 +1,33 @@
 \name{dpoig}
 \alias{dpoig}
+\alias{ppoig}
+\alias{qpoig}
 
 \title{Compound Poisson-gamma distribution}
 
 \description{
-  Density for the Poisson-gamma compound probability distribution with
+  Density, distribution function and quantile function for
+  for the Poisson-gamma compound probability distribution with
   parameters \code{frac}, \code{rate} and \code{rate}.
 }
 
 \usage{
 dpoig(x, frac, rate, shape, log=FALSE)
+ppoig(q, frac, rate, shape, lower.tail=TRUE, log.p=FALSE)
+qpoig(p, frac, rate, shape, S=30, lower.tail=TRUE, log.p=FALSE)
 }
 
 \arguments{
   \item{x}{
-    vector of (non-negative integer) quantiles.
+    vector of (non-negative integer) quantiles. In the context of
+    species abundance distributions, this is a vector of abundances 
+    of species in a sample.
+  }
+  \item{q}{vector of (non-negative integer) quantiles. In the context of
+    species abundance distributions, a vector of abundances of species in a sample.
+  }
+  \item{p}{
+    vector of probabilities.
   }
   \item{frac}{
     single numeric '0<frac<=1'; fraction of the population or community sampled (see details)
@@ -27,8 +40,15 @@ dpoig(x, frac, rate, shape, log=FALSE)
     the shape parameter of the gamma distribution of the
     sampled population (see details).  Must be positive.
   }
-  \item{log}{
+  \item{log, log.p}{
     logical; if TRUE, probabilities p are given as log(p)
+  }
+  \item{lower.tail}{
+    logical; if TRUE (default), probabilities are P[X <= x],
+    otherwise, P[X > x].
+  }
+  \item{S}{positive integer; initial value for bisection method.
+    (see note)
   }
 }
 
@@ -60,6 +80,11 @@ dpoig(x, frac, rate, shape, log=FALSE)
 \value{
   (log) density of the (zero-truncated) density
 }
+\note{
+  parameter \code{S} in \code{qpoig} is just a starting value for the
+  bisection method, and does not affect the final result, only the
+  convergence velocity.
+}
 
 \references{
 
@@ -76,8 +101,8 @@ dpoig(x, frac, rate, shape, log=FALSE)
   
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Cristiano Strieder.}
+\author{Paulo I Prado \email{prado@ib.usp.br}, Cristiano Strieder and Andre Chalom.}
 
 \seealso{
-  dgamma, dpois, dnbinom
+  dgamma, dpois, dnbinom for related distributions, dpoix for the special case of Poisson-exponential
 }
