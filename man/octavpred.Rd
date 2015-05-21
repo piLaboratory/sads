@@ -107,7 +107,7 @@ plot(octav(bci))
 lines(bci.mzsm.oc)
 ## Alternative model: local zero-sum multinomial
 ## Alonso & Mckane (Ecol. Lett. 2004, table 1) give theta = 44 and m = 0.15
-bci.lzsm.oc <- octavpred( bci, sad = "volkov", coef =list(theta = 44, m = 0.15) )
+bci.lzsm.oc <- octavpred( bci, sad = "volkov", coef =list(theta = 44, m = 0.15, J=sum(bci)) )
 ## Adding predicted frequencies to the plot
 lines(bci.lzsm.oc, col = "red")
 }
