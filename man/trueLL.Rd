@@ -1,76 +1,73 @@
 \name{trueLL-methods}
-
 \docType{methods}
-
+\alias{trueLL}
 \alias{trueLL-methods}
-\alias{trueLL,fitsad,ANY,missing,missing,numeric-method}
-\alias{trueLL,numeric,character,list,ANY,numeric-method}
+\alias{trueLL,fitsad,missing,missing,missing,ANY,ANY-method}
+\alias{trueLL,fitrad,missing,missing,missing,ANY,ANY-method}
+\alias{trueLL,numeric,character,list,ANY,ANY,ANY-method}
+\alias{trueLL,histogram,character,list,ANY,missing,missing-method}
 
 \title{True likelihood for continuous variables}
 
 \description{
-  Calculates the correct likelihood for independent observations of a
+  Calculates the corrected likelihood for independent observations of a
   continuous variable that follows a given (truncated) density function,
-  given the measurement precision.
+  given a measurement precision.
 }
 
 \section{Methods}{
   \describe{
-    
-    \item{\code{signature(x = "fitsad", dens = "ANY", coef = "missing", trunc = "missing", dec.places = "numeric")}}{
-      (log) likelihood value of an abundance distribution model \code{x} fitted with
+    \item{\code{signature(object = "fitsad", dist = "missing", coef = "missing", 
+			trunc = "missing", dec.places = "ANY", breaks="ANY", \dots)}}{
+      log-likelihood value of an abundance distribution model \code{object} fitted with
       function \code{fitsad}.
     }
-    
-    \item{\code{signature(x = "numeric", dens = "character", coef = "list",
-	trunc = "ANY", dec.places = "numeric")}}{
-      (log) likelihood value of a vector of abundances \code{x}, fitted to a
-      continuous distribution named by \code{dens} with parameters defined in \code{coef}.
+    \item{\code{signature(object = "fitrad", dist = "missing", coef = "missing", 
+			trunc = "missing", dec.places = "ANY", breaks="ANY", \dots)}}{
+      log-likelihood value of an abundance distribution model \code{object} fitted with
+      function \code{fitrad}.
+    }
+    \item{\code{signature(x = "numeric", dist = "character", coef = "list",
+	trunc = "ANY", dec.places = "ANY", breaks="ANY", \dots)}}{
+      log-likelihood value of a vector of abundances \code{object}, fitted to a
+      continuous distribution named by \code{dist} with parameters defined in \code{coef}.
+    }
+    \item{\code{signature(object = "list", dist = "character", coef = "list", 
+			trunc = "missing", dec.places = "ANY", breaks="ANY", \dots)}}{
+      log-likelihood value of the abundances given by histogram \code{object}, fitted to a
+      continuous distribution named by \code{dist} with parameters defined in \code{coef}.
     }
 }}
 
 \arguments{
-  \item{x}{
-    vector of observed values or an object of \code{\link{fitsad-class}}
+  \item{object}{
+    vector or histogram of observed values, or an object of \code{\link{fitsad-class}} 
+	or \code{\link{fitrad-class}}
   }
-  \item{dens}{
+  \item{dist}{
     character; root name of the continuous density distribution of the variable -
     e.g., \kbd{lnorm} for the lognormal distribution; \kbd{gamma} for the gamma
     distribution.
   }
   \item{coef}{named list; values of the coefficients of the continuous
     density distribution, in the same order and with the same names as in
-    the probability function defined by the argument \code{dens}.
+    the probability function defined by the argument \code{dist}.
   }
-
   \item{trunc}{
     real number \code{trunc <= min(x)}; value from which the density distribution is
     truncated. Currently only lower-tail truncation (or right-truncation)
     is implemented. If this argument is omitted the whole
     distribution is used (default).
   }
-
   \item{dec.places}{
     positive integer; number of decimal places used in the measurement of
     the observed values. Observed values will be rounded to this number of
     decimals. This argument defines the measurement precision, see details. 
+	If neither \code{dec.places} nor \code{breaks} is given, this defaults to zero.
   }
-
   \item{breaks}{
-    if \code{counts} is provided a numeric vector giving the breakpoints
-    between count classes. Else, any valid object to be passed to the
-    argument \code{breaks} of the function \code{\link{hist}}.
-  }
-
-  \item{counts}{
-    integer vector; number of values in \code{x} in each class interval
-    defined by \code{breaks}.
-  }
-  
-  \item{log}{
-    logical; convert probabilities to logs and sum them to get
-    log-likelihoods? The log-likelihood value is returned if \kbd{TRUE} and the likelihood
-    value if \kbd{FALSE} (quickly tends to zero as number of observation increases).
+    A numeric vector giving the breakpoints between count classes. Either 
+	\code{dec.places} or \code{breaks} can be provided, but not both.
   }
   \item{\dots}{
     named arguments to be passed to the probability function defined by the argument \code{dens}.
@@ -118,7 +115,13 @@
 }
 
 \author{
-  Paulo I. Prado \email{prado@ib.usp.br}
+  Paulo I. Prado \email{prado@ib.usp.br} and Andre Chalom
+}
+
+\note{
+	WARNING: this function is extremely sensitive to the interval breaks
+	provided (or to the decimal.places), which may result in surprising results.
+	Use with great caution.
 }
 
 \seealso{
@@ -135,20 +138,18 @@ logLik(fitdistr(x, "lognormal"))
 ## Which is the sum of log of densities
 sum( dlnorm(x, meanlog=mean(log(x)), sdlog=sd(log(x)), log=TRUE) )
 ## Correct log-likelihood
-
 trueLL(x, "lnorm", coef=list(meanlog=mean(log(x)), sdlog=sd(log(x))), dec.places=1)
+# Alternative invocation
+trueLL(fitlnorm(x))
 
 ## Data in classes
 xoc <- octav(x)
 xc <- as.numeric(as.character(xoc$octave))
 xb <- 2^(c(min(xc)-1, xc))
 xh <- hist(x, breaks=xb, plot=FALSE)
-xll <- trueLL(x, dens="lnorm", breaks = xb, counts = xoc$Freq,
-   coef = list(meanlog=mean(log(x)), sd=sd(log(x))))
+xll <- trueLL(xh, dist="lnorm", coef = list(meanlog=mean(log(x)), sd=sd(log(x))))
 xp <- diff(plnorm(xh$breaks, mean(log(x)), sd(log(x))))
 xll2 <- sum( rep(log(xp), xh$counts))
 all.equal(xll, xll2) # should be TRUE
 }
-
 \keyword{methods}
-
