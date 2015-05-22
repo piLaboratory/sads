@@ -72,6 +72,10 @@ qpoix(p, frac, rate, S=30, lower.tail=TRUE, log.p=FALSE)
   fraction of total individuals sampled is small enough to approximate a
   sample with replacement. See Engen (1977) and Alonso et al. (2008) for critic evaluations.
 
+  Notice that the Poisson-exponential can be seen as a different form for the
+  MacArthur's Broken stick model (Baczkowski, 2000), so instead of fitting to a 
+  Poisson-exponential distribution directly, the user should use \code{fitbs}.
+
 }
 \value{
   (log) density of the (zero-truncated) density.
