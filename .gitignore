@@ -11,3 +11,5 @@ vignettes/*.bbl
 vignettes/*.blg
 vignettes/*.dvi
 testes/
+src/*.o
+src/*.so
