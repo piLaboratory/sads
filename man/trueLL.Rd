@@ -32,7 +32,7 @@
       log-likelihood value of a vector of abundances \code{object}, fitted to a
       continuous distribution named by \code{dist} with parameters defined in \code{coef}.
     }
-    \item{\code{signature(object = "list", dist = "character", coef = "list", 
+    \item{\code{signature(object = "histogram", dist = "character", coef = "list", 
 			trunc = "missing", dec.places = "ANY", breaks="ANY", \dots)}}{
       log-likelihood value of the abundances given by histogram \code{object}, fitted to a
       continuous distribution named by \code{dist} with parameters defined in \code{coef}.

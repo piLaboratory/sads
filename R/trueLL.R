@@ -37,7 +37,7 @@ setMethod("trueLL", signature(object="numeric", dist="character", coef="list", t
 			  trueLL(object=h1, dist=dist, coef=coef, trunc=trunc)
 		  })
 # workhorse method, all other methods redirect here
-setMethod("trueLL", signature(object="list", dist="character", coef="list", trunc="ANY", 
+setMethod("trueLL", signature(object="histogram", dist="character", coef="list", trunc="ANY", 
 							  dec.places="missing", breaks="missing"),
 		  function(object, dist, coef, trunc, ...){
 			  dots <- list(...)
