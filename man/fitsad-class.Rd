@@ -4,6 +4,7 @@
 
 \alias{fitsad-class}
 \alias{plot,fitsad,ANY-method}
+\alias{show,fitsad-method}
 %\alias{ppsad,fitsad-method}
 \alias{ppsad,fitsad,missing,missing-method}
 \alias{ppsad,fitsad,missing,missing,missing-method}
@@ -68,6 +69,7 @@
       abundance octave, see \code{\link{octav}} and \code{\link{octavpred}}.} 
     \item{plot}{\code{signature(x = "fitsad", y = "ANY")}: diagnostic
       plots of the fitted model. }
+    \item{show}{\code{signature(object = "fitsad")}: Displays object.}
     \item{ppsad}{\code{signature(x = "fitsad", sad = "missing", coef =
 	"missing", trunc = "missing")}: plot of observed vs predicted
       percentiles of the abundance distribution, details in

@@ -56,7 +56,7 @@ qpoig(p, frac, rate, shape, S=30, lower.tail=TRUE, log.p=FALSE)
   A compound Poisson-gamma distribution is a Poisson probability distribution
   where its single parameter, the process mean rate, is frac*n, at which n
   is a random variable with gamma distribution. The density function
-  is given by Green & Plotkin (2007) 
+  is given by Green & Plotkin (2007).
 
   In ecology, this distribution gives the probability that a species has
   an abundance of x individuals in a random sample of a fraction frac of
@@ -75,6 +75,8 @@ qpoig(p, frac, rate, shape, S=30, lower.tail=TRUE, log.p=FALSE)
   Binomial explicitly as a compound distribution.
   The Fisher log-series (Fisher 1943) is a limiting case
   where the dispersion parameter of the Negative Binomial tends to zero.
+  As in the case of the Poisson-exponential, the user should not fit to 
+  the Poisson-gamma directly, and should use instead the \code{fitls} function.
 
 }
 \value{

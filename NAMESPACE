@@ -12,8 +12,7 @@ export(pbs, pgs,pls, pmand, pmzsm, ppareto, ppoilog, ppower, prbs, pvolkov, pzip
 export(qbs, qgs, qls, qmand, qmzsm, qpareto, qpoilog, qpower, qrbs, qvolkov, qzipf, qpoig, qpoix)
 ## Fitting functions for each distribution
 export(fitbs, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm,
-       fitnbinom, fitpareto, fitpoilog, fitpower, fitrbs, fitvolkov, fitweibull, fitzipf,
-	   fitpoig, fitpoix)
+       fitnbinom, fitpareto, fitpoilog, fitpower, fitrbs, fitvolkov, fitweibull, fitzipf)
 ## General fitting and ploting  functions
 export(fitrad, fitsad, octav, octavpred, radpred, pprad, ppsad, qqrad, qqsad, rad)
 ## Accessory functions
@@ -22,7 +21,7 @@ export(plotprofmle, pred.logser, dtrunc, ptrunc, qtrunc, rsad, trueLL, updatesad
 exportClasses(rad, octav, fitsad, fitrad)
 exportMethods(plot, points, lines, octavpred, radpred, qqsad, qqrad, trueLL)
 # Methods that override bbmle counterparts:
-exportMethods(nobs, AIC, AICc)
+exportMethods(show, nobs, AIC, AICc)
 ## IMPORTS ##
 ## Import specific functions from other packages used by new methods
 importFrom("graphics", plot, points, lines)
