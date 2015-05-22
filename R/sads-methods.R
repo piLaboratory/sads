@@ -196,6 +196,40 @@ setMethod("nobs", "fitrad",
 		  function(object) length(object@rad.tab$abund)
 		  )
 
+### Copy of functions from mle2, including some error-checking, slots specific to fitrad/fitsad and
+### truncating the display of the call
+showmle2 <- function(object) {
+    cat("Maximum likelihood estimation\nType:")
+	if (object@distr == "C") cat (" continuous ")
+	else cat (" discrete ")
+	if (inherits(object, "fitsad")) cat ("species abundance distribution")
+	else cat ("rank abundance distribution")
+    cat("\nCall:\n")
+	# Summarizes the call to avoid printing pages of data
+	d <- object@call.orig$data$x
+	if (length(d) > 6) { 
+		d <- c(as.list(as.numeric(d[1:5])), "etc")
+		object@call.orig$data$x <- d
+	}
+	print(object@call.orig)
+    cat("\nCoefficients:\n")
+    print(coef(object))
+    if(!is.nan(object@trunc)) {
+		cat(paste("\nTruncation point:", object@trunc, "\n"))
+	}
+    cat("\nLog-likelihood: ")
+    cat(round(as.numeric(logLik(object)),2),"\n")
+    if (object@optimizer=="optimx" && length(object@method)>1) {
+      cat("Best method:",object@details$method.used,"\n")
+    }
+	if (!is.null(object@details$convergence))
+		if(object@details$convergence > 0)
+	      cat("\nWarning: optimization did not converge (code ",
+          object@details$convergence,": ",object@details$message,")\n",sep="")
+  }
+setMethod("show", "fitsad", function(object){showmle2(object)})
+setMethod("show", "fitrad", function(object){showmle2(object)})
+
 ## radpred generic functions and methods ###
 setGeneric("radpred",
 def = function(object, sad, rad, coef, trunc, distr, S, N) standardGeneric("radpred")
