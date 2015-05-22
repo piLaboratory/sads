@@ -5,6 +5,7 @@
 \alias{fitrad-class}
 %\alias{octavpred,fitrad,missing,missing,missing,missing,ANY,missing,missing-method}
 \alias{plot,fitrad,ANY-method}
+\alias{show,fitrad-method}
 %\alias{pprad,fitrad-method}
 \alias{pprad,fitrad,missing,missing-method}
 \alias{pprad,fitrad,missing,missing,missing,missing-method}
@@ -73,6 +74,7 @@
       abundance octave, see \code{\link{octav}} and \code{\link{octavpred}}.} 
     \item{plot}{\code{signature(x = "fitrad", y = "ANY")}: diagnostic
       plots of the fitted model. }
+    \item{show}{\code{signature(object = "fitrad")}: Displays object.}
     \item{pprad}{\code{signature(x = "fitrad", sad = "missing", coef =
 	"missing", trunc = "missing")}: plot of observed vs predicted
       percentiles of the abundance distribution, details in
