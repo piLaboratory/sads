@@ -19,6 +19,5 @@ fitrbs <- function(x, trunc, ...){
   result <- do.call("mle2", c(list(LL, start = list(N=N, S = S), data = list(x = y), fixed=list(N=N, S=S), eval.only=T), ...))
   #BUGFIX: the show method on mle2 class always expects the "convergence" slot to be set.
   result@details$convergence = 0 
-
   new("fitrad", result, rad="rbs", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc), rad.tab=rad.tab)
 }

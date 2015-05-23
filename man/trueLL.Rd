@@ -135,23 +135,19 @@ logLik(fitdistr(x, "lognormal"))
 ## Which is the sum of log of densities
 sum( dlnorm(x, meanlog=mean(log(x)), sdlog=sd(log(x)), log=TRUE) )
 ## Correct log-likelihood
-#<<<<<<< HEAD
-#trueLL(x, "lnorm", coef=list(meanlog=mean(log(x)), sdlog=sd(log(x))),
-#dec.places=1, )
+
+trueLL(x, "lnorm", coef=list(meanlog=mean(log(x)), sdlog=sd(log(x))), dec.places=1)
 
 ## Data in classes
-#xoc <- octav(x)
-#xc <- as.numeric(as.character(xoc$octave))
-#xb <- 2^(c(min(xc)-1, xc))
-#xh <- hist(x, breaks=xb, plot=FALSE)
-#xll <- trueLL(x, dens="lnorm", breaks = xb, counts = xoc$Freq,
-#   coef = list(meanlog=mean(log(x)), sd=sd(log(x))))
-#xp <- diff(plnorm(xh$breaks, mean(log(x)), sd(log(x))))
-#xll2 <- sum( rep(log(xp), xh$counts))
-#all.equal(xll, xll2) # should be TRUE
-#=======
-#trueLL(x, "lnorm", coef=list(meanlog=mean(log(x)), sdlog=sd(log(x))), dec.places=1)
-#>>>>>>> provisorio
+xoc <- octav(x)
+xc <- as.numeric(as.character(xoc$octave))
+xb <- 2^(c(min(xc)-1, xc))
+xh <- hist(x, breaks=xb, plot=FALSE)
+xll <- trueLL(x, dens="lnorm", breaks = xb, counts = xoc$Freq,
+   coef = list(meanlog=mean(log(x)), sd=sd(log(x))))
+xp <- diff(plnorm(xh$breaks, mean(log(x)), sd(log(x))))
+xll2 <- sum( rep(log(xp), xh$counts))
+all.equal(xll, xll2) # should be TRUE
 }
 
 \keyword{methods}

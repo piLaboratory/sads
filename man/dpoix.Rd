@@ -1,24 +1,36 @@
 \name{dpoix}
 
 \alias{dpoix}
+\alias{ppoix}
+\alias{qpoix}
 
 \title{Compound Poisson-Exponential distribution
 }
 
 \description{
-  Density for the Poisson-exponential compound probability distribution
+  Density, distribution function and quantile function
+  for the Poisson-exponential compound probability distribution
   with parameters \code{fraction} and \code{rate}.
 }
 
 \usage{
 dpoix(x, frac, rate, log=FALSE)
+ppoix(q, frac, rate, lower.tail=TRUE, log.p=FALSE)
+qpoix(p, frac, rate, S=30, lower.tail=TRUE, log.p=FALSE)
 }
 
 \arguments{
   \item{x}{
-    vector of (non-negative integer) quantiles.
+    vector of (non-negative integer) quantiles. In the context of
+    species abundance distributions, this is a vector of abundances 
+    of species in a sample.
   }
-
+  \item{q}{vector of (non-negative integer) quantiles. In the context of
+    species abundance distributions, a vector of abundances of species in a sample.
+  }
+  \item{p}{
+    vector of probabilities.
+  }
   \item{frac}{
     single numeric 0 < frac <= 1; fraction of the population or community sampled (see details).
   }
@@ -26,8 +38,15 @@ dpoix(x, frac, rate, log=FALSE)
     vector of (non-negative) rates of the exponential distribution of the
     sampled population (see details).
   }
-  \item{log}{
-    logical; if TRUE, probabilities p are given as log(p).
+  \item{log, log.p}{
+    logical; if TRUE, probabilities p are given as log(p)
+  }
+  \item{lower.tail}{
+    logical; if TRUE (default), probabilities are P[X <= x],
+    otherwise, P[X > x].
+  }
+  \item{S}{positive integer; initial value for bisection method.
+    (see note)
   }
 }
 \details{
@@ -53,9 +72,18 @@ dpoix(x, frac, rate, log=FALSE)
   fraction of total individuals sampled is small enough to approximate a
   sample with replacement. See Engen (1977) and Alonso et al. (2008) for critic evaluations.
 
+  Notice that the Poisson-exponential can be seen as a different form for the
+  MacArthur's Broken stick model (Baczkowski, 2000), so instead of fitting to a 
+  Poisson-exponential distribution directly, the user should use \code{fitbs}.
+
 }
 \value{
   (log) density of the (zero-truncated) density.
+}
+\note{
+  parameter \code{S} in \code{qpoix} is just a starting value for the
+  bisection method, and does not affect the final result, only the
+  convergence velocity.
 }
 
 \references{
@@ -73,9 +101,9 @@ dpoix(x, frac, rate, log=FALSE)
   species abundances. \emph{Ecology Letters 10}:1037--1045 
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Cristiano Strieder.}
+\author{Paulo I Prado \email{prado@ib.usp.br}, Cristiano Strieder and Andre Chalom.}
 
 \seealso{
-  dexp, dpois.
+  dexp, dpois for related distributions, dpoig for the general case of the Poisson-Gamma distribution
 }
 

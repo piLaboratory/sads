@@ -1,19 +1,14 @@
 dpoix <- function(x, frac, rate, log=FALSE) {
-    is.wholenumber <- function(x, tol = .Machine$double.eps^0.5){
-      abs(x - round(x)) < tol
-    }
-    if(sum(x,is.wholenumber(x))<length(x))
-       stop("dpoix is a discrete PDF; all y's must be integers")
-    else {
-      f <- function(y){
-        b <- y*log(frac)
-        m <- log(rate)
-        n <- (y+1)*log(rate+frac)
-        exp(b+m-n)
-      }
-      samp <- f(x)
-      if(!log)samp else log(samp)
-    }
-  }
-       
-    
+	frac[ !is.finite(frac) | frac <= 0 ] <- NaN
+	rate[ !is.finite(rate) | rate <= 0 ] <- NaN
+	b <- x*log(frac)
+	m <- log(rate)
+	n <- (x+1)*log(rate+frac)
+	vals <- b+m-n
+	if (any(is.nan(vals))) warning ("NaNs produced")
+	if (any(!is.wholenumber(x))) warning("non integer values in x")
+	vals[ ! is.wholenumber(x) | x < 0] <- -Inf
+	if(log) vals else exp(vals)
+}
+
+

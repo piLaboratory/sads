@@ -3,9 +3,9 @@
 \docType{class}
 
 \alias{fitrad-class}
-\alias{AICc,fitrad-method}
 %\alias{octavpred,fitrad,missing,missing,missing,missing,ANY,missing,missing-method}
 \alias{plot,fitrad,ANY-method}
+\alias{show,fitrad-method}
 %\alias{pprad,fitrad-method}
 \alias{pprad,fitrad,missing,missing-method}
 \alias{pprad,fitrad,missing,missing,missing,missing-method}
@@ -68,14 +68,13 @@
 
 \section{Methods}{
   \describe{
-    \item{AICc}{\code{signature(object = "fitrad")}: Akaike information
-      criterion corrected for small samples. }
     \item{octavpred}{\code{signature(object = "fitrad", sad = "missing",
 	rad = "missing", coef = "missing", trunc = "missing", oct = "ANY", S =
 	"missing", N = "missing")}: expected number of species per
       abundance octave, see \code{\link{octav}} and \code{\link{octavpred}}.} 
     \item{plot}{\code{signature(x = "fitrad", y = "ANY")}: diagnostic
       plots of the fitted model. }
+    \item{show}{\code{signature(object = "fitrad")}: Displays object.}
     \item{pprad}{\code{signature(x = "fitrad", sad = "missing", coef =
 	"missing", trunc = "missing")}: plot of observed vs predicted
       percentiles of the abundance distribution, details in
@@ -103,9 +102,7 @@
 
 \note{Class \code{fitrad} only adds four slots to class
   \code{mle2}. The descriptions of slots inherited from \code{mle2-class}
-  replicate those in \code{\link{mle2-class}}. \code{AICc} has a
-  minor tweak to work with \code{fitrad-class} and so is listed in the
-  'Methods' section.
+  replicate those in \code{\link{mle2-class}}. 
 }
 
 \source{this class builds on \code{mle2-class} of \pkg{bbmle} package (Bolker

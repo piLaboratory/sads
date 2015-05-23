@@ -151,57 +151,84 @@ setMethod("plot","fitrad",
           }
           )
 
-## copy of the method in bbmle, with a line added to assure df is not NULL
-setMethod("AICc","fitsad",
-          function (object, ..., nobs, k = 2){
-            L <- list(...)
-            if (length(L)) {
-              L <- c(list(object), L)
-              if (missing(nobs) && is.null(attr(object, "nobs"))) 
-                stop("must specify number of observations")
-              nobs <- sapply(L, attr, "nobs")
-              if (length(unique(nobs)) > 1) 
-                stop("nobs different: must have identical data for all objects")
-              logLiks <- sapply(L, logLik)
-              df <- sapply(L, attr, "df")
-              if(is.null(df)) df <- sapply(L, function(object) attr(logLik(object),"df")) ## added to assure that df is not NULL
-              val <- -2 * logLiks + k * df * (df + 1)/(nobs - df - 1)
-              data.frame(AICc = val, df = df)
-            }
-            else {
-              df <- attr(object, "df") 
-              if(is.null(df)) df <- attr(logLik(object),"df") ## added to assure that df is not NULL
-              c(-2 * logLik(object) + k * df + k * df * (df + 1)/(nobs - 
-                                                                  df - 1))
-            }
-          }
+## copy of the methods in bbmle 1.0.17, tweaked to work better with fitsad/fitrad classed
+## which do not have an explicit df attribute. Also fixes some inconsistencies
+## in the handling of parameters
+setMethod("AIC", "mle2",
+		  function (object, ..., k = 2) {
+			  L <- list(object, ...)
+			  if (!all(sapply(L, function(x) inherits(x, "mle2")))) 
+				  stop("all objects in list must be class mle2 or inherit from mle2")
+			  if (length(L) > 1) {
+				  logLiks <- lapply(L, logLik)
+				  AICs <- sapply(logLiks,AIC,k=k)
+				  df <- sapply(logLiks,attr,"df")
+			  data.frame(AIC=AICs,df=df)
+			  } else AIC(logLik(object), k=k)
+		  })
+
+setMethod("AICc","mle2",
+		  function (object, ..., nobs, k = 2){
+			  L <- list(object, ...)
+			  if (!all(sapply(L, function(x) inherits(x, "mle2")))) 
+				  stop("all objects in list must be class mle2 or inherit from mle2")
+			  if (missing(nobs)) {
+				  nobs <- sapply(L,nobs)
+			  }
+			  if (length(L) > 1) {
+				  if (length(unique(nobs)) > 1) 
+					  stop("nobs different: must have identical data for all objects")
+				  logLiks <- lapply(L, logLik)
+				  df <- sapply(logLiks,attr,"df")
+				  val <- -2*unlist(logLiks)+k*df*(df+1)/(nobs-df-1)
+				  data.frame(AICc = val, df = df)
+			  } else {
+				  df <- attr(logLik(object), "df")
+				  c(-2 * logLik(object)+k*df+k*df*(df+1)/(nobs-df-1))
+			  }
+		  }
           )
 
-## copy of the method in bbmle, with a line added to assure df is not NULL
-setMethod("AICc","fitrad",
-          function (object, ..., nobs, k = 2){
-            L <- list(...)
-            if (length(L)) {
-              L <- c(list(object), L)
-              if (missing(nobs) && is.null(attr(object, "nobs"))) 
-                stop("must specify number of observations")
-              nobs <- sapply(L, attr, "nobs")
-              if (length(unique(nobs)) > 1) 
-                stop("nobs different: must have identical data for all objects")
-              logLiks <- sapply(L, logLik)
-              df <- sapply(L, attr, "df")
-              if(is.null(df)) df <- sapply(L, function(object) attr(logLik(object),"df")) ## added to assure that df is not NULL
-              val <- -2 * logLiks + k * df * (df + 1)/(nobs - df - 1)
-              data.frame(AICc = val, df = df)
-            }
-            else {
-              df <- attr(object, "df") 
-              if(is.null(df)) df <- attr(logLik(object),"df") ## added to assure that df is not NULL
-              c(-2 * logLik(object) + k * df + k * df * (df + 1)/(nobs - 
-                                                                  df - 1))
-            }
-          }
-          )
+setMethod("nobs", "fitsad",
+		  function(object) length(object@data$x)
+		  )
+setMethod("nobs", "fitrad",
+		  function(object) length(object@rad.tab$abund)
+		  )
+
+### Copy of functions from mle2, including some error-checking, slots specific to fitrad/fitsad and
+### truncating the display of the call
+showmle2 <- function(object) {
+    cat("Maximum likelihood estimation\nType:")
+	if (object@distr == "C") cat (" continuous ")
+	else cat (" discrete ")
+	if (inherits(object, "fitsad")) cat ("species abundance distribution")
+	else cat ("rank abundance distribution")
+    cat("\nCall:\n")
+	# Summarizes the call to avoid printing pages of data
+	d <- object@call.orig$data$x
+	if (length(d) > 6) { 
+		d <- c(as.list(as.numeric(d[1:5])), "etc")
+		object@call.orig$data$x <- d
+	}
+	print(object@call.orig)
+    cat("\nCoefficients:\n")
+    print(coef(object))
+    if(!is.nan(object@trunc)) {
+		cat(paste("\nTruncation point:", object@trunc, "\n"))
+	}
+    cat("\nLog-likelihood: ")
+    cat(round(as.numeric(logLik(object)),2),"\n")
+    if (object@optimizer=="optimx" && length(object@method)>1) {
+      cat("Best method:",object@details$method.used,"\n")
+    }
+	if (!is.null(object@details$convergence))
+		if(object@details$convergence > 0)
+	      cat("\nWarning: optimization did not converge (code ",
+          object@details$convergence,": ",object@details$message,")\n",sep="")
+  }
+setMethod("show", "fitsad", function(object){showmle2(object)})
+setMethod("show", "fitrad", function(object){showmle2(object)})
 
 ## radpred generic functions and methods ###
 setGeneric("radpred",

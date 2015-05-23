@@ -3,8 +3,8 @@
 \docType{class}
 
 \alias{fitsad-class}
-\alias{AICc,fitsad-method}
 \alias{plot,fitsad,ANY-method}
+\alias{show,fitsad-method}
 %\alias{ppsad,fitsad-method}
 \alias{ppsad,fitsad,missing,missing-method}
 \alias{ppsad,fitsad,missing,missing,missing-method}
@@ -63,14 +63,13 @@
 
 \section{Methods}{
   \describe{
-    \item{AICc}{\code{signature(object = "fitsad")}: Akaike information
-      criterion corrected for small samples. }
     \item{octavpred}{\code{signature(object = "fitsad", sad = "missing",
 	rad = "missing", coef = "missing", trunc = "missing", oct = "ANY", S =
 	"missing", N = "missing")}: expected number of species per
       abundance octave, see \code{\link{octav}} and \code{\link{octavpred}}.} 
     \item{plot}{\code{signature(x = "fitsad", y = "ANY")}: diagnostic
       plots of the fitted model. }
+    \item{show}{\code{signature(object = "fitsad")}: Displays object.}
     \item{ppsad}{\code{signature(x = "fitsad", sad = "missing", coef =
 	"missing", trunc = "missing")}: plot of observed vs predicted
       percentiles of the abundance distribution, details in
@@ -98,9 +97,7 @@
 
 \note{Class \code{fitsad} only adds three slots to class
   \code{mle2}. The descriptions of slots inherited from \code{mle2-class}
-  replicate those in \code{\link{mle2-class}}. \code{AICc} has a
-  minor tweak to work with \code{fitsad-class} and so is listed in the
-  'Methods' section.
+  replicate those in \code{\link{mle2-class}}. 
 }
 
 \source{this class builds on \code{mle2-class} of \pkg{bbmle} package (Bolker

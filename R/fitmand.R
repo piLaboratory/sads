@@ -8,7 +8,9 @@ fitmand <- function(x, trunc, start.value, ...){
     if (min(y)<=trunc) stop("truncation point should be lower than the lowest data value")
   }
   if(missing(start.value)){
-    shat <- 2
+	x75 <- rad.tab[(floor(dim(rad.tab)[1]/4)):dim(rad.tab)[1],]
+    x75 <- x75[x75$abund > 1, ]
+	shat <- - coef(lm(log(abund)~log(rank), data=x75))[2]
     vhat <- 30
   }
   else{
