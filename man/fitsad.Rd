@@ -10,6 +10,7 @@
 \alias{fitpareto}
 \alias{fitpoilog}
 \alias{fitpower}
+\alias{fitpowbend}
 \alias{fitvolkov}
 \alias{fitweibull}
 
@@ -43,6 +44,8 @@ fitpoilog(x, trunc = 0, \dots)
 
 fitpower(x, trunc, start.value, upper = 20, \dots)
 
+fitpowbend(x, trunc, start.value, \dots)
+
 fitvolkov(x, trunc, start.value, \dots)
 
 fitweibull(x, trunc, start.value,  \dots)
@@ -65,6 +68,7 @@ fitweibull(x, trunc, start.value,  \dots)
     \kbd{"pareto"} for Pareto distribution,
     \kbd{"poilog"} for Poisson-lognormal distribution,
     \kbd{"power"} for power-law distribution,
+    \kbd{"powbend"} for Pueyo's power-bend distribution,
     \kbd{"volkov"} for Volkov's et al. neutral community distribution,
     \kbd{"weibull"} for Weibull distribution.
   }
@@ -82,19 +86,6 @@ fitweibull(x, trunc, start.value,  \dots)
     and in the same order.
   }
   
-  %% \item{trueLL}{
-  %%   logical; use \sQuote{true likelihood} for continuous models? (see \code{\link{trueLL}}).
-  %% }
-
-  %% \item{dec.places}{
-  %%   positive integer; number of decimal places used in the measurement of
-  %%   the observed values. Observed values will be rounded to this number of
-  %%   decimals. This argument defines the measurement precision for
-  %%   abundance variables. Used for continuous distributions when
-  %%   argument \code{trueLL=TRUE} 
-  %%   (see details and \code{\link{trueLL}}).
-  %% }
-
   \item{upper}{
     real positive; upper bound for Brent's one-parameter optimization
     method (default), for fits that use this method by default. See
@@ -103,7 +94,6 @@ fitweibull(x, trunc, start.value,  \dots)
   \item{\dots}{
     in \code{fitsad} further arguments to be passed to the specific fitting
     function (most used are \code{trunc}, \code{start.value})
-    %%and \code{trueLL}). 
     In the specific fitting functions further
     arguments to be passed to \code{mle2}.
   }
@@ -136,7 +126,7 @@ fitweibull(x, trunc, start.value,  \dots)
   
   Functions \code{fitgamma}, \code{fitlnorm} and \code{fitweibull} fit the
   standard continuous distributions most used as SADs models.
-  Functions \code{power} and \code{pareto} fit power-law continuous distributions
+  Functions \code{power}, \code{fitpowbend} and \code{pareto} fit power-law continuous distributions
   with one and two-parameters, that have been suggested as SADs models.
   As species with null abundances in the sample are in general unknown, the
   fit to continuous distributions can be improved by truncation to some value
@@ -145,20 +135,6 @@ fitweibull(x, trunc, start.value,  \dots)
   \code{fitgamma} uses Chapman's (1956) fitting method to find starting
   values for the truncated gamma distribution.
 
-  %% By default, all continuous distributions
-  %% are fit using the
-  %% correct likelihood for independent observations of a
-  %% continuous variable (Lindsey 1999, see \code{\link{trueLL}}).
-  %% Hence, the correct number of decimal places of the abundance
-  %% measure must be given in the argument \code{dec.places}.
-  %% A warning message reminds users about that when \code{trueLL=TRUE}.
-  %% When the abundance measure is the number of individuals of each
-  %% species in the sample,
-  %% the default value \code{dec.places=0}
-  %% is the correct choice. In this case, the probability of a given abundance
-  %% value x will be calculated as CDF(x + 0.5) - CDF( x - 0.5 ), where CDF
-  %% is the cumulative density function of the continuous distribution.
-  
   Functions \code{fitgeom}, \code{fitnbinom} fits geometric and negative
   binomial distributions which are two discrete
   standard distributions also used to fit SADs. Since species
@@ -302,7 +278,7 @@ fitweibull(x, trunc, start.value,  \dots)
 
 \seealso{
   \code{\link{dls}}, \code{\link{dmzsm}}, \code{\link{dpareto}},
-  \code{\link{dpoilog}}, \code{\link{dpower}},\code{ \link{dvolkov}}
+  \code{\link{dpoilog}}, \code{\link{dpower}},\code{ \link{dvolkov}}, \code{\link{dpowbend}}
   for corresponding density functions created for fitting SADs;
   standard distributions \code{dweibull},
   \code{dgamma}, \code{dgeom}, \code{dlnorm}, \code{dnbinom};

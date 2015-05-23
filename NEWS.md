@@ -7,6 +7,7 @@ error handling and large performance gains.
 - New function *updatesad* to update a fitsad with better fit from profile.
 - *radpred* now uses exact solutions for extreme data points.
 - Reimplemented the *AIC* and *AICc* functions for better integration with fitsad and fitrad classes.
+- Including the Pueyos Power-Bend distribution and fitting functions
 
 ### Enhancements
 - Improved grammar and clearer text in some manual pages and vignette.
