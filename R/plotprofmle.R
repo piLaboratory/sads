@@ -41,6 +41,7 @@ plotprofmle <- function(profobj, nseg=20, ratio=log(8), which=1:length(profobj@p
         change <- (interpol$y - ratio)[2:l] * (interpol$y - ratio)[1:(l-1)]
         endpoints <- which(change < 0)
         corr <- (interpol$x[2]-interpol$x[1])/2
+		if(length(endpoints) > 0)
         for (j in 1:(length(endpoints)/2)) {
           lower <-interpol$x[endpoints[(2*j)-1]]+corr
           upper <- interpol$x[endpoints[2*j]]+corr
