@@ -7,7 +7,7 @@ error handling and large performance gains.
 - New function *updatesad* to update a fitsad with better fit from profile.
 - *radpred* now uses exact solutions for extreme data points.
 - Reimplemented the *AIC* and *AICc* functions for better integration with fitsad and fitrad classes.
-- Reworked the way in which *trueLL* is implemented
+- Removed the trueLL methods to an experimental branch
 
 ### Enhancements
 - Improved grammar and clearer text in some manual pages and vignette.
@@ -21,6 +21,7 @@ error handling and large performance gains.
 - Fixed the Broken-Stick family to behave like a Discrete distribution.
 - Small but importante fixes in *octavpred*.
 - Workarounds for bugs and issues of the bbmle package.
+- Fixed a bug that caused *plotprofmle* to crash
 
 # Version 0.1.10
 - Initial release on CRAN.
