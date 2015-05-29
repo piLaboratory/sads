@@ -21,4 +21,6 @@ setClass("rad", representation("data.frame"), validity = function(object) {
 
 setClass("fitsad", representation("mle2", sad="character", distr="character", trunc="numeric"))
 setClass("fitrad", representation("mle2", rad="character", distr="character", trunc="numeric", rad.tab="rad"))
+# "Promoting" histogram to S4 in order to declare it as a valid object for trueLL methods
+setClass("histogram", representation("list")) 
 #setClass("fitsadlist", representation("list"))
