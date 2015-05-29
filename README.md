@@ -24,6 +24,15 @@ library(devtools)
 install_github(repo = 'piklprado/sads', ref= 'dev')
 ```
 
+An experimental branch implementing Lindsey's (1999) correction for the log-likelihood
+of continuous density distributions when used for discrete data can be installed by:
+
+```r
+library(devtools)
+install_github(repo = 'piklprado/sads', ref= 'trueLL')
+```
+
+
 ### More info
   - [Project page on GitHub](http://piklprado.github.io/sads/)
   - [Research project](http://ecologia.ib.usp.br/let/doku.php?id=engl:projects:sads) at our [Lab wiki](http://ecologia.ib.usp.br/let)
