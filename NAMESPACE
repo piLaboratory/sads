@@ -19,7 +19,7 @@ export(fitrad, fitsad, octav, octavpred, radpred, pprad, ppsad, qqrad, qqsad, ra
 export(plotprofmle, pred.logser, dtrunc, ptrunc, qtrunc, rsad, updatesad, updaterad)
 ## Explicit classes and methods export
 exportClasses(rad, octav, fitsad, fitrad)
-exportMethods(plot, points, lines, octavpred, radpred, qqsad, qqrad, trueLL)
+exportMethods(plot, points, lines, octavpred, radpred, qqsad, qqrad)
 # Methods that override bbmle counterparts:
 exportMethods(show, nobs, AIC, AICc)
 ## IMPORTS ##
