@@ -17,6 +17,7 @@ error handling and large performance gains.
 - Reduced code redundancy and improved readability.
 
 ### Bugfixes
+- Changed some "Depends" and "Imports" to make the package more light-weight, but still reliable
 - Fixed the Broken-Stick family to behave like a Discrete distribution.
 - Small but importante fixes in *octavpred*.
 - Workarounds for bugs and issues of the bbmle package.
