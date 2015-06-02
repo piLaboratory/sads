@@ -202,8 +202,15 @@ showmle2 <- function(object) {
     cat("Maximum likelihood estimation\nType:")
 	if (object@distr == "C") cat (" continuous ")
 	else cat (" discrete ")
-	if (inherits(object, "fitsad")) cat ("species abundance distribution")
-	else cat ("rank abundance distribution")
+	if (inherits(object, "fitsad")) {
+		cat ("species abundance distribution")
+		my.x <- object@data$x
+	}
+	else {
+		cat ("rank abundance distribution")
+		my.x <- object@rad.tab$abund
+	}
+	cat("\nSpecies: ",length(my.x),", individuals: ", sum(my.x), "\n")
     cat("\nCall:\n")
 	# Summarizes the call to avoid printing pages of data
 	d <- object@call.orig$data$x
