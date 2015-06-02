@@ -210,7 +210,7 @@ showmle2 <- function(object) {
 		cat ("rank abundance distribution")
 		my.x <- object@rad.tab$abund
 	}
-	cat("\nSpecies: ",length(my.x),", individuals: ", sum(my.x), "\n")
+	cat("\nSpecies:",length(my.x),"individuals:", sum(my.x), "\n")
     cat("\nCall:\n")
 	# Summarizes the call to avoid printing pages of data
 	d <- object@call.orig$data$x
