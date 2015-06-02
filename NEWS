@@ -6,6 +6,7 @@ error handling and large performance gains.
 * New function *updatesad* to update a fitsad with better fit from profile.
 * *radpred* now uses exact solutions for extreme data points.
 * Reimplemented the *AIC* and *AICc* functions for better integration with fitsad and fitrad classes.
+* Removed trueLL method to an experimental branch
 * Improved grammar and clearer text in some manual pages and vignette.
 * Improved starting values for several distributions.
 * Replaced table(cut(x)) for hist for improved performance.
