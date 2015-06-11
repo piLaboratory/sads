@@ -128,7 +128,10 @@ plot(rad(moths))
 lines(moths.mzsm.r)
 ## Alternative model: local zero-sum multinomial
 ## Alonso & Mckane (Ecol. Lett. 2004, table 1) give theta = 41 and m = 0.77
-moths.lzsm.r <- radpred( moths, sad = "volkov", distr="D", coef =list(theta = 41, m = 0.77, J=sum(moths)) )
+moths.lzsm.r <- 
+  radpred( moths, sad = "volkov", distr="D", 
+           coef =list(theta = 41, m = 0.77, J=sum(moths)) 
+         )
 ## Adding predicted frequencies to the plot
 lines(moths.lzsm.r, col = "red")
 }

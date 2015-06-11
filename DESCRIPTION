@@ -1,11 +1,12 @@
 Package: sads
 Type: Package
 Title: Maximum Likelihood Models for Species Abundance Distributions
-Version: 0.1.13
-Date: 2015-03-27
+Version: 0.1.14
+Date: 2015-06-02
 Author: Paulo I. Prado, Murilo Dantas Miranda and Andre Chalom
 Maintainer: Paulo I. Prado <prado@ib.usp.br>
 Depends:
+	stats,
     bbmle,
     poilog
 Imports:
