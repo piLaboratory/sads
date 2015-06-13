@@ -51,7 +51,7 @@ pred.logser(x, alpha, J, S)
   Since the logseries model is a function that relates S to J using a
   single parameter (alpha), once two of
   these quantities are known the remaining is determined. So the function
-  allow the input of any two among S, J and alpha. If the
+  allows the input of any two among S, J and alpha. If the
   user does not provide at least two of these values, an error message
   is returned.
   

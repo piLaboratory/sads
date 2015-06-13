@@ -49,16 +49,16 @@ qzipf( p, N, s, lower.tail = TRUE, log.p = FALSE)
   law, this probability  is inversely proportional to a power \code{s} of the frequency
   rank of the element in the set. The density function is
 
-  p(x) = (x^(-s)) / sum((1:N)^(-s))
+  \deqn{p(x) = \frac{x^{-s}}{\sum_{i=1}^N i^{-s}}}{p(x) = ((x+v)^(-s)) / sum(((1:N)+v)^(-s))}
 
   Since p(x) is proportional to a power of \code{x}, the Zipf distribution is a
   power distribution. The Zeta distribution is a special case at the limit
   N -> Inf.
 
   The Zipf distribution has a wide range of applications (Li 2011). One
-  of its best know application is to describe the probability
-  of occurrence of a given word that has a ranking \code{x} in a \emph{corpus} that has a total of \code{N}
-  words. It can be used as well to describe the probability of the
+  of its best known applications is describing the probability
+  of occurrence of a given word that has a ranking \code{x} in a \emph{corpus} with a total of \code{N}
+  words. It can also be used to describe the probability of the
   abundance rank of a given species in a sample or assemblage of \code{N} species.
 }
 

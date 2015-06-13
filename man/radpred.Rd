@@ -6,7 +6,7 @@
 \alias{radpred,fitsad,missing,missing,missing,missing,missing,missing,missing-method}
 \alias{radpred,missing,character,missing,list,ANY,character,numeric,numeric-method}
 \alias{radpred,missing,missing,character,list,ANY,missing,numeric,numeric-method}
-\alias{radpred,numeric,character,missing,list,ANY,ANY,missing,missing-method}
+\alias{radpred,numeric,character,missing,list,ANY,character,missing,missing-method}
 \alias{radpred,numeric,missing,character,list,ANY,missing,missing,missing-method}
 
 \title{Predicted ranked abundance of species}
@@ -45,7 +45,7 @@
     }
 
     \item{\code{signature(object = "numeric", sad = "character", rad =
-	"missing", coef = "list", trunc = "ANY", distr = "ANY", S =
+	"missing", coef = "list", trunc = "ANY", distr = "character", S =
 	"missing", N = "missing")}}{
       same as previous method, but with
       \code{S} and \code{N} taken from a vector of abundances given by
@@ -128,7 +128,10 @@ plot(rad(moths))
 lines(moths.mzsm.r)
 ## Alternative model: local zero-sum multinomial
 ## Alonso & Mckane (Ecol. Lett. 2004, table 1) give theta = 41 and m = 0.77
-moths.lzsm.r <- radpred( moths, sad = "volkov", distr="D", coef =list(theta = 41, m = 0.77) )
+moths.lzsm.r <- 
+  radpred( moths, sad = "volkov", distr="D", 
+           coef =list(theta = 41, m = 0.77, J=sum(moths)) 
+         )
 ## Adding predicted frequencies to the plot
 lines(moths.lzsm.r, col = "red")
 }

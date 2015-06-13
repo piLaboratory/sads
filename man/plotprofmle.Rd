@@ -70,7 +70,7 @@ plotprofmle(profobj, nseg=20, ratio=log(8), which=1:length(profobj@profile),
   In its original form (e.g. Edwards 1972), likelihood profiles do not
   use z-transformed values, and can be interpreted directly, even if they are
   asymmetric. At the scale of the log-likelihood function, all
-  values of the parameters that result in a negative log-likelihood
+  values of the parameters resulting in a negative log-likelihood
   less or equal to a given value k are exp(k) times as plausible as
   the mle. Hence, exp(k) is a likelihood ratio, and delimits a plausibility interval (or likelihood
   interval) for the mle's. Function \code{plotprofmle} plots profiles of the

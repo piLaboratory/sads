@@ -12,7 +12,7 @@
 }
 
 \usage{
-dvolkov( x, theta, m, J, log = FALSE )
+dvolkov( x, theta, m, J, order=96, log = FALSE )
 pvolkov( q, theta, m , J, lower.tail = TRUE, log.p = FALSE )
 qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
 }
@@ -35,8 +35,11 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
   \item{theta}{
     positive real, theta > 0; Hubbell's \sQuote{fundamental biodiversity number}.
   }
-
-
+  \item{order}{
+	  order of the approximation for the numerical integration. The default of 96
+	  usually gives a rounding error of 1e-8 for moderate dataset; 
+	  orders greater than 128 are probably overkill
+  }
   \item{m}{
     positive real, 0 <= m <= 1; immigration rate (see details).
   }
@@ -77,7 +80,7 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
   are replaced by the offspring of other individuals picked at random;
   (2) replacement of a dead individual by an immigrant --
   with probability m individuals picked at random
-  are replaced by an immigrants taken at random from a pool
+  are replaced by immigrants taken at random from a pool
   of potential colonizers (the metacommunity).
 
   Volkov et al. (2003, eq.7) provide the stationary solution for
@@ -86,13 +89,16 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
   A probability density function is easily calculated by taking
   these expected values for abundances 1:J and dividing them
   by the total number of
-  species. \code{dvolkov} is a wrapper of \code{untb::volkov} (Hankin
-  2007) that
-  performs these calculations. \code{pvolkov} provides CDF by
+  species.
+  \code{dvolkov} is performs the numerical integration of the 
+  density function by means of Gaussian quadrature, using a
+  library by Pavel Holoborodko (http://www.holoborodko.com/pavel/?page_id=679).
+  The code is based on the \code{untb::volkov} function (Hankin 2007).
+  \code{pvolkov} provides CDF by
   cumulative sum of density values, and \code{qvolkov} use
   a numeric interpolation with a step function (\code{approxfun})
   to find quantiles.
-  Calculations can be slow even for datasets of moderate size.
+  Calculations can be slow for larger datasets.
 }
 
 \references{
@@ -113,14 +119,7 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
   \code{volkov} in package \pkg{untb}.
 }
 
-\source{function \code{untb::volkov} (Robin Hankin)
-  calculates the expected number of species in a given abundance class
-  according to eq. 7 in Volkov et al (2003).
-  \code{dvolkov} is simply a wrapper that converts expected numbers to
-  densities.
-}
-
-\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
+\author{Paulo I Prado \email{prado@ib.usp.br}, Andre Chalom and Murilo Dantas Miranda.}
 
 \examples{
 ## Volkov et al 2003 fig 1
@@ -131,12 +130,12 @@ bci.oct <- octav( bci, preston = FALSE )
 plot( bci.oct )
 CDF <- pvolkov( bci.oct$upper, theta = 47.226, m = 0.1, J = sum(bci) )
 bci.exp <- diff( c(0,CDF) ) * length(bci)
-midpoints <- as.numeric( bci.oct$octave ) - 0.5
+midpoints <- as.numeric( as.character( bci.oct$octave ) ) - 0.5
 lines( midpoints, bci.exp, type="b" )
 
 ## the same with octavpred
 bci.exp2 <- octavpred( bci, sad = "volkov",
-                      coef = list(theta = 47.226, m = 0.1) )
+                      coef = list(theta = 47.226, m = 0.1, J=sum(bci)) )
 lines( bci.exp2 )
 
 }

@@ -23,8 +23,12 @@ rsad(S, frac, sad, Pois.samp = TRUE, k , zeroes = FALSE, ssize=1, \dots)
   }
   \item{sad}{
     character; root name of community sad distribution - e.g., \kbd{lnorm}
-    for the lognormal distribution; 
-    \kbd{geom} for the geometric distribution.
+    for the lognormal distribution \code{rlnorm}; \kbd{geom} for the geometric distribution
+	\code{rgeom}.
+	Note that at the present moment only the following distributions used in fitsad have 
+	random generators implemented:
+	\kbd{gamma}, \kbd{geom}, \kbd{lnorm}, \kbd{rnbinom}, \kbd{rpoilog}, \kbd{rweibull},
+	however you can use any base name for which a random sample generating function is available.
   }  
   \item{Pois.samp}{
     logical; if \kbd{TRUE} the sampling process is Poisson (independent sampling of
@@ -62,7 +66,7 @@ rsad(S, frac, sad, Pois.samp = TRUE, k , zeroes = FALSE, ssize=1, \dots)
   binomial sampling with replacement of a vector of \code{S} realizations of a random variable,
   with the sampling intensity given by \code{frac}. The resulting values are
   realizations of a Poisson (or a Negative Binomial) random variable where the
-  parameter that correspond to the mean (=expected value of the variable) follows a probability
+  parameter that corresponds to the mean (=expected value of the variable) follows a probability
   distribution given by the argument \code{sad}.
 }
 

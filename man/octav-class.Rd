@@ -22,9 +22,9 @@
 \section{Slots}{
   \describe{
     \item{\code{.Data}:}{Object of class \code{"list"} a data frame of
-      three vectors: octave number (factor), which is the upper
+      three vectors: octave number (integer), which is the upper
       limit of the class in log2; upper limit of the class in arithmetic
-      scale (numeric); number of cases in each class (integer). }
+      scale (numeric); number of cases in each class (numeric). }
     \item{\code{names}:}{Object of class \code{"character"}; names of
       the three vectors of \code{.Data}, \code{"octave"},
       \code{"upper"}, and \code{"Freq"}, respectively.  }
@@ -45,7 +45,7 @@
 \section{Methods}{
   \describe{
     \item{lines}{\code{signature(x = "octav")}: adds frequency data
-      contained in the object as lines in a octave plot created by \code{plot} method.}
+      contained in the object as lines in an octave plot created by \code{plot} method.}
     \item{plot}{\code{signature(x = "octav", y = "ANY")}: creates a
       histogram of frequencies of species in each octave in the object, a.k.a 'Preston plot' }
     \item{points}{\code{signature(x = "octav")}: adds frequency data
@@ -81,7 +81,7 @@
 
 
 \seealso{ \code{\link{octav}} to get an object of the class from a vector
-  of abundances; \code{\link{octavpred}} to get a \code{octav} object of
+  of abundances; \code{\link{octavpred}} to get an \code{octav} object of
   predicted abundances from a theoretical distribution;
   man page of \code{prestonfit} in package \code{vegan} for a detailed account of
   Preston's octaves and an alternative way to get octaves and model fitting.

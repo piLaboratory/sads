@@ -16,6 +16,6 @@ fitnbinom <- function(x, trunc=0, start.value, ...){
   } else{
     LL <- function(size, mu) -sum(dtrunc("nbinom", x = x, coef = list(size=size, mu=mu), trunc = trunc, log = TRUE))
   }
-  result <- mle2(LL, start = list(size = sizehat, mu = muhat), data = list(x = x), ...)
+  result <- do.call("mle2", c(list(LL, start = list(size = sizehat, mu = muhat), data = list(x = x)), ...))
   new("fitsad", result, sad="nbinom", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
 }

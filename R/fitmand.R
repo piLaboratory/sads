@@ -8,7 +8,9 @@ fitmand <- function(x, trunc, start.value, ...){
     if (min(y)<=trunc) stop("truncation point should be lower than the lowest data value")
   }
   if(missing(start.value)){
-    shat <- 2
+	x75 <- rad.tab[(floor(dim(rad.tab)[1]/4)):dim(rad.tab)[1],]
+    x75 <- x75[x75$abund > 1, ]
+	shat <- - coef(lm(log(abund)~log(rank), data=x75))[2]
     vhat <- 30
   }
   else{
@@ -16,11 +18,11 @@ fitmand <- function(x, trunc, start.value, ...){
     vhat <- start.value[2]
   }
   if (missing(trunc)){
-    LL <- function(s, v) -sum(dmand(y, N = N, s, v, log = TRUE))
+    LL <- function(N, s, v) -sum(dmand(y, N = N, s=s, v=v, log = TRUE))
   }
   else{
-    LL <- function(s, v) -sum(dtrunc("mand", x = y, coef = list(N = N, s = s, v = v), trunc = trunc, log = TRUE))
+    LL <- function(N, s, v) -sum(dtrunc("mand", x = y, coef = list(N = N, s = s, v = v), trunc = trunc, log = TRUE))
   }
-  result <- mle2(LL, start = list(s = shat, v = vhat), data = list(x = y), ...)
+  result <- do.call("mle2", c(list(LL, start = list(s = shat, v = vhat), fixed=list(N=N), data = list(x = y)), ...))
   new("fitrad", result, rad="mand", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc), rad.tab=rad.tab)
 }

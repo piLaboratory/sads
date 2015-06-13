@@ -46,28 +46,28 @@ qls(p, N, alpha, lower.tail = TRUE, log.p = FALSE)
   was originally proposed by Fisher (1943) to relate the expected number
   of species in a sample from a biological community to the sample size as:
 
-  S = alpha * log(1 + N/alpha)
+%  \deqn{S = \alpha  \log \left( 1 + \frac{N}{\alpha} \right)}{S = alpha * log(1 + N/alpha)}
 
   Where alpha is the single parameter of the log-series distribution,
   often used as a diversity index. From this relation follows that the
   expected number of species with x individuals in the sample is
   
-  S(x) = alpha*X^x/x
+  \deqn{S(x) = \alpha \, \frac{X^x}{x}}{S(x) = alpha*X^x/x}
 
   Where X is a function of alpha and N, that tends to one as the sample
   size N increases:
 
-  X = N / (alpha+ N)
+  \deqn{X = \frac{N}{\alpha + N}}{X = N / (alpha+ N)}
   
   The density function used here is derived by Alonso et al. (2008,
   supplementary material). In ecology, this density distribution gives
   the probability that a species has
   an abundance of x individuals in a random sample of size N of the
-  community. In the community the species abundances are independent
+  community. In the community, the species abundances are independent
   random variables that follow a log-series distribution. Thus, a random
   sample of a log-series is also a log-series distribution.
   
-  Hence, a log-series distribution is a model for species
+  Therefore, a log-series distribution is a model for species
   abundances distributions (SAD) under the assumptions that (a) species
   abundances in the community are independent identically distributed
   log-series variables, (b) sampling is a Poisson process, (c)
@@ -126,4 +126,4 @@ all.equal(pls(10,N=1000,alpha=50), sum(dls(1:10,N=1000,alpha=50))) # should be T
 
 ## qls is the inverse of pls
 all.equal(qls(CDF,N=100,alpha=5), x) # should be TRUE
-  }
+}

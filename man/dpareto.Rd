@@ -13,7 +13,7 @@
 \usage{
 dpareto(x, shape, scale = min(x), log = FALSE)
 ppareto(q, shape, scale = min(q), lower.tail = TRUE, log.p = FALSE)
-qpareto(p, shape, scale = min(q), lower.tail = TRUE, log.p = FALSE)
+qpareto(p, shape, scale = min(p), lower.tail = TRUE, log.p = FALSE)
 }
 
 \arguments{
@@ -54,15 +54,13 @@ values \code{NaN}, with a warning.
 
 \details{
 The Pareto distribution is a continuous power-law density distribution
-with \code{scale} and \code{shape} parameters that has the form:
+with \code{scale} (a) and \code{shape} (b) parameters with the form:
 
-f(x) = shape * scale^shape / x^(shape+1)
+\deqn{f(x) = \frac{b a^b} {x^{b+1}}}{f(x) = shape * scale^shape / x^(shape+1)}
 
 For all x >= scale, and
 
-f(x) = 0
-
-otherwise.
+f(x) = 0 otherwise.
 
 The shape parameter is known as Pareto's index or tail index, and
 increases the decay of f(x). This distribution was originally used to

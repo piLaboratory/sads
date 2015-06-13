@@ -60,25 +60,25 @@ qrbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
   The Broken-stick distribution was proposed as a model for
   the expected abundance of elements in a collection:
 
-  n(i) = N/S (sum(from k=i to S) 1/k)
+  \deqn{n(i) = \frac{N}{S} \sum_{k=i}^S 1/k}{n(i) = N/S (sum(from k=i to S) 1/k)}
 
   where n(i) is the abundance in the i-th most abundant element
   (MacArthur 1960, May 1975).
   Hence the probability (or expected proportion of occurrences)
   in the i-th element is
 
-  p(i) = n(i)/N = n(i) = (sum(from k=i to S) 1/k) / S
+  \deqn{p(i) = \frac{n(i)}{S} = S^{-1}\sum_{k=i}^S 1/k}{p(i) = n(i)/N = (sum(from k=i to S) 1/k) / S}
 
   \code{[dpq]rbs} stands for "rank-abundance Broken-stick" and return
   probabilities and quantiles based on the expression above, for p(i).
-  Therefore, \code{[dpq]rbs} can be used as rank-abundance model
-  for species ranks in a sample or biological community
+  Therefore, \code{[dpq]rbs} can be used as a rank-abundance model
+  for species' ranks in a sample or in a biological community
   see \code{\link{fitrad}}.
 
   The probability density for a given abundance value in the Broken-stick model
   is given by 
 
-  p(x) = (1 - x/N)^(S-2) (S - 1)/N
+  \deqn{p(x) = \frac{S-1}{N} \left( 1 -  \frac{x}{N} \right)^{S-2}}{p(x) = (1 - x/N)^(S-2) (S - 1)/N}
 
   Where x is the abundance of a given element in the collection (May 1975).
   \code{[dpq]bs} return probabilities and quantiles according to the
@@ -120,11 +120,11 @@ PDF <- drbs(x=x, N=100, S=25)
 CDF <- prbs(q=x, N=100, S=25)
 par(mfrow=c(1,2))
 plot(x,CDF, ylab="Cumulative Probability", type="b",
-     main="Broken-stick distribution, CDF")
+     main="Broken-stick rank distribution, CDF")
 plot(x,PDF, ylab="Probability", type="h",
-     main="Broken-stick distribution, PDF")
+     main="Broken-stick rank distribution, PDF")
 par(mfrow=c(1,1))
 
 ## quantile is the inverse of CDF
-all.equal( qrbs( CDF, N=100, S=25), x) # should be zero
+all.equal( qrbs( CDF, N=100, S=25), x) # should be TRUE
 }

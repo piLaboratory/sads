@@ -1,16 +1,11 @@
 dmand <- function (x, N, s, v, log = FALSE) {
-  if (any(x < 1)) 
-    warning("the Zipf-Mandelbrot's distribution is not set to zero or negative numbers")
-  if (N < 1||!any(is.wholenumber(N)))
-    stop("N must be positive integer")
-  if (!any(is.wholenumber(x))) 
-    warning("x must be integer")
-  if (s <= 0 || v < 0){
-    warning("Function not defined for s <=zero or v < zero, NaN's returned")
-    lny <- rep(NaN, length(x))
-  }
-  else
-    lny <- - s * log(x+v) - log(sum(((1:N)+v)^(-s)))
-  if (log) return(lny)
-  else return(exp(lny))
+	N[ !is.finite(N) | N < 1 | !is.wholenumber(N) ] <- NaN
+	s[ !is.finite(s) | s <= 0] <- NaN
+	v[ !is.finite(v) | v < 0] <- NaN
+	lny <- - s * log(x+v) - log(sum(((1:N)+v)^(-s)))
+	if (any(is.nan(lny))) warning ("NaNs produced")
+	if (any(!is.wholenumber(x))) warning("non integer values in x")
+	lny[ ! is.wholenumber(x) | x < 1] <- -Inf
+	if (log) return(lny)
+	else return(exp(lny))
 }
