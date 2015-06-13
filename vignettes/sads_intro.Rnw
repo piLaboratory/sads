@@ -53,7 +53,7 @@ samples, with and without aggregation of individuals of the same species.
 
 \section{Installation}
 
-The package is available on  CRAN and can be installed in \R with the command:
+The package is available on CRAN and can be installed in \R with the command:
 
 @ 
 <<installation, eval=FALSE>>=
@@ -76,6 +76,13 @@ The current developer version can be installed from GitHub with:
 library(devtools)
 install_github(repo = 'piklprado/sads', ref= 'dev')
 @ 
+
+And then load the package:
+
+@ 
+<<load-sads-package >>=
+library(sads)
+@ %def 
 
 \section{Exploratory analyses}
 \label{sec:analise-exploratoria}
