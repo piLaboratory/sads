@@ -38,15 +38,22 @@ plotprofmle <- function(profobj, nseg=20, ratio=log(8), which=1:length(profobj@p
       do.call(plot, c(list(x=interpol,xlab=vname[i]),dots))
       if(!is.null(ratio)){
         l <- length(interpol$y)
+	  # Finds where the interpolation crosses the "y = ratio" line
         change <- (interpol$y - ratio)[2:l] * (interpol$y - ratio)[1:(l-1)]
         endpoints <- which(change < 0)
+		# Adds the borders, if any of them is lower than ratio
+		if(interpol$y[1] < ratio) endpoints <- c(1, endpoints)
+		if(interpol$y[l] < ratio) endpoints <- c(endpoints, l)
         corr <- (interpol$x[2]-interpol$x[1])/2
+		if(length(endpoints) > 0)
         for (j in 1:(length(endpoints)/2)) {
           lower <-interpol$x[endpoints[(2*j)-1]]+corr
           upper <- interpol$x[endpoints[2*j]]+corr
           lines(c(lower,upper ),c(ratio, ratio), col=col.line, lty=2)
-          lines(rep(lower,2), c(-1, ratio), col=col.line, lty=2)
-          lines(rep(upper,2), c(-1, ratio), col=col.line, lty=2)
+		  if(endpoints[(2*j-1)] != 1) # dont draw vertical lines at the borders
+	          lines(rep(lower,2), c(-1, ratio), col=col.line, lty=2)
+		  if(endpoints[(2*j)] != l) # dont draw vertical lines at the borders
+			  lines(rep(upper,2), c(-1, ratio), col=col.line, lty=2)
         }
       }
     }

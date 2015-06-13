@@ -50,12 +50,12 @@ qmand( p, N, s, v, lower.tail = TRUE, log.p = FALSE)
   of a given element from a set of \code{N} elements. This probability  is inversely proportional to a power \code{s} of the
   rank of the frequency of the element in the set. The density function is
 
-  p(x) = ((x+v)^(-s)) / sum(((1:N)+v)^(-s))
+  \deqn{p(x) = \frac{(x+v)^{-s}}{\sum_{i=1}^N (i+v)^{-s}}}{p(x) = ((x+v)^(-s)) / sum(((1:N)+v)^(-s))}
 
   Since p(x) is proportional to a power of \code{x}, the Zipf-Mandelbrodt distribution is a
   power distribution. The Zipf distribution is a special case when
-  v=0. Hence, the Zipf-Mandelbrodt distribution is generalization of the
-  Zipf Law, and is widely used in the for the same purposes. In Ecology, it
+  v=0. Hence, the Zipf-Mandelbrodt distribution is a generalization of the
+  Zipf Law, and is widely used in the [x] for the same purposes. In Ecology, it
   can be used to describe the probability of the abundance rank \code{x} of given species in a sample or assemblage of \code{N}
   species.
   

@@ -12,6 +12,6 @@ fitgeom <- function(x, trunc = 0, start.value, ...){
   } else{
     LL <- function(prob) -sum(dtrunc("geom", x = x, coef = prob, trunc = trunc, log = TRUE))
   }
-  result <- mle2(LL, start = list(prob = phat), data = list(x = x), method = "Brent", lower = 0, upper = 1, ...)
+  result <- do.call("mle2", c(list(LL, start = list(prob = phat), data = list(x = x), method = "Brent", lower = 0, upper = 1), ...))
   new("fitsad", result, sad = "geom", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
 }

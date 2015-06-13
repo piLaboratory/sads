@@ -1,20 +1,33 @@
 \name{dpoig}
 \alias{dpoig}
+\alias{ppoig}
+\alias{qpoig}
 
 \title{Compound Poisson-gamma distribution}
 
 \description{
-  Density for the Poisson-gamma compound probability distribution with
+  Density, distribution function and quantile function for
+  for the Poisson-gamma compound probability distribution with
   parameters \code{frac}, \code{rate} and \code{rate}.
 }
 
 \usage{
 dpoig(x, frac, rate, shape, log=FALSE)
+ppoig(q, frac, rate, shape, lower.tail=TRUE, log.p=FALSE)
+qpoig(p, frac, rate, shape, S=30, lower.tail=TRUE, log.p=FALSE)
 }
 
 \arguments{
   \item{x}{
-    vector of (non-negative integer) quantiles.
+    vector of (non-negative integer) quantiles. In the context of
+    species abundance distributions, this is a vector of abundances 
+    of species in a sample.
+  }
+  \item{q}{vector of (non-negative integer) quantiles. In the context of
+    species abundance distributions, a vector of abundances of species in a sample.
+  }
+  \item{p}{
+    vector of probabilities.
   }
   \item{frac}{
     single numeric '0<frac<=1'; fraction of the population or community sampled (see details)
@@ -27,24 +40,31 @@ dpoig(x, frac, rate, shape, log=FALSE)
     the shape parameter of the gamma distribution of the
     sampled population (see details).  Must be positive.
   }
-  \item{log}{
+  \item{log, log.p}{
     logical; if TRUE, probabilities p are given as log(p)
+  }
+  \item{lower.tail}{
+    logical; if TRUE (default), probabilities are P[X <= x],
+    otherwise, P[X > x].
+  }
+  \item{S}{positive integer; initial value for bisection method.
+    (see note)
   }
 }
 
 \details{
   A compound Poisson-gamma distribution is a Poisson probability distribution
-  where its single parameter, the process mean rate, is frac*n, where n
+  where its single parameter, the process mean rate, is frac*n, at which n
   is a random variable with gamma distribution. The density function
-  is given by Green & Plotkin (2007) 
+  is given by Green & Plotkin (2007).
 
   In ecology, this distribution gives the probability that a species has
   an abundance of x individuals in a random sample of a fraction frac of
   the community. In the community the species abundances are independent
-  random variables that follow an gamma density function.
+  random variables that follow a gamma density function.
 
   Hence, a Poisson-gamma distribution is a model for species
-  abundances distributions (SAD) under the assumptions that (a) species
+  abundances distributions (SAD) under the assumptions: (a) species
   abundances in the community are independent identically distributed
   gamma variables, (b) sampling is a Poisson process with expected
   value frac*n, (c) the sampling is done with replacement, or the fraction
@@ -55,10 +75,17 @@ dpoig(x, frac, rate, shape, log=FALSE)
   Binomial explicitly as a compound distribution.
   The Fisher log-series (Fisher 1943) is a limiting case
   where the dispersion parameter of the Negative Binomial tends to zero.
+  As in the case of the Poisson-exponential, the user should not fit to 
+  the Poisson-gamma directly, and should use instead the \code{fitls} function.
 
 }
 \value{
   (log) density of the (zero-truncated) density
+}
+\note{
+  parameter \code{S} in \code{qpoig} is just a starting value for the
+  bisection method, and does not affect the final result, only the
+  convergence velocity.
 }
 
 \references{
@@ -76,8 +103,8 @@ dpoig(x, frac, rate, shape, log=FALSE)
   
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Cristiano Strieder.}
+\author{Paulo I Prado \email{prado@ib.usp.br}, Cristiano Strieder and Andre Chalom.}
 
 \seealso{
-  dgamma, dpois, dnbinom
+  dgamma, dpois, dnbinom for related distributions, dpoix for the special case of Poisson-exponential
 }

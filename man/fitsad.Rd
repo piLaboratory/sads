@@ -21,15 +21,15 @@
 
 \usage{
 fitsad(x, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
-       "poilog","power","weibull","volkov"), \dots)
+       "poilog","power","weibull","volkov","poig","poix"), \dots)
 
 fitbs(x, trunc, \dots)
 
-fitgamma(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
+fitgamma(x, trunc, start.value,  \dots)
 
 fitgeom(x, trunc = 0, start.value, \dots)
 
-fitlnorm(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
+fitlnorm(x, trunc, start.value,  \dots)
 
 fitls(x, trunc, start.value, upper = length(x), \dots)
 
@@ -37,7 +37,7 @@ fitmzsm(x, trunc, start.value, upper = length(x), \dots)
 
 fitnbinom(x, trunc, start.value, \dots)
 
-fitpareto(x, trunc, start.value, trueLL = TRUE, dec.places = 0, upper = 20, \dots)
+fitpareto(x, trunc, start.value,  upper = 20, \dots)
 
 fitpoilog(x, trunc = 0, \dots)
 
@@ -45,7 +45,7 @@ fitpower(x, trunc, start.value, upper = 20, \dots)
 
 fitvolkov(x, trunc, start.value, \dots)
 
-fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
+fitweibull(x, trunc, start.value,  \dots)
 }
 
 \arguments{
@@ -82,28 +82,28 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
     and in the same order.
   }
   
-  \item{trueLL}{
-    logical; use \sQuote{true likelihood} for continuous models? (see \code{\link{trueLL}}).
-  }
+  %% \item{trueLL}{
+  %%   logical; use \sQuote{true likelihood} for continuous models? (see \code{\link{trueLL}}).
+  %% }
 
-  \item{dec.places}{
-    positive integer; number of decimal places used in the measurement of
-    the observed values. Observed values will be rounded to this number of
-    decimals. This argument defines the measurement precision for
-    abundance variables. Used for continuous distributions when
-    argument \code{trueLL=TRUE} 
-    (see details and \code{\link{trueLL}}).
-  }
+  %% \item{dec.places}{
+  %%   positive integer; number of decimal places used in the measurement of
+  %%   the observed values. Observed values will be rounded to this number of
+  %%   decimals. This argument defines the measurement precision for
+  %%   abundance variables. Used for continuous distributions when
+  %%   argument \code{trueLL=TRUE} 
+  %%   (see details and \code{\link{trueLL}}).
+  %% }
 
   \item{upper}{
-    real positive; upper bound for the Brent's one-parameter optimization
+    real positive; upper bound for Brent's one-parameter optimization
     method (default), for fits that use this method by default. See
     details and \code{optim}.
   }
   \item{\dots}{
     in \code{fitsad} further arguments to be passed to the specific fitting
-    function (most used are \code{trunc}, \code{start.value} and
-    \code{trueLL}). 
+    function (most used are \code{trunc}, \code{start.value})
+    %%and \code{trueLL}). 
     In the specific fitting functions further
     arguments to be passed to \code{mle2}.
   }
@@ -128,29 +128,36 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
   The distributions are fitted by the
   maximum likelihood method using numerical optimization,
   with \code{mle2}.
-  The result object is of \code{fitsad-class}
+  The resulting object is of \code{fitsad-class}
   which can be handled with \code{mle2} methods
   for fitted models and has also some additional
   methods for SADs models (see
   \code{\link{fitsad-class}} and examples).
   
-  Functions \code{fitgamma}, \code{fitlnorm}, \code{fitweibull}, fit the
+  Functions \code{fitgamma}, \code{fitlnorm} and \code{fitweibull} fit the
   standard continuous distributions most used as SADs models.
   Functions \code{power} and \code{pareto} fit power-law continuous distributions
   with one and two-parameters, that have been suggested as SADs models.
-  By default, all continuous distributions
-  are fit using the
-  correct likelihood for independent observations of a
-  continuous variable (Lindsey 1999, see \code{\link{trueLL}}).
-  Hence, the correct number of decimal places of the abundance
-  measure must be given in the argument \code{dec.places}.
-  A warning message reminds users about that when \code{trueLL=TRUE}.
-  When the abundance measure is the number of individuals of each
-  species in the sample,
-  the default value \code{dec.places=0}
-  is the correct choice. In this case, the probability of a given abundance
-  value x will be calculated as CDF(x + 0.5) - CDF( x - 0.5 ), where CDF
-  is the cumulative density function of the continuous distribution.
+  As species with null abundances in the sample are in general unknown, the
+  fit to continuous distributions can be improved by truncation to some value
+  above zero (see example). Convergence problems can occur when fitting
+  with truncation, and can be solved with sensible starting values.
+  \code{fitgamma} uses Chapman's (1956) fitting method to find starting
+  values for the truncated gamma distribution.
+
+  %% By default, all continuous distributions
+  %% are fit using the
+  %% correct likelihood for independent observations of a
+  %% continuous variable (Lindsey 1999, see \code{\link{trueLL}}).
+  %% Hence, the correct number of decimal places of the abundance
+  %% measure must be given in the argument \code{dec.places}.
+  %% A warning message reminds users about that when \code{trueLL=TRUE}.
+  %% When the abundance measure is the number of individuals of each
+  %% species in the sample,
+  %% the default value \code{dec.places=0}
+  %% is the correct choice. In this case, the probability of a given abundance
+  %% value x will be calculated as CDF(x + 0.5) - CDF( x - 0.5 ), where CDF
+  %% is the cumulative density function of the continuous distribution.
   
   Functions \code{fitgeom}, \code{fitnbinom} fits geometric and negative
   binomial distributions which are two discrete
@@ -158,7 +165,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
   with zero individuals in the sample are in general unknown,
   these functions fit by default zero-truncated distributions.
   Using the geometric distribution as a SAD model is not to be
-  confounded to fitting the Geometric series \code{\link{fitgs}}
+  confounded for fitting the Geometric series \code{\link{fitgs}}
   as a rank-abundance distribution (RAD) model.
 
   Function \code{fitls} implements the original numerical recipe by Fisher (1943) to
@@ -169,22 +176,27 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
   Fitting is done through numerical optimization with the \code{uniroot}
   function, following the code of the function \code{fishers.alpha} of the
   \pkg{untb} package. After that, the estimated value of alpha parameter is
-  use as the starting value to get the Log-likelihood from the lamaseries density
+  used as the starting value to get the Log-likelihood from the log-series density
   function \code{dls}, using the function \code{mle2}.
+  The total number of individuals in the sample, \code{N}, is treated as a fixed
+  parameter in this implementation, in order to maintain coherence with 
+  similar parameters from \code{fitvolkov} and \code{fitmzsm} (see below).
+  Fixed parameters in the model specification do not contribute to the model
+  degrees of freedom, and are not accounted in standard error calculations.
 
   Function \code{fitbs} fits the Broken-stick distribution
   (MacArthur 1960). It is defined only by the observed number of
   elements \code{S} in the collection and collection size \code{N}.
-  Therefore, once a sample is taken,
+  Thus once a sample is taken,
   the Broken-stick has no free parameters.
   Therefore, there is no actual fitting, but still
   \code{fitbs} calls
   \code{mle2} with
   fixed parameters \code{N} and \code{S} and \code{eval.only=TRUE}
-  to return an object of classes \code{fitsad}
+  to return an object of class \code{fitsad}
   to keep compatibility with other
   SADs models fitted to the same data.
-  Therefore the resulting objects allows most of the
+  Therefore, the resulting objects allows most of the
   operations with SAD models, such as
   comparison with other models through model selection,
   diagnostic plots and so on
@@ -202,7 +214,7 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
   negative binomial distributions, the Poisson-lognormal
   includes zero, but the fit is zero-truncated
   by default, as for \code{fitgeom}, \code{fitnbinom}.
-  
+
   \code{fitmzsm} fits the metacommunity Zero-sum multinomial distribution
   \code{\link{dmzsm}} from the Neutral Theory of Biodiversity
   (Alonso and McKane 2004). The mZSM describes the SAD of a sample
@@ -248,6 +260,10 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
   general maximum likelihood estimation. R package version 1.0.5.2.
   http://CRAN.R-project.org/package=bbmle
 
+  Chapman, D. G. 1956. Estimating the parameters of a truncated gamma
+  distribution. \emph{The Annals of Mathematical Statistics, 27(2)}:
+  498--506.
+
   Fisher, R.A, Corbert, A.S. and Williams, C.B. (1943) The Relation
   between the number of species and the number of individuals in a
   random sample of an animal population.
@@ -262,9 +278,6 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
   
   Hubbell, S.P.  2001.  \emph{The Unified Neutral Theory of Biodiversity}.
   Princeton University Press
-  
-  Lindsey, J.K. 1999. Some statistical heresies. \emph{The Statistician
-    48}(1): 1--40.
   
   MacArthur, R.H. 1960. On the relative abundance of species.
   \emph{Am Nat 94}:25--36.
@@ -300,16 +313,16 @@ fitweibull(x, trunc, start.value, trueLL = TRUE, dec.places = 0, \dots)
 
 ## Magurran (1989) example 5:
 ## birds in an Australian forest
-mag5 <- c(103,115,13,2,67,36,51,8,6,61,10,21,
-          7,65,4,49,92,37,16,6,23,9,2,6,5,4,
-          1,3,1,9,2)
+mag5 <- c(103, 115, 13, 2, 67, 36, 51, 8, 6, 61, 10, 21,
+          7, 65, 4, 49, 92, 37, 16, 6, 23, 9, 2, 6, 5, 4, 
+          1, 3, 1, 9, 2)
 mag5.bs <- fitsad(mag5, "bs") 
 summary(mag5.bs)## no estimated coefficient
 coef(mag5.bs) ## fixed coefficients N and S
 ## Diagnostic plots
-par(mfrow=c(2,2))
+par(mfrow=c(2, 2))
 plot(mag5.bs)
-par(mfrow=c(1,1))
+par(mfrow=c(1, 1))
 
 
 data(moths) #Fisher's moths data
@@ -319,9 +332,9 @@ moths.ls <- fitsad(moths, sad="ls")
 coef(moths.ls)
 coef(moths.mzsm) ## Compare with theta=38.9, Alonso&McKanne (2004)
 ## Diagnostic plots
-par(mfrow=c(2,2))
+par(mfrow=c(2, 2))
 plot(moths.mzsm)
-par(mfrow=c(1,1))
+par(mfrow=c(1, 1))
 ## Graphical comparison
 plot(rad(moths))
 lines(radpred(moths.ls))
@@ -335,14 +348,14 @@ AICtab(moths.ln, moths.pln, moths.ls, moths.mzsm, weights=TRUE)
 
 ## Biomass as abundance variable
 data(ARN82.eB.apr77) #benthonic marine animals
-AR.ln <- fitsad(ARN82.eB.apr77, sad="lnorm", dec.places=2)
-AR.g <- fitsad(ARN82.eB.apr77, sad="gamma", dec.places=2)
-AR.wb <- fitsad(ARN82.eB.apr77, sad="weibull", dec.places=2)                
+AR.ln <- fitsad(ARN82.eB.apr77, sad="lnorm")
+AR.g <- fitsad(ARN82.eB.apr77, sad="gamma")
+AR.wb <- fitsad(ARN82.eB.apr77, sad="weibull")
 plot(octav(ARN82.eB.apr77))
 lines(octavpred(AR.ln))
 lines(octavpred(AR.g), col="red")
 lines(octavpred(AR.wb), col="green")
-legend("topright", c("lognormal", "gamma", "weibull"), lty=1, col=c("blue","red", "green"))
+legend("topright", c("lognormal", "gamma", "weibull"),lty=1, col=c("blue","red", "green"))
 AICctab(AR.ln, AR.g, AR.wb, nobs=length(ARN82.eB.apr77), weights=TRUE) 
 }
 

@@ -13,7 +13,7 @@
 \usage{
 dpoilog( x, mu, sig, log=FALSE)
 ppoilog( q, mu, sig, lower.tail=TRUE, log.p=FALSE)
-qpoilog( p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE)
+qpoilog( p, mu, sig, lower.tail = TRUE, log.p = FALSE)
 }
 
 \arguments{
@@ -36,32 +36,31 @@ qpoilog( p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE)
     logical; if TRUE (default), probabilities are P[X <= x],
     otherwise, P[X > x].
   }
-  \item{S}{positive integer; initial value for bisection method.
-    (see note)
-  }
 }
 
 \details{
   A compound Poisson-lognormal distribution is a Poisson probability distribution
-  where its single parameter lambda, is a random variable with lognormal distribution. 
+  where its single parameter lambda is a random variable with lognormal distribution. 
   The density function is 
 
-  p(x) = (exp(x*mu + x^2*sig/2)*(2*pi*sig)^(-1/2))/x! * g(y)
+  \deqn{p(x) = \frac{e^{x \mu + x^2 \sigma/2} (2 \pi \sigma)^{-1/2}}{x!}
+  \, g(y)}{p(x) = (exp(x*mu + x^2*sig/2)*(2*pi*sig)^(-1/2))/x! * g(y)}
 
-  where g(y) =
-  int_-infty^infty exp(-exp(y))*exp(((-y-mu-x*sig)^2)/(2*sig)) dy
+    where
+    \deqn{g(y) = \int_{-\infty}^\infty  \, e^{-e^y} \frac{e^{(-y-\mu-x
+	  \sigma)^2}}{2 \sigma}  \, dy}{g(y) = int_-infty^infty exp(-exp(y))*exp(((-y-mu-x*sig)^2)/(2*sig)) dy}
 
   (Bulmer 1974 eq.5). For x = 0, 1, 2, ... .
 
   In ecology, this distribution gives the probability that a species has
   an abundance of x individuals in a random sample of a fraction 'f' of the
-  community. In the community the species abundances are independent
+  community. In the community, the species abundances are independent
   random variables that follow a lognormal density function, with
   parameters (mu + ln(f), sigma) (Engen et al. 2002).
 
   Hence, a Poisson-lognormal distribution is a model for species
   abundances distributions (SAD) in a sample taken from a community
-  under the assumptions that (a) species
+  under the assumptions: (a) species
   abundances in the community are independent identically distributed
   lognormal variables, (b) sampling is a Poisson process with expected
   value E[x]= f*n where n is the abundance in the community and f the
@@ -73,13 +72,6 @@ qpoilog( p, mu, sig, S = 30, lower.tail = TRUE, log.p = FALSE)
 \value{
   'dpoilog' gives the (log) density of the density, 'ppoilog' gives the (log)
   distribution function, 'qpoilog' gives the quantile function.
-}
-
-\note{
-  parameter \code{S} in \code{qpoilog} is just a starting value for the
-  bisection method, and does not affect the final result, only the
-  convergence velocity. A good guess is the total number of observations,
-  which in the context of SADs is the observed number of species.
 }
 
 \source{

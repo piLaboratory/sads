@@ -52,12 +52,12 @@ qgs( p, k, S, lower.tail = TRUE, log.p = FALSE )
   proportion of occurrences) of the i-th most abundant element
   in a collection:
   
-  p(i) = C * k * (1-k)^(i-1)
+  \deqn{p(i) = C k (1-k)^{i-1}}{p(i) = C * k * (1-k)^(i-1)}
   
   where C is a normalization constant which makes the summation of p(i) over
   S equals to one:
   
-  C = 1/(1 - (1-k)^S)
+  \deqn{C = \frac{1}{1 - (1-k)^S}}{C = 1/(1 - (1-k)^S)}
   
   where S is the number of species in the sample.
   

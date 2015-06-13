@@ -3,7 +3,7 @@
 
 ### R package for fitting species abundance distributions
 
-**Paulo I. Prado and Murilo Miranda**
+**Paulo I. Prado, Murilo Miranda and Andre Chalom**
 
 ### Installation
 
@@ -23,6 +23,15 @@ If you want to install the developer version:
 library(devtools)
 install_github(repo = 'piklprado/sads', ref= 'dev')
 ```
+
+An experimental branch implementing Lindsey's (1999) correction for the log-likelihood
+of continuous density distributions when used for discrete data can be installed by:
+
+```r
+library(devtools)
+install_github(repo = 'piklprado/sads', ref= 'trueLL')
+```
+
 
 ### More info
   - [Project page on GitHub](http://piklprado.github.io/sads/)

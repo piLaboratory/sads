@@ -46,10 +46,10 @@ qpower( p, s, lower.tail= TRUE, log.p=FALSE)
   The power density is a discrete probability distribution defined for
   integer x > 0:
 
-  p(x) = x^(-s) / zeta (s)
+  \deqn{p(x) = \frac{x^{-s}}{\zeta (s)}}{p(x) = x^(-s) / zeta (s)}
 
   Hence p(x) is proportional to a
-  negative power of 'x', given by the 's' exponent. The Riemann's zeta
+  negative power of 'x', given by the 's' exponent. The Riemann's \eqn{\zeta}{zeta}
   function is the integration constant.
 
   The power distribution can be used as a species abundance distribution (sad) model, which

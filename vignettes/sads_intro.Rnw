@@ -7,6 +7,7 @@
 \usepackage{Sweave}
 \usepackage{natbib}
 \usepackage{framed, color}
+\usepackage{xspace}
 \definecolor{shadecolor}{rgb}{0.9, 0.9, 0.9}
 \setlength{\parindent}{0pt}
 \setlength{\hoffset}{-0.5in}
@@ -14,18 +15,20 @@
 \setlength{\voffset}{-0.1in}
 %\pdfpagewidth=\paperwidth
 %\pdfpageheight=\paperheight
-\newcommand{\R}{{\sf R}}
+\newcommand{\R}{\textnormal{\sffamily\bfseries R}\xspace}
+% altered bc \sf is obsolete, see:
+% http://tex.stackexchange.com/questions/74478/latex-command-incantation-for-r 
 \newcommand{\code}[1]{\texttt{#1}}
 \SweaveOpts{eval=TRUE, keep.source=TRUE, echo=TRUE}
-%\VignetteIndexEntry{Using sads}
+%\VignetteIndexEntry{Introduction to sads}
 
 \begin{document}
 
 \title{Fitting species abundance models with maximum likelihood \\ Quick reference for \code{sads} package}
-\author{Paulo In\'acio Prado and  Murilo Dantas Miranda \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
+\author{Paulo In\'acio Prado,  Murilo Dantas Miranda and Andre Chalom \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
   \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
 
-\date{July, 01, 2014}
+\date{June, 12, 2015}
 
 \maketitle
 
@@ -33,7 +36,6 @@
 <<R setup, echo=FALSE, >>=
 options(width=60, continue=" ")
 @ %def 
-
 
 \section{Introduction}
 
@@ -44,23 +46,36 @@ traditionally modelled through probability distributions. Hence, the
 maximum likelihood method can be used to fit and compare competing
 models for SADs. 
 The package \code{sads} provides functions to fit the most used models
-to empirical SADs and also to evaluate fits and to compare competing
-models. The package also allows to simulate SADs expected from samples
-from communities, with and without aggregation of individuals of the
-same species.
+to empirical SADs. The resulting objects have methods to evaluate fits and compare competing
+models. The package also allows the simulation of SADs expected from communities' 
+samples, with and without aggregation of individuals of the same species.
 
 
 \section{Installation}
 
-The package is planned to be published at CRAN soon. Meanwhile you can install the working version
-from GitHub with the package \code{devtools}
+The package is available on CRAN and can be installed in \R with the command:
 
 @ 
-<<installation-github, eval=FALSE>>=
-library(devtools)
-install_github('sads', 'piklprado')
+<<installation, eval=FALSE>>=
+install.packages('sads')
 @ %def 
 
+then loaded by
+
+<<load-sads, eval=TRUE>>=
+library(sads)
+@ %def 
+
+\subsection{Developer version}
+\label{sec:developer-version}
+
+The current developer version can be installed from GitHub with:
+
+@
+<<install-dev-version, eval=FALSE >>=
+library(devtools)
+install_github(repo = 'piklprado/sads', ref= 'dev')
+@ 
 
 And then load the package:
 
@@ -72,7 +87,10 @@ library(sads)
 \section{Exploratory analyses}
 \label{sec:analise-exploratoria}
 
-We'll use two data sets in the sads package:
+Throughout this document we'll use two data sets of abundances from the sads
+package. For more information on these data please refer to their help
+pages: 
+
 @ 
 <<Loading datasets>>=
 data(moths)# William's moth data
@@ -92,25 +110,27 @@ of logarithm of abundances at base 2 (Preston's octaves) and returns a data fram
 (arn.oc <- octav(ARN82.eB.apr77))
 @ %def 
 
-A logical argument
-\code{preston} allows to smooth the numbers as proposed by \citet{Preston1948}.
+A logical argument \code{preston} allows smoothing the numbers as proposed by \citet{Preston1948}. 
 
 The octave number is the upper limit of the class in log2 scale. 
-Hence, for abundance values smaller than one (\emph{e.g.} biomass data) the octave numbers are negative numbers.
-A Preston plot is a histogram of this table, that you get applying the function \code{plot} to the data frame:
+Hence, for abundance values smaller than one (\emph{e.g.} biomass data) the octave numbers are negative.
+A Preston plot is a histogram of this table, obtainable by applying the function \code{plot} to the data frame:
 
-\setkeys{Gin}{width=0.75\textwidth}
+\setkeys{Gin}{width=0.65\textwidth}
+
+{\centering
 @ 
 <<Ploting-octaves, fig=TRUE, height=5,width=5>>=
 plot(moths.oc)
 @ def 
+}
 
+{\centering
 @ 
 <<Biomass-octave-plot, fig=TRUE, height=5,width=5>>=
 plot(arn.oc)
 @ %def
-
-
+}
 
 \subsection{Rank-abundance plots}
 \label{sec:rank_abund}
@@ -125,19 +145,20 @@ head(arn.rad <- rad(ARN82.eB.apr77))
 
 To get the rank-abundance or Whitaker's plot apply the function \code{plot} on the data frame:
 
-\setkeys{Gin}{width=0.8\textwidth}
-
+\setkeys{Gin}{width=0.65\textwidth}
+{\centering % centers BOTH of the next plots
 @ 
 <<radplot1, fig=TRUE, height=5, width=5>>=
 plot(moths.rad, ylab="Number of individuals")
 @ %def 
+}
 
-
+{\centering
 @ 
 <<radplots, fig=TRUE, height=5, width=5>>=
 plot(arn.rad, ylab="Biomass")
 @ %def 
-
+}
 \section{Model fitting}
 \label{sec:ajuste-e-selecao}
 The \emph{sads} package provides maximum-likelihood fits of many
@@ -146,21 +167,21 @@ functions \code{fitsad} for fitting species abundance distributions
 and \code{fitrad} for fitting rank-abundance distributions. The first
 argument of these functions is the vector of observed abundances 
 \footnote{\code{fitrad} also accepts a rank-abundance table returned by function \code{rad} as its first argument.} 
-and the second argument is the name of the model to be fitted.
+The second argument is the name of the model to be fitted.
 Please refer to the help
 page of the functions for details on the models. For more information
 on the fitting procedure see also the vignette of
 the \emph{bbmle} package, on top of which the package \emph{sads} is built.
 
-To fit a logseries distribution use the argument \code{sad='ls'}:
+To fit a log-series distribution use the argument \code{sad='ls'}:
 
 @ 
-<<Fitting a logseries model>>=
+<<Fitting a log-series model>>=
 (moths.ls <- fitsad(moths,'ls'))
 @ %def 
 
 The resulting model object inherits from \emph{mle2}
-\citep{Bolkerbbmle}, and all usual methods for model objects, such as
+\citep{Bolkerbbmle}, and has all usual methods for model objects, such as
 summaries, log-likelihood, and AIC values:
 @ 
 <<Operations on fitsad object>>=
@@ -170,6 +191,14 @@ logLik(moths.ls)
 AIC(moths.ls)
 @ %def 
 
+On the above examples, notice that the \code{print} method\footnote{Or, equivalently, the \code{show} method}
+displays some statistics on the input data and 
+fitting function used - number of species, number of individuals, truncation point for the probability 
+distribution (when used, see below) and whether we are fitting a discrete or
+continuous sad or rad - while the \code{summary} method displays information more associated with the
+fitting \emph{per se}: standard errors and significance codes for each parameter. Also, notice that
+the input data is displayed by both methods, but the \code{print} method only shows the first values, as the
+complete list can be quite large.
 
 \subsection{Model diagnostics}
 \label{sec:model-diagnostics}
@@ -184,7 +213,7 @@ moths.ls.prf <- profile(moths.ls)
 confint(moths.ls.prf) # conf intervals
 @ %def 
 
-And then use \code{plotprofmle} to plot likelihood profiles at the original scale (relative negative log-likelihood)
+Then use \code{plotprofmle} to plot likelihood profiles at the original scale (relative negative log-likelihood)
 and function \code{plot} to get plots at chi-square scale (square-root of twice the relative log-likelihood):
 
 \setkeys{Gin}{width=\textwidth}
@@ -197,8 +226,7 @@ plot(moths.ls.prf)# z-transformed profile
 par(mfrow=c(1,1))
 @ %def
 
-
-When applied on a sad model object the function \code{plot} returns four diagnostic plots:
+When applied on a sad model object, the function \code{plot} returns four diagnostic plots:
 @ 
 <<Plot-of-predicted-values, fig=TRUE>>=
 par(mfrow=c(2,2))
@@ -209,23 +237,23 @@ par(mfrow=c(1,1))
 
 The first two plots (top right and left) are the octave and rank-abundance plots with the predicted values 
 of number of species in each octave 
-and abundances of each species. The two last plots (bottom) are quantile-quantile and percentile-percentile graphs of 
+and of each species' abundance. The two last plots (bottom) are quantile-quantile and percentile-percentile graphs of 
 the observed vs. predicted abundances. The straight line indicates the expected relation in case of perfect fit.
 
 \subsection{SADs vs RADs}
 
-Species-abundance models assigns a probability to each abundance
-value. Hence these models are probability density functions (PDFs) of
+Species-abundance models assign a probability for each abundance
+value. Thus, these models are probability density functions (PDFs) of
 abundances of species. 
-Rank-abundance models assigns a probability for each
+Rank-abundance models assign a probability for each
 \textbf{abundance rank}. They are PDFs for rankings of species. The models are
 interchangeable \citep{May1975}, but currently only four rad models
-are available in package sads trough the argument \code{rad} of
+are available in package sads through the argument \code{rad} of
 function \code{fitrad}:
 
 \begin{itemize}
 \item ``gs'': geometric series (which is NOT geometric PDF, available
-  in \code{fitsads} as ``geom'';
+  in \code{fitsad} as ``geom'';
 \item ``rbs'': broken-stick model \citep{macarthur1957, May1975}
 \item ``zipf'': zipf power-law distribution
 \item ``mand'': zipf-mandelbrot power-law distribution
@@ -236,30 +264,35 @@ function \code{fitrad}:
   
   fits by \code{fitsad}, \code{fitrad} and \code{radfit} of \emph{vegan} 
   package provide similar estimates of model coefficients 
-  but not comparable likelihood values. This is because each function fit models that assigns 
-  probability to data in different ways. Function \code{fitsad} fit PDFs to observed abundances and \code{fitrad} fit PDFs 
-  to the ranks of the abundances. Finally, \code{radfit} fits a Poisson generalized linear model 
+  but not comparable likelihood values. The reason for this is the fact each function fits models that assign 
+  probability values to data in different ways. Function \code{fitsad} fits PDFs to observed abundances and \code{fitrad} fits PDFs 
+  to the ranks of the abundances. Finally, \code{radfit} of \emph{vegan} fits a Poisson generalized linear model 
   to the \emph{expected abundances} deduced 
-  from rank-abundance relationships from the correspodending sads and rads models \citep{wilson1991}. 
+  from rank-abundance relationships from the corresponding sads and rads models \citep{wilson1991}. 
   See also the help page of \code{radfit}. 
   Therefore \textbf{likelihoods obtained from these three functions are not comparable}.
 \end{shaded}
 
 \section{Model selection}
 
-You can fit other models to the same data set, such as the Poisson-lognormal and a truncated lognormal:
+It's possible to fit other models to the same data set, such as the Poisson-lognormal and a truncated lognormal:
 @ 
 <<Fitting two other models>>=
-(moths.pl <- fitsad(x=moths,sad="poilog"))#default is zero-truncated
-(moths.ln <- fitsad(x=moths,sad="lnorm", trunc=0.5)) # lognormal truncated at 0.5
+(moths.pl <- fitsad(x=moths, sad="poilog"))#default is zero-truncated
+(moths.ln <- fitsad(x=moths, sad="lnorm", trunc=0.5)) # lognormal truncated at 0.5
 @ %def 
 
-and then you can use the function \code{AICtab} and friends from the \emph{bbmle} package to get a model selection table:
+moreover, the function \code{AICtab} and friends from the \emph{bbmle} package can be used to get a model selection table:
 
 @ 
 <<Model selection table>>=
 AICtab(moths.ls, moths.pl, moths.ln, base=TRUE)
 @ %def 
+
+\textbf{NOTICE} that the information criterion methods do not differentiate between
+\code{fitsad} and \code{fitrad} methods. Because of this, it is possible to include
+\code{fitsad} and \code{fitrad} objects in the same IC-table without generating an error,
+but the result will be meaningless.
 
 To compare visually fits first get octave tables:
 
@@ -270,8 +303,7 @@ head(moths.pl.oc <- octavpred(moths.pl))
 head(moths.ln.oc <- octavpred(moths.ln))
 @ %def 
 
-
-and then use \code{lines} to superimpose the predicted values in the octave plot:
+then use \code{lines} to superimpose the predicted values on the octave plot:
 
 \setkeys{Gin}{width=0.75\textwidth}
 @ 
@@ -285,7 +317,6 @@ legend("topright",
        lty=1, col=c("blue","red", "green"))
 @ %def 
 
-
 To do the same with rank-abundance plots get the rank-abundance objects:
 
 @ 
@@ -295,7 +326,7 @@ head(moths.pl.rad <- radpred(moths.pl))
 head(moths.ln.rad <- radpred(moths.ln))
 @ %def 
 
-and then plot observed and predicted values:
+then plot observed and predicted values:
 
 @ 
 <<Rad-plots, fig=TRUE>>=
@@ -310,11 +341,10 @@ legend("topright",
 
 \section{Simulations}
 
-The function \code{rsad} returns random samples of a community which
-has $S$ species. The mean abundance of the species in the communities
+The function \code{rsad} returns random samples of a community with $S$ species. The mean abundances of the species in the communities
 are independent identically distributed (\emph{iid}) variables that
 follow a given probability distribution. The sample simulates a given
-number of draws of a fraction $a$ of the total number of individuals of
+number of draws of a fraction $a$ from the total number of individuals in
 the community. For instance, to simulate two Poisson samples of 10\%
 of a community with 10 species that follows a lognormal distribution
 with parameters $\mu=3$ and $\sigma=1.5$ use:
@@ -327,9 +357,9 @@ set.seed(42)# fix random seed to make example reproducible
 @ 
 
 The function returns a data frame with a sample numeric label,
-species numeric label and species abundance in each sample. By
+species' numeric label and species' abundance in each sample. By
 default, \code{rsad} returns a vector of abundances of single Poisson
-sample with zeroes ommited:
+sample with zeroes omitted:
 
 @ 
 <<rsad-example2>>=
@@ -345,19 +375,19 @@ model to the sample:
 
 @ 
 <<rsad-poilog-fit>>=
-(samp2.pl <- fitsad(samp2, 'poilog'))
+(samp2.pl <- fitsad(samp2, "poilog"))
 ## checking correspondence of parameter mu
 coef(samp2.pl)[1] - log(0.1)
 @ %def 
 
-Not bad. By repeating the sampling and the fit many times you can
+Not bad. By repeating the sampling and the fit many times it's possible to
 evaluate the bias and variance of the maximum likelihood estimates:
 
 \setkeys{Gin}{width=\textwidth}
 @ 
 <<rsad-repeated-samples>>=
-results <- matrix(nrow=250,ncol=2)
-for(i in 1:250){
+results <- matrix(nrow=75,ncol=2)
+for(i in 1:75){
     x <- rsad(S = 100, frac=0.1, sad="lnorm", 
               meanlog=5, sdlog=2)
     y <- fitsad(x, "poilog")
@@ -367,7 +397,7 @@ results[,1] <- results[,1]-log(0.1)
 @ 
 
 Bias is estimated as the difference between the mean of estimates and
-the value of parameters
+the value of parameters:
 
 @ 
 <<rsads_bias>>=
@@ -391,13 +421,21 @@ Finally, a density plot with lines indicating the mean of estimates and the valu
 @ 
 <<rsads-bias-plots, fig=TRUE, height=5, width=10>>=
 par(mfrow=c(1,2))
-plot(density(results[,1]-log(0.1)))
-abline(v=c(mean(results[,1]-log(0.1)),5), col=2:3)
+plot(density(results[,1]))
+abline(v=c(mean(results[,1]),5), col=2:3)
 plot(density(results[,2]))
 abline(v=c(mean(results[,2]), 2), col=2:3)
 par(mfrow=c(1,1))
 @ %def 
 
+Increasing the number of simulations improves these estimators.
+
+\section{Bugs and issues}
+\label{sec:bugs-issues}
+
+The package project is hosted on GitHub (\url{https://github.com/piklprado/sads/}). 
+Please report bugs and issues and give us your feedback at 
+\url{https://github.com/piklprado/sads/issues}.
 
 \bibliographystyle{ecology}
 \bibliography{sads_intro}
