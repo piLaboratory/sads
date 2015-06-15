@@ -73,8 +73,7 @@ qzipf( p, N, s, lower.tail = TRUE, log.p = FALSE)
   Distributions}, 3rd edition, Hoboken, New Jersey: Wiley. Section
   11.2.20. 
 
-  Li, W. (2011). Zipf's Law
-  Bibliography. \url{http://www.nslij-genetics.org/wli/zipf/index.html}.
+  Li, W. (2002) Zipf's Law everywhere. \emph{Glottometrics} 5:14-21
   
   Zipf's Law. \url{http://en.wikipedia.org/wiki/Zipf's_law}.
 }
