@@ -1,12 +1,14 @@
 setGeneric("plotprofmle", 
-    def=function(object, ...) standardGeneric("plotprofmle")
+    def=function(object, nseg=20, ratio=log(8), which=NULL, ask=NULL, col.line="blue", varname=NULL, ...) standardGeneric("plotprofmle")
     )
-setMethod("plotprofmle", signature=(object="profile.mle2"),
-function(object, nseg=20, ratio=log(8), which=1:length(object@profile),
-                        ask = prod(par("mfcol")) < length(which) & dev.interactive(), 
-                        col.line="blue", varname, ...){
+setMethod("plotprofmle", "profile.mle2",
+function(object, nseg, ratio, which, ask, col.line, varname, ...){
   mleprof <- object@profile
   npar <- length(mleprof)
+  if(missing(which))
+    which <- 1:npar
+  if(missing(ask))
+    ask <- (prod(par("mfcol")) < length(which)) && dev.interactive()
   dots <- list(...)
   if(!"ylab" %in% names(dots)) dots$ylab <- "Negative relative log-likelihood"
   if(!"type" %in% names(dots)) dots$type <- "l"
@@ -59,7 +61,7 @@ function(object, nseg=20, ratio=log(8), which=1:length(object@profile),
       }
     }
 })
-setMethod("plotprofmle", signature(object="mle2"),
+setMethod("plotprofmle", "mle2",
     function(object, ...) {
     cat("NOTICE: Running a profile on the object. You should consider storing the profile\n")
     cat("in a different variable\n")

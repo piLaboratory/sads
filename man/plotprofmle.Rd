@@ -1,9 +1,9 @@
 \name{plotprofmle-methods}
 
 \alias{plotprofmle}
-\alias{plotprofmle,profile.mle,ANY,ANY,ANY,ANY,ANY,ANY-method}
-\alias{plotprofmle,profile.mle2,ANY,ANY,ANY,ANY,ANY,ANY-method}
-\alias{plotprofmle,mle2,ANY,ANY,ANY,ANY,ANY,ANY-method}
+\alias{plotprofmle,profile.mle2-method}
+\alias{plotprofmle,mle2-method}
+\alias{plotprofmle,mle-method}
 
 \title{Plot of log-likelihood profiles at original scale}
 
@@ -13,16 +13,20 @@
   plausibility intervals for each one of the (or selected ones) parameters of a model.
 }
 
+\section{Methods}{\describe{
+\item{code{signature(object="profile.mle2")}}{The preferred invocation for this method.}
+\item{code{signature(object="mle2")}}{A convenience wrapper that calls \code{profile} on the mle2 object and runs the former method.}
+}}
+
 \usage{
-plotprofmle(profobj, nseg=20, ratio=log(8), which=1:length(profobj@profile),
-                        ask = prod(par("mfcol")) < length(which) && dev.interactive(), 
-                        col.line="blue", varname, \dots)
+plotprofmle(object, nseg=20, ratio=log(8), which=NULL, ask=NULL, 
+    col.line="blue", varname=NULL, \dots)
 }
 
 \arguments{
 
-  \item{profobj}{
-    list of profile data; object of class \code{profile.mle} or
+  \item{object}{
+    list of profile data; object of class \code{mle2} or
     \code{profile.mle2}.
   }
 
@@ -99,7 +103,7 @@ plotprofmle(profobj, nseg=20, ratio=log(8), which=1:length(profobj@profile),
 }
 
 \examples{
-birds.pln <- fitsad(birds, "poilog")
+birds.pln <- fitsad(birds, "lnorm")
 birds.pln.p <- profile(birds.pln)
 par(mfrow=c(1,2))
 plotprofmle(birds.pln.p)
