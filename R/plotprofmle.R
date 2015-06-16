@@ -1,10 +1,11 @@
-plotprofmle <- function(profobj, nseg=20, ratio=log(8), which=1:length(profobj@profile),
-                        ask = prod(par("mfcol")) < length(which) && dev.interactive(), 
+setGeneric("plotprofmle", 
+    def=function(object, ...) standardGeneric("plotprofmle")
+    )
+setMethod("plotprofmle", signature=(object="profile.mle2"),
+function(object, nseg=20, ratio=log(8), which=1:length(object@profile),
+                        ask = prod(par("mfcol")) < length(which) & dev.interactive(), 
                         col.line="blue", varname, ...){
-  if( class(profobj)[1] != "profile.mle" &
-     class(profobj)[1] != "profile.mle2") 
-    stop( "Object should have class \'profile.mle\' or \'profile.mle2\'")
-  mleprof <- profobj@profile
+  mleprof <- object@profile
   npar <- length(mleprof)
   dots <- list(...)
   if(!"ylab" %in% names(dots)) dots$ylab <- "Negative relative log-likelihood"
@@ -57,4 +58,10 @@ plotprofmle <- function(profobj, nseg=20, ratio=log(8), which=1:length(profobj@p
         }
       }
     }
-}
+})
+setMethod("plotprofmle", signature(object="mle2"),
+    function(object, ...) {
+    cat("NOTICE: Running a profile on the object. You should consider storing the profile\n")
+    cat("in a different variable\n")
+    plotprofmle(profile(object), ...)
+})

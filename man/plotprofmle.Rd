@@ -1,6 +1,9 @@
-\name{plotprofmle}
+\name{plotprofmle-methods}
 
 \alias{plotprofmle}
+\alias{plotprofmle,profile.mle,ANY,ANY,ANY,ANY,ANY,ANY-method}
+\alias{plotprofmle,profile.mle2,ANY,ANY,ANY,ANY,ANY,ANY-method}
+\alias{plotprofmle,mle2,ANY,ANY,ANY,ANY,ANY,ANY-method}
 
 \title{Plot of log-likelihood profiles at original scale}
 
@@ -104,7 +107,7 @@ par(mfrow=c(1,1))
 }
 
 \author{
-  \enc{João}{Joao} L.F. Batista, \enc{André}{Andre} Chalom M. Oliveira,
+  \enc{João}{Joao} L.F. Batista, Andre Chalom,
   Paulo I. Prado \email{prado@ib.usp.br}
 }
 
