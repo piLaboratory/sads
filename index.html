@@ -2,9 +2,9 @@
 <html>
 
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="sads : R package for fitting species abundance distributions" />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="sads : R package for fitting species abundance distributions">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -32,41 +32,46 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>Available on <a href="http://cran.r-project.org/web/packages/sads">CRAN</a>. To install and load current release version in R:</p>
 
-<div class="highlight highlight-r"><pre>install.packages<span class="p">(</span>'sads'<span class="p">)</span>
-<span class="kp">library</span><span class="p">(</span>sads<span class="p">)</span>
-</pre></div>
+<div class="highlight highlight-r"><pre>install.packages(<span class="pl-smi">sads</span>)
+load(<span class="pl-smi">sads</span>)</pre></div>
 
 <h3>
-<a name="devel-version" class="anchor" href="#devel-version"><span class="octicon octicon-link"></span></a>Devel version</h3>
+<a id="devel-version" class="anchor" href="#devel-version" aria-hidden="true"><span class="octicon octicon-link"></span></a>Devel version</h3>
 
 <p>You can install developer version from GitHub with:</p>
 
-<div class="highlight highlight-r"><pre><span class="kn">library</span><span class="p">(</span>devtools<span class="p">)</span>
-install_github<span class="p">(</span><span class="s">'piklprado/sads'</span><span class="p">,</span> <span class="s">ref = 'dev'</span><span class="p">)</span>
-</pre></div>
+<div class="highlight highlight-r"><pre>library(<span class="pl-smi">devtools</span>)
+install_github(<span class="pl-s"><span class="pl-pds">'</span>sads<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>piklprado<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>dev<span class="pl-pds">'</span></span>)</pre></div>
 
 <h2>
-<a name="motivation" class="anchor" href="#motivation"><span class="octicon octicon-link"></span></a>Motivation</h2>
+<a id="motivation" class="anchor" href="#motivation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Motivation</h2>
 
 <p>The distribution of abundances of species is one of the basic patterns of ecological communities. The empirical distributions of abundances (SADs) or their ranks (RADs) are modelled through probability distributions. Hence, the maximum likelihood method can be used to fit and compare such models. </p>
 
 <h2>
-<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
 
 <ul>
 <li>Classic SAD models: logseries, lognormal, broken-stick, ... </li>
 <li>Classic rank-abundance modelos: geometric, zipf, zipf-mandelbrodt, ...</li>
 <li>Tools for quick diagnostic and comparison of models; </li>
 <li>Tools to simulate Poisson and negative binomial samples from abundances in communities.</li>
-</ul><h2>
-<a name="more-info" class="anchor" href="#more-info"><span class="octicon octicon-link"></span></a>More info</h2>
+</ul>
+
+<h2>
+<a id="more-info" class="anchor" href="#more-info" aria-hidden="true"><span class="octicon octicon-link"></span></a>More info</h2>
 
 <ul>
-<li><a href="./files/sads_intro.pdf">User guide</a></li>
+<li>User guide:</li>
+</ul>
+
+<div class="highlight highlight-r"><pre>vignette(<span class="pl-v">topic</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>sads_intro<span class="pl-pds">"</span></span>, <span class="pl-v">package</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>sads<span class="pl-pds">"</span></span>)</pre></div>
+
+<ul>
 <li>
 <a href="http://ecologia.ib.usp.br/let/doku.php?id=engl:projects:sads">Research project</a> at our <a href="http://ecologia.ib.usp.br/let">Lab wiki</a>
 </li>
@@ -79,7 +84,7 @@ install_github<span class="p">(</span><span class="s">'piklprado/sads'</span><sp
     <div id="footer_wrap" class="outer">
       <footer class="inner">
         <p class="copyright">sads maintained by <a href="https://github.com/piklprado">piklprado</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
 
