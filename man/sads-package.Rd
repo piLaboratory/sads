@@ -8,7 +8,7 @@
 }
 
 \description{
-  Tools to fit probability distributions to  species abundance
+  Tools to fit probability distributions to species abundance
   distributions (SADs) and species rank-abundance distributions (RADs)
   using maximum likelihood.
 }
@@ -16,8 +16,8 @@
   \tabular{ll}{
     Package: \tab sads\cr
     Type: \tab Package\cr
-    Version: \tab 0.1.10\cr
-    Date: \tab 2014-07-01\cr
+    Version: \tab 0.2.1\cr
+    Date: \tab 2015-06-14\cr
     License: \tab gpl \cr
     LazyLoad: \tab yes\cr
   }
@@ -38,7 +38,7 @@
 }
 
 \author{
-  Paulo I. Prado and Murilo Dantas Miranda
+  Paulo I. Prado, Murilo Dantas Miranda and Andre Chalom
 
   Maintainer: P.I. Prado  <prado@ib.usp.br>
 }
@@ -61,7 +61,6 @@
   maximum likelihood estimation}
 
 \seealso{
-  vignettes of \pkg{sads}; \code{vegan-package}, \code{poilog-package},
-  \code{untb-package}.
+  vignettes of \pkg{sads}; \code{vegan-package} and \code{poilog-package}
 }
 
