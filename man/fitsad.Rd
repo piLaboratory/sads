@@ -143,7 +143,8 @@ fitweibull(x, trunc, start.value,  \dots)
   above zero (see example). Convergence problems can occur when fitting
   with truncation, and can be solved with sensible starting values.
   \code{fitgamma} uses Chapman's (1956) fitting method to find starting
-  values for the truncated gamma distribution.
+  values for the truncated gamma distribution, and \code{fitweibull}
+  uses Rinne's (2009, p. 413) method (thanks to Mario Jose Marques-Azevedo).
 
   %% By default, all continuous distributions
   %% are fit using the
@@ -287,6 +288,8 @@ fitweibull(x, trunc, start.value,  \dots)
   
   Preston, F.W. 1948. The commonness and rarity of species.
   \emph{Ecology 29}: 254--283.
+
+  Rinne, H. 2009. \emph{The Weibull distribution: a handbook}. CRC Press
 
   Volkov, I.,  Banavar, J. R., Hubbell, S. P., Maritan, A. 2003.
   Neutral theory and relative species abundance in ecology.  \emph{Nature 424}:1035--1037.

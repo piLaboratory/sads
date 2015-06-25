@@ -3,13 +3,13 @@ fitweibull <- function(x, trunc, start.value, ...){
   if (!missing(trunc)){
     if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
   }
-  if(missing(start.value)){
-    ka <- 1
-    theta <- mean(x)
-    for(i in 1:100){
-      theta <- (sum(x^ka)/length(x))^(1/ka)
-      ka <- length(x)/(sum(x^ka * log(x)) - sum(log(x))/theta)
-    }
+  if (missing(start.value)) {
+	  f <- function(shape, x){
+		  n <- length(x)
+		  (1 / shape) + (1 / n) * sum(log(x)) - (sum((x ^ shape) * log(x)) / sum(x ^ shape))
+	  }
+	  ka <- uniroot(f, interval = c(0.0000001, 10), x=x)$root
+	  theta <- ((1 / length(x)) * sum(x ^ ka)) ^ (1 / ka)
   } else{
     ka <- start.value[1]
     theta <-start.value[2]
