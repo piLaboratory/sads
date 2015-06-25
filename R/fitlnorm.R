@@ -15,6 +15,6 @@ fitlnorm <- function(x, trunc, start.value, ...){
   } else {
     LL <- function(meanlog, sdlog) -sum(dtrunc("lnorm", x, coef = list(meanlog = meanlog, sdlog = sdlog), trunc = trunc, log = TRUE))
   }  
-  result <- do.call("mle2", c(list(LL, start = list(meanlog = meanlog, sdlog = sdlog), data = list(x = x)), ...))
+  result <- do.call("mle2", c(list(LL, start = list(meanlog = meanlog, sdlog = sdlog), data = list(x = x)), dots))
   new("fitsad", result, sad="lnorm", distr = "C", trunc = ifelse(missing(trunc), NaN, trunc)) 
 }

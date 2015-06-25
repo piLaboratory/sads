@@ -1,4 +1,5 @@
 fitgs <- function(x, trunc, ...){
+	dots <-list(...)
   if(class(x)!="rad") rad.tab <- rad(x)
   else rad.tab <- x
   y <- rep(rad.tab$rank, rad.tab$abund)
@@ -13,6 +14,6 @@ fitgs <- function(x, trunc, ...){
   if (missing(trunc)){
     LL <- function(S, k) -sum(dgs(y, k, S, log = TRUE))
   }
-  result <- do.call("mle2", c(list(LL, start = list(k=0.01), data = list(x = y), fixed=list(S=S), method = "Brent", lower = 1e-16, upper = 1-1e-16), ...))
+  result <- do.call("mle2", c(list(LL, start = list(k=0.01), data = list(x = y), fixed=list(S=S), method = "Brent", lower = 1e-16, upper = 1-1e-16), dots))
   new("fitrad", result, rad = "gs", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc), rad.tab=rad.tab)
 }
