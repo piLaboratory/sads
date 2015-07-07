@@ -34,5 +34,6 @@ importFrom("GUILDS", maxLikelihood.ESF)
 import(
     stats,
     methods,
+    MASS,
     bbmle,
     poilog)
