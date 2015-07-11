@@ -1,4 +1,5 @@
 fitls <- function(x, trunc, start.value, upper = length(x), ...){
+	dots <- list(...)
   S <- length(x)
   N <- sum(x)
   if (missing(start.value)){
@@ -20,7 +21,7 @@ fitls <- function(x, trunc, start.value, upper = length(x), ...){
   }
   if (missing(trunc))
     LL <- function(N, alpha) -sum(dls(x, N, alpha, log = TRUE))
-  result <- do.call("mle2", c(list(LL, start = list(alpha = alfa), data = list(x = x), fixed=list(N=N), method = "Brent", lower = 0, upper = upper), ...))
+  result <- do.call("mle2", c(list(LL, start = list(alpha = alfa), data = list(x = x), fixed=list(N=N), method = "Brent", lower = 0, upper = upper), dots))
   if(abs(as.numeric(result@coef) - upper) < 0.0000001)
     warning("mle equal to upper bound provided. \n Try new value for the 'upper' argument")
   new("fitsad", result, sad = "ls", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))

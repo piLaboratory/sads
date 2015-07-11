@@ -1,3 +1,6 @@
+0.2.2 (TBR)
+* plotprofmle is now a S4 method with mle2 and profile.mle2 signatures
+
 0.2.1 (2015-06-14)
 * Fixed some errors in the documentation
 
