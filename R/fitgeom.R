@@ -1,4 +1,5 @@
 fitgeom <- function(x, trunc = 0, start.value, ...){
+	dots <- list(...)
   if (!missing(trunc)){
     if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
   }
@@ -12,6 +13,6 @@ fitgeom <- function(x, trunc = 0, start.value, ...){
   } else{
     LL <- function(prob) -sum(dtrunc("geom", x = x, coef = prob, trunc = trunc, log = TRUE))
   }
-  result <- do.call("mle2", c(list(LL, start = list(prob = phat), data = list(x = x), method = "Brent", lower = 0, upper = 1), ...))
+  result <- do.call("mle2", c(list(LL, start = list(prob = phat), data = list(x = x), method = "Brent", lower = 0, upper = 1), dots))
   new("fitsad", result, sad = "geom", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
 }

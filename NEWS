@@ -1,5 +1,7 @@
-0.2.2 (TBR)
+0.2.2 (2015-07-11)
 * plotprofmle is now a S4 method with mle2 and profile.mle2 signatures
+* Fixed the way \dots are handled by some of the fitting functions
+* Better starting values for fitting Weibull distributions
 
 0.2.1 (2015-06-14)
 * Fixed some errors in the documentation
