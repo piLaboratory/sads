@@ -7,13 +7,14 @@ Author: Paulo I. Prado, Murilo Dantas Miranda and Andre Chalom
 Maintainer: Paulo I. Prado <prado@ib.usp.br>
 Depends:
     stats,
-    bbmle,
-    poilog
+    bbmle
 Imports:
     MASS,
     methods,
     graphics,
+    grDevices,
     VGAM,
+    poilog,
     GUILDS
 Suggests:
     vegan
