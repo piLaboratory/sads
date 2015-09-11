@@ -21,7 +21,7 @@
 
 \usage{
 fitsad(x, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
-       "poilog","power","weibull","volkov","poig","poix"), \dots)
+       "poilog","power","volkov","weibull"), \dots)
 
 fitbs(x, trunc, \dots)
 
@@ -35,7 +35,7 @@ fitls(x, trunc, start.value, upper = length(x), \dots)
 
 fitmzsm(x, trunc, start.value, upper = length(x), \dots)
 
-fitnbinom(x, trunc, start.value, \dots)
+fitnbinom(x, trunc=0, start.value, \dots)
 
 fitpareto(x, trunc, start.value,  upper = 20, \dots)
 
@@ -71,7 +71,8 @@ fitweibull(x, trunc, start.value,  \dots)
 
   \item{trunc}{
     non-negative integer, \code{trunc > min(x)}; truncation point to fit a
-    truncated distribution.
+    truncated distribution. For "poilog", "geom" and "nbinom" set
+    trunc=NULL to avoid zero-truncation (see details).
   }
 
   \item{start.value}{
@@ -165,6 +166,7 @@ fitweibull(x, trunc, start.value,  \dots)
   standard distributions also used to fit SADs. Since species
   with zero individuals in the sample are in general unknown,
   these functions fit by default zero-truncated distributions.
+  To avoid zero-truncation set \code{trunc=NULL}.
   Using the geometric distribution as a SAD model is not to be
   confounded for fitting the Geometric series \code{\link{fitgs}}
   as a rank-abundance distribution (RAD) model.
@@ -215,6 +217,7 @@ fitweibull(x, trunc, start.value,  \dots)
   negative binomial distributions, the Poisson-lognormal
   includes zero, but the fit is zero-truncated
   by default, as for \code{fitgeom}, \code{fitnbinom}.
+  To avoid zero-truncation set \code{trunc=NULL}.
 
   \code{fitmzsm} fits the metacommunity Zero-sum multinomial distribution
   \code{\link{dmzsm}} from the Neutral Theory of Biodiversity
@@ -298,7 +301,7 @@ fitweibull(x, trunc, start.value,  \dots)
 \source{all fitting functions builds on \code{mle2} and methods
   from \pkg{bbmle} package (Bolker 2012), which in turn builds on
   \code{mle} function and associated classes and methods;
-  \code{fitls} and \code{fitvolkov} uses codes and functions from
+  \code{fitls} and \code{fitvolkov} use codes and functions from
   \pkg{untb} package (Hankin 2007); \code{fitpoilog} builds on
   \pkg{poilog} package (\enc{Grøtan}{Grotan} & Engen 2008).
 }

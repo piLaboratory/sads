@@ -1,5 +1,7 @@
 0.2.2 (TBR)
 * plotprofmle is now a S4 method with mle2 and profile.mle2 signatures
+* fitgeom, fitpoilog and fitnbinom now can get argument trunc=NULL to avoid zero-truncation (the default)
+* fitgeom uses default optimization method from mle2 instead of Brent's method, to avoid some overflow errors for large datasets (e.g. moths)
 
 0.2.1 (2015-06-14)
 * Fixed some errors in the documentation
