@@ -5,8 +5,8 @@ dmzsm <- function(x, J, theta, log = FALSE){
 	sn <- mzsm(y=x, J = J, theta = theta)
 	mu <- mzsm(y=1:J, J = J, theta = theta)
 	lpn <- log(sn) - log(sum(mu))
+        lpn[ x <= 0 | x > J ] <- -Inf
 	if (any(is.nan(lpn))) warning ("NaNs produced")
-	lpn[ x <= 0] <- -Inf
 	if(log) return(lpn)
 	else return(exp(lpn))
 }
