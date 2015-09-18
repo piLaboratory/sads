@@ -24,13 +24,15 @@ exportMethods(plot, points, lines, octavpred, radpred, qqsad, qqrad, plotprofmle
 exportMethods(show, nobs, AIC, AICc)
 ## IMPORTS ##
 ## Import specific functions from other packages used by new methods
-importFrom("graphics", plot, points, lines)
+importFrom("graphics", plot, points, lines, abline, axis, hist, par)
+importFrom("grDevices", axisTicks, dev.interactive, devAskNewPage)
 #importFrom("bbmle", AICc)
 ## Import a single function from VGAM and GUILDS
 importFrom("VGAM",zeta)
 importFrom("GUILDS", maxLikelihood.ESF)
 ## Import all packages listed as Imports or Depends
 import(
+    stats,
     methods,
     MASS,
     bbmle,
