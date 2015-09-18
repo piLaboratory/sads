@@ -342,6 +342,14 @@ setMethod("radpred", signature(object="missing", sad="character", rad="missing",
 		  }
 		  )
 
+genoct <- function (x) {
+  oct <- 0:(ceiling(max(log2(x)))+1)
+  if(any(x < 1)){
+    octlower <- floor(min(log2((x)))):-1
+    oct <- c(octlower, oct)
+  }
+  oct
+}
           
 ## octavpred generic functions and methods ###
 setGeneric("octavpred",
@@ -359,13 +367,7 @@ setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
             x <- object@data$x
             S <- length(x)
             N <- sum(x)
-            if(missing(oct)){
-                oct <- 0:(ceiling(max(log2(x)))+1)
-                if(any(x < 1)){
-                    octlower <- floor(min(log2((x)))):-1
-                    oct <- c(octlower, oct)
-                }
-            }
+            if(missing(oct)) oct <- genoct(x)
             oct <- unique(oct)
             n <- 2^oct
             if(!is.na(trunc)){
@@ -379,69 +381,6 @@ setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
             new("octav", data.frame(octave = oct, upper = n, Freq = Y))
           }
           )
-
-## if object is of class fitrad (no other argument should be provided, except oct (optional))
-setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
-                                 coef="missing", trunc="missing", oct="ANY",
-                                 S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, oct, S, N, ...){
-            dots <- list(...)
-            coef <- as.list(bbmle::coef(object))
-            trunc <- object@trunc
-            rad <- object@rad
-            x <- object@rad.tab$abund
-            S <- length(x)
-            N <- sum(x)
-            if(missing(oct)){
-                oct <- 0:(ceiling(max(log2(x)))+1)
-                if(any(x < 1)){
-                    octlower <- floor(min(log2((x)))):-1
-                    oct <- c(octlower, oct)
-                }
-            }
-            oct <- unique(oct)
-            n <- 2^oct
-            if(!is.na(trunc)){
-              ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
-            }
-            else{
-              drad <- get(paste("d",rad,sep=""),mode="function")
-              ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
-            }
-			Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
-            new("octav", data.frame(octave = oct, upper = n, Freq = Y$counts))
-          }
-          )
-         
-## if object is a numeric vector of abundances and rad argument is given (sad, S, N,  arguments should be missing)
-setMethod("octavpred", signature(object="numeric",sad="missing", rad="character",
-                                 coef="list", trunc="ANY", oct="ANY", S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, oct, S, N, ...){
-            dots <- list(...)
-            x <- object
-            S <- length(x)
-            N <- sum(x)
-            if(missing(oct)){
-                oct <- 0:(ceiling(max(log2(x)))+1)
-                if(any(x < 1)){
-                    octlower <- floor(min(log2((x)))):-1
-                    oct <- c(octlower, oct)
-                }
-            }
-            oct <- unique(oct)
-            n <- 2^oct
-            if(!missing(trunc)){
-              ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
-            }
-            else{
-              drad <- get(paste("d",rad,sep=""),mode="function")
-              ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
-            }
-			Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
-            new("octav", data.frame(octave = oct, upper = n, Freq = Y$count))
-          }
-)
-
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
 setMethod("octavpred", signature(object="numeric",sad="character", rad="missing",
                                  coef="list", S="missing", N="missing"),
@@ -470,27 +409,6 @@ setMethod("octavpred", signature(object="numeric",sad="character", rad="missing"
             new("octav", data.frame(octave = oct, upper = n, Freq = Y))
           }
           )
-
-## if object is missing and rad is given. sad should not be given.
-## All other arguments except distr should be given, except trunc (optional)
-setMethod("octavpred", signature(object="missing",sad="missing", rad="character",
-                                 coef="list", S="numeric", N="numeric"),
-          function(object, sad, rad, coef, trunc, oct, S, N, ...){
-            dots <- list(...)
-            n <- 2^oct
-            if(!missing(trunc)){
-              ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
-            }
-            else{
-              drad <- get(paste("d",rad,sep=""),mode="function")
-              ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
-            }
-			Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
-            new("octav", data.frame(octave = oct, upper = n, Freq = Y$count))
-          }
-)
-
-
 ## if object is missing and sad is given. rad should not be given.
 ## All other arguments except distr should be given, except trunc (optional)
 setMethod("octavpred", signature(object="missing",sad="character", rad="missing",
@@ -509,6 +427,45 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
             new("octav", data.frame(octave = oct, upper = n, Freq = Y))
           }
           )
+
+## if object is of class fitrad (no other argument should be provided, except oct (optional))
+setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
+                                 coef="missing", trunc="missing", oct="ANY",
+                                 S="missing", N="missing"),
+          function(object, sad, rad, coef, trunc, oct, S, N, ...){
+            x <- object@rad.tab$abund
+            if(missing(oct)) oct <- genoct(x)
+            octavpred(rad = object@rad, coef = as.list(bbmle::coef(object)),
+                      trunc = object@trunc, oct = oct, S=length(x), N=sum(x), ...)
+          }
+          )
+## if object is a numeric vector of abundances and rad argument is given (sad, S, N,  arguments should be missing)
+setMethod("octavpred", signature(object="numeric",sad="missing", rad="character",
+                                 coef="list", trunc="ANY", oct="ANY", S="missing", N="missing"),
+          function(object, sad, rad, coef, trunc, oct, S, N, ...){
+            if(missing(oct)) oct <- genoct(object)
+            if(missing(trunc)) trunc<-NaN
+            octavpred(rad=rad, coef=coef, trunc=trunc, oct=oct, S = length(object), N = sum(object), ...)
+          }
+)
+## Octavpred workhorse for "rads"
+setMethod("octavpred", signature(object="missing",sad="missing", rad="character",
+                                 coef="list", trunc="ANY", oct="numeric", S="numeric", N="numeric"),
+          function(object, sad, rad, coef, trunc, oct, S, N, ...){
+            dots <- list(...)
+            oct <- unique(oct)
+            n <- 2^oct
+            if(!missing(trunc) & !is.nan(trunc)){
+              ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
+            }
+            else{
+              drad <- get(paste("d",rad,sep=""),mode="function")
+              ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
+            }
+            Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
+            new("octav", data.frame(octave = oct, upper = n, Freq = Y$count))
+          }
+)
 
 ## Generic and methods for qqsad
 setGeneric("qqsad",
