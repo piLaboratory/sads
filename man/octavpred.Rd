@@ -81,6 +81,8 @@
   }
   \item{N}{positive integer; number of individuals in the sample.
   }
+  \item{preston}{logical. Should Preston original method be used? See \link{octav}.
+  }
 }
 
 \keyword{methods}

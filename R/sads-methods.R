@@ -353,32 +353,33 @@ genoct <- function (x) {
           
 ## octavpred generic functions and methods ###
 setGeneric("octavpred",
-def = function(object, sad, rad, coef, trunc, oct, S, N, ...) standardGeneric("octavpred"))
+def = function(object, sad, rad, coef, trunc, oct, S, N, preston=FALSE, ...) standardGeneric("octavpred"))
 
 ## if object is of class fitsad (no other argument should be provided)
 setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
                                  coef="missing", trunc="missing", oct="ANY",
                                  S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, oct, S, N, ...){
+          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             x <- object@data$x
             if(missing(oct)) oct <- genoct(x)
             octavpred(sad = object@sad, coef = as.list(bbmle::coef(object)),
-                      trunc = object@trunc, oct = oct, S=length(x), N=sum(x), ...)
+                      trunc = object@trunc, oct = oct, S=length(x), N=sum(x), preston=preston, ...)
           }
           )
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
 setMethod("octavpred", signature(object="numeric",sad="character", rad="missing",
                                  coef="list", oct="ANY", trunc="ANY", S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, oct, S, N, ...){
+          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             if(missing(oct)) oct <- genoct(object)
             if(missing(trunc)) trunc<-NaN
-            octavpred(sad=sad, coef=coef, trunc=trunc, oct=oct, S = length(object), N = sum(object), ...)
+            octavpred(sad=sad, coef=coef, trunc=trunc, oct=oct, S = length(object), N = sum(object),
+                      preston=preston, ...)
           }
           )
 ## Octavpred workhorse for "sads"
 setMethod("octavpred", signature(object="missing",sad="character", rad="missing",
                                  coef="list", trunc="ANY", oct="numeric", S="numeric", N="numeric"),
-          function(object, sad, rad, coef, trunc, oct, S, N, ...){
+          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             dots <- list(...)
             oct <- unique(oct)
             n <- 2^oct
@@ -390,6 +391,7 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
               Y <- do.call(psad, c(list(q = n),coef,dots))
             }
             Y <- c(Y[1], diff(Y))*S
+            if(preston) warning("Preston argument is ignored for octavpred calls using 'sads'")
             new("octav", data.frame(octave = oct, upper = n, Freq = Y))
           }
           )
@@ -398,26 +400,28 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
 setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
                                  coef="missing", trunc="missing", oct="ANY",
                                  S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, oct, S, N, ...){
+          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             x <- object@rad.tab$abund
             if(missing(oct)) oct <- genoct(x)
             octavpred(rad = object@rad, coef = as.list(bbmle::coef(object)),
-                      trunc = object@trunc, oct = oct, S=length(x), N=sum(x), ...)
+                      trunc = object@trunc, oct = oct, S=length(x), N=sum(x),
+                      preston=preston, ...)
           }
           )
 ## if object is a numeric vector of abundances and rad argument is given (sad, S, N,  arguments should be missing)
 setMethod("octavpred", signature(object="numeric",sad="missing", rad="character",
                                  coef="list", trunc="ANY", oct="ANY", S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, oct, S, N, ...){
+          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             if(missing(oct)) oct <- genoct(object)
             if(missing(trunc)) trunc<-NaN
-            octavpred(rad=rad, coef=coef, trunc=trunc, oct=oct, S = length(object), N = sum(object), ...)
+            octavpred(rad=rad, coef=coef, trunc=trunc, oct=oct, S = length(object), N = sum(object),
+                      preston=preston, ...)
           }
 )
 ## Octavpred workhorse for "rads"
 setMethod("octavpred", signature(object="missing",sad="missing", rad="character",
                                  coef="list", trunc="ANY", oct="numeric", S="numeric", N="numeric"),
-          function(object, sad, rad, coef, trunc, oct, S, N, ...){
+          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             dots <- list(...)
             oct <- unique(oct)
             n <- 2^oct
@@ -430,6 +434,7 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
             }
             Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
             res <- data.frame(octave = oct, upper = n, Freq = Y$count)
+            if(preston) res <- prestonfy(res, ceiling(ab))
             new("octav", res)
           }
 )
