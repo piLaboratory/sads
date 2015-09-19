@@ -360,68 +360,34 @@ setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
                                  coef="missing", trunc="missing", oct="ANY",
                                  S="missing", N="missing"),
           function(object, sad, rad, coef, trunc, oct, S, N, ...){
-            dots <- list(...)
-            coef <- as.list(bbmle::coef(object))
-            trunc <- object@trunc
-            sad <- object@sad
             x <- object@data$x
-            S <- length(x)
-            N <- sum(x)
             if(missing(oct)) oct <- genoct(x)
-            oct <- unique(oct)
-            n <- 2^oct
-            if(!is.na(trunc)){
-				Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
-            }
-            else{
-				psad <- get(paste("p",sad,sep=""),mode="function")
-				Y <- do.call(psad, c(list(q = n),coef,dots))
-            }
-            Y <- c(Y[1], diff(Y))*S
-            new("octav", data.frame(octave = oct, upper = n, Freq = Y))
+            octavpred(sad = object@sad, coef = as.list(bbmle::coef(object)),
+                      trunc = object@trunc, oct = oct, S=length(x), N=sum(x), ...)
           }
           )
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
 setMethod("octavpred", signature(object="numeric",sad="character", rad="missing",
-                                 coef="list", S="missing", N="missing"),
+                                 coef="list", oct="ANY", trunc="ANY", S="missing", N="missing"),
           function(object, sad, rad, coef, trunc, oct, S, N, ...){
-            dots <- list(...)
-            x <- object
-            S <- length(x)
-            N <- sum(x)
-            if(missing(oct)){
-                oct <- 0:(ceiling(max(log2(x)))+1)
-                if(any(x < 1)){
-                    octlower <- floor(min(log2((x)))):-1
-                    oct <- c(octlower, oct)
-                }
-            }
-            oct <- unique(oct)
-            n <- 2^oct
-            if(!missing(trunc)){
-				Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
-            }
-            else{
-				psad <- get(paste("p",sad,sep=""),mode="function")
-				Y <- do.call(psad, c(list(q = n),coef,dots))
-            }
-            Y <- c(Y[1], diff(Y))*S
-            new("octav", data.frame(octave = oct, upper = n, Freq = Y))
+            if(missing(oct)) oct <- genoct(object)
+            if(missing(trunc)) trunc<-NaN
+            octavpred(sad=sad, coef=coef, trunc=trunc, oct=oct, S = length(object), N = sum(object), ...)
           }
           )
-## if object is missing and sad is given. rad should not be given.
-## All other arguments except distr should be given, except trunc (optional)
+## Octavpred workhorse for "sads"
 setMethod("octavpred", signature(object="missing",sad="character", rad="missing",
-                                 coef="list", S="numeric", N="numeric"),
+                                 coef="list", trunc="ANY", oct="numeric", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, oct, S, N, ...){
             dots <- list(...)
+            oct <- unique(oct)
             n <- 2^oct
-            if(!missing(trunc)){
+            if(!missing(trunc) & !is.nan(trunc)){
                 Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
             }
             else{
-				psad <- get(paste("p",sad,sep=""),mode="function")
-				Y <- do.call(psad, c(list(q = n),coef,dots))
+              psad <- get(paste("p",sad,sep=""),mode="function")
+              Y <- do.call(psad, c(list(q = n),coef,dots))
             }
             Y <- c(Y[1], diff(Y))*S
             new("octav", data.frame(octave = oct, upper = n, Freq = Y))
@@ -463,7 +429,8 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
               ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
             }
             Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
-            new("octav", data.frame(octave = oct, upper = n, Freq = Y$count))
+            res <- data.frame(octave = oct, upper = n, Freq = Y$count)
+            new("octav", res)
           }
 )
 
