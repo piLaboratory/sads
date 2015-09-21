@@ -4,7 +4,7 @@ dvolkov <- function(x, theta, m, J, order=96, log=FALSE){
 	Cvolkov <- .C(volkov, res=as.double(rep(0,J)), theta0=as.double(theta), m0=as.double(m), J0=as.integer(J), N0=as.integer(order))
 	y <- c(0, Cvolkov$res) # index 0 should receive 0
 	if (any(!is.wholenumber(x))) warning("non integer values in x")
-	x[ !is.wholenumber(x) | x < 0 ] <- 0
+	x[ !is.wholenumber(x) | x < 0 | x > J ] <- 0
 	y <- y[x+1]
 	if (any(is.nan(y))) warning ("NaNs produced")
 	if(log) return(log(y))
