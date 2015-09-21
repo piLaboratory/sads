@@ -1,7 +1,11 @@
-0.2.2 (2015-07-11)
+0.2.2 (2015-09-18)
 * plotprofmle is now a S4 method with mle2 and profile.mle2 signatures
 * Fixed the way \dots are handled by some of the fitting functions
 * Better starting values for fitting Weibull distributions
+* fitgeom, fitpoilog and fitnbinom now can get argument trunc=NULL to avoid zero-truncation (the default)
+* fitgeom uses default optimization method from mle2 instead of Brent's method, to avoid some overflow errors for large datasets (e.g. moths)
+* dmzsm now returns zero for all abundance larger than the community size J
+* fixes important bugs in AICc
 
 0.2.1 (2015-06-14)
 * Fixed some errors in the documentation
