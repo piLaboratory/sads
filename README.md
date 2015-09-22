@@ -29,7 +29,7 @@ of continuous density distributions when used for discrete data can be installed
 
 ```r
 library(devtools)
-install_github(repo = 'piklprado/sads', ref= 'trueLL')
+install_github(repo = 'piLaboratory/sads', ref= 'trueLL')
 ```
 
 
