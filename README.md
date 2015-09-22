@@ -21,7 +21,7 @@ If you want to install the developer version:
 
 ```r
 library(devtools)
-install_github(repo = 'piklprado/sads', ref= 'dev')
+install_github(repo = 'piLaboratory/sads', ref= 'dev')
 ```
 
 An experimental branch implementing Lindsey's (1999) correction for the log-likelihood
