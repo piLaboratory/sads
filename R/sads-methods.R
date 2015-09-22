@@ -171,18 +171,18 @@ setMethod("AICc","mle2",
 			  if (!all(sapply(L, function(x) inherits(x, "mle2")))) 
 				  stop("all objects in list must be class mle2 or inherit from mle2")
 			  if (missing(nobs)) {
-				  nobs <- sapply(L,nobs)
+				  nobs <- sapply(L,match.fun("nobs"))
 			  }
 			  if (length(L) > 1) {
 				  if (length(unique(nobs)) > 1) 
 					  stop("nobs different: must have identical data for all objects")
 				  logLiks <- lapply(L, logLik)
 				  df <- sapply(logLiks,attr,"df")
-				  val <- -2*unlist(logLiks)+k*df*(df+1)/(nobs-df-1)
+				  val <- -2*unlist(logLiks)+k*df+2*df*(df+1)/(nobs-df-1)
 				  data.frame(AICc = val, df = df)
 			  } else {
 				  df <- attr(logLik(object), "df")
-				  c(-2 * logLik(object)+k*df+k*df*(df+1)/(nobs-df-1))
+				  c(-2 * logLik(object)+k*df+2*df*(df+1)/(nobs-df-1))
 			  }
 		  }
           )
