@@ -74,7 +74,7 @@ The current developer version can be installed from GitHub with:
 @
 <<install-dev-version, eval=FALSE >>=
 library(devtools)
-install_github(repo = 'piklprado/sads', ref= 'dev')
+install_github(repo = 'piLaboratory/sads', ref= 'dev')
 @ 
 
 And then load the package:
@@ -433,9 +433,9 @@ Increasing the number of simulations improves these estimators.
 \section{Bugs and issues}
 \label{sec:bugs-issues}
 
-The package project is hosted on GitHub (\url{https://github.com/piklprado/sads/}). 
+The package project is hosted on GitHub (\url{https://github.com/piLaboratory/sads/}). 
 Please report bugs and issues and give us your feedback at 
-\url{https://github.com/piklprado/sads/issues}.
+\url{https://github.com/piLaboratory/sads/issues}.
 
 \bibliographystyle{ecology}
 \bibliography{sads_intro}
