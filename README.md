@@ -34,6 +34,6 @@ install_github(repo = 'piLaboratory/sads', ref= 'trueLL')
 
 
 ### More info
-  - [Project page on GitHub](http://piklprado.github.io/sads/)
+  - [Project page on GitHub](http://piLaboratory.github.io/sads/)
   - [Research project](http://ecologia.ib.usp.br/let/doku.php?id=engl:projects:sads) at our [Lab wiki](http://ecologia.ib.usp.br/let)
 
