@@ -244,7 +244,7 @@ setMethod("radpred",signature(object="fitsad", sad="missing", rad="missing",
                               coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
           function (object){
 			  ab = object@data$x
-			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
+			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)), distr=NA,
 					  trunc=object@trunc, S=length(ab), N=sum(ab))
 		  }
 		  )
@@ -276,7 +276,7 @@ setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
           function(object, sad, rad, coef, trunc, distr){
         if(!missing(distr)) warning("The parameter distr has been deprecated, see ?distr")
 			  if(missing(trunc)) trunc <- NaN
-			  radpred(sad=sad, coef=coef, trunc=trunc, S=length(object), N= sum(object))
+			  radpred(sad=sad, coef=coef, trunc=trunc, distr=NA, S=length(object), N= sum(object))
 		  }
 		  )
 
@@ -303,9 +303,9 @@ setMethod("radpred", signature(object="missing", sad="missing", rad="character",
 setMethod("radpred", signature(object="missing", sad="character", rad="missing",
                                coef="list", trunc="ANY", distr="ANY", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, distr, S, N){
-        if(!missing(distr)) warning("The parameter distr has been deprecated, see ?distr")
-        distr <- distr(sad)
-            if (distr == "discrete"){
+        if((!missing(distr)) && (!is.na(distr))) warning("The parameter distr has been deprecated, see ?distr")
+        distribution <- distr(sad)
+            if (distribution == "discrete"){
               ### Approximates the [q] function instead of calling it directly to save some
               ### computational time (as [q] is inneficiently vectorized)
               y <- 1:N
@@ -329,7 +329,7 @@ setMethod("radpred", signature(object="missing", sad="character", rad="missing",
                   ab[i] <- do.call(qsad, c(list(p = Y[i], lower.tail=FALSE), coef))
               }
             }
-            else if(distr == "continuous"){
+            else if(distribution == "continuous"){
               Y <- ppoints(S)
               if(!missing(trunc) & !is.nan(trunc)){
                 ab <- do.call(qtrunc, list(sad, p = Y, coef = coef, lower.tail=F, trunc = trunc))
@@ -522,11 +522,11 @@ def = function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...) standar
 setMethod("qqsad",
           signature(x="numeric", sad="character", coef="list", distr="ANY"),
           function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...){
-        if(!missing(distr)) warning("The parameter distr has been deprecated, see ?distr")
-        distr <- distr(sad)
+        if((!missing(distr)) && (!is.na(distr))) warning("The parameter distr has been deprecated, see ?distr")
+        distribution <- distr(sad)
               x.sorted <- sort(x)
               S <- length(x)
-              if(distr == "discrete"){
+              if(distribution == "discrete"){
                   q <- 1:sum(x)
                   if(!is.na(trunc)){
 					  p <- do.call(ptrunc, list(sad, q = q, coef=coef, trunc=trunc))
@@ -538,7 +538,7 @@ setMethod("qqsad",
                   f1 <- approxfun(x=c(1, p), y=c(0, q), method="constant")
                   q <- f1(ppoints(S))
               }
-              else if(distr == "continuous"){
+              else if(distribution == "continuous"){
                   p <- ppoints(S)
                   if(!is.na(trunc))
                       q <- do.call(qtrunc, list(sad, p = p, trunc = trunc, coef=coef))
@@ -581,7 +581,7 @@ setMethod("qqsad",
               coef <- as.list(bbmle::coef(x))
               trunc <- x@trunc
               y <- x@data$x
-              qqsad(x=y, sad=sad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+              qqsad(x=y, sad=sad, coef=coef, distr=NA, trunc=trunc, plot=plot, line=line, ...)
           }
           )
 
