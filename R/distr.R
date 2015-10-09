@@ -10,10 +10,10 @@
 distr <- function(distribution) {
   if (class(distribution)!="character") stop("Distribution must be from class character")
   if (distribution %in% c("bs", "lnorm", "gamma", "pareto", "weibull"))
-    return("C")
+    return("continuous")
   if (distribution %in% c("gs", "geom", "rbs", "power", "poilog", "nbinom", "mzsm", "mand", 
                           "ls", "volkov", "zipf"))
-    return("D")
+    return("discrete")
   # if arrived here...
   warning(paste("Unknown distribution:", distribution))
   return(NA)

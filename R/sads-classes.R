@@ -22,3 +22,5 @@ setClass("rad", representation("data.frame"), validity = function(object) {
 setClass("fitsad", representation("mle2", sad="character", distr="character", trunc="numeric"))
 setClass("fitrad", representation("mle2", rad="character", distr="character", trunc="numeric", rad.tab="rad"))
 #setClass("fitsadlist", representation("list"))
+
+distr.depr <- "The 'distr' slot of fitrad and fitsad objects have been deprecated. Please see ?distr"
