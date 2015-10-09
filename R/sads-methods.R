@@ -245,7 +245,7 @@ setMethod("radpred",signature(object="fitsad", sad="missing", rad="missing",
           function (object){
 			  ab = object@data$x
 			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
-					  trunc=object@trunc, distr=distr(object@sad), S=length(ab), N=sum(ab))
+					  trunc=object@trunc, S=length(ab), N=sum(ab))
 		  }
 		  )
 
@@ -272,10 +272,11 @@ setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
 
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
 setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
-                              coef="list", trunc="ANY", distr="character", S="missing", N="missing"),
+                              coef="list", trunc="ANY", distr="ANY", S="missing", N="missing"),
           function(object, sad, rad, coef, trunc, distr){
+        if(!missing(distr)) warning("The parameter distr has been deprecated, see ?distr")
 			  if(missing(trunc)) trunc <- NaN
-			  radpred(sad=sad, coef=coef, trunc=trunc, distr=distr, S=length(object), N= sum(object))
+			  radpred(sad=sad, coef=coef, trunc=trunc, S=length(object), N= sum(object))
 		  }
 		  )
 
@@ -300,8 +301,10 @@ setMethod("radpred", signature(object="missing", sad="missing", rad="character",
 ## All other arguments except distr should be given, except trunc (optional)
 # This is the base method for all signatures using "sad" or "fitsad" 
 setMethod("radpred", signature(object="missing", sad="character", rad="missing",
-                               coef="list", trunc="ANY", distr="character", S="numeric", N="numeric"),
+                               coef="list", trunc="ANY", distr="ANY", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, distr, S, N){
+        if(!missing(distr)) warning("The parameter distr has been deprecated, see ?distr")
+        distr <- distr(sad)
             if (distr == "discrete"){
               ### Approximates the [q] function instead of calling it directly to save some
               ### computational time (as [q] is inneficiently vectorized)
@@ -517,8 +520,10 @@ def = function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...) standar
 ## if x is numeric (abundances), all other arguments should be given.
 ## Only trunc, plot and line are optional because they have default values
 setMethod("qqsad",
-          signature(x="numeric", sad="character", coef="list", distr="character"),
+          signature(x="numeric", sad="character", coef="list", distr="ANY"),
           function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...){
+        if(!missing(distr)) warning("The parameter distr has been deprecated, see ?distr")
+        distr <- distr(sad)
               x.sorted <- sort(x)
               S <- length(x)
               if(distr == "discrete"){
@@ -543,7 +548,7 @@ setMethod("qqsad",
                   }
               }
               else
-                  stop("please choose 'discrete' or 'continuous' for 'distr'")
+                stop("Please provide a valid distribution") 
               if(plot){
                   dots <- list(...)
                   if(!"main" %in% names(dots)) dots$main = "Q-Q plot"
@@ -575,9 +580,8 @@ setMethod("qqsad",
               sad <- x@sad
               coef <- as.list(bbmle::coef(x))
               trunc <- x@trunc
-              distr <- distr(x@sad)
               y <- x@data$x
-              qqsad(x=y, sad=sad, coef=coef, trunc=trunc, distr=distr, plot=plot, line=line, ...)
+              qqsad(x=y, sad=sad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
           }
           )
 
