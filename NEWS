@@ -1,4 +1,10 @@
-0.2.2 (2015-07-11)
+0.2.3 (2015-09-24)
+* fitgeom, fitpoilog and fitnbinom now can get argument trunc=NULL to avoid zero-truncation (the default)
+* fitgeom uses default optimization method from mle2 instead of Brent's method, to avoid some overflow errors for large datasets (e.g. moths)
+* dmzsm and dvolkov now returns zero for any abundance larger than the community size J. Accordingly, pzsm and pvolkov now return 1 for any q>J and lower.tail=TRUE and zero for lower.tail=FALSE.
+* fixes important bugs in AICc
+
+0.2.2 (2015-07-12)
 * plotprofmle is now a S4 method with mle2 and profile.mle2 signatures
 * Fixed the way \dots are handled by some of the fitting functions
 * Better starting values for fitting Weibull distributions
