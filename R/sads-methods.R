@@ -235,7 +235,7 @@ setMethod("show", "fitrad", function(object){showmle2(object)})
 
 ## radpred generic functions and methods ###
 setGeneric("radpred",
-def = function(object, sad, rad, coef, trunc, distr, S, N) standardGeneric("radpred")
+def = function(object, sad, rad, coef, trunc, distr=NA, S, N) standardGeneric("radpred")
            )
 
 ## if object is of class fitsad (no other argument should be provided)
@@ -244,7 +244,7 @@ setMethod("radpred",signature(object="fitsad", sad="missing", rad="missing",
                               coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
           function (object){
 			  ab = object@data$x
-			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)), distr=NA,
+			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
 					  trunc=object@trunc, S=length(ab), N=sum(ab))
 		  }
 		  )
@@ -273,10 +273,10 @@ setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
 setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
                               coef="list", trunc="ANY", distr="ANY", S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, distr){
-        if(!missing(distr)) warning("The parameter distr has been deprecated, see ?distr")
+          function(object, sad, rad, coef, trunc, distr=NA){
+        if(!is.na(distr)) warning("The parameter distr has been deprecated and is ignored, see ?distr")
 			  if(missing(trunc)) trunc <- NaN
-			  radpred(sad=sad, coef=coef, trunc=trunc, distr=NA, S=length(object), N= sum(object))
+			  radpred(sad=sad, coef=coef, trunc=trunc, S=length(object), N= sum(object))
 		  }
 		  )
 
@@ -302,8 +302,8 @@ setMethod("radpred", signature(object="missing", sad="missing", rad="character",
 # This is the base method for all signatures using "sad" or "fitsad" 
 setMethod("radpred", signature(object="missing", sad="character", rad="missing",
                                coef="list", trunc="ANY", distr="ANY", S="numeric", N="numeric"),
-          function(object, sad, rad, coef, trunc, distr, S, N){
-        if((!missing(distr)) && (!is.na(distr))) warning("The parameter distr has been deprecated, see ?distr")
+          function(object, sad, rad, coef, trunc, distr=NA, S, N){
+        if(!is.na(distr)) warning("The parameter distr has been deprecated and is ignored, see ?distr")
         distribution <- distr(sad)
             if (distribution == "discrete"){
               ### Approximates the [q] function instead of calling it directly to save some
@@ -514,15 +514,15 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
 
 ## Generic and methods for qqsad
 setGeneric("qqsad",
-def = function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...) standardGeneric("qqsad"))
+def = function(x, sad, coef, trunc=NA, distr=NA, plot=TRUE, line=TRUE, ...) standardGeneric("qqsad"))
 
 ## method for class numeric
 ## if x is numeric (abundances), all other arguments should be given.
 ## Only trunc, plot and line are optional because they have default values
 setMethod("qqsad",
           signature(x="numeric", sad="character", coef="list", distr="ANY"),
-          function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...){
-        if((!missing(distr)) && (!is.na(distr))) warning("The parameter distr has been deprecated, see ?distr")
+          function(x, sad, coef, trunc=NA, distr=NA, plot=TRUE, line=TRUE, ...){
+        if(!is.na(distr)) warning("The parameter distr has been deprecated and is ignored, see ?distr")
         distribution <- distr(sad)
               x.sorted <- sort(x)
               S <- length(x)
@@ -561,15 +561,6 @@ setMethod("qqsad",
           }
           )
 
-## For integer values
-## setMethod("qqsad",
-##           signature(x="integer", sad="character", coef="list", distr="character"),
-##           function(x, sad, coef, trunc=NA, distr, plot=TRUE, line=TRUE, ...){
-##               y <- as.numeric(x)
-##               qqsad(x=y, sad=sad, coef=coef, trunc=trunc,
-##                     distr=distr, plot=plot, line=line, ...)
-##           }
-##           )
 
 ## If x is of the class fitsad all other arguments should be ommited
 ## plot and line have default values and are optional
@@ -577,11 +568,8 @@ setMethod("qqsad",
           signature(x="fitsad", sad="missing", coef="missing",
                     trunc="missing", distr="missing"),
           function(x, sad, coef, trunc, distr, plot=TRUE, line=TRUE, ...){
-              sad <- x@sad
-              coef <- as.list(bbmle::coef(x))
-              trunc <- x@trunc
-              y <- x@data$x
-              qqsad(x=y, sad=sad, coef=coef, distr=NA, trunc=trunc, plot=plot, line=line, ...)
+              qqsad(x=x@data$x, sad=x@sad, coef=as.list(bbmle::coef(x)), 
+                    trunc=x@trunc, plot=plot, line=line, ...)
           }
           )
 
