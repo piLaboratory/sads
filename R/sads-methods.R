@@ -342,6 +342,7 @@ setMethod("radpred", signature(object="missing", sad="character", rad="missing",
 		  }
 		  )
 
+# Helper function for octavpred
 genoct <- function (x) {
   oct <- 0:(ceiling(max(log2(x)))+1)
   if(any(x < 1)){
@@ -382,17 +383,21 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
           function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             dots <- list(...)
             oct <- unique(oct)
-            n <- 2^oct
-            if(!missing(trunc) & !is.nan(trunc)){
+            if (preston) {
+              if(missing(trunc)) trunc <- NaN
+              return(octav(radpred(sad=sad, coef=coef, trunc=trunc, distr="C", S=S, N=N)$abund, preston=TRUE))
+            } else {
+              n <- 2^oct
+              if(!missing(trunc) & !is.nan(trunc)){
                 Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
+              }
+              else{
+                psad <- get(paste("p",sad,sep=""),mode="function")
+                Y <- do.call(psad, c(list(q = n),coef,dots))
+              }
+              Y <- c(Y[1], diff(Y))*S
+              return(new("octav", data.frame(octave = oct, upper = n, Freq = Y)))
             }
-            else{
-              psad <- get(paste("p",sad,sep=""),mode="function")
-              Y <- do.call(psad, c(list(q = n),coef,dots))
-            }
-            Y <- c(Y[1], diff(Y))*S
-            if(preston) warning("Preston argument is ignored for octavpred calls using 'sads'")
-            new("octav", data.frame(octave = oct, upper = n, Freq = Y))
           }
           )
 
