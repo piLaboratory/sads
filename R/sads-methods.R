@@ -753,3 +753,11 @@ setMethod("pprad",
               pprad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
           }
           )
+
+### Providing standard stats methods
+setMethod("coefficients", signature(object="fitsad"),
+          function(object, ...) bbmle::coef(object, ...)
+          )
+setMethod("coefficients", signature(object="fitrad"),
+          function(object, ...) bbmle::coef(object, ...)
+          )
