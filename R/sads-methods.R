@@ -755,9 +755,57 @@ setMethod("pprad",
           )
 
 ### Providing standard stats methods
+#' Standard stats methods
+#' 
+#' Provide the standard interface for fitted objects
+#' 
+#' These methods are provided to allow for standard manipulation of \code{\link{fitsad}}
+#' and \code{\link{fitrad}} objects using the generic methods defined in the "stats" package.
+#' Please see the original man pages for each method.
+#' 
+#' \code{coefficients} is an alias to \code{\link[bbmle]{coef}}.
+#' 
+#' \code{fitted} and \code{fitted.values} provide an alternative interface to \code{\link{radpred}};
+#' these are also used to calcutate \code{residuals}.
+#' 
+#' Notice that radpred is a preferred interface for most calculations, specially if there are several
+#' ties.
+#' 
+#' @param object An object from class fitsad or fitrad
+#' @param \dots Other arguments to be forwarded for the lower level function
+#' @rdname stats
 setMethod("coefficients", signature(object="fitsad"),
-          function(object, ...) bbmle::coef(object, ...)
-          )
+          function(object, ...) bbmle::coef(object, ...))
+#' @rdname stats
 setMethod("coefficients", signature(object="fitrad"),
-          function(object, ...) bbmle::coef(object, ...)
+          function(object, ...) bbmle::coef(object, ...))
+#' @rdname stats
+setMethod("fitted.values", signature(object="fitsad"),
+          function(object, ...) fitted(object, ...))
+#' @rdname stats
+setMethod("fitted.values", signature(object="fitrad"),
+          function(object, ...) fitted(object, ...))
+#' @rdname stats
+setMethod("fitted", signature(object="fitsad"),
+          function(object, ...) {
+            rad <- radpred(object)$abund
+            rad <- rad[rev(order(object@data$x))]
+            names(rad) <- as.character(1:length(rad))
+            return(rad)
+          }
           )
+#' @rdname stats
+setMethod("fitted", signature(object="fitrad"),
+          function(object, ...) {
+            rad <- radpred(object)$abund
+            rad <- rad[order(object@rad.tab$abund)]
+            names(rad) <- as.character(1:length(rad))
+            return(rad)
+          }
+          )
+#' @rdname stats
+setMethod("residuals", signature(object="fitsad"),
+          function(object, ...) object@data$x - fitted(object, ...))
+#' @rdname stats
+setMethod("residuals", signature(object="fitrad"),
+          function(object, ...) object@rad.tab$abund - fitted(object, ...))

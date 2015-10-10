@@ -23,7 +23,7 @@ exportMethods(plot, points, lines, octavpred, radpred, qqsad, qqrad, plotprofmle
 # Methods that override bbmle counterparts:
 exportMethods(show, nobs, AIC, AICc)
 # Standard stats methods
-exportMethods(coefficients)
+exportMethods(coefficients, fitted, fitted.values, residuals)
 ## IMPORTS ##
 ## Import specific functions from other packages used by new methods
 importFrom("graphics", plot, points, lines, abline, axis, hist, par)
