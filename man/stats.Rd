@@ -41,7 +41,7 @@ These methods are provided to allow for standard manipulation of \code{\link{fit
 and \code{\link{fitrad}} objects using the generic methods defined in the "stats" package.
 Please see the original man pages for each method.
 
-\code{coefficients} is an alias to \code{\link[bbmle]{coef}}.
+\code{coefficients} is an alias to \code{\link[stats]{coef}} (implemented in package "bbmle").
 
 \code{fitted} and \code{fitted.values} provide an alternative interface to \code{\link{radpred}};
 these are also used to calcutate \code{residuals}.
