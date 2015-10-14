@@ -38,23 +38,25 @@ function(object, nseg, ratio, which, ask, col.line, varname, ...){
       y <- tmp[,1]^2/2
       x <- (tmp[,2][,i])
       interpolF = splinefun(x, y, method="monoH.FC")
-      x <- seq(min(x), max(x), lenght.out=nseg*length(x))
+      # Redo the x axis to increase the number of points in nseg times
+      l = nseg*length(x); a <- (max(x) - min(x))/(l-1)
+      x <- a * 1:l + min(x)-a
       y <- interpolF(x)
 
-      do.call(curve, c(list(expr=expression(interpolF(x)), n=nseg*length(x),xlab=vname[i], add=T),dots))
+      do.call(plot, c(list(x=x, y=y, xlab=vname[i]),dots))
       if(!is.null(ratio)){
-        l <- length(interpol$y)
-	  # Finds where the interpolation crosses the "y = ratio" line
-        change <- (interpol$y - ratio)[2:l] * (interpol$y - ratio)[1:(l-1)]
+        l <- length(y)
+	  # Finds where the ation crosses the "y = ratio" line
+        change <- (y - ratio)[2:l] * (y - ratio)[1:(l-1)]
         endpoints <- which(change < 0)
 		# Adds the borders, if any of them is lower than ratio
-		if(interpol$y[1] < ratio) endpoints <- c(1, endpoints)
-		if(interpol$y[l] < ratio) endpoints <- c(endpoints, l)
-        corr <- (interpol$x[2]-interpol$x[1])/2
+		if(y[1] < ratio) endpoints <- c(1, endpoints)
+		if(y[l] < ratio) endpoints <- c(endpoints, l)
+        corr <- (x[2]-x[1])/2
 		if(length(endpoints) > 0)
         for (j in 1:(length(endpoints)/2)) {
-          lower <-interpol$x[endpoints[(2*j)-1]]+corr
-          upper <- interpol$x[endpoints[2*j]]+corr
+          lower <-x[endpoints[(2*j)-1]]+corr
+          upper <-x[endpoints[2*j]]+corr
           lines(c(lower,upper ),c(ratio, ratio), col=col.line, lty=2)
 		  if(endpoints[(2*j-1)] != 1) # dont draw vertical lines at the borders
 	          lines(rep(lower,2), c(-1, ratio), col=col.line, lty=2)
@@ -62,6 +64,7 @@ function(object, nseg, ratio, which, ask, col.line, varname, ...){
 			  lines(rep(upper,2), c(-1, ratio), col=col.line, lty=2)
         }
       }
+
     }
 })
 setMethod("plotprofmle", "mle2",
