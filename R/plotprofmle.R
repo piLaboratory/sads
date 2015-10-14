@@ -37,8 +37,11 @@ function(object, nseg, ratio, which, ask, col.line, varname, ...){
       tmp <- mleprof[i][[1]]
       y <- tmp[,1]^2/2
       x <- (tmp[,2][,i])
-      interpol = spline(x, y, n=nseg*length(x) )
-      do.call(plot, c(list(x=interpol,xlab=vname[i]),dots))
+      interpolF = splinefun(x, y, method="monoH.FC")
+      x <- seq(min(x), max(x), lenght.out=nseg*length(x))
+      y <- interpolF(x)
+
+      do.call(curve, c(list(expr=expression(interpolF(x)), n=nseg*length(x),xlab=vname[i], add=T),dots))
       if(!is.null(ratio)){
         l <- length(interpol$y)
 	  # Finds where the interpolation crosses the "y = ratio" line
