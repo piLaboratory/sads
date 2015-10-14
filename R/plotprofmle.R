@@ -32,22 +32,22 @@ function(object, nseg, ratio, which, ask, col.line, varname, ...){
     oask <- devAskNewPage(TRUE)
     on.exit(devAskNewPage(oask))
   }
-  for(i in parseq)
-    {
-      prof <- internal.spline(mleprof, i, ratio)
-
-      do.call(plot, c(list(x=prof$x, y=prof$y, xlab=vname[i]),dots))
-		if(length(prof$endpoints) > 0)
-        for (j in 1:(length(prof$endpoints)/2)) {
-          lower <-x[prof$endpoints[(2*j)-1]]+corr
-          upper <-x[prof$endpoints[2*j]]+corr
-          lines(c(lower,upper ),c(ratio, ratio), col=col.line, lty=2)
-          if(prof$endpoints[(2*j-1)] != 1) # dont draw vertical lines at the borders
-            lines(rep(lower,2), c(-1, ratio), col=col.line, lty=2)
-          if(prof$endpoints[(2*j)] != l) # dont draw vertical lines at the borders
-            lines(rep(upper,2), c(-1, ratio), col=col.line, lty=2)
-        }
-    }
+  for(i in parseq) {
+    prof <- internal.spline(mleprof, i, ratio)
+    do.call(plot, c(list(x=prof$x, y=prof$y, xlab=vname[i]),dots))
+    L <- length(prof$lower) # Is the same as length(prof$upper)
+    if(L > 0)
+      for (j in 1:L) {
+        lines(c(prof$lower[j],prof$upper[j]),c(ratio, ratio), col=col.line, lty=2)
+        xx <- prof$x[1]/2 + prof$x[2]/2 + 1e-12
+        print(prof$lower[j])
+        print(xx)
+        if(prof$lower[j] > xx) # dont draw vertical lines at the borders
+          lines(rep(prof$lower[j],2), c(-1, ratio), col=col.line, lty=2)
+        if(prof$upper[i] < max(prof$x)) # dont draw vertical lines at the borders
+          lines(rep(prof$upper[j],2), c(-1, ratio), col=col.line, lty=2)
+      }
+  }
 })
 setMethod("plotprofmle", "mle2",
     function(object, ...) {
@@ -76,7 +76,11 @@ internal.spline <- function(mleprof, i, ratio) {
         if(y[1] < ratio) endpoints <- c(1, endpoints)
         if(y[l] < ratio) endpoints <- c(endpoints, l)
         corr <- (x[2]-x[1])/2
+        for (j in 1:(length(endpoints)/2)) {
+          lower <-c(lower, x[endpoints[(2*j)-1]]+corr)
+          upper <-c(upper, x[endpoints[2*j]]+corr)
+        }
       }
-      return(list(x=x,y=y,endpoints=endpoints))
+      return(list(x=x,y=y,lower=lower, upper=upper))
 }
 
