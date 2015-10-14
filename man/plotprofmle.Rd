@@ -36,8 +36,9 @@ plotprofmle(object, nseg=20, ratio=log(8), which=NULL, ask=NULL,
   }
 
   \item{ratio}{
-    real positive or NULL; log-likelihood ratio that defines the likelihood
-    interval to be shown in the plot.
+    real positive; log-likelihood ratio that defines the likelihood
+    interval to be shown in the plot, or set to \code{NULL} to suppress intervals
+    from being displayed.
   }
 
   \item{which}{

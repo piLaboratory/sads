@@ -13,3 +13,4 @@ vignettes/*.dvi
 testes/
 src/*.o
 src/*.so
+.*.swp
