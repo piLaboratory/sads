@@ -40,8 +40,6 @@ function(object, nseg, ratio, which, ask, col.line, varname, ...){
       for (j in 1:L) {
         lines(c(prof$lower[j],prof$upper[j]),c(ratio, ratio), col=col.line, lty=2)
         xx <- prof$x[1]/2 + prof$x[2]/2 + 1e-12
-        print(prof$lower[j])
-        print(xx)
         if(prof$lower[j] > xx) # dont draw vertical lines at the borders
           lines(rep(prof$lower[j],2), c(-1, ratio), col=col.line, lty=2)
         if(prof$upper[i] < max(prof$x)) # dont draw vertical lines at the borders
@@ -84,3 +82,34 @@ internal.spline <- function(mleprof, i, ratio) {
       return(list(x=x,y=y,lower=lower, upper=upper))
 }
 
+setGeneric("likelregions", 
+    def=function(object, nseg=20, ratio=log(8), which=NULL, ...) standardGeneric("likelregions")
+    )
+setMethod("likelregions", "profile.mle2",
+function(object, nseg, ratio, ...){
+  mleprof <- object@profile
+  npar <- length(mleprof)
+  if(missing(which))
+    which <- 1:npar
+  out <- list()
+  vname <- names(mleprof)
+  for(i in which) {
+    prof <- internal.spline(mleprof, i, ratio)
+    int <- list()
+    L <- length(prof$lower) # Is the same as length(prof$upper)
+    if(L > 0)
+      for (j in 1:L) {
+        # HOW DO I CONCATENATE THIS???
+        int <- c(int, c(prof$lower[j], prof$upper[j]))
+      }
+    out <- c(out, int)
+  }
+  # TODO: varnames and lower/upper names
+  out
+})
+setMethod("likelregions", "mle2",
+    function(object, ...) {
+    cat("NOTICE: Running a profile on the object. You should consider storing the profile\n")
+    cat("in a different variable\n")
+    likelregions(profile(object), ...)
+})
