@@ -385,7 +385,7 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
             oct <- unique(oct)
             if (preston) {
               if(missing(trunc)) trunc <- NaN
-              return(octav(radpred(sad=sad, coef=coef, trunc=trunc, distr="C", S=S, N=N)$abund, preston=TRUE))
+              return(octav(radpred(sad=sad, coef=coef, trunc=trunc, distr="D", S=S, N=N)$abund, preston=TRUE))
             } else {
               n <- 2^oct
               if(!missing(trunc) & !is.nan(trunc)){
