@@ -53,14 +53,25 @@ qpowbend( p, s, omega, lower.tail= TRUE, log.p=FALSE)
 
   \deqn{p(x) = \frac{x^{-s} e^{- \omega x}}{Li_s (e^\omega)}}{p(x) = x^(-s)exp(-omega x) / Li_s (exp(omega))}
 
-  This distribution was proposed by S. Pueyo to represent a middle-ground between the 
-  logseries and the exponential distribution. 
+  The bending term can be seen as a finite-size correction of the power law
+  (Pueyo 2006). Therefore, the power-bend can describe better samples taken from power-law distributions.
   
   The function \eqn{Li_s(e^\omega)}{Li_s(exp(omega))} is the Polylogarithm of the 
   exponential of \code{omega} on base \code{s}, and represents the integration constant.
   A naive implementation of the Polylogarithm function is included in the package, and
   accepts values for non-integer \code{s} and \code{omega} smaller than 5, which cover the
-  cases of biological relevance. 
+  cases of biological relevance.
+
+  This distribution was proposed by S. Pueyo to describe species
+  abundance distributions (sads) as a generalization of the
+  logseries distribution. Fisher's logseries correspond to the
+  power-bend with parameters s=1 and omega = -log(X).
+  (X = N/(N + alpha) where N is sample size or total number of individuals and alpha is the
+  Fisher's alpha parameter of the logseries.
+
+  When fitted to sads, power-law distributions usually overestimates the abundance of common
+  species, and in practice power-bend corrects this problem and usually
+  provides a better fit to abundance distributions.
  }
 
 \value{
@@ -81,8 +92,10 @@ qpowbend( p, s, omega, lower.tail= TRUE, log.p=FALSE)
 \author{Paulo I Prado \email{prado@ib.usp.br} and Andre Chalom.}
 
 \seealso{
-\code{dpower} for the power distribution; \code{\link{fitpowbend}} for maximum likelihood estimation in
-the context of species abundance distributions. 
+  \code{dpower} for the power distribution; \code{\link{dls}} for the
+  logseries distribution, which is a particular case of the power-bend,
+  \code{\link{fitpowbend}} for maximum likelihood estimation in
+  the context of species abundance distributions. 
 }
 
 \examples{
@@ -100,5 +113,16 @@ par(mfrow=c(1,1))
 all.equal( ppowbend(10, s=2.1, omega=0.5), sum(dpowbend(1:10, s=2.1, omega=0.5)) ) # should be TRUE
 
 ## quantile is the inverse of CDF
-all.equal(qpowbend(CDF, s=2.1, omega=0.5), x) 
+all.equal(qpowbend(CDF, s=2.1, omega=0.5), x)
+
+## Equivalence between power-bend and logseries
+x <- 1:100
+N <- 1000
+alpha <- 5
+X <- N/(N+alpha)
+omega <- -log(X)
+PDF1 <- dls(x, N, alpha)
+PDF2 <- dpowbend(x, s=1.000001, omega)
+plot(PDF1,PDF2, log="xy")
+abline(0,1, col="blue")
 }

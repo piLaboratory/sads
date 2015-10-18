@@ -22,7 +22,7 @@
 
 \usage{
 fitsad(x, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
-       "poilog","power","volkov","weibull"), \dots)
+       "poilog","power", "powbend", "volkov","weibull"), \dots)
 
 fitbs(x, trunc, \dots)
 
@@ -127,8 +127,6 @@ fitweibull(x, trunc, start.value,  \dots)
   
   Functions \code{fitgamma}, \code{fitlnorm} and \code{fitweibull} fit the
   standard continuous distributions most used as SADs models.
-  Functions \code{power}, \code{fitpowbend} and \code{pareto} fit power-law continuous distributions
-  with one and two-parameters, that have been suggested as SADs models.
   As species with null abundances in the sample are in general unknown, the
   fit to continuous distributions can be improved by truncation to some value
   above zero (see example). Convergence problems can occur when fitting
@@ -163,6 +161,14 @@ fitweibull(x, trunc, start.value,  \dots)
   Fixed parameters in the model specification do not contribute to the model
   degrees of freedom, and are not accounted in standard error calculations.
 
+  Functions \code{fitpower}, \code{fitpowbend} and \code{fitpareto} fit power-law distributions
+  with one and two-parameters, that have been suggested as SADs models.
+  The implementations of power and power-bend are for discrete
+  distributions that do not include zeroes. The Pareto distribution is
+  continuous and includes all non-negative numbers.
+  Fisher's logseries are a special case of the
+  power-bend, see \code{\link{dpowbend}} and Pueyo (2006). 
+  
   Function \code{fitbs} fits the Broken-stick distribution
   (MacArthur 1960). It is defined only by the observed number of
   elements \code{S} in the collection and collection size \code{N}.
@@ -267,6 +273,9 @@ fitweibull(x, trunc, start.value,  \dots)
   
   Preston, F.W. 1948. The commonness and rarity of species.
   \emph{Ecology 29}: 254--283.
+
+  Pueyo, S. (2006) \emph{Diversity: Between neutrality and structure},
+  OIKOS 112: 392-405.
 
   Rinne, H. 2009. \emph{The Weibull distribution: a handbook}. CRC Press
 
