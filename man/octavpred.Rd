@@ -97,7 +97,8 @@
   octaves and fitting of species abundances distributions.  
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
+\author{Paulo I Prado \email{prado@ib.usp.br}, Murilo Dantas Miranda and
+  Andre Chalom.}
 
 \examples{
 ## Predicted frequencies from a fitted model
