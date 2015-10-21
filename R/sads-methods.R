@@ -380,16 +380,17 @@ setMethod("octavpred", signature(object="numeric",sad="character", rad="missing"
           )
 ## Octavpred workhorse for "sads"
 setMethod("octavpred", signature(object="missing",sad="character", rad="missing",
-                                 coef="list", trunc="ANY", oct="numeric", S="numeric", N="numeric"),
+                                 coef="list", trunc="ANY", oct="ANY", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             dots <- list(...)
+            if(missing(oct)) oct <- genoct(N)
+            if(missing(trunc)) trunc <- NaN
             oct <- unique(oct)
             if (preston) {
-              if(missing(trunc)) trunc <- NaN
-              return(octav(radpred(sad=sad, coef=coef, trunc=trunc, distr=distr.depr, S=S, N=N)$abund, preston=TRUE))
+              return(octav(radpred(sad=sad, coef=coef, trunc=trunc, distr=NA, S=S, N=N)$abund, preston=TRUE))
             } else {
               n <- 2^oct
-              if(!missing(trunc) & !is.nan(trunc)){
+              if(!is.nan(trunc)){
                 Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
               }
               else{
@@ -426,12 +427,14 @@ setMethod("octavpred", signature(object="numeric",sad="missing", rad="character"
 )
 ## Octavpred workhorse for "rads"
 setMethod("octavpred", signature(object="missing",sad="missing", rad="character",
-                                 coef="list", trunc="ANY", oct="numeric", S="numeric", N="numeric"),
+                                 coef="list", trunc="ANY", oct="ANY", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             dots <- list(...)
+            if(missing(oct)) oct <- genoct(N)
+            if(missing(trunc)) trunc<-NaN
             oct <- unique(oct)
             n <- 2^oct
-            if(!missing(trunc) & !is.nan(trunc)){
+            if(!is.nan(trunc)){
               ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
             }
             else{
@@ -444,25 +447,6 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
             new("octav", res)
           }
 )
-
-## if object is missing and sad is given. rad should not be given.
-## All other arguments except distr should be given, except trunc (optional)
-setMethod("octavpred", signature(object="missing",sad="character", rad="missing",
-                                 coef="list", trunc="ANY", oct="ANY", S="numeric", N="numeric"),
-          function(object, sad, rad, coef, trunc, oct, S, N, ...){
-            dots <- list(...)
-            n <- 2^oct
-            if(!missing(trunc)){
-                Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
-            }
-            else{
-				psad <- get(paste("p",sad,sep=""),mode="function")
-				Y <- do.call(psad, c(list(q = n),coef,dots))
-            }
-            Y <- c(Y[1], diff(Y))*S
-            new("octav", data.frame(octave = oct, upper = n, Freq = Y))
-          }
-          )
 
 ## Generic and methods for qqsad
 setGeneric("qqsad",
