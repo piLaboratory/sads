@@ -33,16 +33,16 @@ function(object, nseg, ratio, which, ask, col.line, varname, ...){
     on.exit(devAskNewPage(oask))
   }
   for(i in parseq) {
-    prof <- internal.spline(mleprof, i, ratio)
+    prof <- internal.spline(mleprof, i, ratio, nseg)
     do.call(plot, c(list(x=prof$x, y=prof$y, xlab=vname[i]),dots))
     L <- length(prof$lower) # Is the same as length(prof$upper)
     if(L > 0)
       for (j in 1:L) {
-        lines(c(prof$lower[j],prof$upper[j]),c(ratio, ratio), col=col.line, lty=2)
         xx <- prof$x[1]/2 + prof$x[2]/2 + 1e-12
+        lines(c(prof$lower[j],prof$upper[j]),c(ratio, ratio), col=col.line, lty=2)
         if(prof$lower[j] > xx) # dont draw vertical lines at the borders
           lines(rep(prof$lower[j],2), c(-1, ratio), col=col.line, lty=2)
-        if(prof$upper[i] < max(prof$x)) # dont draw vertical lines at the borders
+        if(prof$upper[j] < max(prof$x)) # dont draw vertical lines at the borders
           lines(rep(prof$upper[j],2), c(-1, ratio), col=col.line, lty=2)
       }
   }
@@ -54,7 +54,7 @@ setMethod("plotprofmle", "mle2",
     plotprofmle(profile(object), ...)
 })
 
-internal.spline <- function(mleprof, i, ratio) {
+internal.spline <- function(mleprof, i, ratio, nseg) {
       tmp <- mleprof[i][[1]]
       y <- tmp[,1]^2/2
       x <- (tmp[,2][,i])
@@ -67,7 +67,7 @@ internal.spline <- function(mleprof, i, ratio) {
       upper <- c()
       if(!is.null(ratio)){
         l <- length(y)
-        # Finds where the ation crosses the "y = ratio" line
+        # Finds where the interpolation crosses the "y = ratio" line
         change <- (y - ratio)[2:l] * (y - ratio)[1:(l-1)]
         endpoints <- which(change < 0)
         # Adds the borders, if any of them is lower than ratio
@@ -83,28 +83,25 @@ internal.spline <- function(mleprof, i, ratio) {
 }
 
 setGeneric("likelregions", 
-    def=function(object, nseg=20, ratio=log(8), which=NULL, ...) standardGeneric("likelregions")
+    def=function(object, nseg=20, ratio=log(8), ...) standardGeneric("likelregions")
     )
 setMethod("likelregions", "profile.mle2",
 function(object, nseg, ratio, ...){
   mleprof <- object@profile
   npar <- length(mleprof)
-  if(missing(which))
-    which <- 1:npar
+  which <- 1:npar
   out <- list()
-  vname <- names(mleprof)
   for(i in which) {
-    prof <- internal.spline(mleprof, i, ratio)
+    prof <- internal.spline(mleprof, i, ratio, nseg)
     int <- list()
     L <- length(prof$lower) # Is the same as length(prof$upper)
     if(L > 0)
       for (j in 1:L) {
-        # HOW DO I CONCATENATE THIS???
-        int <- c(int, c(prof$lower[j], prof$upper[j]))
+        int[[j]] <- c(prof$lower[j], prof$upper[j])
       }
-    out <- c(out, int)
+    out[[i]] <- int
   }
-  # TODO: varnames and lower/upper names
+  names(out) <- names(mleprof)
   out
 })
 setMethod("likelregions", "mle2",
