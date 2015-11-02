@@ -1,11 +1,22 @@
-0.2.2 (2015-09-23)
-* plotprofmle is now a S4 method with mle2 and profile.mle2 signatures
-* Fixed the way \dots are handled by some of the fitting functions
-* Better starting values for fitting Weibull distributions
+0.2.4 (under development)
+* octavpred now accepts a 'preston' argument (as does 'octav')
+* fixes a bug in fitvolkov under Windows
+* added a friendlier error message when the octavs provided in octavpred do not cover the data
+* deprecated the slot "distr" on fitsad/fitrad objects. Now users should use the `distr` function (see ?distr)
+* fixed signature errors on several methods dealing with the `trunc` parameter
+* now providing the coefficients, fitted, fitted.values, residuals methods on fitsad/fitrad methods
+* providing a summary method for fitsad/fitrad classes that allows for fixed parameters (such as produced by fitls, fitvolkov, etc)
+
+0.2.3 (2015-09-24)
 * fitgeom, fitpoilog and fitnbinom now can get argument trunc=NULL to avoid zero-truncation (the default)
 * fitgeom uses default optimization method from mle2 instead of Brent's method, to avoid some overflow errors for large datasets (e.g. moths)
 * dmzsm and dvolkov now returns zero for any abundance larger than the community size J. Accordingly, pzsm and pvolkov now return 1 for any q>J and lower.tail=TRUE and zero for lower.tail=FALSE.
 * fixes important bugs in AICc
+
+0.2.2 (2015-07-12)
+* plotprofmle is now a S4 method with mle2 and profile.mle2 signatures
+* Fixed the way \dots are handled by some of the fitting functions
+* Better starting values for fitting Weibull distributions
 
 0.2.1 (2015-06-14)
 * Fixed some errors in the documentation
@@ -32,3 +43,4 @@ error handling and large performance gains.
 
 0.1.10 (2014-07-02)
 * Initial release on CRAN.
+

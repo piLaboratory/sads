@@ -1,9 +1,11 @@
 fitvolkov <- function(x, trunc, start.value, ...){
   dots <- list(...)
   if(missing(start.value)){
-	  sink("/dev/null") # as the following function outputs lots of garbage...
-	  start.value = maxLikelihood.ESF(c(5, 0.5), x)$par
+    tmp <- tempfile()
+	  sink(tmp) # as the following function outputs lots of garbage...
+	  start.value <- maxLikelihood.ESF(c(5, 0.5), x)$par
 	  sink()
+    file.remove(tmp) ## as sink("dev/null") does not work in al OS'
   }
   thetahat <- start.value[1]
   mhat <-start.value[2]
@@ -26,5 +28,5 @@ fitvolkov <- function(x, trunc, start.value, ...){
     }
   }
   result <- do.call("mle2", c(list(minuslogl=LL, start = list(theta = thetahat, m = mhat), fixed=list(J=sum(x)), data = list(x = x)), dots))  
-  new("fitsad", result, sad="volkov", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
+  new("fitsad", result, sad="volkov", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc))
 }
