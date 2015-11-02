@@ -76,10 +76,13 @@
     if fitted distribution is truncated.
   }
   \item{oct}{integer vector; the octaves to tabulate abundances, see \link{octav}.
+    If not provided, the \code{octavpred} method will generate an educated guess.
   }
   \item{S}{positive integer; number of species in the sample.
   }
   \item{N}{positive integer; number of individuals in the sample.
+  }
+  \item{preston}{logical. Should Preston original method be used? See \link{octav}.
   }
 }
 
@@ -95,7 +98,8 @@
   octaves and fitting of species abundances distributions.  
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
+\author{Paulo I Prado \email{prado@ib.usp.br}, Murilo Dantas Miranda and
+  Andre Chalom.}
 
 \examples{
 ## Predicted frequencies from a fitted model

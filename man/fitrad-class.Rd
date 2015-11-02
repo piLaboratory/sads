@@ -33,8 +33,7 @@
     \item{\code{rad}:}{Object of class \code{"character"}; root name of
       the species abundance distribution fitted. See man page of
       \code{fitrad} for available models.}
-    \item{\code{distr}:}{Object of class \code{"character"}; type of
-      distribution given in the slot \code{rad}: "D" for discrete or "C" for continuous.}
+    \item{\code{distr}:}{Deprecated since sads 0.2.4. See \code{\link{distr}} function}
     \item{\code{trunc}:}{Object of class \code{"numeric"}; truncation
       value used in the fitted model. 'NA' for a non-truncated
       distribution.}
