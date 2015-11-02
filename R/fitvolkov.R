@@ -1,10 +1,11 @@
 fitvolkov <- function(x, trunc, start.value, ...){
   dots <- list(...)
   if(missing(start.value)){
-	  sink(".tmp") # as the following function outputs lots of garbage...
+    tmp <- tempfile()
+	  sink(tmp) # as the following function outputs lots of garbage...
 	  start.value <- maxLikelihood.ESF(c(5, 0.5), x)$par
 	  sink()
-          file.remove(".tmp") ## as sink("dev/null") does not work in al OS'
+    file.remove(tmp) ## as sink("dev/null") does not work in al OS'
   }
   thetahat <- start.value[1]
   mhat <-start.value[2]
