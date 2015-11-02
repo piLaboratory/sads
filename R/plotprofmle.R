@@ -93,11 +93,15 @@ function(object, nseg, ratio, ...){
   out <- list()
   for(i in which) {
     prof <- internal.spline(mleprof, i, ratio, nseg)
+    xx <- prof$x[2]/2 + prof$x[2]/2 + 1e-12 # "minimum" x
+
     int <- list()
     L <- length(prof$lower) # Is the same as length(prof$upper)
     if(L > 0)
       for (j in 1:L) {
         int[[j]] <- c(prof$lower[j], prof$upper[j])
+        if(int[[j]][1] < xx) int[[j]][1] <- NA
+        if(int[[j]][2] > max(prof$x)) int[[j]][2] <- NA
       }
     out[[i]] <- int
   }
