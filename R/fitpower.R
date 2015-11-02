@@ -16,5 +16,5 @@ fitpower <- function(x, trunc, start.value, upper = 20, ...){
   }
   result <- do.call("mle2", c(list(LL, start = list(s = shat), data = list(x = x), method = "Brent", lower = 1, upper = upper), dots))
   if(abs(as.numeric(result@coef) - upper) < 0.0000001) warning("mle equal to upper bound provided. \n Try value for the 'upper' arguent")
-  new("fitsad", result, sad = "power", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
+  new("fitsad", result, sad = "power", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc))
 }

@@ -133,9 +133,10 @@ bci.exp <- diff( c(0,CDF) ) * length(bci)
 midpoints <- as.numeric( as.character( bci.oct$octave ) ) - 0.5
 lines( midpoints, bci.exp, type="b" )
 
-## the same with octavpred
+## the same with Preston binning using octavpred
+plot(octav( bci, preston = TRUE ))
 bci.exp2 <- octavpred( bci, sad = "volkov",
-                      coef = list(theta = 47.226, m = 0.1, J=sum(bci)) )
+                      coef = list(theta = 47.226, m = 0.1, J=sum(bci)), preston=TRUE)
 lines( bci.exp2 )
 
 }
