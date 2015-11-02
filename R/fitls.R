@@ -24,5 +24,5 @@ fitls <- function(x, trunc, start.value, upper = length(x), ...){
   result <- do.call("mle2", c(list(LL, start = list(alpha = alfa), data = list(x = x), fixed=list(N=N), method = "Brent", lower = 0, upper = upper), dots))
   if(abs(as.numeric(result@coef) - upper) < 0.0000001)
     warning("mle equal to upper bound provided. \n Try new value for the 'upper' argument")
-  new("fitsad", result, sad = "ls", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
+  new("fitsad", result, sad = "ls", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc))
 }

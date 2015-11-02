@@ -28,5 +28,5 @@ fitzipf <- function(x, N, trunc, start.value, upper = 20, ...){
   result <- do.call("mle2", c(list(LL, start = list(s = sss), data = list(x = y), fixed=list(N=N), method = "Brent", lower = 0, upper = upper), dots))
   if(abs(as.numeric(result@coef) - upper) < 0.001)
     warning("mle equal to upper bound provided. \n Try increase value for the 'upper' argument")
-  new("fitrad", result, rad="zipf", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc), rad.tab=rad.tab)
+  new("fitrad", result, rad="zipf", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc), rad.tab=rad.tab)
 }
