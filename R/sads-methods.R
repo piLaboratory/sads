@@ -441,7 +441,9 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
               drad <- get(paste("d",rad,sep=""),mode="function")
               ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
             }
-            Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
+            tryCatch({Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)},
+                     error = function(cond) stop("Octaves do not span the entire range, try using a larger oct argument (maybe negative octaves?)")
+                     )
             res <- data.frame(octave = oct, upper = n, Freq = Y$count)
             if(preston) res <- prestonfy(res, ceiling(ab))
             new("octav", res)
