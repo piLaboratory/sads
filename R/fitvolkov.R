@@ -28,5 +28,5 @@ fitvolkov <- function(x, trunc, start.value, ...){
     }
   }
   result <- do.call("mle2", c(list(minuslogl=LL, start = list(theta = thetahat, m = mhat), fixed=list(J=sum(x)), data = list(x = x)), dots))  
-  new("fitsad", result, sad="volkov", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
+  new("fitsad", result, sad="volkov", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc))
 }

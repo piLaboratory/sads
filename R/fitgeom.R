@@ -15,5 +15,5 @@ fitgeom <- function(x, trunc = 0, start.value, ...){
   }
         ##result <- do.call("mle2", c(list(LL, start = list(prob = phat), data = list(x = x), method = "Brent", lower = 0, upper = 1), dots)) ## Brent method does not converge sometimes.
         result <- do.call("mle2", c(list(LL, start = list(prob = phat), data = list(x = x)), dots))  
-  new("fitsad", result, sad = "geom", distr = "D", trunc = ifelse(is.null(trunc), NaN, trunc))
+  new("fitsad", result, sad = "geom", distr = distr.depr, trunc = ifelse(is.null(trunc), NaN, trunc))
 }

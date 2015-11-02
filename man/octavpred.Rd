@@ -6,8 +6,8 @@
 %\alias{octavpred-methods}
 \alias{octavpred,fitrad,missing,missing,missing,missing,ANY,missing,missing-method}
 \alias{octavpred,fitsad,missing,missing,missing,missing,ANY,missing,missing-method}
-\alias{octavpred,missing,character,missing,list,ANY,numeric,numeric,numeric-method}
-\alias{octavpred,missing,missing,character,list,ANY,numeric,numeric,numeric-method}
+\alias{octavpred,missing,character,missing,list,ANY,ANY,numeric,numeric-method}
+\alias{octavpred,missing,missing,character,list,ANY,ANY,numeric,numeric-method}
 \alias{octavpred,numeric,character,missing,list,ANY,ANY,missing,missing-method}
 \alias{octavpred,numeric,missing,character,list,ANY,ANY,missing,missing-method}
 
@@ -34,13 +34,13 @@
       \code{fitsad}.
     }
     \item{\code{signature(object = "missing", sad = "character", rad =
-	"missing", coef = "list", trunc = "ANY", oct = "numeric", S = "numeric",
+	"missing", coef = "list", trunc = "ANY", oct = "ANY", S = "numeric",
 	N = "numeric")}}{number of species in each octave predicted from an
       abundance distribution named by \code{sad} with parameters
       defined in \code{coef}. 
     }
     \item{\code{signature(object = "numeric", sad = "character", rad =
-	"missing", coef = "list", trunc = "ANY", oct = "numeric", S = "missing",
+	"missing", coef = "list", trunc = "ANY", oct = "ANY", S = "missing",
 	N = "missing")}}{same as previous method, but with \code{S} and
       \code{N} taken from a vector of abundances given by \code{object}.
     }
@@ -76,6 +76,7 @@
     if fitted distribution is truncated.
   }
   \item{oct}{integer vector; the octaves to tabulate abundances, see \link{octav}.
+    If not provided, the \code{octavpred} method will generate an educated guess.
   }
   \item{S}{positive integer; number of species in the sample.
   }

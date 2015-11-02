@@ -42,5 +42,5 @@ fitgamma <- function(x, trunc, start.value, ...){
       LL <- function(shape, rate) -sum(dtrunc("gamma", x = x, coef = list(shape = shape, rate = rate), trunc = trunc, log = TRUE))
   }  
   result <- do.call("mle2", c(list(LL, start = list(shape = ka, rate = 1/theta), data = list(x = x)), dots))
-  new("fitsad", result, sad="gamma", distr = "C", trunc = ifelse(missing(trunc), NaN, trunc)) 
+  new("fitsad", result, sad="gamma", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc)) 
 }

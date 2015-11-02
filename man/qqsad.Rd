@@ -9,7 +9,7 @@
 %% \alias{qqsad,fitsad,missing,missing,missing,missing-method}
 \alias{qqsad,integer-method}
 \alias{qqsad,numeric-method}
-\alias{qqsad,numeric,character,list,ANY,character-method}
+\alias{qqsad,numeric,character,list,ANY,ANY-method}
 %% \alias{qqrad-methods}
 \alias{qqrad,fitrad-method}
 \alias{qqrad,fitrad,missing,missing,missing-method}
@@ -41,7 +41,7 @@
       \code{\link{fitsad-class}} object). Only argument \code{x} should be provided
     }
     \item{qqsad}{\code{signature(x = "numeric", sad = "character", coef =
-	"list", trunc = "ANY", distr = "character", plot="ANY", line="ANY")}:
+	"list", trunc = "ANY", distr = "ANY", plot="ANY", line="ANY")}:
       quantile-quantile plot of a numeric vector of abundances (\code{x}) vs a species
       abundance distributions defined by the following arguments.
     }
@@ -91,10 +91,7 @@ line=TRUE, \dots)
   \item{trunc}{non-negative integer, \code{trunc > min(x)}; truncation point to fit a
     truncated distribution.
   }
-  \item{distr}{
-    character; type of distribution given in \code{sad}: "D" for
-    discrete or "C" for continuous.
-  }
+  \item{distr}{Deprecated since sads 0.2.4. See \code{\link{distr}} function}
   \item{plot}{
     logical; if \kbd{TRUE} a percentile-percentile plot is produced. If not,
     only a data frame with theoretical and empirical values for percentiles of
@@ -126,9 +123,9 @@ moths.ln <- fitsad(moths,"lnorm", trunc=0.5)
 ## Plots with the model object and with abundance vector 
 par(mfrow=c(2,2))
 qqsad(moths.ls)
-qqsad(moths, sad="ls", coef=as.list(coef(moths.ls)), distr="D")
+qqsad(moths, sad="ls", coef=as.list(coef(moths.ls)))
 qqsad(moths.ln)
-qqsad(moths, sad="lnorm", coef=as.list(coef(moths.ln)), trunc=0.5, distr="C")
+qqsad(moths, sad="lnorm", coef=as.list(coef(moths.ln)), trunc=0.5)
 par(mfrow=c(1,1))
 
 ## An example with RADs
