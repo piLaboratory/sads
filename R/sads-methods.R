@@ -233,6 +233,37 @@ showmle2 <- function(object) {
 setMethod("show", "fitsad", function(object){showmle2(object)})
 setMethod("show", "fitrad", function(object){showmle2(object)})
 
+#### summary class dealing with fixed parameters (such as fitls, fitvolkov, etc)
+#' @rdname summary.sads-class
+#' @param object An object of class fitsad/fitrad is required to generate a summary.sads object.
+setMethod("show", "summary.sads", function(object){
+          cat("Maximum likelihood estimation\n\nCall:\n")
+          print(object@call)
+          cat("\nCoefficients:\n")
+          printCoefmat(object@coef)
+          if (length(object@fixed) > 0) {
+            cat("\nFixed parameters:\n")
+            print(object@fixed)
+          }
+          cat("\n-2 log L:", object@m2logL, "\n")
+          })
+sumle2 <- function(object, ...){
+  cmat <- cbind(Estimate = object@coef,
+                `Std. Error` = sqrt(diag(object@vcov)))
+  zval <- cmat[,"Estimate"]/cmat[,"Std. Error"]
+  pval <- 2*pnorm(-abs(zval))
+  coefmat <- cbind(cmat,"z value"=zval,"Pr(z)"=pval)
+  m2logL <- 2*object@min
+  fixed <- numeric()
+  if (! all(object@fullcoef %in% object@coef))
+    fixed <- object@fullcoef [! object@fullcoef %in% object@coef]
+  new("summary.sads", call=object@call.orig, coef=coefmat, fixed=fixed, m2logL= m2logL)
+}
+#' @rdname summary.sads-class
+setMethod("summary", "fitsad", function(object){sumle2(object)})
+#' @rdname summary.sads-class
+setMethod("summary", "fitrad", function(object){sumle2(object)})
+
 ## radpred generic functions and methods ###
 setGeneric("radpred",
 def = function(object, sad, rad, coef, trunc , distr=NA, S, N) standardGeneric("radpred")
