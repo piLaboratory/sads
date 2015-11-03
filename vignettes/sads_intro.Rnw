@@ -367,7 +367,7 @@ sample with zeroes omitted:
               meanlog=5, sdlog=2))
 @ 
 
-Once this is a Poisson sample of a lognormal community, the abundances
+Since this is a Poisson sample of a lognormal community, the abundances
 in the sample should follow a Poisson-lognormal distribution with
 parameters $\mu + \log a $ and $\sigma$
 \citep{grotan2008}. We can check this by fitting a Poisson-lognormal

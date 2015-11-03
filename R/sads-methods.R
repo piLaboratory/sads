@@ -233,6 +233,37 @@ showmle2 <- function(object) {
 setMethod("show", "fitsad", function(object){showmle2(object)})
 setMethod("show", "fitrad", function(object){showmle2(object)})
 
+#### summary class dealing with fixed parameters (such as fitls, fitvolkov, etc)
+#' @rdname summary.sads-class
+#' @param object An object of class fitsad/fitrad is required to generate a summary.sads object.
+setMethod("show", "summary.sads", function(object){
+          cat("Maximum likelihood estimation\n\nCall:\n")
+          print(object@call)
+          cat("\nCoefficients:\n")
+          printCoefmat(object@coef)
+          if (length(object@fixed) > 0) {
+            cat("\nFixed parameters:\n")
+            print(object@fixed)
+          }
+          cat("\n-2 log L:", object@m2logL, "\n")
+          })
+sumle2 <- function(object, ...){
+  cmat <- cbind(Estimate = object@coef,
+                `Std. Error` = sqrt(diag(object@vcov)))
+  zval <- cmat[,"Estimate"]/cmat[,"Std. Error"]
+  pval <- 2*pnorm(-abs(zval))
+  coefmat <- cbind(cmat,"z value"=zval,"Pr(z)"=pval)
+  m2logL <- 2*object@min
+  fixed <- numeric()
+  if (! all(object@fullcoef %in% object@coef))
+    fixed <- object@fullcoef [! object@fullcoef %in% object@coef]
+  new("summary.sads", call=object@call.orig, coef=coefmat, fixed=fixed, m2logL= m2logL)
+}
+#' @rdname summary.sads-class
+setMethod("summary", "fitsad", function(object){sumle2(object)})
+#' @rdname summary.sads-class
+setMethod("summary", "fitrad", function(object){sumle2(object)})
+
 ## radpred generic functions and methods ###
 setGeneric("radpred",
 def = function(object, sad, rad, coef, trunc , distr=NA, S, N) standardGeneric("radpred")
@@ -441,7 +472,9 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
               drad <- get(paste("d",rad,sep=""),mode="function")
               ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
             }
-            Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
+            tryCatch({Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)},
+                     error = function(cond) stop("Octaves do not span the entire range, try using a larger oct argument (maybe negative octaves?)")
+                     )
             res <- data.frame(octave = oct, upper = n, Freq = Y$count)
             if(preston) res <- prestonfy(res, ceiling(ab))
             new("octav", res)
@@ -680,3 +713,59 @@ setMethod("pprad",
               pprad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
           }
           )
+
+### Providing standard stats methods
+#' Standard stats methods
+#' 
+#' Provide the standard interface for fitted objects
+#' 
+#' These methods are provided to allow for standard manipulation of \code{\link{fitsad}}
+#' and \code{\link{fitrad}} objects using the generic methods defined in the "stats" package.
+#' Please see the original man pages for each method.
+#' 
+#' \code{coefficients} is an alias to \code{\link[stats]{coef}} (implemented in package "bbmle").
+#' 
+#' \code{fitted} and \code{fitted.values} provide an alternative interface to \code{\link{radpred}};
+#' these are also used to calcutate \code{residuals}.
+#' 
+#' Notice that radpred is a preferred interface for most calculations, specially if there are several
+#' ties.
+#' 
+#' @param object An object from class fitsad or fitrad
+#' @param \dots Other arguments to be forwarded for the lower level function
+#' @rdname stats
+setMethod("coefficients", signature(object="fitsad"),
+          function(object, ...) bbmle::coef(object, ...))
+#' @rdname stats
+setMethod("coefficients", signature(object="fitrad"),
+          function(object, ...) bbmle::coef(object, ...))
+#' @rdname stats
+setMethod("fitted.values", signature(object="fitsad"),
+          function(object, ...) fitted(object, ...))
+#' @rdname stats
+setMethod("fitted.values", signature(object="fitrad"),
+          function(object, ...) fitted(object, ...))
+#' @rdname stats
+setMethod("fitted", signature(object="fitsad"),
+          function(object, ...) {
+            rad <- radpred(object)$abund
+            rad <- rad[rev(order(object@data$x))]
+            names(rad) <- as.character(1:length(rad))
+            return(rad)
+          }
+          )
+#' @rdname stats
+setMethod("fitted", signature(object="fitrad"),
+          function(object, ...) {
+            rad <- radpred(object)$abund
+            rad <- rad[order(object@rad.tab$abund)]
+            names(rad) <- as.character(1:length(rad))
+            return(rad)
+          }
+          )
+#' @rdname stats
+setMethod("residuals", signature(object="fitsad"),
+          function(object, ...) object@data$x - fitted(object, ...))
+#' @rdname stats
+setMethod("residuals", signature(object="fitrad"),
+          function(object, ...) object@rad.tab$abund - fitted(object, ...))

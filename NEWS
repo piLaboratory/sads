@@ -1,3 +1,12 @@
+0.2.4 (2015-11-02)
+* octavpred now accepts a 'preston' argument (as does 'octav')
+* fixes a bug in fitvolkov under Windows
+* added a friendlier error message when the octavs provided in octavpred do not cover the data
+* deprecated the slot "distr" on fitsad/fitrad objects. Now users should use the `distr` function (see ?distr)
+* fixed signature errors on several methods dealing with the `trunc` parameter
+* now providing the coefficients, fitted, fitted.values, residuals methods on fitsad/fitrad methods
+* providing a summary method for fitsad/fitrad classes that allows for fixed parameters (such as produced by fitls, fitvolkov, etc)
+
 0.2.3 (2015-09-24)
 * fitgeom, fitpoilog and fitnbinom now can get argument trunc=NULL to avoid zero-truncation (the default)
 * fitgeom uses default optimization method from mle2 instead of Brent's method, to avoid some overflow errors for large datasets (e.g. moths)
@@ -34,3 +43,4 @@ error handling and large performance gains.
 
 0.1.10 (2014-07-02)
 * Initial release on CRAN.
+

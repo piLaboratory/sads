@@ -16,8 +16,8 @@
   \tabular{ll}{
     Package: \tab sads\cr
     Type: \tab Package\cr
-    Version: \tab 0.2.3\cr
-    Date: \tab 2015-09-24\cr
+    Version: \tab 0.2.4\cr
+    Date: \tab 2015-11-02\cr
     License: \tab gpl \cr
     LazyLoad: \tab yes\cr
   }
