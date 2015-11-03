@@ -1,4 +1,4 @@
-0.2.4 (under development)
+0.2.4 (2015-11-02)
 * octavpred now accepts a 'preston' argument (as does 'octav')
 * fixes a bug in fitvolkov under Windows
 * added a friendlier error message when the octavs provided in octavpred do not cover the data
