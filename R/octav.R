@@ -1,8 +1,12 @@
 octav <- function(x, oct, preston=FALSE){
-  if(is(x, "fitsad"))
+  if(is(x, "fitsad")) {
     y <- x@data$x
-  else if(is(x,"fitrad"))
+    y <- y[y>0]
+  }
+  else if(is(x,"fitrad")) {
     y <- x@rad.tab$abund
+    y <- y[y>0]
+  }
   else if(is(x,"numeric"))
     y <- x[x>0]
   if(missing(oct)){
