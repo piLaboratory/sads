@@ -1,4 +1,4 @@
-drad <- function(f, x, log = FALSE, coef, trunc) {
+drad <- function(f, x, log = FALSE, coef, trunc = NaN) {
   rad.tab <- rad(x)
   y <- rep(rad.tab$rank, rad.tab$abund)
   p <- ppoints(length(x))
@@ -14,6 +14,9 @@ drad <- function(f, x, log = FALSE, coef, trunc) {
   else 
     num / sum(den)
 }
+
+drad_lnorm <- function(x, meanlog, sdlog, log = FALSE) drad("lnorm", x, log, list(meanlog=meanlog, sdlog=sdlog))
+drad_ls <- function(x, N, alpha, log = FALSE) drad("ls", x, log, list(N=N, alpha=alpha))
 
 prad <- function () {}
 
@@ -36,7 +39,7 @@ as.fitrad <- function(object) {
     result <- do.call("mle2", list(LL, eval.only=TRUE, start=list(N=object@fullcoef[1], alpha=object@fullcoef[2])))
   } else stop ("this distribution has not been implemented yet")
 
-  return(result)
+  new("fitrad", result, rad=paste0("rad_", object@sad), distr = distr.depr, trunc = object@trunc, rad.tab=rad(object@data$x))
 }
 
 #fitmand <- function(x, trunc, start.value, ...){
