@@ -4,10 +4,11 @@ drad <- function(f, x, log = FALSE, coef, trunc = NaN) {
   p <- ppoints(length(x))
   if (is.nan(trunc)) {
     qf <- get(paste("q", f, sep=""), mode = "function")
-    num <- do.call(qf, c(list(p=p[y], log=FALSE, lower.tail=FALSE), coef))
-    den <- do.call(qf, c(list(p=p, log=FALSE), coef))
+    den <- do.call(qf, c(list(p=p, log=FALSE, lower.tail=FALSE), coef))
+    num <- den[y]
   } else {
     ####### TODO
+    stop("truncated distributions not implemented")
   }
   if (log) 
     log(num) - log(sum(den))
@@ -33,10 +34,10 @@ as.fitrad <- function(object) {
   if(!is.nan(object@trunc)) stop("truncated objects are not allowed in this version")
   if (object@sad == "lnorm") {
     LL <- function(meanlog, sdlog) -sum(drad(object@sad, object@data$x, log=TRUE, list(meanlog=meanlog, sdlog=sdlog), NaN))
-    result <- do.call("mle2", list(LL, eval.only=TRUE, start=list(meanlog=object@coef[1], sdlog=object@coef[2])))
+    result <- do.call("mle2", list(LL, start=list(meanlog=object@coef[1], sdlog=object@coef[2])))
   } else if(object@sad == "ls") {
     LL <- function(N, alpha) -sum(drad(object@sad, object@data$x, log=TRUE, list(N=N, alpha=alpha), NaN))
-    result <- do.call("mle2", list(LL, eval.only=TRUE, start=list(N=object@fullcoef[1], alpha=object@fullcoef[2])))
+    result <- do.call("mle2", list(LL, start=list(N=object@fullcoef[1], alpha=object@fullcoef[2])))
   } else stop ("this distribution has not been implemented yet")
 
   new("fitrad", result, rad=paste0("rad_", object@sad), distr = distr.depr, trunc = object@trunc, rad.tab=rad(object@data$x))
