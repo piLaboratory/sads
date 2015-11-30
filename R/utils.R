@@ -10,13 +10,13 @@ qfinder <- function(dist, want, coef, init = 0) {
 	# "phase 0": are the params invalid? is "init" overshooting? Is q = Inf?
 	if (want < 0) return (0);
   if (want >= 0.999999999999999999) return (Inf); 
-	q0 <- do.call(dist, c(x=init, coef))
+	q0 <- sum(do.call(dist, c(list(x=0:init), coef)))
 	if (is.nan(q0)) return (NaN);
 	if (q0 >= want) return (init);
 	# phase 1: double the guess until you overshoot
   step <- 1
-	guess <- init+1
-	last <- init
+	guess <- init+2
+	last <- init+1
   cum <- q0
 	repeat {
 		my.q <- do.call(dist, c(list(x=last:guess), coef))
