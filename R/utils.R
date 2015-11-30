@@ -31,7 +31,7 @@ qfinder <- function(dist, want, coef, init = 0) {
 	}
 	# Phase 2: exhaustive examine last interval
   my.sq <- cum + cumsum(my.q)
-  add <- which(my.sq <= want)
+  add <- which(my.sq < want)
   if (length(add)) last <- last + max(add)
   return(last)
 }

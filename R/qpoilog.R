@@ -1,8 +1,13 @@
 qpoilog<-function(p, mu, sig, lower.tail = TRUE, log.p = FALSE){
+  if(any(p != sort(p))) stop("p vector should be in ascending order")
+  if(length(mu) > 1 | length(sig) > 1) stop("Vectorization not implemented for the parameters")
 	if (log.p) p <- exp(p)
 	if(!lower.tail) p <- 1 - p
-	q <- function(p) suppressWarnings(qfinder("poilog", p, list(mu=mu, sig=sig)))
-	y <- sapply(p, q)
+  y <- c()
+  y[1] <- suppressWarnings(qfinder(dpoilog, p[1], list(mu=mu, sig=sig), 0))
+  if(length(p) > 1)
+    for (i in 2:length(p))
+      y[i] <- suppressWarnings(qfinder(dpoilog, p[i], list(mu=mu, sig=sig), y[i-1]))
 	if(any(is.nan(y))) warning("NaNs produced")
 	return(y)
 }
