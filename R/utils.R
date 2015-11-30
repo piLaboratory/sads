@@ -44,16 +44,16 @@ qfinder <- function(dist, want, coef) {
 # coherence with [dpqr] functions and
 # padding with 0 for 1-based distributions
 # such as gs
-cumsumW <- function(f, q, coef, lower.tail, log.p, pad) {
-	if (any(sapply(coef, length) > 1)) stop("Vectorization not implemented for the parameters")
-	dist <- get(paste("d", f, sep=""), mode="function")
+cumsumW <- function(dist, q, coef, lower.tail, log.p, pad) {
+#	if (any(sapply(coef, length) > 1)) stop("Vectorization not implemented for the parameters")
+#	dist <- get(paste("d", f, sep=""), mode="function")
 	if (pad)
 		z <- c(0, cumsum(do.call(dist, c(list(x=1:max(q)), coef))))
 	else
 		z <- cumsum(do.call(dist, c(list(x=0:max(q)), coef)))
 	y <- z[q+1]
-	if (any(!is.wholenumber(q))) warning("non integer values in q")
-	y[! is.wholenumber(q) ] <- 0
+#	if (any(!is.wholenumber(q))) warning("non integer values in q")
+#	y[! is.wholenumber(q) ] <- 0
 	if(!lower.tail) y <- 1-y
 	if(log.p) y <- log(y)
 	y[is.na(y)] <- NaN
