@@ -6,14 +6,14 @@ fitpowbend <- function(x, trunc, start.value, ...){
   if (missing(start.value)){
     gamahat <- function(ga, xvec) eq <- -sum(log(xvec)) - zeta(ga, deriv =1)*length(xvec)/zeta(ga)
     shat <- uniroot(gamahat, interval=c(1.01, 20), xvec = x)$root
-	omegahat <- 0.5
+	omegahat <- 0.01
   } else{
     shat <- start.value[1]
     omegahat <- start.value[2]
   }
   if(!"method" %in% names(dots)){
     dots$method <- "L-BFGS-B"
-    if(!"lower" %in% names(dots)) dots$lower=c(s=1.001, omega=0.000001)
+    if(!"lower" %in% names(dots)) dots$lower=c(s=1.001, omega=0)
     if(!"upper" %in% names(dots)) dots$upper=c(s=2.999, omega=0.3)
   }
   if (missing(trunc)){

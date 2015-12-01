@@ -15,5 +15,5 @@ fitgs <- function(x, trunc, ...){
     LL <- function(S, k) -sum(dgs(y, k, S, log = TRUE))
   }
   result <- do.call("mle2", c(list(LL, start = list(k=0.01), data = list(x = y), fixed=list(S=S), method = "Brent", lower = 1e-16, upper = 1-1e-16), dots))
-  new("fitrad", result, rad = "gs", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc), rad.tab=rad.tab)
+  new("fitrad", result, rad = "gs", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc), rad.tab=rad.tab)
 }

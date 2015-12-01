@@ -20,5 +20,5 @@ fitweibull <- function(x, trunc, start.value, ...){
     LL <- function(shape, scale) -sum(dtrunc("weibull", x = x, coef = list(shape, scale), trunc = trunc, log = TRUE))
   }  
   result <- do.call("mle2", c(list(LL, start = list(shape = ka, scale = theta), data = list(x = x)), dots))
-  new("fitsad", result, sad="weibull", distr = "C", trunc = ifelse(missing(trunc), NaN, trunc)) 
+  new("fitsad", result, sad="weibull", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc)) 
 }

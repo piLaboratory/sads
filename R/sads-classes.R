@@ -21,4 +21,15 @@ setClass("rad", representation("data.frame"), validity = function(object) {
 
 setClass("fitsad", representation("mle2", sad="character", distr="character", trunc="numeric"))
 setClass("fitrad", representation("mle2", rad="character", distr="character", trunc="numeric", rad.tab="rad"))
-#setClass("fitsadlist", representation("list"))
+
+distr.depr <- "The 'distr' slot of fitrad and fitsad objects have been deprecated. Please see ?distr"
+
+#' Summary for fitsad/fitrad calls
+#' 
+#' This function works almost exactly as bbmle's summary.mle2, but it includes a "fixed parameters" 
+#' line for models with fixed parameters, such as \code{\link{fitls}} or \code{fitvolkov}.
+#' NOTICE that the summary.mle2 is redefined in this package, as this class is not exported by bbmle.
+#' @rdname summary.sads-class
+setClass("summary.mle2", representation(call = "language", coef = "matrix",m2logL = "numeric", fixed="numeric"))
+#' @rdname summary.sads-class
+setClass("summary.sads", representation("summary.mle2", fixed="numeric"))
