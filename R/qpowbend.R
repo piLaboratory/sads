@@ -1,4 +1,4 @@
-qpowbend<-function(p, s, omega = 0.1, oM = -log(omega), lower.tail = TRUE, log.p = FALSE){
+qpowbend<-function(p, s, omega = 0.01, oM = -log(omega), lower.tail = TRUE, log.p = FALSE){
   if (!missing(omega) && !missing(oM)) 
     stop("specify 'omega' or 'oM' but not both")
 	if (log.p) p <- exp(p)
