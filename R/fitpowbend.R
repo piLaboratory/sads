@@ -6,21 +6,21 @@ fitpowbend <- function(x, trunc, start.value, ...){
   if (missing(start.value)){
     gamahat <- function(ga, xvec) eq <- -sum(log(xvec)) - zeta(ga, deriv =1)*length(xvec)/zeta(ga)
     shat <- uniroot(gamahat, interval=c(1.01, 20), xvec = x)$root
-	omegahat <- 0.01
+	oMhat <- 3
   } else{
     shat <- start.value[1]
-    omegahat <- start.value[2]
+    oMhat <- start.value[2]
   }
   if(!"method" %in% names(dots)){
     dots$method <- "L-BFGS-B"
-    if(!"lower" %in% names(dots)) dots$lower=c(s=1.001, omega=0)
-    if(!"upper" %in% names(dots)) dots$upper=c(s=2.999, omega=0.3)
+    if(!"lower" %in% names(dots)) dots$lower=c(s=0.1, oM=1)
+    if(!"upper" %in% names(dots)) dots$upper=c(s=2.999, oM=16)
   }
   if (missing(trunc)){
-    LL <- function(s, omega) -sum(dpowbend(x, s, omega, log = TRUE))
+    LL <- function(s, oM) -sum(dpowbend(x, s=s, oM =oM, log = TRUE))
   } else{
-    LL <- function(s, omega) -sum(dtrunc("powbend", x = x, coef = list(s=s, omega=omega), trunc = trunc, log = TRUE))
+    LL <- function(s, oM) -sum(dtrunc("powbend", x = x, coef = list(s=s, oM=oM), trunc = trunc, log = TRUE))
   }
-  result <- do.call("mle2", c(list(LL, start = list(s = shat, omega=omegahat), data = list(x = x)), dots))
-  new("fitsad", result, sad = "powbend", distr = "D", trunc = ifelse(missing(trunc), NaN, trunc))
+  result <- do.call("mle2", c(list(LL, start = list(s = shat, oM=oMhat), data = list(x = x)), dots))
+  new("fitsad", result, sad = "powbend", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc))
 }

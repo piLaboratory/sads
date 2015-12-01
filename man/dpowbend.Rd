@@ -12,9 +12,9 @@ version of Pueyo's power-bend distribution with parameters \code{s} and \code{om
 }
 
 \usage{
-dpowbend( x, s, omega, log=FALSE)
-ppowbend ( q, s, omega, lower.tail=TRUE, log.p=FALSE)
-qpowbend( p, s, omega, lower.tail= TRUE, log.p=FALSE)
+dpowbend( x, s, omega = 0.01, oM = -log(omega), log=FALSE)
+ppowbend ( q, s, omega = 0.01, oM = -log(omega), lower.tail=TRUE, log.p=FALSE)
+qpowbend( p, s, omega = 0.01, oM = -log(omega), lower.tail= TRUE, log.p=FALSE)
 }
 
 \arguments{
@@ -36,6 +36,11 @@ qpowbend( p, s, omega, lower.tail= TRUE, log.p=FALSE)
   \item{omega}{
 	positive real greater than 0; bending parameter of the distribution. 
 	The current implementation only accepts omega smaller than 5.
+  }
+  \item{oM}{
+  real number; alternative parametrization which is used for faster fitting on the 
+  \code{\link{fitpowbend}} function. The current implementation only accepts oM
+  greater than approximately -1.5. You can specify either 'omega' or 'oM', but not both.
   }
   \item{log, log.p}{
     logical; if TRUE, probabilities p are given as log(p).
@@ -122,7 +127,7 @@ alpha <- 5
 X <- N/(N+alpha)
 omega <- -log(X)
 PDF1 <- dls(x, N, alpha)
-PDF2 <- dpowbend(x, s=1.000001, omega)
+PDF2 <- dpowbend(x, s=1, omega)
 plot(PDF1,PDF2, log="xy")
 abline(0,1, col="blue")
 }
