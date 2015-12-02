@@ -5,8 +5,6 @@ is.wholenumber	<-function(x, tol = .Machine$double.eps^0.5){
 # bissection algorith for finding the quantile of a *discrete*
 # and *unbounded* probability distribution function
 qfinder <- function(dist, want, coef, init = 0) {
-#	if (any(sapply(coef, length) > 1)) stop("Vectorization not implemented for the parameters")
-#	f <- get(paste("d",dist, sep=""), mode="function")
 	# "phase 0": are the params invalid? is "init" overshooting? Is q = Inf?
 	if (want < 0) return (0);
   if (want >= 0.999999999999999999) return (Inf); 
@@ -31,7 +29,7 @@ qfinder <- function(dist, want, coef, init = 0) {
 	}
 	# Phase 2: exhaustive examine last interval
   my.sq <- cum + cumsum(my.q)
-  add <- which(my.sq < want)
+  add <- which(my.sq < want - .Machine$double.eps)
   if (length(add)) last <- last + max(add)
   return(last)
 }
