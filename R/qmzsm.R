@@ -1,5 +1,6 @@
 qmzsm<-function(p, J, theta, lower.tail = TRUE, log.p = FALSE){
-  if(any(p != sort(p))) stop("p vector should be in ascending order")
+  op <- rank(p, ties.method="max")
+  p <- sort(p)
   if(length(J) > 1 | length(theta) > 1) stop("Vectorization not implemented for the parameters")
 	if (log.p) p <- exp(p)
 	if(!lower.tail) p <- 1 - p
@@ -9,5 +10,5 @@ qmzsm<-function(p, J, theta, lower.tail = TRUE, log.p = FALSE){
     for (i in 2:length(p))
       y[i] <- suppressWarnings(qfinder(dmzsm, p[i], list(J=J, theta=theta), y[i-1]))
 	if(any(is.nan(y))) warning("NaNs produced")
-	return(y)
+	return(y[op])
 }
