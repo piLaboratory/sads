@@ -10,7 +10,7 @@
 }
 
 \usage{
-rsad(S, frac, sad, Pois.samp = TRUE, k , zeroes = FALSE, ssize=1, \dots)
+rsad(S, frac, sad, trunc = NaN, Pois.samp = TRUE, k , zeroes = FALSE, ssize=1, \dots)
 }
 
 \arguments{
@@ -24,12 +24,11 @@ rsad(S, frac, sad, Pois.samp = TRUE, k , zeroes = FALSE, ssize=1, \dots)
   \item{sad}{
     character; root name of community sad distribution - e.g., \kbd{lnorm}
     for the lognormal distribution \code{rlnorm}; \kbd{geom} for the geometric distribution
-	\code{rgeom}.
-	Note that at the present moment only the following distributions used in fitsad have 
-	random generators implemented:
-	\kbd{gamma}, \kbd{geom}, \kbd{lnorm}, \kbd{rnbinom}, \kbd{rpoilog}, \kbd{rweibull},
-	however you can use any base name for which a random sample generating function is available.
+	\code{rgeom} or \kbd{ls} for \code{\link{ls}}.
   }  
+  \item{trunc}{
+    The truncation point at which the random distribution should be truncated; see \code{\link{rtrunc}}.
+  }
   \item{Pois.samp}{
     logical; if \kbd{TRUE} the sampling process is Poisson (independent sampling of
     individuals); if \kbd{FALSE} negative binomial

@@ -1,22 +1,26 @@
-rsad <- function(S, frac, sad, Pois.samp=TRUE, k, zeroes=FALSE, ssize=1, ...){
-    if(ssize<1)stop("ssize must be at least one")
-	sad <- get (paste("r", sad, sep=""), mode = "function")
-    dots <- list(...)
+rsad <- function(S, frac, sad, trunc=NaN, Pois.samp=TRUE, k, zeroes=FALSE, ssize=1, ...){
+  dots <- list(...)
+  if (!Pois.samp & missing(k)) stop("For negative binomial sampling please provide a value for k")
+  if (ssize<1) stop("ssize must be at least one")
+  if(is.nan(trunc)) {
+    sad <- get (paste("r", sad, sep=""), mode = "function")
     com <- do.call(sad,c(list(n=S),dots))
-    if(Pois.samp) sam=rpois(S*ssize,lambda=frac*com)
-    else {
-        if(missing(k))stop("For negative binomial sampling please provide a value for k")
-        else sam <- rnbinom(S*ssize,mu=frac*com,size=k)
-    }
-    if(ssize>1){
-        y <- data.frame(sample=rep(1:ssize,each=S), species=rep(1:S,ssize), abundance=sam)
-        if(!zeroes) y <- y[y$abundance>0,]
-    }
-    else {
-        y <- sam
-        if(!zeroes) y <- y[y>0]
-    }
-    return(y)
+  } else {
+    com <- rtrunc(sad, n=S, trunc=trunc, coef=dots)
+  }
+
+  if(Pois.samp) sam=rpois(S*ssize,lambda=frac*com)
+  else sam <- rnbinom(S*ssize,mu=frac*com,size=k)
+
+  if(ssize>1){
+    y <- data.frame(sample=rep(1:ssize,each=S), species=rep(1:S,ssize), abundance=sam)
+    if(!zeroes) y <- y[y$abundance>0,]
+  }
+  else {
+    y <- sam
+    if(!zeroes) y <- y[y>0]
+  }
+  return(y)
 }
 
 ### Random number generation from the sads implemented in this package
