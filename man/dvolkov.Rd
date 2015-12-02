@@ -3,10 +3,11 @@
 \alias{dvolkov}
 \alias{pvolkov}
 \alias{qvolkov}
+\alias{rvolkov}
 
 \title{Neutral Biodiversity Theory distribution by Volkov \emph{et al.} }
 
-\description{Density, distribution function and quantile function
+\description{Density, distribution function, quantile function and random generation
   for species abundances distribution in a neutral community with
   immigration as deduced by Volkov et al. (2003).
 }
@@ -15,6 +16,7 @@
 dvolkov( x, theta, m, J, order=96, log = FALSE )
 pvolkov( q, theta, m , J, lower.tail = TRUE, log.p = FALSE )
 qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
+rvolkov( n, theta, m, J)
 }
 
 \arguments{
@@ -28,6 +30,7 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
   \item{q}{vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, a vector of abundance of species in a sample.
   }
+  \item{n}{number of observations.}
   \item{p}{
     vector of probabilities.
   }
