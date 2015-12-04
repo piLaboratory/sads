@@ -275,7 +275,7 @@ fitweibull(x, trunc, start.value,  \dots)
   \emph{Ecology 29}: 254--283.
 
   Pueyo, S. (2006) \emph{Diversity: Between neutrality and structure},
-  OIKOS 112: 392-405.
+  Oikos 112: 392-405.
 
   Rinne, H. 2009. \emph{The Weibull distribution: a handbook}. CRC Press
 

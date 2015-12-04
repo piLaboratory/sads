@@ -70,8 +70,9 @@ qpowbend( p, s, omega = 0.01, oM = -log(omega), lower.tail= TRUE, log.p=FALSE)
   This distribution was proposed by S. Pueyo to describe species
   abundance distributions (sads) as a generalization of the
   logseries distribution. Fisher's logseries correspond to the
-  power-bend with parameters s=1 and omega = -log(X).
-  (X = N/(N + alpha) where N is sample size or total number of individuals and alpha is the
+  power-bend with parameters s=1 and
+  \eqn{\omega = - \log(\frac{N}{N + \alpha})}{omega = -log(N/(N + alpha))}
+  where N is sample size or total number of individuals and \eqn{alpha}{\alpha} is the
   Fisher's alpha parameter of the logseries.
 
   When fitted to sads, power-law distributions usually overestimates the abundance of common
@@ -91,7 +92,7 @@ qpowbend( p, s, omega = 0.01, oM = -log(omega), lower.tail= TRUE, log.p=FALSE)
 
 \references{
   Pueyo, S. (2006) \emph{Diversity: Between neutrality and structure},
-  OIKOS 112: 392-405. 
+  Oikos 112: 392-405. 
 }
 
 \author{Paulo I Prado \email{prado@ib.usp.br} and Andre Chalom.}
@@ -109,9 +110,9 @@ PDF <- dpowbend(x=x, s=2.1, omega=0.5)
 CDF <- ppowbend(q=x, s=2.1, omega=0.5)
 par(mfrow=c(1,2))
 plot(x,CDF, ylab="Cumulative Probability", type="b",
-     main="Power distribution, CDF")
+     main="Powerbend distribution, CDF")
 plot(x,PDF, ylab="Probability", type="h",
-     main="Power distribution, PDF")
+     main="Powerbend distribution, PDF")
 par(mfrow=c(1,1))
 
 ## The powbend distribution is a discrete PDF, hence:
