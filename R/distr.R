@@ -15,7 +15,7 @@ distr <- function(distribution) {
   if (class(distribution)!="character") stop("Distribution must be from class character")
   if (distribution %in% c("bs", "lnorm", "gamma", "pareto", "weibull"))
     return("continuous")
-  if (distribution %in% c("gs", "geom", "rbs", "power", "poilog", "nbinom", "mzsm", "mand", 
+  if (distribution %in% c("gs", "geom", "rbs", "power", "powbend", "poilog", "nbinom", "mzsm", "mand", 
                           "ls", "volkov", "zipf"))
     return("discrete")
   # if arrived here...
