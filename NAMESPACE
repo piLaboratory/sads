@@ -14,7 +14,8 @@ export(pbs, pgs,pls, pmand, pmzsm, ppareto, ppoilog, ppower, prbs, pvolkov, pzip
 export(qbs, qgs, qls, qmand, qmzsm, qpareto, qpoilog, qpower, qrbs, qvolkov, qzipf, qpoig, qpoix,
 	qpowbend)
 ## Random functions
-export(rbs, rgs, rls, rmand, rmzsm, rpareto, rpoilog, rpower, rrbs, rvolkov, rzipf, rpoig, rpoix)
+export(rbs, rgs, rls, rmand, rmzsm, rpareto, rpoilog, rpower, rrbs, rvolkov, rzipf, rpoig, rpoix,
+  rpowbend)
 ## Fitting functions for each distribution
 export(fitbs, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm,
        fitnbinom, fitpareto, fitpoilog, fitpower, fitrbs, fitvolkov, fitweibull, fitzipf,
