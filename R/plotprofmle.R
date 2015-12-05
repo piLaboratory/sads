@@ -83,7 +83,7 @@ internal.spline <- function(mleprof, i, ratio, nseg) {
 }
 
 setGeneric("likelregions", 
-    def=function(object, nseg=20, ratio=log(8), ...) standardGeneric("likelregions")
+    def=function(object, nseg=100, ratio=log(8), ...) standardGeneric("likelregions")
     )
 setMethod("likelregions", "profile.mle2",
 function(object, nseg, ratio, ...){
