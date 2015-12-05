@@ -107,7 +107,8 @@ setMethod("plot","fitsad",
               oct.df <- octav(x)
               oct.pred <- octavpred(x)
               oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
-              plot(oct.df, ylim = c(0, oct.ymax), ...)
+              oct.xlim <- range(c(oct.df[,1], oct.pred[,1]), na.rm=TRUE)
+              plot(oct.df, ylim = c(0,oct.ymax), xlim=oct.xlim, ...)
               points(oct.pred, ...)
             }
             if(2 %in% which){
@@ -136,7 +137,8 @@ setMethod("plot","fitrad",
               oct.df <- octav(x)
               oct.pred <- octavpred(x)
               oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
-              plot(oct.df, ylim = c(0, oct.ymax), ...)
+              oct.xlim <- range(c(oct.df[,1], oct.pred[,1]), na.rm=TRUE)
+              plot(oct.df, ylim = c(0,oct.ymax), xlim = oct.xlim, ...)
               points(oct.pred, ...)
             }
             if(2 %in% which){
@@ -487,7 +489,7 @@ setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
                                  S="missing", N="missing"),
           function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             x <- object@rad.tab$abund
-            if(missing(oct)) oct <- genoct(x)
+            if(missing(oct)) oct <- NaN
             octavpred(rad = object@rad, coef = as.list(bbmle::coef(object)),
                       trunc = object@trunc, oct = oct, S=length(x), N=sum(x),
                       preston=preston, ...)
@@ -497,7 +499,7 @@ setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
 setMethod("octavpred", signature(object="numeric",sad="missing", rad="character",
                                  coef="list", trunc="ANY", oct="ANY", S="missing", N="missing"),
           function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
-            if(missing(oct)) oct <- genoct(object)
+            if(missing(oct)) oct <- NaN
             if(missing(trunc)) trunc<-NaN
             octavpred(rad=rad, coef=coef, trunc=trunc, oct=oct, S = length(object), N = sum(object),
                       preston=preston, ...)
@@ -508,10 +510,10 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
                                  coef="list", trunc="ANY", oct="ANY", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             dots <- list(...)
-            if(missing(oct)) oct <- genoct(N)
+            # Setting oct to nan to prevent "missing argument"
+            if(missing(oct)) oct <- NaN
+            else oct <- unique(oct)
             if(missing(trunc)) trunc<-NaN
-            oct <- unique(oct)
-            n <- 2^oct
             if(!is.nan(trunc)){
               ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
             }
@@ -519,9 +521,10 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
               drad <- get(paste("d",rad,sep=""),mode="function")
               ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
             }
-            tryCatch({Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)},
-                     error = function(cond) stop("Octaves do not span the entire range, try using a larger oct argument (maybe negative octaves?)")
-                     )
+            # If missing oct from ANY caller, gen oct here:
+            if(length(oct)==1 && is.nan(oct)) oct <- genoct(ab)
+            n <- 2^oct
+            Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
             res <- data.frame(octave = oct, upper = n, Freq = Y$count)
             if(preston) res <- prestonfy(res, ceiling(ab))
             new("octav", res)
