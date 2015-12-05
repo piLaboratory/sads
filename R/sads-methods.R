@@ -66,12 +66,15 @@ setMethod("plot","octav",
           )
 
 setMethod("points","octav",
-          function(x, prop=FALSE, ...){
+          function(x, prop=FALSE, mid=TRUE, ...){
             dots <- list(...)
             if(!"type" %in% names(dots)) dots$type="b"
             if(!"col" %in% names(dots)) dots$col="blue"
-            X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
-            X <- X[-length(X)]+diff(X)/2
+            if(mid){
+                X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
+                X <- X[-length(X)]+diff(X)/2
+            }
+            else X <- as.integer(as.character(x$octave))
             if(prop) Y <- x$Freq/sum(x$Freq)
             if(!prop) Y <- x$Freq
             do.call(points, c(list(x = X, y = Y), dots))
@@ -79,12 +82,15 @@ setMethod("points","octav",
           )
 
 setMethod("lines","octav",
-          function(x, prop=FALSE, ...){
+          function(x, prop=FALSE, mid=TRUE, ...){
             dots <- list(...)
             if(!"type" %in% names(dots)) dots$type="b"
             if(!"col" %in% names(dots)) dots$col="blue"
-            X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
-            X <- X[-length(X)]+diff(X)/2
+            if(mid){
+                X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
+                X <- X[-length(X)]+diff(X)/2
+            }
+            else X <- as.integer(as.character(x$octave))
             if(prop) Y <- x$Freq/sum(x$Freq)
             if(!prop) Y <- x$Freq
             do.call(lines, c(list(x = X, y = Y), dots))
