@@ -203,14 +203,15 @@ complete list can be quite large.
 \subsection{Model diagnostics}
 \label{sec:model-diagnostics}
 Many other diagnostic and functions are available for sad and rad models. 
-To get likelihood profiles and confidence intervals use:
+To get likelihood profiles, likelihood intervals and confidence intervals use:
 
 \setkeys{Gin}{width=\textwidth}
 
 @ 
 <<Profiling and intervals>>=
 moths.ls.prf <- profile(moths.ls)
-confint(moths.ls.prf) # conf intervals
+likelregions(moths.ls.prf) #likelihood intervals
+confint(moths.ls.prf)
 @ %def 
 
 Then use \code{plotprofmle} to plot likelihood profiles at the original scale (relative negative log-likelihood)
@@ -225,6 +226,24 @@ plotprofmle(moths.ls.prf)# log-likelihood profile
 plot(moths.ls.prf)# z-transformed profile
 par(mfrow=c(1,1))
 @ %def
+
+\begin{shaded}
+  \textbf{Likelihood intervals and confindence intervals:} \hfill
+  Likelihood intervals include all values of the parameters that have up to a given 
+  log-likelihood absolute difference to the maximum likelihood estimate.
+  This difference is the log-likehood ratio and is set with the argument \code{ratio} 
+  of function \code{likelregions}. The default value of \code{ratio} is log(8), and thus
+  in the example above the likelihood interval encloses all values of the parameter 
+  that are up to 8 times as plausible
+  as the estimated value of $\alpha=$\Sexpr(unname(round(coef(moths.ls)[2],2))).
+  
+  Likelihood intervals at log(8) converge to the value of confidence intervals at 95\%
+  as sample size increases. In most cases even for moderate sample sizes the limits of
+  confidence and likelihood intervals are very close. Discrepancies occur only when the likelihood profile
+  is highly asymetric or have local minima. But in this kind of profile usually indicates an ill-behaved
+  fit, and so the intervals will not meaningfull anyway.
+\end{shaded}
+
 
 When applied on a sad model object, the function \code{plot} returns four diagnostic plots:
 @ 
