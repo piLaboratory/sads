@@ -5,7 +5,7 @@ qpoig <- function(p, frac, rate, shape, S=30, lower.tail=TRUE, log.p=FALSE) {
 	if (log.p) p <- exp(p)
 	if(!lower.tail) p <- 1 - p
   y <- c()
-  y[1] <- suppressWarnings(qfinder(dpoig, p[i], list(frac=frac, rate=rate, shape=shape), 0))
+  y[1] <- suppressWarnings(qfinder(dpoig, p[1], list(frac=frac, rate=rate, shape=shape), 0))
   if(length(p) > 1)
     for (i in 2:length(p))
       y[i] <- suppressWarnings(qfinder(dpoig, p[i], list(frac=frac, rate=rate, shape=shape), y[i-1]))
