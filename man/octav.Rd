@@ -1,6 +1,10 @@
-\name{octav}
+\name{octav-methods}
+\docType{methods}
 
 \alias{octav}
+\alias{octav,fitsad-method}
+\alias{octav,fitrad-method}
+\alias{octav,numeric-method}
 
 \title{Frequencies of species in octaves}
 
@@ -9,10 +13,23 @@
   of abundances or from a fitted model.
 }
 
+\section{Methods}{
+  \describe{
+    \item{\code{signature(x = "numeric")}}{number of species in each octave
+      in a vector of species abundances.
+    }
+    \item{\code{signature(x = "fitsad")}}{number of species in each octave
+      in the original abundance vector used to fit a model with \code{fitsad}.
+    }
+    \item{\code{signature(x = "fitrad")}}{number of species in each octave
+      in the original abundance vector used to fit a model with \code{fitrad}.
+    }
+  }
+}
+
 \usage{octav(x, oct, preston=FALSE)}
 
 \arguments{
-  
   \item{x}{a numerical vector of abundances or an object of class
     \code{fitsad} or \code{fitrad}.}
   \item{oct}{integer vector; the octaves to tabulate abundances. Should
@@ -72,7 +89,7 @@ par(mfrow=c(1,1))
 }
 
 \author{
-  Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda
+  Paulo I Prado \email{prado@ib.usp.br}, Andre Chalom and Murilo Dantas Miranda
 }
 
 

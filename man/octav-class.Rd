@@ -54,9 +54,9 @@
 }
 
 \usage{
-\S4method{lines}{octav}(x, prop=FALSE, \dots)
+\S4method{lines}{octav}(x, prop=FALSE, mid=TRUE, \dots)
 \S4method{plot}{octav}(x, prop=FALSE, x.oct=FALSE, par.axis=list(), \dots)
-\S4method{points}{octav}(x, prop=FALSE, \dots)
+\S4method{points}{octav}(x, prop=FALSE, mid=TRUE, \dots)
 }
 
 \arguments{
@@ -64,6 +64,9 @@
   \item{prop}{logical; if \kbd{TRUE} relative frequencies are returned.}
   \item{x.oct}{logical; if \kbd{TRUE} axis labels are octave numbers, if
     \kbd{FALSE} upper limit of abundance class are used as labels.}
+  \item{mid}{logical; if \kbd{TRUE} x coordinates of abundances are set
+  to the mid of each octave, if \kbd{FALSE} x coordinates of abundances
+  are the values of its octave (see examples)}
   \item{par.axis}{list; further graphical parameters for the plot axes.}
   \item{\dots}{further parameters to be passed to \code{lines}, \code{points} or \code{plot}
     functions (except axes in \code{plot}, which are set by \code{par.axis}.}
@@ -77,7 +80,7 @@
   \emph{Ecology 29}: 254--283.
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda}
+\author{Andre Chalom and Paulo I Prado \email{prado@ib.usp.br}}
 
 
 \seealso{ \code{\link{octav}} to get an object of the class from a vector
@@ -90,15 +93,20 @@
 \examples{
 ## Creates an octav object from an abundance vector
 birds.oc <- octav(birds)
+moths.oc <- octav(moths)
+
 ## default plot
 plot(birds.oc)
+## Octave values instead of abundances at x-axis
+plot(moths.oc, x.oct=TRUE)
 
 ## Using line and argument prop to superpose two data sets
-## Fisher's et al moth data and Preston's bird data
-moths.oc <- octav(moths)
-plot(moths.oc, col=NULL, border=NA, prop=TRUE)
-lines(moths.oc, prop=TRUE)
-lines(birds.oc, prop=TRUE, col="red") 
+## (Fisher's et al moth data and Preston's bird data)
+## mid=FALSE plots points at each octave value and not
+## in the midclass (default, useful for histograms)
+plot(moths.oc, col=NULL, border=NA, prop=TRUE, x.oct=TRUE, xlab="Octave")
+lines(moths.oc, prop=TRUE,  mid=FALSE)
+lines(birds.oc, prop=TRUE, mid=FALSE, col="red") 
 
 }
 

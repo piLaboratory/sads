@@ -66,12 +66,15 @@ setMethod("plot","octav",
           )
 
 setMethod("points","octav",
-          function(x, prop=FALSE, ...){
+          function(x, prop=FALSE, mid=TRUE, ...){
             dots <- list(...)
             if(!"type" %in% names(dots)) dots$type="b"
             if(!"col" %in% names(dots)) dots$col="blue"
-            X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
-            X <- X[-length(X)]+diff(X)/2
+            if(mid){
+                X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
+                X <- X[-length(X)]+diff(X)/2
+            }
+            else X <- as.integer(as.character(x$octave))
             if(prop) Y <- x$Freq/sum(x$Freq)
             if(!prop) Y <- x$Freq
             do.call(points, c(list(x = X, y = Y), dots))
@@ -79,12 +82,15 @@ setMethod("points","octav",
           )
 
 setMethod("lines","octav",
-          function(x, prop=FALSE, ...){
+          function(x, prop=FALSE, mid=TRUE, ...){
             dots <- list(...)
             if(!"type" %in% names(dots)) dots$type="b"
             if(!"col" %in% names(dots)) dots$col="blue"
-            X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
-            X <- X[-length(X)]+diff(X)/2
+            if(mid){
+                X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
+                X <- X[-length(X)]+diff(X)/2
+            }
+            else X <- as.integer(as.character(x$octave))
             if(prop) Y <- x$Freq/sum(x$Freq)
             if(!prop) Y <- x$Freq
             do.call(lines, c(list(x = X, y = Y), dots))
@@ -374,7 +380,7 @@ setMethod("radpred", signature(object="missing", sad="character", rad="missing",
           }
           )
 
-# Helper function for octavpred
+# Helper function for octav/octavpred
 genoct <- function (x) {
   oct <- 0:(ceiling(max(log2(x)))+1)
   if(any(x < 1)){
@@ -383,6 +389,47 @@ genoct <- function (x) {
   }
   oct
 }
+
+### octav generic and methods
+setGeneric("octav", 
+           def=function(x, oct, preston=FALSE) standardGeneric("octav")
+           )
+
+# Workhorse method for octav
+setMethod("octav", signature(x="numeric"),
+          function(x, oct, preston=FALSE) {
+            x=x[x>0]
+            if(missing(oct)) oct <- genoct(x)
+            if(min(oct)>min(log2(x))||max(oct)<max(log2(x))) stop("'oct' values should span all abundance values in 'x'")
+            oct <- unique(oct)
+            N <- 2^(oct)
+            oct.hist <- hist(x, breaks=c(0,N), plot=FALSE)
+            res <- data.frame(octave = oct, upper = oct.hist$breaks[-1], Freq = oct.hist$counts)
+            if(preston) res <- prestonfy(res, x)
+            new("octav", res)
+          })
+
+setMethod("octav", signature(x="fitsad"),
+          function(x, oct, preston=FALSE) {
+            octav(x@data$x, oct, preston)
+          })
+
+setMethod("octav", signature(x="fitrad"),
+          function(x, oct, preston=FALSE) {
+            octav(x@rad.tab$abund, oct, preston)
+          })
+
+# Helper function to create Preston octaves. Is also used by octavpred
+prestonfy <- function(res, y) {
+  N <- 2^(res$octave)
+  j <- N[-length(N)]
+  w <- y[y%in%j]
+  ties <- table(factor(w, levels=j))
+  res[-1, 3] <- res[-1, 3]+ties/2
+  res[-length(N), 3] <- res[-length(N), 3]-ties/2
+  return(res)
+}
+
           
 ## octavpred generic functions and methods ###
 setGeneric("octavpred",
