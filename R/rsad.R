@@ -37,7 +37,13 @@ rpower <- function(n, s) qpower(runif(n), s)
 rpowbend <- function(n, s, omega) qpower(runif(n), s, omega)
 rrbs <- function(n, N, S) qrbs(runif(n), N, S)
 rvolkov <- function(n, theta, m, J) qvolkov(runif(n), theta, m, J)
-rzipf <- function(n, N, s) qzipf(runif(n), N, s)
+rzipf <-function(n, N, s) {
+  rr <- runif(n)
+  d1 <- dzipf(1, N,s)
+  qz <- qzipf(rr, N, s)
+  qz[ rr < d1 ] <- 0
+  1+qz
+}
 
 ## rtrunc for truncated versions of [r] functions
 rtrunc <- function(f, n, trunc, coef)
