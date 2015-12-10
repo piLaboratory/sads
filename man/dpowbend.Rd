@@ -32,7 +32,7 @@ rpowbend( n, s, omega)
   \item{p}{
     vector of probabilities.
   }
-  \item{n}{number of observations.}
+  \item{n}{number of random values to return.}
   \item{s}{
     positive real s > 1; exponent of the power-bend distribution.
   }

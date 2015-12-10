@@ -27,7 +27,7 @@ rpareto(n, shape, scale = 1)
     species abundance distributions, a vector of
     abundances of species in a sample.
   }
-  \item{n}{number of observations.}
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }

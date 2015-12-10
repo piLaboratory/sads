@@ -25,7 +25,7 @@ rgs( n, k, S )
     species abundance distributions, this is a vector of abundance ranks
     of species in a sample.
   }
-  \item{n}{number of observations.}
+  \item{n}{number of random values to return.}
   \item{k}{
     positive real, 0 < k < 1; geometric series coefficient; the ratio between
     the abundances of i-th and (i+1)-th species. 

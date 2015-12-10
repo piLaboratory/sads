@@ -38,7 +38,7 @@ rtrunc(f, n, trunc, coef)
   }
 
   \item{n}{
-    number of occurences.
+    number of random values to return.
   }
   
     \item{coef}{

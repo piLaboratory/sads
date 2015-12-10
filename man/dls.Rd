@@ -26,7 +26,7 @@ rls(n, N, alpha)
   \item{p}{
     vector of probabilities.
     }
-  \item{n}{number of observations.}
+  \item{n}{number of random values to return.}
   \item{N}{
     sample size. Usually the total number of individuals in the sample (see details).
   }

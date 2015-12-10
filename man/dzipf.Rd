@@ -26,7 +26,7 @@ rzipf( n, N, s)
   \item{q}{vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, a vector of abundance ranks of species in a sample.
   }
-  \item{n}{number of observations.}
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }

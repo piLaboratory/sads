@@ -39,7 +39,7 @@ rrbs( n, N, S)
     (for \code{dbs})
     or abundance ranks (for \code{drbs}) of species in a sample.
   }
-  \item{n}{number of observations.}
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }

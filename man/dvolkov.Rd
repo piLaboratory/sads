@@ -30,7 +30,7 @@ rvolkov( n, theta, m, J)
   \item{q}{vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, a vector of abundance of species in a sample.
   }
-  \item{n}{number of observations.}
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }
@@ -72,11 +72,11 @@ rvolkov( n, theta, m, J)
 }
 
 \details{
-  Volkov et al (2003) proposed one of the analytic solutions for the
+  Volkov \emph{et al} (2003) proposed one of the analytic solutions for the
   species abundance distributions (SADs)
   for The Neutral Theory of Biodiversity (Hubbell 2001).
 
-  The solution is deduced from a model of stochastic dynamics of a
+  Their solution is deduced from a model of stochastic dynamics of a
   set of species where the following rules apply:
   (1) replacement of a dead individual by local offspring -- with probability 1-m,
   individuals picked at random
@@ -93,7 +93,7 @@ rvolkov( n, theta, m, J)
   these expected values for abundances 1:J and dividing them
   by the total number of
   species.
-  \code{dvolkov} is performs the numerical integration of the 
+  \code{dvolkov} performs the numerical integration of the 
   density function by means of Gaussian quadrature, using a
   library by Pavel Holoborodko (http://www.holoborodko.com/pavel/?page_id=679).
   The code is based on the \code{untb::volkov} function (Hankin 2007).
