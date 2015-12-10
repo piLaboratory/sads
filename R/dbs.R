@@ -3,7 +3,7 @@ dbs <- function(x, N, S, log = FALSE){
 	S[ !is.finite(S) | S <= 0] <- NaN
 	y <- (S-1)*(1-x/N)^(S-2)/N
 	if (any(is.nan(y))) warning ("NaNs produced")
-	y[ x < 1 | x > N] <- 0
+	y[ x < 0 | x > N] <- 0
 	if(log) return (log(y))
 	else return(y)
 }
