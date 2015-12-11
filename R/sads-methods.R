@@ -264,6 +264,16 @@ setMethod("summary", "fitsad", function(object){sumle2(object)})
 #' @rdname summary.sads-class
 setMethod("summary", "fitrad", function(object){sumle2(object)})
 
+# Show method for likelregions
+setMethod("show", "likelregions",
+          function(object) {
+            cat("Likelihood regions for ratio =", object@ratio, "\n")
+            for (i in 1:length(object@names)) {
+              cat (paste0(object@names[i],":\n"))
+              for (j in 1:length(object[[i]]))
+                print (object[[i]][[j]])
+            }
+})
 ## radpred generic functions and methods ###
 setGeneric("radpred",
 def = function(object, sad, rad, coef, trunc , distr=NA, S, N) standardGeneric("radpred")

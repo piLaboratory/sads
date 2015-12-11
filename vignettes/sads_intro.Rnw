@@ -235,7 +235,7 @@ par(mfrow=c(1,1))
   of function \code{likelregions}. The default value of \code{ratio} is log(8), and thus
   in the example above the likelihood interval encloses all values of the parameter 
   that are up to 8 times as plausible
-  as the estimated value of $\alpha=$\Sexpr(unname(round(coef(moths.ls)[2],2))).
+  as the estimated value of $\alpha = $ \Sexpr{unname(round(coef(moths.ls)[2],2))}.
   
   Likelihood intervals at log(8) converge to the value of confidence intervals at 95\%
   as sample size increases. In most cases even for moderate sample sizes the limits of

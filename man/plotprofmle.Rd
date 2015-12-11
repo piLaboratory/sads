@@ -24,7 +24,7 @@
 \usage{
 plotprofmle(object, nseg=20, ratio=log(8), which=NULL, ask=NULL, 
     col.line="blue", varname=NULL, \dots)
-likelregions(object, nseg=20, ratio=log(8), \dots)
+likelregions(object, nseg=100, ratio=log(8), \dots)
 }
 
 \arguments{

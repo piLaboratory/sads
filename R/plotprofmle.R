@@ -114,13 +114,4 @@ setMethod("likelregions", "mle2",
     likelregions(profile(object), ...)
 })
 
-setMethod("show", "likelregions",
-          function(object) {
-            cat("Likelihood regions for ratio =", object@ratio, "\n")
-            for (i in 1:length(object@names)) {
-              cat (paste0(object@names[i],":\n"))
-              for (j in 1:length(object[[i]]))
-                print (object[[i]][[j]])
-            }
-})
           
