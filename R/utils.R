@@ -21,7 +21,7 @@ qfinder <- function(dist, want, coef, init = 0) {
     my.sq <- sum(my.q)
 		if (cum + my.sq > want) break;
 		# Is there a bug in pdist?
-		if (my.sq < 1e-8) stop ("quantile function did not converge!")
+		if (my.sq < 1e-14) stop ("quantile function did not converge!")
 		last <- guess+1
     step <- step * 2
 		guess <- guess + step
@@ -64,4 +64,15 @@ LiE <- function(s, mu) {
 		n <- n+1
 	}
 	m
+}
+
+# Helper for generation of 1-shifted random distributions 
+shift_r <- function(f, n, coef) {
+  df <- get(paste0("d", f), mode="function")
+  qf <- get(paste0("q", f), mode="function")
+  rr <- runif(n)
+  d1 <- do.call(df, c(list(x=1), coef))
+  qz <- do.call(qf, c(list(p=rr), coef))
+  qz [ rr < d1 ] <- 0
+  1+qz
 }
