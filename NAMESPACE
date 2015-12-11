@@ -23,10 +23,10 @@ export(fitbs, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm,
 ## General fitting and ploting  functions
 export(fitrad, fitsad, octav, octavpred, radpred, pprad, ppsad, qqrad, qqsad, rad)
 ## Accessory functions
-export(plotprofmle, pred.logser, dtrunc, ptrunc, qtrunc, rtrunc, rsad, updatesad, updaterad, distr)
+export(plotprofmle, likelregions, pred.logser, dtrunc, ptrunc, qtrunc, rtrunc, rsad, updatesad, updaterad, distr)
 ## Explicit classes and methods export
 exportClasses(rad, octav, fitsad, fitrad, summary.sads)
-exportMethods(plot, points, lines, octavpred, radpred, qqsad, qqrad, plotprofmle)
+exportMethods(plot, points, lines, octavpred, radpred, qqsad, qqrad, plotprofmle, likelregions)
 # Methods that override bbmle counterparts:
 exportMethods(show, summary, nobs, AIC, AICc)
 # Standard stats methods
