@@ -5,7 +5,7 @@ dgs <- function(x, k, S,  log = FALSE) {
 	y <- cf*k*(1-k)^(x-1)
 	if (any(is.nan(y))) warning ("NaNs produced")
 	if (any(!is.wholenumber(x))) warning("non integer values in x")
-	y[ ! is.wholenumber(x) | x < 1] <- 0
+	y[ ! is.wholenumber(x) | x < 1 | x > S] <- 0
 	if(!log) return(y)
 	else return(log(y))
 }
