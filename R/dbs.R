@@ -1,9 +1,10 @@
 dbs <- function(x, N, S, log = FALSE){
 	N[ !is.finite(N) | N <= 0] <- NaN
 	S[ !is.finite(S) | S <= 0] <- NaN
-  y <- N *( (1-x/N)^S/(x-N) - (1-(x-1)/N)^S/(x-1-N) )
-  y[ x == N ] <- N *( - (1-(N-1)/N)^S/(N-1-N) )
-
+        ## New formula for dbs? #115 ##
+        ##y <- N *( (1-x/N)^S/(x-N) - (1-(x-1)/N)^S/(x-1-N) )
+        ##y[ x == N ] <- N *( - (1-(N-1)/N)^S/(N-1-N) )
+        y <- (S-1)*(1-x/N)^(S-2)/N
 	if (any(is.nan(y))) warning ("NaNs produced")
 	y[ x < 0 | x > N] <- 0
 	if(log) return (log(y))
