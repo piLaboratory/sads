@@ -2,6 +2,7 @@
 * new functions for density, distribution and quantile function for the Pueyo's powerbend distribution
 * octav is now a S4 method, and octav plots have a new argument "mid=TRUE"
 * better optimization and vectorization of several discrete quantile and distribution functions
+* fixed the support of Zipf, Zipf-Mandelbrot and geometric series to not include zero abundances or zero-th rank
 * fixed a bug in octavpred
 
 0.2.4 (2015-11-02)

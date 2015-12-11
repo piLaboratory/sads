@@ -9,6 +9,7 @@ pzipf <- function(q, N, s, lower.tail = TRUE, log.p = FALSE){
 	y <- exp(y)
 	if (any(!is.wholenumber(q))) warning("non integer values in q")
 	y[ ! is.wholenumber(q) | q < 1 ] <- 0
+        y[q > N] <- 1
 	if(!lower.tail) y <- 1-y
 	if(log.p) y <- log(y)
 	if (any(is.nan(y))) warning ("NaNs produced")

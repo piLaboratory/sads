@@ -5,7 +5,7 @@ dmand <- function (x, N, s, v, log = FALSE) {
 	lny <- - s * log(x+v) - log(sum(((1:N)+v)^(-s)))
 	if (any(is.nan(lny))) warning ("NaNs produced")
 	if (any(!is.wholenumber(x))) warning("non integer values in x")
-	lny[ ! is.wholenumber(x) | x < 1] <- -Inf
+	lny[ ! is.wholenumber(x) | x < 1 | x > N] <- -Inf
 	if (log) return(lny)
 	else return(exp(lny))
 }
