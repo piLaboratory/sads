@@ -105,8 +105,7 @@ function(object, nseg, ratio, ...){
       }
     out[[i]] <- int
   }
-  names(out) <- names(mleprof)
-  out
+  new("likelregions", out, names=names(mleprof), ratio=ratio)
 })
 setMethod("likelregions", "mle2",
     function(object, ...) {
@@ -114,3 +113,14 @@ setMethod("likelregions", "mle2",
     cat("in a different variable\n")
     likelregions(profile(object), ...)
 })
+
+setMethod("show", "likelregions",
+          function(object) {
+            cat("Likelihood regions for ratio =", object@ratio, "\n")
+            for (i in 1:length(object@names)) {
+              cat (paste0(object@names[i],":\n"))
+              for (j in 1:length(object[[i]]))
+                print (object[[i]][[j]])
+            }
+})
+          
