@@ -1,17 +1,23 @@
-rsad <- function(S, frac, sad, trunc=NaN, Pois.samp=TRUE, k, zeroes=FALSE, ssize=1, ...){
-  dots <- list(...)
-  if (!Pois.samp & missing(k)) stop("For negative binomial sampling please provide a value for k")
+rsad <- function(S, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nbinom"), k, zeroes=FALSE, ssize=1)
+{
+  sampling <- match.arg(sampling)
+  if (sampling == "nbinom" & missing(k)) stop("For negative binomial sampling please provide a value for k")
   if (ssize<1) stop("ssize must be at least one")
+  # Generates the "community"
   if(is.nan(trunc)) {
-    sad <- get (paste("r", sad, sep=""), mode = "function")
-    com <- do.call(sad,c(list(n=S),dots))
+    sad <- get(paste("r", sad, sep=""), mode = "function")
+    com <- do.call(sad,c(list(n=S),coef))
   } else {
-    com <- rtrunc(sad, n=S, trunc=trunc, coef=dots)
+    com <- rtrunc(sad, n=S, trunc=trunc, coef=coef)
   }
 
-  if(Pois.samp) sam=rpois(S*ssize,lambda=frac*com)
-  else sam <- rnbinom(S*ssize,mu=frac*com,size=k)
+  # Generates a sample from the community
+  sam <- switch(sampling,
+                poisson = rpois(S*ssize,lambda=frac*com),
+                nbinom = rnbinom(S*ssize,mu=frac*com,size=k)
+               )
 
+  # Treats "ssize" and "zeroes" arguments
   if(ssize>1){
     y <- data.frame(sample=rep(1:ssize,each=S), species=rep(1:S,ssize), abundance=sam)
     if(!zeroes) y <- y[y$abundance>0,]
