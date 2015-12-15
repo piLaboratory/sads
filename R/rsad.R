@@ -1,8 +1,24 @@
-rsad <- function(S, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nbinom"), k, zeroes=FALSE, ssize=1)
+rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nbinom"), k, zeroes=FALSE, ssize=1)
 {
   sampling <- match.arg(sampling)
   if (sampling == "nbinom" & missing(k)) stop("For negative binomial sampling please provide a value for k")
   if (ssize<1) stop("ssize must be at least one")
+  if (class(coef) != "list" | is.null(names(coef))) stop("coef must be a named list!")
+
+  # Handles parameters that give the community size
+  if (sad %in% c("bs", "ls", "mzsm", "volkov")) {
+    if (!is.null(S))
+      warning("For sads bs, ls, mzsm and volkov the value of S is ignored")
+    S <- switch(sad, 
+                bs = coef$S,
+                ls = coef$alpha * log ( 1 + coef$N / coef$alpha ),
+                mzsm = sum(coef$theta / (1:coef$J) *(1 - (1:coef$J)/coef$J)^(coef$theta - 1)),
+                volkov = Svolkov(coef$theta, coef$m, coef$J))
+  } else {
+    if (is.null(S))
+      stop("The argument S is mandatory for the selected sad")
+  }
+
   # Generates the "community"
   if(is.nan(trunc)) {
     sad <- get(paste("r", sad, sep=""), mode = "function")

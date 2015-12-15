@@ -78,7 +78,7 @@ rpoilog( n, mu, sig)
 }
 
 \source{
-  The three functions were built from \code{dpoilog} function from \pkg{poilog}
+  These functions were built from \code{dpoilog} function from \pkg{poilog}
   package (Vidar \enc{Grøtan}{Grotan} and Steinar Engen).
   
   \code{dpoilog} is just a wrapper of \code{poilog::dpoilog} with an additional \code{log} argument.
@@ -86,7 +86,10 @@ rpoilog( n, mu, sig)
   \code{ppoilog} does the cumulative sum of \code{poilog::dpoilog}.
 
   \code{qpoilog} uses modified bisection method to find numerically quantiles using
-  \code{ppoilog}, and is extremely slow for a large number of quantiles.
+  \code{ppoilog}.
+
+  \code{rpoilog} selects random values from a poilog distribution. It is unrelated to the 
+  function of the same name in \pkg{poilog}.
 }
 
 \references{
@@ -110,7 +113,7 @@ rpoilog( n, mu, sig)
 }
 
 \author{
-  Paulo I. Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda
+  Paulo I. Prado \email{prado@ib.usp.br}, Andre Chalom and Murilo Dantas Miranda
 }
 
 \seealso{
