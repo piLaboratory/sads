@@ -7,14 +7,17 @@ rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nb
   if (class(coef) != "list" | is.null(names(coef))) stop("coef must be a named list!")
 
   # Handles parameters that give the community size
-  if (sad %in% c("bs", "ls", "mzsm", "volkov")) {
+  if (sad %in% c("bs", "ls", "mzsm", "volkov", "gs", "zipf", "rbs", "mand")) {
     if (!is.null(S))
-      warning("For sads bs, ls, mzsm and volkov the value of S is ignored")
+      warning("For the selected sad/rad the value of S is ignored")
     S <- switch(sad, 
                 bs = coef$S,
+                rbs = coef$N,
                 ls = coef$alpha * log ( 1 + coef$N / coef$alpha ),
                 mzsm = sum(coef$theta / (1:coef$J) *(1 - (1:coef$J)/coef$J)^(coef$theta - 1)),
-                volkov = Svolkov(coef$theta, coef$m, coef$J))
+                volkov = Svolkov(coef$theta, coef$m, coef$J),
+                gs = , zipf = , mand = NULL
+                )
   } else {
     if (is.null(S))
       stop("The argument S is mandatory for the selected sad")
@@ -22,11 +25,13 @@ rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nb
 
   # Generates the "community"
   if(is.nan(trunc)) {
-    sad <- get(paste("r", sad, sep=""), mode = "function")
-    com <- do.call(sad,c(list(n=S),coef))
+    sadr <- get(paste("r", sad, sep=""), mode = "function")
+    com <- do.call(sadr,c(list(n=S),coef))
   } else {
     com <- rtrunc(sad, n=S, trunc=trunc, coef=coef)
   }
+  if (sad %in% c("rbs", "gs", "mand", "zipf"))
+    com <- hist(com, breaks=0:max(com), plot=F)$counts
 
   # Generates a sample from the community
   sam <- switch(sampling,
