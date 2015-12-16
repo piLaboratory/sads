@@ -11,7 +11,7 @@
 
 \usage{
 rsad(S = NULL, frac, sad, coef, trunc = NaN, 
-     sampling = c("poisson", "nbinom"), k , zeroes = FALSE, ssize=1)
+     sampling = c("poisson", "nbinom", "fixed"), k , zeroes = FALSE, ssize=1)
 }
 
 \arguments{
@@ -41,7 +41,9 @@ rsad(S = NULL, frac, sad, coef, trunc = NaN,
   \item{sampling}{
     character; if \kbd{poisson} the sampling process is Poisson (independent sampling of
     individuals); if \kbd{nbinom} negative binomial
-    sampling is used to simulate aggregation of individuals in sampling units. Partial matching is allowed.
+    sampling is used to simulate aggregation of individuals in sampling units;
+    finally, \kbd{fixed} samples a fixed number of \code{frac} times the number of 
+    individuals in the simulated community, without replacement. Partial matching is allowed.
   }
   \item{k}{
     positive; size parameter for the sampling binomial negative. This parameter is ignored for other sampling
@@ -63,9 +65,10 @@ rsad(S = NULL, frac, sad, coef, trunc = NaN,
   species is \code{frac*n}, where n is the species' expected abundance in the
   community.
 
-  Two sampling processes can be simulated: Poisson,
+  Three sampling processes can be simulated: Poisson,
   where individuals are sampled independently, and negative binomial,
-  where individuals are aggregated over sampling units. 
+  where individuals are aggregated over sampling units. Finally, the "fixed"
+  sampling scheme takes a sample of \code{frac * n} individuals, without replacement.
 
   In general terms, this function takes a Poisson or negative
   binomial sampling with replacement of a vector of \code{S} realizations of a random variable,

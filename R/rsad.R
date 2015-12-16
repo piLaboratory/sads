@@ -1,6 +1,7 @@
-rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nbinom"), k, zeroes=FALSE, ssize=1)
+rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nbinom", "fixed"), k, zeroes=FALSE, ssize=1)
 {
   sampling <- match.arg(sampling)
+  if (frac <= 0 | frac > 1) stop("Invalid value for frac, make sure 0 < frac <= 1")
   if (sampling == "nbinom" & missing(k)) stop("For negative binomial sampling please provide a value for k")
   if (ssize<1) stop("ssize must be at least one")
   if (class(coef) != "list" | is.null(names(coef))) stop("coef must be a named list!")
@@ -30,7 +31,8 @@ rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nb
   # Generates a sample from the community
   sam <- switch(sampling,
                 poisson = rpois(S*ssize,lambda=frac*com),
-                nbinom = rnbinom(S*ssize,mu=frac*com,size=k)
+                nbinom = rnbinom(S*ssize,mu=frac*com,size=k),
+                fixed = rfixed(com, frac, ssize)
                )
 
   # Treats "ssize" and "zeroes" arguments
@@ -43,6 +45,13 @@ rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nb
     if(!zeroes) y <- y[y>0]
   }
   return(y)
+}
+
+rfixed <- function(com, frac, ssize) {
+  rad.tab <- rad(ssize*com)
+  rr <- rep(rad.tab$rank, rad.tab$abund)
+  ss <- sample(rr, size = frac * length(rr), replace=FALSE)
+  hist(ss, breaks=0:max(ss), plot=F)$counts
 }
 
 ### Random number generation from the sads implemented in this package
@@ -69,3 +78,4 @@ rzipf <-function(n, N, s) shift_r("zipf", n, list(N=N, s=s))
 ## rtrunc for truncated versions of [r] functions
 rtrunc <- function(f, n, trunc, coef)
   qtrunc(f, runif(n), trunc, coef)
+
