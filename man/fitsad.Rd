@@ -10,6 +10,7 @@
 \alias{fitpareto}
 \alias{fitpoilog}
 \alias{fitpower}
+\alias{fitpowbend}
 \alias{fitvolkov}
 \alias{fitweibull}
 
@@ -21,7 +22,7 @@
 
 \usage{
 fitsad(x, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
-       "poilog","power","volkov","weibull"), \dots)
+       "poilog","power", "powbend", "volkov","weibull"), \dots)
 
 fitbs(x, trunc, \dots)
 
@@ -42,6 +43,8 @@ fitpareto(x, trunc, start.value,  upper = 20, \dots)
 fitpoilog(x, trunc = 0, \dots)
 
 fitpower(x, trunc, start.value, upper = 20, \dots)
+
+fitpowbend(x, trunc, start.value, \dots)
 
 fitvolkov(x, trunc, start.value, \dots)
 
@@ -65,6 +68,7 @@ fitweibull(x, trunc, start.value,  \dots)
     \kbd{"pareto"} for Pareto distribution,
     \kbd{"poilog"} for Poisson-lognormal distribution,
     \kbd{"power"} for power-law distribution,
+    \kbd{"powbend"} for Pueyo's power-bend distribution,
     \kbd{"volkov"} for Volkov's et al. neutral community distribution,
     \kbd{"weibull"} for Weibull distribution.
   }
@@ -83,19 +87,6 @@ fitweibull(x, trunc, start.value,  \dots)
     and in the same order.
   }
   
-  %% \item{trueLL}{
-  %%   logical; use \sQuote{true likelihood} for continuous models? (see \code{\link{trueLL}}).
-  %% }
-
-  %% \item{dec.places}{
-  %%   positive integer; number of decimal places used in the measurement of
-  %%   the observed values. Observed values will be rounded to this number of
-  %%   decimals. This argument defines the measurement precision for
-  %%   abundance variables. Used for continuous distributions when
-  %%   argument \code{trueLL=TRUE} 
-  %%   (see details and \code{\link{trueLL}}).
-  %% }
-
   \item{upper}{
     real positive; upper bound for Brent's one-parameter optimization
     method (default), for fits that use this method by default. See
@@ -104,7 +95,6 @@ fitweibull(x, trunc, start.value,  \dots)
   \item{\dots}{
     in \code{fitsad} further arguments to be passed to the specific fitting
     function (most used are \code{trunc}, \code{start.value})
-    %%and \code{trueLL}). 
     In the specific fitting functions further
     arguments to be passed to \code{mle2}.
   }
@@ -137,8 +127,6 @@ fitweibull(x, trunc, start.value,  \dots)
   
   Functions \code{fitgamma}, \code{fitlnorm} and \code{fitweibull} fit the
   standard continuous distributions most used as SADs models.
-  Functions \code{power} and \code{pareto} fit power-law continuous distributions
-  with one and two-parameters, that have been suggested as SADs models.
   As species with null abundances in the sample are in general unknown, the
   fit to continuous distributions can be improved by truncation to some value
   above zero (see example). Convergence problems can occur when fitting
@@ -147,20 +135,6 @@ fitweibull(x, trunc, start.value,  \dots)
   values for the truncated gamma distribution, and \code{fitweibull}
   uses Rinne's (2009, p. 413) method (thanks to Mario Jose Marques-Azevedo).
 
-  %% By default, all continuous distributions
-  %% are fit using the
-  %% correct likelihood for independent observations of a
-  %% continuous variable (Lindsey 1999, see \code{\link{trueLL}}).
-  %% Hence, the correct number of decimal places of the abundance
-  %% measure must be given in the argument \code{dec.places}.
-  %% A warning message reminds users about that when \code{trueLL=TRUE}.
-  %% When the abundance measure is the number of individuals of each
-  %% species in the sample,
-  %% the default value \code{dec.places=0}
-  %% is the correct choice. In this case, the probability of a given abundance
-  %% value x will be calculated as CDF(x + 0.5) - CDF( x - 0.5 ), where CDF
-  %% is the cumulative density function of the continuous distribution.
-  
   Functions \code{fitgeom}, \code{fitnbinom} fits geometric and negative
   binomial distributions which are two discrete
   standard distributions also used to fit SADs. Since species
@@ -187,6 +161,14 @@ fitweibull(x, trunc, start.value,  \dots)
   Fixed parameters in the model specification do not contribute to the model
   degrees of freedom, and are not accounted in standard error calculations.
 
+  Functions \code{fitpower}, \code{fitpowbend} and \code{fitpareto} fit power-law distributions
+  with one and two-parameters, that have been suggested as SADs models.
+  The implementations of power and power-bend are for discrete
+  distributions that do not include zeroes. The Pareto distribution is
+  continuous and includes all non-negative numbers.
+  Fisher's logseries are a special case of the
+  power-bend, see \code{\link{dpowbend}} and Pueyo (2006). 
+  
   Function \code{fitbs} fits the Broken-stick distribution
   (MacArthur 1960). It is defined only by the observed number of
   elements \code{S} in the collection and collection size \code{N}.
@@ -292,6 +274,9 @@ fitweibull(x, trunc, start.value,  \dots)
   Preston, F.W. 1948. The commonness and rarity of species.
   \emph{Ecology 29}: 254--283.
 
+  Pueyo, S. (2006) \emph{Diversity: Between neutrality and structure},
+  Oikos 112: 392-405.
+
   Rinne, H. 2009. \emph{The Weibull distribution: a handbook}. CRC Press
 
   Volkov, I.,  Banavar, J. R., Hubbell, S. P., Maritan, A. 2003.
@@ -308,7 +293,7 @@ fitweibull(x, trunc, start.value,  \dots)
 
 \seealso{
   \code{\link{dls}}, \code{\link{dmzsm}}, \code{\link{dpareto}},
-  \code{\link{dpoilog}}, \code{\link{dpower}},\code{ \link{dvolkov}}
+  \code{\link{dpoilog}}, \code{\link{dpower}},\code{ \link{dvolkov}}, \code{\link{dpowbend}}
   for corresponding density functions created for fitting SADs;
   standard distributions \code{dweibull},
   \code{dgamma}, \code{dgeom}, \code{dlnorm}, \code{dnbinom};

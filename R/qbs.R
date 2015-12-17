@@ -4,8 +4,9 @@ qbs<-function(p, N, S, lower.tail = TRUE, log.p = FALSE){
   if(log.p) p <- exp(p)
   if(!lower.tail) p <- 1-p
   ## Ugly: just to make qbs(1, ...) = N
-  p[p==1] <- 1+1e-12
+  ##p[p==1] <- 1+1e-12
+  ## seems not necessary anymore with ties="ordered"
   Y <- 1:N
   X <- pbs(Y, N=N, S=S)
-  approx(x=X, y=Y, xout=p, method="constant", rule=2)$y
+  approx(x=X, y=Y, xout=p, method="linear", rule=2, ties="ordered")$y
 }

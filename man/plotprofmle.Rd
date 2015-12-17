@@ -3,24 +3,28 @@
 \alias{plotprofmle}
 \alias{plotprofmle,profile.mle2-method}
 \alias{plotprofmle,mle2-method}
-\alias{plotprofmle,mle-method}
+\alias{likelregions}
+\alias{likelregions,profile.mle2-method}
+\alias{likelregions,mle2-method}
 
-\title{Plot of log-likelihood profiles at original scale}
+\title{Log-likelihood profiles at original scale}
 
 \description{
   Given a likelihood profile of a model (object of the class \code{profile.mle}
-  or \code{profile.mle2}), plots the relative log-likelihood profiles and the
+  or \code{profile.mle2}), the function \code{plotprofmle} plots the relative log-likelihood profiles and the
   plausibility intervals for each one of the (or selected ones) parameters of a model.
+  These same plausibility regions might be returned by \code{likelregions}.
 }
 
 \section{Methods}{\describe{
-\item{code{signature(object="profile.mle2")}}{The preferred invocation for this method.}
+\item{code{signature(object="profile.mle2")}}{The preferred invocation for these methods.}
 \item{code{signature(object="mle2")}}{A convenience wrapper that calls \code{profile} on the mle2 object and runs the former method.}
 }}
 
 \usage{
 plotprofmle(object, nseg=20, ratio=log(8), which=NULL, ask=NULL, 
     col.line="blue", varname=NULL, \dots)
+likelregions(object, nseg=100, ratio=log(8), \dots)
 }
 
 \arguments{
@@ -36,8 +40,10 @@ plotprofmle(object, nseg=20, ratio=log(8), which=NULL, ask=NULL,
   }
 
   \item{ratio}{
-    real positive or NULL; log-likelihood ratio that defines the likelihood
-    interval to be shown in the plot.
+    real positive; log-likelihood ratio that defines the likelihood
+    interval to be shown in the plot by \code{plotprofmle} or returned by 
+    \code{likelregions}. Set to \code{NULL} to suppress intervals
+    from being displayed.
   }
 
   \item{which}{
@@ -80,9 +86,17 @@ plotprofmle(object, nseg=20, ratio=log(8), which=NULL, ask=NULL,
   values of the parameters resulting in a negative log-likelihood
   less or equal to a given value k are exp(k) times as plausible as
   the mle. Hence, exp(k) is a likelihood ratio, and delimits a plausibility interval (or likelihood
-  interval) for the mle's. Function \code{plotprofmle} plots profiles of the
+  interval) for the mle's. 
+  
+  Function \code{plotprofmle} plots profiles of the
   negative log-likelihood functions, along with the limits of
   likelihood interval for a given log-likelihood \code{ratio}.
+
+  Function \code{likelregions} returns the limits of the likelihood intervals for each parameter.
+  This might be seen as an analog function for \code{confint}, and will return very similar values
+  for corresponding ratios if the profile is symmetric and monotonic. However, if the profile is
+  ill-behaved, \code{likelregions} might return more than one interval for each parameter, whereas
+  \code{confint} will return \code{NA} with a warning.
 }
 
 \references{
@@ -108,6 +122,9 @@ birds.pln.p <- profile(birds.pln)
 par(mfrow=c(1,2))
 plotprofmle(birds.pln.p)
 par(mfrow=c(1,1))
+likelregions(birds.pln.p)
+# Compare with the confidence intervals
+confint(birds.pln.p)
 }
 
 \author{
