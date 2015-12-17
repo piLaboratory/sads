@@ -1,9 +1,9 @@
 qpower <- function(p, s, lower.tail = TRUE, log.p = FALSE){
+	if(!lower.tail) p <- 1 - p
   op <- rank(p, ties.method="max")
   p <- sort(p)
   if(length(s) > 1) stop("Vectorization not implemented for the parameters")
 	if (log.p) p <- exp(p)
-	if(!lower.tail) p <- 1 - p
   y <- c()
   y[1] <- suppressWarnings(qfinder(dpower, p[1], list(s=s), 0))
   if(length(p) > 1)
