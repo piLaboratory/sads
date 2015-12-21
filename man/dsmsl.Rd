@@ -10,7 +10,7 @@
 }
 
 \usage{
-dsmsl(x, delta, epsilon, log = FALSE)
+dsmsl(x, delta, epsilon = min(x), log = FALSE)
 psmsl(q, delta, epsilon, lower.tail=TRUE, log.p=FALSE)
 qsmsl(p, delta, epsilon, lower.tail = TRUE, log.p = FALSE)
 }
@@ -33,8 +33,10 @@ qsmsl(p, delta, epsilon, lower.tail = TRUE, log.p = FALSE)
     function (see details for the formula).
   }
   \item{epsilon}{
-    positive real > 0; the epsilon parameter. It is related to the inverse of the predicted
-   number of species in the lowest abundance category.
+   positive real > 0; the epsilon parameter. It is related to the inverse of the predicted
+   number of species in the lowest abundance category. The default value for this parameter 
+   in \code{dsmsl} is the minimum value of the abundance vector, as it is the value that
+   always gives the maximum likelihood.
   }
   \item{log, log.p}{
     logical; if TRUE, probabilities p are given as log(p).
@@ -67,6 +69,9 @@ qsmsl(p, delta, epsilon, lower.tail = TRUE, log.p = FALSE)
   The cumulative distribution function is found by the algebraic integration of the density
   function above; however, the quantile function is given by a numeric approximation.
 
+  It should be noted that, due to the definition of the density function above, the 
+  procedures normally used for truncation of the distribution (see \code{\link{dtrunc}}
+  are meaningless.
 }
 
 \value{

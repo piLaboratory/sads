@@ -1,4 +1,4 @@
-dsmsl <- function(x, delta, epsilon, log = FALSE){
+dsmsl <- function(x, delta, epsilon = min(x), log = FALSE){
 	delta[ !is.finite(delta) | delta <= 0] <- NaN
 	epsilon[ !is.finite(epsilon) | epsilon <= 0 | epsilon > 1/delta ] <- NaN
   c1 <- 1/(delta*epsilon - log(delta*epsilon) - 1)
