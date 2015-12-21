@@ -56,12 +56,16 @@ qsmsl(p, delta, epsilon, lower.tail = TRUE, log.p = FALSE)
   \deqn{f(x) = c \left(\frac{1}{x} - \delta\right); \epsilon \leq x \leq \frac{1}{\delta}}
        {f(x) = c (1/x - delta); epsilon <= x <= 1/delta}
 
-  And zero otherwise. The parameters to this distribution are delta and epsilon, and
+  And zero otherwise. Notice that the distribution is undefined if epsilon > 1/delta.
+  
+  The parameters to this distribution are delta and epsilon, and
   c is a constant of integration, which can be deduced as:
 
   \deqn{\frac{1}{c} = \delta \epsilon - \log(\delta \epsilon) - 1}
        {1/c = delta * epsilon - log(delta * epsilon) - 1}
-  
+
+  The cumulative distribution function is found by the algebraic integration of the density
+  function above; however, the quantile function is given by a numeric approximation.
 
 }
 
@@ -84,5 +88,15 @@ values \code{NaN}, with a warning.
 
 
 \examples{
-  # TODO
+  x <- 1:100
+  PDF <- dsmsl(x=x, delta = 1/100, epsilon=0.25)
+  CDF <- psmsl(q=x, delta = 1/100, epsilon=0.25)
+  par(mfrow=c(1,2))
+  plot(x,CDF, ylab="Cumulative Probability", type="b",
+     main="Dewdney's MSL distribution, CDF")
+  plot(x,PDF, ylab="Probability", type="h",
+     main="Dewdney's MSL distribution, PDF")
+  par(mfrow=c(1,1))
+  ## quantile is the inverse of CDF
+  all.equal( qsmsl( CDF, delta=1/100, epsilon=0.25), x) # should be TRUE
 }
