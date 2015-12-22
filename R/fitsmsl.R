@@ -4,7 +4,9 @@ fitsmsl <- function(x, trunc = NaN, start.value, ...){
     warning("trunc argument for dsmsl is meaningless. Read the manual for details")
   }
   if (missing(start.value)){
-    deltahat <- 0.5/max(x)
+    n <-length(x); eps <- min(x)
+    dL <- function(delta) n*(1-delta*eps)/(delta*(delta*eps-log(delta*eps)-1)) - sum( x/(1-delta*x))
+    deltahat <- uniroot( dL, interval = c(1e-8, 0.9999/max(x)) )$root
   } else{
     deltahat <- start.value[1]
   }
