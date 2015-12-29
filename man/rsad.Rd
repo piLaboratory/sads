@@ -1,17 +1,18 @@
 \name{rsad}
 \alias{rsad}
 
-\title{Poisson and negative binomial sampling of a species abundance distribution
+\title{Sampling from a species abundance distribution
 }
 
 \description{
   A given number of realizations of a probability distribution (species
-  abundances in a community) is sampled by a Poisson or Negative Binomial process. 
+  abundances in a community) is sampled with replacement by a Poisson or
+  Negative Binomial process, or without replacement by a hypergeometric process. 
 }
 
 \usage{
 rsad(S = NULL, frac, sad, coef, trunc = NaN, 
-     sampling = c("poisson", "nbinom", "fixed"), k , zeroes = FALSE, ssize=1)
+     sampling = c("poisson", "nbinom", "hypergeometric"), k , zeroes = FALSE, ssize=1)
 }
 
 \arguments{
@@ -22,8 +23,9 @@ rsad(S = NULL, frac, sad, coef, trunc = NaN,
     (see details).
   }
   \item{frac}{
-    single numeric \code{0 < frac <= 1}; fraction of the community sampled. Notice that the
-    assumptions behind this function are only valid for small values of \code{frac}.
+    single numeric \code{0 < frac <= 1}; fraction of the community
+    sampled. Notice that assumptions of Poisson and binomial sampling
+    are only valid for small values of \code{frac} (see Details).
   }
   \item{sad}{
     character; root name of community sad distribution - e.g., \kbd{lnorm}
@@ -40,9 +42,10 @@ rsad(S = NULL, frac, sad, coef, trunc = NaN,
   }
   \item{sampling}{
     character; if \kbd{poisson} the sampling process is Poisson (independent sampling of
-    individuals); if \kbd{nbinom} negative binomial
-    sampling is used to simulate aggregation of individuals in sampling units;
-    finally, \kbd{fixed} samples a fixed number of \code{frac} times the number of 
+    individuals with replacement); if \kbd{nbinom} negative binomial
+    sampling is used to simulate aggregation of individuals in sampling
+    units with replacement;
+    finally, \kbd{hypergeometric} samples a fixed number of \code{frac} times the number of 
     individuals in the simulated community, without replacement. Partial matching is allowed.
   }
   \item{k}{
@@ -65,18 +68,33 @@ rsad(S = NULL, frac, sad, coef, trunc = NaN,
   species is \code{frac*n}, where n is the species' expected abundance in the
   community.
 
-  Three sampling processes can be simulated: Poisson,
-  where individuals are sampled independently, and negative binomial,
-  where individuals are aggregated over sampling units. Finally, the "fixed"
-  sampling scheme takes a sample of \code{frac * n} individuals, without replacement.
+  Three sampling processes can be simulated.
+  Sampling with replacement can be done with Poisson
+  (individuals are sampled independently) or negative binomial sampling
+  (where individuals of each species are aggregated over sampling
+  units). The "hypergeometric" sampling scheme draws \code{frac * n}
+  individuals without replacement.
 
-  In general terms, this function takes a Poisson or negative
+  For Poisson and negative binomial schemes the species abundances in
+  the sample are statistically independent.
+  In general terms, these two sampling schemes takes a Poisson or negative
   binomial sampling with replacement of a vector of \code{S} realizations of a random variable,
   with the sampling intensity given by \code{frac}. The resulting values are
   realizations of a Poisson (or a Negative Binomial) random variable where the
   parameter that corresponds to the mean (=expected value of the variable) follows a probability
-  distribution given by the argument \code{sad}.
+  distribution given by the argument \code{sad}. Because these two
+  sampling schemes assume replacement but the sampled community is
+  finite, they are valid only when the
+  fraction of the sampled community is small (\code{frac}<<1).
 
+  The "hypergeometric" scheme simulates a sample of a fixed total number of
+  individuals from the community. Therefore, abundances of the species
+  in the sample are interdependent (Connoly et al. 2009).
+  Sampling is carried out with \code{base::sample(..., replace = FALSE)}.
+  This scheme samples without replacement a finite community and
+  therefore provides valid results for any value of
+  \code{frac}.
+  
   For the broken-stick, logseries, MZSM and Volkov distributions, the expected value of \code{S}
   is deduced from the coefficients provided in the argument \code{coef}; thus, the value of the parameter
   \code{S} is ignored and may be left blank. The formulas for the number of species in each case are:
@@ -96,7 +114,13 @@ rsad(S = NULL, frac, sad, coef, trunc = NaN,
   Pielou, E.C. 1977. \emph{Mathematical Ecology}. New York: John Wiley
   and Sons.
   
-  Green,J. and Plotkin, J.B. 2007 A statistical theory for sampling species abundances. \emph{Ecology Letters 10}:1037--1045
+  Green, J. and Plotkin, J.B. 2007 A statistical theory for sampling
+  species abundances. \emph{Ecology Letters 10}:1037--1045
+
+  Connolly, S.R., Dornelas, M., Bellwood, D.R. and Hughes,
+  T.P. 2009. Testing species abundance models: a new bootstrap approach
+  applied to Indo-Pacific coral reefs. \emph{Ecology, 90}(11):
+  3138--3149.
 }
 
 \author{
@@ -111,7 +135,6 @@ rsad(S = NULL, frac, sad, coef, trunc = NaN,
 }
 
 \examples{
-
 ##A Poisson sample from a community with a lognormal sad
 samp2 <- rsad(S = 100, frac=0.1, sad="lnorm", coef=list(meanlog=5, sdlog=2))
 ## Preston plot

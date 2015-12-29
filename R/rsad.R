@@ -1,4 +1,4 @@
-rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nbinom", "fixed"), k, zeroes=FALSE, ssize=1)
+rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nbinom", "hypergeometric"), k, zeroes=FALSE, ssize=1)
 {
   sampling <- match.arg(sampling)
   if (frac <= 0 | frac > 1) stop("Invalid value for frac, make sure 0 < frac <= 1")
@@ -37,7 +37,7 @@ rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nb
   sam <- switch(sampling,
                 poisson = rpois(S*ssize,lambda=frac*com),
                 nbinom = rnbinom(S*ssize,mu=frac*com,size=k),
-                fixed = rfixed(com, frac, ssize)
+                hypergeometric = rfixed(com, frac, ssize)
                )
 
   # Treats "ssize" and "zeroes" arguments
