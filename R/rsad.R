@@ -1,22 +1,24 @@
-rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nbinom", "hypergeometric"), k, zeroes=FALSE, ssize=1)
-{
+rsad <- function(S = NULL, frac, 
+                 sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
+                         "poilog","power", "powbend", "volkov", "weibull"), 
+                 coef, trunc=NaN, sampling=c("poisson", "nbinom", "hypergeometric"), 
+                 k, zeroes=FALSE, ssize=1) {
   sampling <- match.arg(sampling)
+  sad <- match.arg(sad)
   if (frac <= 0 | frac > 1) stop("Invalid value for frac, make sure 0 < frac <= 1")
   if (sampling == "nbinom" & missing(k)) stop("For negative binomial sampling please provide a value for k")
   if (ssize<1) stop("ssize must be at least one")
   if (class(coef) != "list" | is.null(names(coef))) stop("coef must be a named list!")
 
   # Handles parameters that give the community size
-  if (sad %in% c("bs", "ls", "mzsm", "volkov", "gs", "zipf", "rbs", "mand")) {
+  if (sad %in% c("bs", "ls", "mzsm", "volkov")) {
     if (!is.null(S))
-      warning("For the selected sad/rad the value of S is ignored")
+      warning("For the selected sad the value of S is ignored")
     S <- switch(sad, 
                 bs = coef$S,
-                rbs = coef$N,
                 ls = coef$alpha * log ( 1 + coef$N / coef$alpha ),
                 mzsm = sum(coef$theta / (1:coef$J) *(1 - (1:coef$J)/coef$J)^(coef$theta - 1)),
-                volkov = Svolkov(coef$theta, coef$m, coef$J),
-                gs = , zipf = , mand = NULL
+                volkov = Svolkov(coef$theta, coef$m, coef$J)
                 )
   } else {
     if (is.null(S))
@@ -30,8 +32,6 @@ rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nb
   } else {
     com <- rtrunc(sad, n=S, trunc=trunc, coef=coef)
   }
-  if (sad %in% c("rbs", "gs", "mand", "zipf"))
-    com <- hist(com, breaks=0:max(com), plot=F)$counts
 
   # Generates a sample from the community
   sam <- switch(sampling,
@@ -53,10 +53,14 @@ rsad <- function(S = NULL, frac, sad, coef, trunc=NaN, sampling=c("poisson", "nb
 }
 
 rfixed <- function(com, frac, ssize) {
-  rad.tab <- rad(ssize*com)
-  rr <- rep(rad.tab$rank, rad.tab$abund)
-  ss <- sample(rr, size = frac * length(rr), replace=FALSE)
-  hist(ss, breaks=0:max(ss), plot=F)$counts
+    rad.tab <- rad(ssize*com)
+    rr <- rep(rad.tab$rank, rad.tab$abund)
+    sam <- c()
+    for (i in 1:ssize) {
+        ss <- sample(rr, size = frac * length(rr), replace=FALSE)
+        sam <- c(sam, hist(ss, breaks=0:max(ss), plot=F)$counts)
+    }
+    return(sam)
 }
 
 ### Random number generation from the sads implemented in this package

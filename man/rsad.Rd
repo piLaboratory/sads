@@ -11,8 +11,10 @@
 }
 
 \usage{
-rsad(S = NULL, frac, sad, coef, trunc = NaN, 
-     sampling = c("poisson", "nbinom", "hypergeometric"), k , zeroes = FALSE, ssize=1)
+rsad(S = NULL, frac, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
+                             "poilog","power", "powbend", "volkov", "weibull"), 
+                 coef, trunc=NaN, sampling=c("poisson", "nbinom", "hypergeometric"), 
+                 k, zeroes=FALSE, ssize=1) 
 }
 
 \arguments{
