@@ -2,12 +2,13 @@
 \alias{dpower}
 \alias{ppower}
 \alias{qpower}
+\alias{rpower}
 
 \title{Power discrete distribution
 }
 
 \description{
-Density, distribution function and quantile function for discrete
+Density, distribution function, quantile function and random generation for discrete
 version of power distribution with parameter \code{s}.
 }
 
@@ -15,6 +16,7 @@ version of power distribution with parameter \code{s}.
 dpower( x, s, log=FALSE)
 ppower( q, s, lower.tail=TRUE, log.p=FALSE)
 qpower( p, s, lower.tail= TRUE, log.p=FALSE)
+rpower( n, s)
 }
 
 \arguments{
@@ -27,6 +29,7 @@ qpower( p, s, lower.tail= TRUE, log.p=FALSE)
     species abundance distributions, a vector of
     abundances of species in a sample.
   }
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }

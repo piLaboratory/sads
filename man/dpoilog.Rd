@@ -2,11 +2,12 @@
 \alias{dpoilog}
 \alias{ppoilog}
 \alias{qpoilog}
+\alias{rpoilog}
 \title{Poisson-lognormal distribution
 }
 
 \description{
-  Density, distribution function and quantile function for
+  Density, distribution function, quantile function and random generation for
   Poisson-lognormal distribution with parameters \code{mu} and \code{sigma}.
 }
 
@@ -14,6 +15,7 @@
 dpoilog( x, mu, sig, log=FALSE)
 ppoilog( q, mu, sig, lower.tail=TRUE, log.p=FALSE)
 qpoilog( p, mu, sig, lower.tail = TRUE, log.p = FALSE)
+rpoilog( n, mu, sig)
 }
 
 \arguments{
@@ -23,6 +25,7 @@ qpoilog( p, mu, sig, lower.tail = TRUE, log.p = FALSE)
   \item{q}{vector of (non-negative integer) quantiles. Usually a vector of
     abundances of species in a sample.
   }
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }

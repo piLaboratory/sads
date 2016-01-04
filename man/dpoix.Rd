@@ -3,12 +3,13 @@
 \alias{dpoix}
 \alias{ppoix}
 \alias{qpoix}
+\alias{rpoix}
 
 \title{Compound Poisson-Exponential distribution
 }
 
 \description{
-  Density, distribution function and quantile function
+  Density, distribution function, quantile function and random generation
   for the Poisson-exponential compound probability distribution
   with parameters \code{fraction} and \code{rate}.
 }
@@ -16,7 +17,8 @@
 \usage{
 dpoix(x, frac, rate, log=FALSE)
 ppoix(q, frac, rate, lower.tail=TRUE, log.p=FALSE)
-qpoix(p, frac, rate, S=30, lower.tail=TRUE, log.p=FALSE)
+qpoix(p, frac, rate, lower.tail=TRUE, log.p=FALSE)
+rpoix(n, frac, rate)
 }
 
 \arguments{
@@ -28,6 +30,7 @@ qpoix(p, frac, rate, S=30, lower.tail=TRUE, log.p=FALSE)
   \item{q}{vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, a vector of abundances of species in a sample.
   }
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }
@@ -44,9 +47,6 @@ qpoix(p, frac, rate, S=30, lower.tail=TRUE, log.p=FALSE)
   \item{lower.tail}{
     logical; if TRUE (default), probabilities are P[X <= x],
     otherwise, P[X > x].
-  }
-  \item{S}{positive integer; initial value for bisection method.
-    (see note)
   }
 }
 \details{
@@ -79,11 +79,6 @@ qpoix(p, frac, rate, S=30, lower.tail=TRUE, log.p=FALSE)
 }
 \value{
   (log) density of the (zero-truncated) density.
-}
-\note{
-  parameter \code{S} in \code{qpoix} is just a starting value for the
-  bisection method, and does not affect the final result, only the
-  convergence velocity.
 }
 
 \references{
