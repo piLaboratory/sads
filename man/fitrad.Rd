@@ -14,7 +14,7 @@
 
 \usage{
 fitrad(x, rad =c("gs", "mand", "rbs", "zipf"), \dots)
-fitgs(x, trunc, \dots)
+fitgs(x, trunc, start.value, \dots)
 fitmand(x, trunc, start.value, \dots)
 fitrbs(x, trunc, \dots)
 fitzipf(x, N, trunc, start.value, upper = 20, \dots)
