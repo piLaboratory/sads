@@ -42,6 +42,8 @@ setMethod("trueLL", signature(object="histogram", dist="character", coef="list",
 		  function(object, dist, coef, trunc, ...){
 			  dots <- list(...)
 			  if(missing(trunc)) trunc <- NaN
+              if( any (object$breaks < 0) || (! is.nan(trunc) && any(object$breaks < trunc)))
+                  stop("Invalid values: some x are being counted below 0 or the truncation point")
 			  if(is.nan(trunc)){
 				  cdf <- get(paste("p", dist, sep=""), mode = "function")
 				  probs <- diff(do.call(cdf, c(list(q = object$breaks), as.list(coef), dots)))
