@@ -1,5 +1,6 @@
 fitvolkov <- function(x, trunc, start.value, ...){
   dots <- list(...)
+  if (any(x <= 0) | any(!is.wholenumber(x))) stop ("All x must be positive integers")
   if(missing(start.value)){
     tmp <- tempfile()
 	  sink(tmp) # as the following function outputs lots of garbage...

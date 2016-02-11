@@ -1,5 +1,6 @@
 fitbs <- function(x, trunc, ...){
 	dots <-list(...)
+  if (any(x <= 0)) stop ("All x must be positive")
   s <- length(x)
   n <- sum(x)
   if (!missing(x)){

@@ -1,4 +1,5 @@
 fitzipf <- function(x, N, trunc, start.value, upper = 20, ...){
+  if (any(x <= 0)) stop ("All x must be positive")
   if(class(x)!="rad") rad.tab <- rad(x)
   else rad.tab <- x
   y <- rep(rad.tab$rank, rad.tab$abund)

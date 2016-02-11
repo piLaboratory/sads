@@ -1,4 +1,5 @@
 fitmand <- function(x, trunc, start.value, ...){
+  if (any(x <= 0)) stop ("All x must be positive")
   if(class(x)!="rad") rad.tab <- rad(x)
   else rad.tab <- x
   N <- max(rad.tab$rank)
