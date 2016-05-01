@@ -52,13 +52,14 @@ rsad <- function(S = NULL, frac,
   return(y)
 }
 
+
 rfixed <- function(com, frac, ssize) {
-    rad.tab <- rad(ssize*com)
-    rr <- rep(rad.tab$rank, rad.tab$abund)
+    rr <- rep(1:length(com), com)
     sam <- c()
     for (i in 1:ssize) {
         ss <- sample(rr, size = frac * length(rr), replace=FALSE)
-        sam <- c(sam, hist(ss, breaks=0:max(ss), plot=F)$counts)
+        t1 <- table(factor(ss, levels=1:length(com)))
+        sam <- c(sam, as.vector(t1))
     }
     return(sam)
 }
