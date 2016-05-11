@@ -58,8 +58,7 @@ rfixed <- function(com, frac, ssize) {
     sam <- c()
     for (i in 1:ssize) {
         ss <- sample(rr, size = frac * length(rr), replace=FALSE)
-        t1 <- table(factor(ss, levels=1:length(com)))
-        sam <- c(sam, as.vector(t1))
+        sam <- c(sam, hist(ss, breaks=0:max(ss), plot=F)$counts)
     }
     return(sam)
 }
