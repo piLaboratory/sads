@@ -1,9 +1,14 @@
-0.2.5 (TBR)
-* new functions for density, distribution and quantile function for the Pueyo's powerbend distribution
+0.3.0 (2016-05-11)
+* new functions for density, distribution, quantile and random generators function for the Pueyo's powerbend distribution
+* several new functionalities for random sad generation (rsad)
+* now providing random generator functions for all distributions in the package (such as rls, rmzsm, rzipf, etc)
 * octav is now a S4 method, and octav plots have a new argument "mid=TRUE"
+* new function and class for likelregions; also changed the spline method for plotting in plotprofmle
 * better optimization and vectorization of several discrete quantile and distribution functions
 * fixed the support of Zipf, Zipf-Mandelbrot and geometric series to not include zero abundances or zero-th rank
-* fixed a bug in octavpred
+* added He & Tang's formula for initial parameter estimate of the geometric series
+* more robust checking for invalid data in the fitting functions
+* fixed bugs in octav, octavpred and dmzsm
 
 0.2.4 (2015-11-02)
 * octavpred now accepts a 'preston' argument (as does 'octav')

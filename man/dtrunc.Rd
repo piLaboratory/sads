@@ -3,16 +3,18 @@
 \alias{dtrunc}
 \alias{ptrunc}
 \alias{qtrunc}
+\alias{rtrunc}
 
 \title{Left-truncation of density, probability and quantile of distributions}
 
-\description{Returns density, probability and quantile values for
+\description{Returns density, probability, quantile values and random generation for
   distribution functions left-truncated at a specified value.}
 
 \usage{
 dtrunc(f, x, trunc, coef, log = FALSE)
 ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
 qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
+rtrunc(f, n, trunc, coef)
 }
 
 \arguments{
@@ -33,6 +35,10 @@ qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
   
   \item{p}{
     vector of probabilities.
+  }
+
+  \item{n}{
+    number of random values to return.
   }
   
     \item{coef}{
@@ -55,6 +61,7 @@ qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
   \code{ptrunc} gives the (log) distribution function defined by
   \code{f} left-truncated at \code{trunc}.
   \code{qtrunc} gives the quantile of the density defined by \code{f} left-truncated at \code{trunc}.
+  \code{rtrunc} generates a sample from the density defined by \code{f} left-truncated at \code{trunc}.
 }
 
 \details{
@@ -126,6 +133,9 @@ B <- (ppois( 1:5 , lambda = 1.5 ) -
   (ppois(0 , lambda = 1.5, lower = FALSE))
 ## checking
 identical(A,B)
+
+# Random generation
+rtrunc("ls", 100, coef=list(N=1000, alpha=50), trunc=5)
 }
 
 

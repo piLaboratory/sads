@@ -2,12 +2,13 @@
 \alias{dpowbend}
 \alias{ppowbend}
 \alias{qpowbend}
+\alias{rpowbend}
 
 \title{Puyeo's Power-bend discrete distribution
 }
 
 \description{
-Density, distribution function and quantile function for discrete
+Density, distribution function, quantile function and random generation for discrete
 version of Pueyo's power-bend distribution with parameters \code{s} and \code{omega}.
 }
 
@@ -15,6 +16,7 @@ version of Pueyo's power-bend distribution with parameters \code{s} and \code{om
 dpowbend( x, s, omega = 0.01, oM = -log(omega), log=FALSE)
 ppowbend ( q, s, omega = 0.01, oM = -log(omega), lower.tail=TRUE, log.p=FALSE)
 qpowbend( p, s, omega = 0.01, oM = -log(omega), lower.tail= TRUE, log.p=FALSE)
+rpowbend( n, s, omega)
 }
 
 \arguments{
@@ -30,6 +32,7 @@ qpowbend( p, s, omega = 0.01, oM = -log(omega), lower.tail= TRUE, log.p=FALSE)
   \item{p}{
     vector of probabilities.
   }
+  \item{n}{number of random values to return.}
   \item{s}{
     positive real s > 1; exponent of the power-bend distribution.
   }

@@ -1,12 +1,13 @@
 fitpoilog <- function(x, trunc = 0, ...){
     dots <- list(...)
+  if (any(x <= 0) | any(!is.wholenumber(x))) stop ("All x must be positive integers")
     if (!is.null(trunc)){
         if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
         else{
             if(trunc==0){
-                pl.par <- poilogMLE(x, startVals = c(mu = mean(log(x)) + log(0.5), sig = sd(log(x))), zTrunc = TRUE)$par
+                pl.par <- poilog::poilogMLE(x, startVals = c(mu = mean(log(x)) + log(0.5), sig = sd(log(x))), zTrunc = TRUE)$par
             }
-            else pl.par <- poilogMLE(x, startVals = c(mu = mean(log(x)) + log(0.5), sig = sd(log(x))))$par
+            else pl.par <- poilog::poilogMLE(x, startVals = c(mu = mean(log(x)) + log(0.5), sig = sd(log(x))))$par
             LL <- function(mu, sig) -sum(dtrunc("poilog", x = x, coef = list(mu = mu, sig = sig), trunc = trunc, log = TRUE))
         }
     }

@@ -1,5 +1,6 @@
 fitls <- function(x, trunc, start.value, upper = length(x), ...){
 	dots <- list(...)
+  if (any(x <= 0) | any(!is.wholenumber(x))) stop ("All x must be positive integers")
   S <- length(x)
   N <- sum(x)
   if (missing(start.value)){

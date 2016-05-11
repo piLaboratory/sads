@@ -2,10 +2,11 @@
 \alias{dmzsm}
 \alias{pmzsm}
 \alias{qmzsm}
+\alias{rmzsm}
 \title{Metacommunity zero-sum multinomial distribution}
 
 \description{
-  Density, distribution and quantile function
+  Density, distribution, quantile function and random generation
   for Alonso & McKane's mZSM distribution with parameter \code{theta}.
 }
 
@@ -13,6 +14,7 @@
 dmzsm(x, J, theta, log = FALSE)
 pmzsm(q, J, theta, lower.tail=TRUE, log.p=FALSE)
 qmzsm(p, J, theta, lower.tail = TRUE, log.p = FALSE)
+rmzsm(n, J, theta)
 }
 
 \arguments{
@@ -24,6 +26,7 @@ qmzsm(p, J, theta, lower.tail = TRUE, log.p = FALSE)
   \item{q}{vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, a vector of abundance of species in a sample.
   }
+  \item{n}{number of random values to return.}
    \item{p}{
      vector of probabilities.
    }

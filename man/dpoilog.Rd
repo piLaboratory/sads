@@ -2,11 +2,12 @@
 \alias{dpoilog}
 \alias{ppoilog}
 \alias{qpoilog}
+\alias{rpoilog}
 \title{Poisson-lognormal distribution
 }
 
 \description{
-  Density, distribution function and quantile function for
+  Density, distribution function, quantile function and random generation for
   Poisson-lognormal distribution with parameters \code{mu} and \code{sigma}.
 }
 
@@ -14,6 +15,7 @@
 dpoilog( x, mu, sig, log=FALSE)
 ppoilog( q, mu, sig, lower.tail=TRUE, log.p=FALSE)
 qpoilog( p, mu, sig, lower.tail = TRUE, log.p = FALSE)
+rpoilog( n, mu, sig)
 }
 
 \arguments{
@@ -23,6 +25,7 @@ qpoilog( p, mu, sig, lower.tail = TRUE, log.p = FALSE)
   \item{q}{vector of (non-negative integer) quantiles. Usually a vector of
     abundances of species in a sample.
   }
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }
@@ -75,7 +78,7 @@ qpoilog( p, mu, sig, lower.tail = TRUE, log.p = FALSE)
 }
 
 \source{
-  The three functions were built from \code{dpoilog} function from \pkg{poilog}
+  These functions were built from \code{dpoilog} function from \pkg{poilog}
   package (Vidar \enc{Grøtan}{Grotan} and Steinar Engen).
   
   \code{dpoilog} is just a wrapper of \code{poilog::dpoilog} with an additional \code{log} argument.
@@ -83,7 +86,10 @@ qpoilog( p, mu, sig, lower.tail = TRUE, log.p = FALSE)
   \code{ppoilog} does the cumulative sum of \code{poilog::dpoilog}.
 
   \code{qpoilog} uses modified bisection method to find numerically quantiles using
-  \code{ppoilog}, and is extremely slow for a large number of quantiles.
+  \code{ppoilog}.
+
+  \code{rpoilog} selects random values from a poilog distribution. It is unrelated to the 
+  function of the same name in \pkg{poilog}.
 }
 
 \references{
@@ -107,7 +113,7 @@ qpoilog( p, mu, sig, lower.tail = TRUE, log.p = FALSE)
 }
 
 \author{
-  Paulo I. Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda
+  Paulo I. Prado \email{prado@ib.usp.br}, Andre Chalom and Murilo Dantas Miranda
 }
 
 \seealso{

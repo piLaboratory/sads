@@ -2,11 +2,12 @@
 \alias{dpareto}
 \alias{ppareto}
 \alias{qpareto}
+\alias{rpareto}
 
 \title{Pareto distribution}
 
 \description{
-  Density, distribution function and quantile function for
+  Density, distribution function, quantile function and random generation for
   the Pareto distribution with parameters \code{shape} and \code{scale}.
 }
 
@@ -14,6 +15,7 @@
 dpareto(x, shape, scale = min(x), log = FALSE)
 ppareto(q, shape, scale = min(q), lower.tail = TRUE, log.p = FALSE)
 qpareto(p, shape, scale = min(p), lower.tail = TRUE, log.p = FALSE)
+rpareto(n, shape, scale = 1)
 }
 
 \arguments{
@@ -25,6 +27,7 @@ qpareto(p, shape, scale = min(p), lower.tail = TRUE, log.p = FALSE)
     species abundance distributions, a vector of
     abundances of species in a sample.
   }
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }

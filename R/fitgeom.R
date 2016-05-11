@@ -1,5 +1,6 @@
 fitgeom <- function(x, trunc = 0, start.value, ...){
 	dots <- list(...)
+  if (any(x <= 0) | any(!is.wholenumber(x))) stop ("All x must be positive integers")
   if (!is.null(trunc)){
     if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
   }

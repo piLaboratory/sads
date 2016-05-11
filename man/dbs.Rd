@@ -6,11 +6,13 @@
 \alias{drbs}
 \alias{prbs}
 \alias{qrbs}
+\alias{rrbs}
+\alias{rbs}
 
 \title{MacArthur's Broken-stick distribution}
 
 \description{
-Density, distribution function and quantile function for
+Density, distribution function, quantile function and random generation for
 the Broken-stick distribution with parameters \code{N} and \code{S}.
 }
 
@@ -18,9 +20,11 @@ the Broken-stick distribution with parameters \code{N} and \code{S}.
 dbs( x, N, S, log = FALSE )
 pbs( q, N, S, lower.tail = TRUE, log.p = FALSE )
 qbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
+rbs( n, N, S )
 drbs( x, N, S, log = FALSE )
 prbs( q, N, S, lower.tail = TRUE, log.p = FALSE )
 qrbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
+rrbs( n, N, S)
 }
 
 \arguments{
@@ -35,6 +39,7 @@ qrbs( p, N, S, lower.tail = TRUE, log.p = FALSE )
     (for \code{dbs})
     or abundance ranks (for \code{drbs}) of species in a sample.
   }
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }

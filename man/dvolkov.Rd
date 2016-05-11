@@ -3,10 +3,11 @@
 \alias{dvolkov}
 \alias{pvolkov}
 \alias{qvolkov}
+\alias{rvolkov}
 
 \title{Neutral Biodiversity Theory distribution by Volkov \emph{et al.} }
 
-\description{Density, distribution function and quantile function
+\description{Density, distribution function, quantile function and random generation
   for species abundances distribution in a neutral community with
   immigration as deduced by Volkov et al. (2003).
 }
@@ -15,6 +16,7 @@
 dvolkov( x, theta, m, J, order=96, log = FALSE )
 pvolkov( q, theta, m , J, lower.tail = TRUE, log.p = FALSE )
 qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
+rvolkov( n, theta, m, J)
 }
 
 \arguments{
@@ -28,6 +30,7 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
   \item{q}{vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, a vector of abundance of species in a sample.
   }
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }
@@ -69,11 +72,11 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
 }
 
 \details{
-  Volkov et al (2003) proposed one of the analytic solutions for the
+  Volkov \emph{et al} (2003) proposed one of the analytic solutions for the
   species abundance distributions (SADs)
   for The Neutral Theory of Biodiversity (Hubbell 2001).
 
-  The solution is deduced from a model of stochastic dynamics of a
+  Their solution is deduced from a model of stochastic dynamics of a
   set of species where the following rules apply:
   (1) replacement of a dead individual by local offspring -- with probability 1-m,
   individuals picked at random
@@ -90,7 +93,7 @@ qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
   these expected values for abundances 1:J and dividing them
   by the total number of
   species.
-  \code{dvolkov} is performs the numerical integration of the 
+  \code{dvolkov} performs the numerical integration of the 
   density function by means of Gaussian quadrature, using a
   library by Pavel Holoborodko (http://www.holoborodko.com/pavel/?page_id=679).
   The code is based on the \code{untb::volkov} function (Hankin 2007).

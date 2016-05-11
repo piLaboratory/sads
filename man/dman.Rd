@@ -2,10 +2,11 @@
 \alias{dmand}
 \alias{pmand}
 \alias{qmand}
+\alias{rmand}
 \title{Zipf-Mandelbrodt distribution}
 
 \description{
-Density, distribution function and quantile function for
+Density, distribution function, quantile function and random generation for
 Zipf-Mandelbrodt distribution with parameters \code{N} \code{s} and \code{v}.
 }
 
@@ -13,6 +14,7 @@ Zipf-Mandelbrodt distribution with parameters \code{N} \code{s} and \code{v}.
 dmand( x, N, s, v, log=FALSE)
 pmand( q, N, s, v, lower.tail=TRUE, log.p=FALSE)
 qmand( p, N, s, v, lower.tail = TRUE, log.p = FALSE)
+rmand( n, N, s, v)
 }
 
 \arguments{
@@ -23,6 +25,7 @@ qmand( p, N, s, v, lower.tail = TRUE, log.p = FALSE)
   \item{q}{vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, a vector of abundance ranks of species in a sample.
   }
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }

@@ -1,5 +1,6 @@
 fitmzsm <- function(x, trunc, start.value, upper = length(x), ...){
   dots <- list(...)
+  if (any(x <= 0) | any(!is.wholenumber(x))) stop ("All x must be positive integers")
   if(sum(x)<100) warning("\n small sample size (J<100); \n mzsm may not be a good approximation")
   if (!missing(trunc)){
     if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
