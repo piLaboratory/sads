@@ -28,7 +28,7 @@
 \author{Paulo In\'acio Prado,  Murilo Dantas Miranda and Andre Chalom \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
   \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
 
-\date{June, 12, 2015}
+\date{May, 11, 2016}
 
 \maketitle
 
@@ -272,10 +272,10 @@ function \code{fitrad}:
 
 \begin{itemize}
 \item ``gs'': geometric series (which is NOT geometric PDF, available
-  in \code{fitsad} as ``geom'';
+  in \code{fitsad} as ``geom'')
 \item ``rbs'': broken-stick model \citep{macarthur1957, May1975}
-\item ``zipf'': zipf power-law distribution
-\item ``mand'': zipf-mandelbrot power-law distribution
+\item ``zipf'': Zipf power-law distribution
+\item ``mand'': Zipf-Mandelbrot power-law distribution
 \end{itemize}
 
 \begin{shaded}

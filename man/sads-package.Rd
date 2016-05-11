@@ -16,8 +16,8 @@
   \tabular{ll}{
     Package: \tab sads\cr
     Type: \tab Package\cr
-    Version: \tab 0.2.4\cr
-    Date: \tab 2015-11-02\cr
+    Version: \tab 0.3.0\cr
+    Date: \tab 2016-05-11\cr
     License: \tab gpl \cr
     LazyLoad: \tab yes\cr
   }
@@ -30,7 +30,7 @@
   \itemize{
     \item Fit classic SAD models: log-series, lognormal, broken-stick, \dots ; 
     \item Fit classic rank-abundance (RADs) models: geometric,
-    broken-stick, zipf, zipf-mandelbrodt, \dots ;
+    broken-stick, Zipf, Zipf-Mandelbrodt, \dots ;
     \item Tools for quick diagnostic and comparison of models;
     \item Tools to simulate Poisson and Negative Binomial samples from
     abundances in communities.
