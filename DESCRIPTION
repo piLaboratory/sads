@@ -24,4 +24,5 @@ License: GPL-2
 LazyData: true
 Encoding: UTF-8
 URL: http://piLaboratory.github.io/sads, https://github.com/piklprado/sads
-BugReports: https://github.com/piLaboratory/sads/issues 
+BugReports: https://github.com/piLaboratory/sads/issues
+RoxygenNote: 5.0.1
