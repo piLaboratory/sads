@@ -2,16 +2,18 @@
 \alias{dls}
 \alias{pls}
 \alias{qls}
+\alias{rls}
 \title{Fisher's Log-series distribution}
 
 \description{
-Density, distribution function and quantile function for the Fisher's
+Density, distribution function, quantile function and random generation for the Fisher's
 log-series probability distribution with parameter \code{alpha}.
 }
 \usage{
 dls( x, N , alpha, log=FALSE)
 pls(q, N, alpha, lower.tail=TRUE, log.p=FALSE)
 qls(p, N, alpha, lower.tail = TRUE, log.p = FALSE)
+rls(n, N, alpha)
 }
 
 \arguments{
@@ -24,6 +26,7 @@ qls(p, N, alpha, lower.tail = TRUE, log.p = FALSE)
   \item{p}{
     vector of probabilities.
     }
+  \item{n}{number of random values to return.}
   \item{N}{
     sample size. Usually the total number of individuals in the sample (see details).
   }

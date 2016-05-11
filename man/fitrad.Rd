@@ -14,7 +14,7 @@
 
 \usage{
 fitrad(x, rad =c("gs", "mand", "rbs", "zipf"), \dots)
-fitgs(x, trunc, \dots)
+fitgs(x, trunc, start.value, \dots)
 fitmand(x, trunc, start.value, \dots)
 fitrbs(x, trunc, \dots)
 fitzipf(x, N, trunc, start.value, upper = 20, \dots)
@@ -121,8 +121,8 @@ fitzipf(x, N, trunc, start.value, upper = 20, \dots)
   abundance data (Motomura 1932, \emph{apud} Doi and Mori 2012),
   which was subsequently described as the result
   of niche pre-emption at a constant rate (Numata et. al. 1953 \emph{apud} Doi
-  and Mori 2012). 
-  
+  and Mori 2012). The initial guess for parameter \kbd{k} is given by
+  the expression 1 - (nmin/nmax)^(1/(S-1)) (He & Tang, 2008).
   
   \code{fitrbs} fits the Broken-stick distribution
   (MacArthur 1960) to abundance ranks. It is defined only by the observed number of
@@ -157,6 +157,9 @@ fitzipf(x, N, trunc, start.value, upper = 20, \dots)
 
   Doi, H. and Mori, T. 2012. The discovery of species-abundance
   distribution in an ecological community. \emph{Oikos 122:} 179--182.
+
+  He, F. and Tang, D. 2008. Estimating the niche preemption parameter
+  of the geometric series. \emph{Acta Oecologica 33:} 105--107.
 
   MacArthur, R.H. 1960. On the relative abundance of species.
   \emph{Am Nat 94}:25--36.
@@ -199,5 +202,5 @@ AICctab(ok.gs, ok.zm, nobs=length(okland))
 lines(radpred(ok.zm), col="red")
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda}
+\author{Paulo I Prado \email{prado@ib.usp.br}, Andre Chalom and Murilo Dantas Miranda}
 

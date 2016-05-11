@@ -3,11 +3,12 @@
 \alias{dgs}
 \alias{pgs}
 \alias{qgs}
+\alias{rgs}
 
 \title{Geometric series distribution}
 
 \description{
-Density, distribution function and quantile function for
+Density, distribution function, quantile function and random generation for
 the Geometric Series distribution, with parameter \code{k}.
 }
 
@@ -15,6 +16,7 @@ the Geometric Series distribution, with parameter \code{k}.
 dgs( x, k, S, log = FALSE )
 pgs( q, k, S, lower.tail = TRUE, log.p = FALSE )
 qgs( p, k, S, lower.tail = TRUE, log.p = FALSE )
+rgs( n, k, S )
 }
 
 \arguments{
@@ -23,6 +25,7 @@ qgs( p, k, S, lower.tail = TRUE, log.p = FALSE )
     species abundance distributions, this is a vector of abundance ranks
     of species in a sample.
   }
+  \item{n}{number of random values to return.}
   \item{k}{
     positive real, 0 < k < 1; geometric series coefficient; the ratio between
     the abundances of i-th and (i+1)-th species. 

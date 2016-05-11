@@ -2,11 +2,12 @@
 \alias{dpoig}
 \alias{ppoig}
 \alias{qpoig}
+\alias{rpoig}
 
 \title{Compound Poisson-gamma distribution}
 
 \description{
-  Density, distribution function and quantile function for
+  Density, distribution function, quantile function and random generation for
   for the Poisson-gamma compound probability distribution with
   parameters \code{frac}, \code{rate} and \code{rate}.
 }
@@ -14,7 +15,8 @@
 \usage{
 dpoig(x, frac, rate, shape, log=FALSE)
 ppoig(q, frac, rate, shape, lower.tail=TRUE, log.p=FALSE)
-qpoig(p, frac, rate, shape, S=30, lower.tail=TRUE, log.p=FALSE)
+qpoig(p, frac, rate, shape, lower.tail=TRUE, log.p=FALSE)
+rpoig(n, frac, rate, shape)
 }
 
 \arguments{
@@ -26,6 +28,7 @@ qpoig(p, frac, rate, shape, S=30, lower.tail=TRUE, log.p=FALSE)
   \item{q}{vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, a vector of abundances of species in a sample.
   }
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }
@@ -46,9 +49,6 @@ qpoig(p, frac, rate, shape, S=30, lower.tail=TRUE, log.p=FALSE)
   \item{lower.tail}{
     logical; if TRUE (default), probabilities are P[X <= x],
     otherwise, P[X > x].
-  }
-  \item{S}{positive integer; initial value for bisection method.
-    (see note)
   }
 }
 
@@ -81,11 +81,6 @@ qpoig(p, frac, rate, shape, S=30, lower.tail=TRUE, log.p=FALSE)
 }
 \value{
   (log) density of the (zero-truncated) density
-}
-\note{
-  parameter \code{S} in \code{qpoig} is just a starting value for the
-  bisection method, and does not affect the final result, only the
-  convergence velocity.
 }
 
 \references{

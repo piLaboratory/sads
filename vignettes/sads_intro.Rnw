@@ -28,7 +28,7 @@
 \author{Paulo In\'acio Prado,  Murilo Dantas Miranda and Andre Chalom \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
   \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
 
-\date{June, 12, 2015}
+\date{May, 11, 2016}
 
 \maketitle
 
@@ -42,7 +42,7 @@ options(width=60, continue=" ")
 Species abundance distributions (SADs) are one of the basic patterns
 of ecological communities \citep{McGill2007}. 
 The empirical distributions are
-traditionally modelled through probability distributions. Hence, the
+traditionally modeled through probability distributions. Hence, the
 maximum likelihood method can be used to fit and compare competing
 models for SADs. 
 The package \code{sads} provides functions to fit the most used models
@@ -203,14 +203,15 @@ complete list can be quite large.
 \subsection{Model diagnostics}
 \label{sec:model-diagnostics}
 Many other diagnostic and functions are available for sad and rad models. 
-To get likelihood profiles and confidence intervals use:
+To get likelihood profiles, likelihood intervals and confidence intervals use:
 
 \setkeys{Gin}{width=\textwidth}
 
 @ 
 <<Profiling and intervals>>=
 moths.ls.prf <- profile(moths.ls)
-confint(moths.ls.prf) # conf intervals
+likelregions(moths.ls.prf) #likelihood intervals
+confint(moths.ls.prf)
 @ %def 
 
 Then use \code{plotprofmle} to plot likelihood profiles at the original scale (relative negative log-likelihood)
@@ -225,6 +226,24 @@ plotprofmle(moths.ls.prf)# log-likelihood profile
 plot(moths.ls.prf)# z-transformed profile
 par(mfrow=c(1,1))
 @ %def
+
+\begin{shaded}
+  \textbf{Likelihood intervals and confindence intervals:} \hfill
+  Likelihood intervals include all values of the parameters that have up to a given 
+  log-likelihood absolute difference to the maximum likelihood estimate.
+  This difference is the log-likelihood ratio and is set with the argument \code{ratio} 
+  of function \code{likelregions}. The default value of \code{ratio} is log(8), and thus
+  in the example above the likelihood interval encloses all values of the parameter 
+  that are up to 8 times as plausible
+  as the estimated value of $\alpha = $ \Sexpr{unname(round(coef(moths.ls)[2],2))}.
+  
+  Likelihood intervals at log(8) converge to the value of confidence intervals at 95\%
+  as sample size increases. In most cases even for moderate sample sizes the limits of
+  confidence and likelihood intervals are very close. Discrepancies occur only when the likelihood profile
+  is highly asymmetric or have local {\em minima}. But in this kind of profile usually indicates an ill-behaved
+  fit, and so the intervals may not be meaningful anyway.
+\end{shaded}
+
 
 When applied on a sad model object, the function \code{plot} returns four diagnostic plots:
 @ 
@@ -253,10 +272,10 @@ function \code{fitrad}:
 
 \begin{itemize}
 \item ``gs'': geometric series (which is NOT geometric PDF, available
-  in \code{fitsad} as ``geom'';
+  in \code{fitsad} as ``geom'')
 \item ``rbs'': broken-stick model \citep{macarthur1957, May1975}
-\item ``zipf'': zipf power-law distribution
-\item ``mand'': zipf-mandelbrot power-law distribution
+\item ``zipf'': Zipf power-law distribution
+\item ``mand'': Zipf-Mandelbrot power-law distribution
 \end{itemize}
 
 \begin{shaded}
@@ -352,8 +371,9 @@ with parameters $\mu=3$ and $\sigma=1.5$ use:
 @ 
 <<rsad-example1>>=
 set.seed(42)# fix random seed to make example reproducible
-(samp1 <- rsad(S = 10, frac = 0.1, sad = "lnorm", zeroes=TRUE,
-               ssize = 2, meanlog = 3, sdlog = 1.5))
+(samp1 <- rsad(S = 10, frac = 0.1, sad = "lnorm", 
+               coef=list(meanlog = 3, sdlog = 1.5),
+               zeroes=TRUE, ssize = 2))
 @ 
 
 The function returns a data frame with a sample numeric label,
@@ -364,7 +384,7 @@ sample with zeroes omitted:
 @ 
 <<rsad-example2>>=
 (samp2 <- rsad(S = 100, frac=0.1, sad="lnorm", 
-              meanlog=5, sdlog=2))
+               list(meanlog=5, sdlog=2)))
 @ 
 
 Since this is a Poisson sample of a lognormal community, the abundances
@@ -389,7 +409,7 @@ evaluate the bias and variance of the maximum likelihood estimates:
 results <- matrix(nrow=75,ncol=2)
 for(i in 1:75){
     x <- rsad(S = 100, frac=0.1, sad="lnorm", 
-              meanlog=5, sdlog=2)
+              list(meanlog=5, sdlog=2))
     y <- fitsad(x, "poilog")
     results[i,] <- coef(y)
 }
@@ -421,9 +441,9 @@ Finally, a density plot with lines indicating the mean of estimates and the valu
 @ 
 <<rsads-bias-plots, fig=TRUE, height=5, width=10>>=
 par(mfrow=c(1,2))
-plot(density(results[,1]))
+plot(density(results[,1]), main=expression(paste("Density of ",mu)))
 abline(v=c(mean(results[,1]),5), col=2:3)
-plot(density(results[,2]))
+plot(density(results[,2]), main=expression(paste("Density of ",sigma)))
 abline(v=c(mean(results[,2]), 2), col=2:3)
 par(mfrow=c(1,1))
 @ %def 

@@ -28,8 +28,7 @@ distr.depr <- "The 'distr' slot of fitrad and fitsad objects have been deprecate
 #' 
 #' This function works almost exactly as bbmle's summary.mle2, but it includes a "fixed parameters" 
 #' line for models with fixed parameters, such as \code{\link{fitls}} or \code{fitvolkov}.
-#' NOTICE that the summary.mle2 is redefined in this package, as this class is not exported by bbmle.
-#' @rdname summary.sads-class
-setClass("summary.mle2", representation(call = "language", coef = "matrix",m2logL = "numeric", fixed="numeric"))
 #' @rdname summary.sads-class
 setClass("summary.sads", representation("summary.mle2", fixed="numeric"))
+
+setClass("likelregions", representation("list", names="character", ratio="numeric"))

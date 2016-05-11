@@ -5,21 +5,28 @@ useDynLib(sads, volkov)
 ##exportPattern("^[^\\.]")
 #Alternative: export functions explicitly (and do not export internal functions)
 ## Density functions
-export(dbs, dgs, dls, dmand, dmzsm, dpareto, dpoilog, dpower, drbs, dvolkov, dzipf, dpoig, dpoix)
+export(dbs, dgs, dls, dmand, dmzsm, dpareto, dpoilog, dpower, drbs, dvolkov, dzipf, dpoig, dpoix,
+	dpowbend)
 ## Probability functions
-export(pbs, pgs,pls, pmand, pmzsm, ppareto, ppoilog, ppower, prbs, pvolkov, pzipf, ppoig, ppoix)
+export(pbs, pgs,pls, pmand, pmzsm, ppareto, ppoilog, ppower, prbs, pvolkov, pzipf, ppoig, ppoix,
+	ppowbend)
 ## Quantile functions
-export(qbs, qgs, qls, qmand, qmzsm, qpareto, qpoilog, qpower, qrbs, qvolkov, qzipf, qpoig, qpoix)
+export(qbs, qgs, qls, qmand, qmzsm, qpareto, qpoilog, qpower, qrbs, qvolkov, qzipf, qpoig, qpoix,
+	qpowbend)
+## Random functions
+export(rbs, rgs, rls, rmand, rmzsm, rpareto, rpoilog, rpower, rrbs, rvolkov, rzipf, rpoig, rpoix,
+  rpowbend)
 ## Fitting functions for each distribution
 export(fitbs, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm,
-       fitnbinom, fitpareto, fitpoilog, fitpower, fitrbs, fitvolkov, fitweibull, fitzipf)
+       fitnbinom, fitpareto, fitpoilog, fitpower, fitrbs, fitvolkov, fitweibull, fitzipf,
+	   fitpowbend)
 ## General fitting and ploting  functions
 export(fitrad, fitsad, octav, octavpred, radpred, pprad, ppsad, qqrad, qqsad, rad)
 ## Accessory functions
-export(plotprofmle, pred.logser, dtrunc, ptrunc, qtrunc, rsad, updatesad, updaterad, distr)
+export(plotprofmle, likelregions, pred.logser, dtrunc, ptrunc, qtrunc, rtrunc, rsad, updatesad, updaterad, distr)
 ## Explicit classes and methods export
 exportClasses(rad, octav, fitsad, fitrad, summary.sads)
-exportMethods(plot, points, lines, octavpred, radpred, qqsad, qqrad, plotprofmle)
+exportMethods(plot, points, lines, octavpred, radpred, qqsad, qqrad, plotprofmle, likelregions)
 # Methods that override bbmle counterparts:
 exportMethods(show, summary, nobs, AIC, AICc)
 # Standard stats methods
@@ -29,13 +36,13 @@ exportMethods(coefficients, fitted, fitted.values, residuals)
 importFrom("graphics", plot, points, lines, abline, axis, hist, par)
 importFrom("grDevices", axisTicks, dev.interactive, devAskNewPage)
 #importFrom("bbmle", AICc)
-## Import a single function from VGAM and GUILDS
+## Import a single function from VGAM, GUILDS and poilog
 importFrom("VGAM",zeta)
 importFrom("GUILDS", maxLikelihood.ESF)
+importFrom("poilog", dpoilog, poilogMLE)
 ## Import all packages listed as Imports or Depends
 import(
     stats,
     methods,
     MASS,
-    bbmle,
-    poilog)
+    bbmle)

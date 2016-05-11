@@ -4,7 +4,7 @@ dzipf <- function(x, N, s, log = FALSE) {
 	y <- -s*log(x)-log(sum(1/(1:N)^s))
 	if (any(is.nan(y))) warning ("NaNs produced")
 	if (any(!is.wholenumber(x))) warning("non integer values in x")
-	y[ ! is.wholenumber(x) | x < 1 | x > N] <- 0
+	y[ ! is.wholenumber(x) | x < 1 | x > N] <- -Inf
 	if(log) return(y)
 	else return(exp(y))
 }

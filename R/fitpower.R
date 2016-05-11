@@ -1,5 +1,6 @@
 fitpower <- function(x, trunc, start.value, upper = 20, ...){
 	dots <-list(...)
+  if (any(x <= 0) | any(!is.wholenumber(x))) stop ("All x must be positive integers")
   if (!missing(trunc)){
     if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
   }

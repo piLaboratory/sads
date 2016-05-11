@@ -1,4 +1,5 @@
 fitrbs <- function(x, trunc, ...){
+  if (any(x <= 0)) stop ("All x must be positive")
 	dots <- list(...)
   if(class(x)!="rad") rad.tab <- rad(x)
   else rad.tab <- x

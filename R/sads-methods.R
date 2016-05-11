@@ -66,12 +66,15 @@ setMethod("plot","octav",
           )
 
 setMethod("points","octav",
-          function(x, prop=FALSE, ...){
+          function(x, prop=FALSE, mid=TRUE, ...){
             dots <- list(...)
             if(!"type" %in% names(dots)) dots$type="b"
             if(!"col" %in% names(dots)) dots$col="blue"
-            X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
-            X <- X[-length(X)]+diff(X)/2
+            if(mid){
+                X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
+                X <- X[-length(X)]+diff(X)/2
+            }
+            else X <- as.integer(as.character(x$octave))
             if(prop) Y <- x$Freq/sum(x$Freq)
             if(!prop) Y <- x$Freq
             do.call(points, c(list(x = X, y = Y), dots))
@@ -79,12 +82,15 @@ setMethod("points","octav",
           )
 
 setMethod("lines","octav",
-          function(x, prop=FALSE, ...){
+          function(x, prop=FALSE, mid=TRUE, ...){
             dots <- list(...)
             if(!"type" %in% names(dots)) dots$type="b"
             if(!"col" %in% names(dots)) dots$col="blue"
-            X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
-            X <- X[-length(X)]+diff(X)/2
+            if(mid){
+                X <- c((min(as.integer(as.character(x$octave)))-1), as.integer(as.character(x$octave)))
+                X <- X[-length(X)]+diff(X)/2
+            }
+            else X <- as.integer(as.character(x$octave))
             if(prop) Y <- x$Freq/sum(x$Freq)
             if(!prop) Y <- x$Freq
             do.call(lines, c(list(x = X, y = Y), dots))
@@ -93,21 +99,22 @@ setMethod("lines","octav",
 
 setMethod("plot","fitsad",
           function(x, which=1:4, ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...){
-            oct.df <- octav(x)
-            rad.df <- rad(x)
-            oct.pred <- octavpred(x)
-            oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
-            rad.pred <- radpred(x)
-            rad.ylim <- range(c(rad.df[, 2], rad.pred[, 2]), na.rm = TRUE)
             if (ask) {
               oask <- devAskNewPage(TRUE)
               on.exit(devAskNewPage(oask))
             }
             if(1 %in% which){
-              plot(oct.df, ylim = c(0, oct.ymax), ...)
+              oct.df <- octav(x)
+              oct.pred <- octavpred(x)
+              oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
+              oct.xlim <- range(c(oct.df[,1], oct.pred[,1]), na.rm=TRUE)
+              plot(oct.df, ylim = c(0,oct.ymax), xlim=oct.xlim, ...)
               points(oct.pred, ...)
             }
             if(2 %in% which){
+              rad.df <- rad(x)
+              rad.pred <- radpred(x)
+              rad.ylim <- range(c(rad.df[, 2], rad.pred[, 2]), na.rm = TRUE)
               plot(rad.df, ylim = rad.ylim, ...)
               lines(rad.pred, ...)
             }
@@ -122,21 +129,22 @@ setMethod("plot","fitsad",
 
 setMethod("plot","fitrad",
           function(x, which=1:4, ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...){
-            oct.df <- octav(x)
-            rad.df <- rad(x)
-            oct.pred <- octavpred(x)
-            oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
-            rad.pred <- radpred(x)
-            rad.ylim <- range(c(rad.df[, 2], rad.pred[, 2]), na.rm = TRUE)
             if (ask) {
               oask <- devAskNewPage(TRUE)
               on.exit(devAskNewPage(oask))
             }
             if(1 %in% which){
-              plot(oct.df, ylim = c(0, oct.ymax), ...)
+              oct.df <- octav(x)
+              oct.pred <- octavpred(x)
+              oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
+              oct.xlim <- range(c(oct.df[,1], oct.pred[,1]), na.rm=TRUE)
+              plot(oct.df, ylim = c(0,oct.ymax), xlim = oct.xlim, ...)
               points(oct.pred, ...)
             }
             if(2 %in% which){
+              rad.df <- rad(x)
+              rad.pred <- radpred(x)
+              rad.ylim <- range(c(rad.df[, 2], rad.pred[, 2]), na.rm = TRUE)
               plot(rad.df, ylim = rad.ylim, ...)
               lines(rad.pred, ...)
             }
@@ -149,7 +157,7 @@ setMethod("plot","fitrad",
           }
           )
 
-## copy of the methods in bbmle 1.0.17, tweaked to work better with fitsad/fitrad classed
+## copy of the methods in bbmle 1.0.17, tweaked to work better with fitsad/fitrad classes
 ## which do not have an explicit df attribute. Also fixes some inconsistencies
 ## in the handling of parameters
 setMethod("AIC", "mle2",
@@ -264,6 +272,19 @@ setMethod("summary", "fitsad", function(object){sumle2(object)})
 #' @rdname summary.sads-class
 setMethod("summary", "fitrad", function(object){sumle2(object)})
 
+# Show method for likelregions
+setMethod("show", "likelregions",
+          function(object) {
+              cat("Likelihood regions for ratio =", object@ratio, "\n")
+              for (i in 1:length(object@names)) {
+                  cat ("\n",paste0(object@names[i],":\n"))
+                  m1 <- matrix(unlist(object[[i]]), ncol=2, byrow=TRUE,
+                      dimnames=list(NULL, c("lower", "upper")))
+                  print(m1)
+              }
+          }
+          )
+          
 ## radpred generic functions and methods ###
 setGeneric("radpred",
 def = function(object, sad, rad, coef, trunc , distr=NA, S, N) standardGeneric("radpred")
@@ -374,7 +395,7 @@ setMethod("radpred", signature(object="missing", sad="character", rad="missing",
           }
           )
 
-# Helper function for octavpred
+# Helper function for octav/octavpred
 genoct <- function (x) {
   oct <- 0:(ceiling(max(log2(x)))+1)
   if(any(x < 1)){
@@ -383,6 +404,47 @@ genoct <- function (x) {
   }
   oct
 }
+
+### octav generic and methods
+setGeneric("octav", 
+           def=function(x, oct, preston=FALSE) standardGeneric("octav")
+           )
+
+# Workhorse method for octav
+setMethod("octav", signature(x="numeric"),
+          function(x, oct, preston=FALSE) {
+            x=x[x>0]
+            if(missing(oct)) oct <- genoct(x)
+            if(min(oct)>min(log2(x))||max(oct)<max(log2(x))) stop("'oct' values should span all abundance values in 'x'")
+            oct <- unique(oct)
+            N <- 2^(oct)
+            oct.hist <- hist(x, breaks=c(0,N), plot=FALSE)
+            res <- data.frame(octave = oct, upper = oct.hist$breaks[-1], Freq = oct.hist$counts)
+            if(preston) res <- prestonfy(res, x)
+            new("octav", res)
+          })
+
+setMethod("octav", signature(x="fitsad"),
+          function(x, oct, preston=FALSE) {
+            octav(x@data$x, oct, preston)
+          })
+
+setMethod("octav", signature(x="fitrad"),
+          function(x, oct, preston=FALSE) {
+            octav(x@rad.tab$abund, oct, preston)
+          })
+
+# Helper function to create Preston octaves. Is also used by octavpred
+prestonfy <- function(res, y) {
+  N <- 2^(res$octave)
+  j <- N[-length(N)]
+  w <- y[y%in%j]
+  ties <- table(factor(w, levels=j))
+  res[-1, 3] <- res[-1, 3]+ties/2
+  res[-length(N), 3] <- res[-length(N), 3]-ties/2
+  return(res)
+}
+
           
 ## octavpred generic functions and methods ###
 setGeneric("octavpred",
@@ -440,7 +502,7 @@ setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
                                  S="missing", N="missing"),
           function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             x <- object@rad.tab$abund
-            if(missing(oct)) oct <- genoct(x)
+            if(missing(oct)) oct <- NaN
             octavpred(rad = object@rad, coef = as.list(bbmle::coef(object)),
                       trunc = object@trunc, oct = oct, S=length(x), N=sum(x),
                       preston=preston, ...)
@@ -450,7 +512,7 @@ setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
 setMethod("octavpred", signature(object="numeric",sad="missing", rad="character",
                                  coef="list", trunc="ANY", oct="ANY", S="missing", N="missing"),
           function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
-            if(missing(oct)) oct <- genoct(object)
+            if(missing(oct)) oct <- NaN
             if(missing(trunc)) trunc<-NaN
             octavpred(rad=rad, coef=coef, trunc=trunc, oct=oct, S = length(object), N = sum(object),
                       preston=preston, ...)
@@ -461,10 +523,10 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
                                  coef="list", trunc="ANY", oct="ANY", S="numeric", N="numeric"),
           function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
             dots <- list(...)
-            if(missing(oct)) oct <- genoct(N)
+            # Setting oct to nan to prevent "missing argument"
+            if(missing(oct)) oct <- NaN
+            else oct <- unique(oct)
             if(missing(trunc)) trunc<-NaN
-            oct <- unique(oct)
-            n <- 2^oct
             if(!is.nan(trunc)){
               ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
             }
@@ -472,9 +534,10 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
               drad <- get(paste("d",rad,sep=""),mode="function")
               ab <- do.call(drad, c(list(x=1:S),coef,dots))*N
             }
-            tryCatch({Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)},
-                     error = function(cond) stop("Octaves do not span the entire range, try using a larger oct argument (maybe negative octaves?)")
-                     )
+            # If missing oct from ANY caller, gen oct here:
+            if(length(oct)==1 && is.nan(oct)) oct <- genoct(ab)
+            n <- 2^oct
+            Y = hist(ab, breaks=c(2^(min(oct)-2),n), plot=FALSE)
             res <- data.frame(octave = oct, upper = n, Freq = Y$count)
             if(preston) res <- prestonfy(res, ceiling(ab))
             new("octav", res)

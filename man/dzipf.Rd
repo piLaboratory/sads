@@ -2,11 +2,12 @@
 \alias{dzipf}
 \alias{pzipf}
 \alias{qzipf}
+\alias{rzipf}
 
 \title{Zipf distribution}
 
 \description{
-  Density, distribution function and quantile function for
+  Density, distribution function, quantile function and random generation for
   Zipf distribution with parameters \code{N} and \code{s}.
 }
 
@@ -14,6 +15,7 @@
 dzipf( x, N, s, log=FALSE)
 pzipf( q, N, s, lower.tail=TRUE, log.p=FALSE)
 qzipf( p, N, s, lower.tail = TRUE, log.p = FALSE)
+rzipf( n, N, s)
 }
 
 \arguments{
@@ -24,6 +26,7 @@ qzipf( p, N, s, lower.tail = TRUE, log.p = FALSE)
   \item{q}{vector of (non-negative integer) quantiles. In the context of
     species abundance distributions, a vector of abundance ranks of species in a sample.
   }
+  \item{n}{number of random values to return.}
   \item{p}{
     vector of probabilities.
   }
