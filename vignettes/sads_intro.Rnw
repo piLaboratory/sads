@@ -371,8 +371,9 @@ with parameters $\mu=3$ and $\sigma=1.5$ use:
 @ 
 <<rsad-example1>>=
 set.seed(42)# fix random seed to make example reproducible
-(samp1 <- rsad(S = 10, frac = 0.1, sad = "lnorm", zeroes=TRUE,
-               ssize = 2, meanlog = 3, sdlog = 1.5))
+(samp1 <- rsad(S = 10, frac = 0.1, sad = "lnorm", 
+               coef=list(meanlog = 3, sdlog = 1.5),
+               zeroes=TRUE, ssize = 2))
 @ 
 
 The function returns a data frame with a sample numeric label,
@@ -383,7 +384,7 @@ sample with zeroes omitted:
 @ 
 <<rsad-example2>>=
 (samp2 <- rsad(S = 100, frac=0.1, sad="lnorm", 
-              meanlog=5, sdlog=2))
+               list(meanlog=5, sdlog=2)))
 @ 
 
 Since this is a Poisson sample of a lognormal community, the abundances
@@ -408,7 +409,7 @@ evaluate the bias and variance of the maximum likelihood estimates:
 results <- matrix(nrow=75,ncol=2)
 for(i in 1:75){
     x <- rsad(S = 100, frac=0.1, sad="lnorm", 
-              meanlog=5, sdlog=2)
+              list(meanlog=5, sdlog=2))
     y <- fitsad(x, "poilog")
     results[i,] <- coef(y)
 }
@@ -440,9 +441,9 @@ Finally, a density plot with lines indicating the mean of estimates and the valu
 @ 
 <<rsads-bias-plots, fig=TRUE, height=5, width=10>>=
 par(mfrow=c(1,2))
-plot(density(results[,1]))
+plot(density(results[,1]), main=expression(paste("Density of ",mu)))
 abline(v=c(mean(results[,1]),5), col=2:3)
-plot(density(results[,2]))
+plot(density(results[,2]), main=expression(paste("Density of ",sigma)))
 abline(v=c(mean(results[,2]), 2), col=2:3)
 par(mfrow=c(1,1))
 @ %def 

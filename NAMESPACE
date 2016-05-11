@@ -39,7 +39,7 @@ importFrom("grDevices", axisTicks, dev.interactive, devAskNewPage)
 ## Import a single function from VGAM, GUILDS and poilog
 importFrom("VGAM",zeta)
 importFrom("GUILDS", maxLikelihood.ESF)
-importFrom("poilog", dpoilog)
+importFrom("poilog", dpoilog, poilogMLE)
 ## Import all packages listed as Imports or Depends
 import(
     stats,

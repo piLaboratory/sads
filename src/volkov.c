@@ -13,10 +13,10 @@ double f(double y, void * _data) {
 		- lgamma(data[3]-y) - y * data[4]/ data[3] );
 }
 
+/* Calculates the volkov density function */
 extern
-void volkov ( double * res, double * theta0, double * m0, int * J0, int * N0) {
+void volkov ( double * res, double * theta0, double * m0, int * J0, int * N0, double * total) {
 	double data[5]; /* Stores: n, ln, J, upper(=gam), theta */
-	double total = 0;
 	data[2] = J0[0]; data[3] = m0[0]*(J0[0]-1)/(1-m0[0]); data[4] = theta0[0];
 	/* some preliminary calculations to speed up
 	   lJm is the term that only depends on J and m */
@@ -25,9 +25,9 @@ void volkov ( double * res, double * theta0, double * m0, int * J0, int * N0) {
 		data[0] = i + 1.0;
 		data[1] = lJm - lgamma(i+2) - lgamma(data[2]-i);
 		res[i] = data[4] * gauss_legendre(N0[0],f,data,0,data[3]);
-		total += res[i];
+		total[0] += res[i];
 	}
 	for (int i = 0; i < J0[0]; i++) {
-		res[i] /= total;
+		res[i] /= total[0];
 	}
 }
