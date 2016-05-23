@@ -62,6 +62,18 @@
   }
 }
 
+\usage{
+\S4method{lines}{rad}(x, prop=FALSE, \dots)
+\S4method{plot}{rad}(x, prop=FALSE, \dots)
+\S4method{points}{rad}(x, prop=FALSE, \dots)
+}
+
+\arguments{
+  \item{x}{an object of class \code{rad}}
+  \item{prop}{logical; if \kbd{TRUE} relative abundances are returned.}
+  \item{\dots}{further parameters to be passed to \code{lines}, \code{points} or \code{plot}
+    functions.}
+}
 
 \references{
   Whittaker, R. H. 1965, Dominance and Diversity in Land Plant
