@@ -1,3 +1,7 @@
+0.3.2 (TBR)
+* Fixed qbs not accepting non-integer N
+* Added a "prop" argument for plotting relative rank abundances
+
 0.3.1 (2016-05-12)
 * Fixed a CRAN link on README
 
