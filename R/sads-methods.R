@@ -152,6 +152,7 @@ setMethod("plot","fitsad",
 
 setMethod("plot","fitrad",
           function(x, which=1:4, ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...){
+            dots <- list(...)
             if (ask) {
               oask <- devAskNewPage(TRUE)
               on.exit(devAskNewPage(oask))

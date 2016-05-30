@@ -4,6 +4,7 @@
 
 \alias{rad-class}
 \alias{lines,rad-method}
+\alias{plot,rad-method}
 \alias{plot,rad,ANY-method}
 \alias{points,rad-method}
 %\alias{qqrad,rad-method}
