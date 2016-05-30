@@ -124,18 +124,19 @@ setMethod("plot","fitsad",
               if(1 %in% which){
                   oct.df <- octav(x)
                   oct.pred <- octavpred(x)
-                  oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
                   oct.xlim <- range(c(oct.df[,1], oct.pred[,1]), na.rm=TRUE)
+                  if("prop" %in% names(dots) && dots$prop)
+                      oct.ymax <- max(c(oct.df[, 3]/sum(oct.df[,3]), oct.pred[, 3]/sum(oct.pred[,3])), na.rm = TRUE)
+                  else
+                      oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
                   plot(oct.df, ylim = c(0,oct.ymax), xlim=oct.xlim, ...)
                   points(oct.pred, ...)
               }
               if(2 %in% which){
                   rad.df <- rad(x)
                   rad.pred <- radpred(x)
-                  if("prop" %in% names(dots)){
-                      if(dots$prop)
-                          rad.ylim <- range(c(rad.df[,2]/sum(rad.df[,2]), rad.pred[,2]/sum(rad.pred[,2]), na.rm = TRUE))
-                  }
+                  if("prop" %in% names(dots) && dots$prop)
+                      rad.ylim <- range(c(rad.df[,2]/sum(rad.df[,2]), rad.pred[,2]/sum(rad.pred[,2]), na.rm = TRUE))
                   else
                       rad.ylim <- range(c(rad.df[,2], rad.pred[,2], na.rm = TRUE))
                   plot(rad.df, ylim = rad.ylim, ...)
@@ -160,18 +161,19 @@ setMethod("plot","fitrad",
             if(1 %in% which){
               oct.df <- octav(x)
               oct.pred <- octavpred(x)
-              oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
               oct.xlim <- range(c(oct.df[,1], oct.pred[,1]), na.rm=TRUE)
+              if("prop" %in% names(dots) && dots$prop)
+                  oct.ymax <- max(c(oct.df[, 3]/sum(oct.df[,3]), oct.pred[, 3]/sum(oct.pred[,3])), na.rm = TRUE)
+              else
+                  oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
               plot(oct.df, ylim = c(0,oct.ymax), xlim = oct.xlim, ...)
               points(oct.pred, ...)
             }
             if(2 %in% which){
               rad.df <- rad(x)
               rad.pred <- radpred(x)
-              if("prop" %in% names(dots)){
-                      if(dots$prop)
-                          rad.ylim <- range(c(rad.df[,2]/sum(rad.df[,2]), rad.pred[,2]/sum(rad.pred[,2]), na.rm = TRUE))
-              }
+              if("prop" %in% names(dots) && dots$prop)
+                  rad.ylim <- range(c(rad.df[,2]/sum(rad.df[,2]), rad.pred[,2]/sum(rad.pred[,2]), na.rm = TRUE))
               else
                   rad.ylim <- range(c(rad.df[, 2], rad.pred[, 2]), na.rm = TRUE)
               plot(rad.df, ylim = rad.ylim, ...)

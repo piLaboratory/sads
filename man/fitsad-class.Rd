@@ -116,6 +116,8 @@ moths.ls <- fitsad(moths, "ls")
 ## The class has a plot method to show diagnostic plots
 par(mfrow=c(2,2))
 plot(moths.ls)
+# the same plot, but with relative abundances
+plot(moths.ls, prop = TRUE) 
 par(mfrow=c(1,1))
 ## Some useful methods inherited from mle2-class
 coef(moths.ls)
