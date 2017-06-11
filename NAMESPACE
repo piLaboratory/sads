@@ -1,9 +1,6 @@
 # C Functions 
-useDynLib(sads, volkov)
+useDynLib(sads, .registration = "TRUE", .fixes = "C_")
 ## EXPORTS ##
-## Export all names not beggining with .
-##exportPattern("^[^\\.]")
-#Alternative: export functions explicitly (and do not export internal functions)
 ## Density functions
 export(dbs, dgs, dls, dmand, dmzsm, dpareto, dpoilog, dpower, drbs, dvolkov, dzipf, dpoig, dpoix,
 	dpowbend)
