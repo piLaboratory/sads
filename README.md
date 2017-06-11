@@ -22,15 +22,17 @@ If you want to install the developer version:
 
 ```r
 library(devtools)
-install_github(repo = 'piLaboratory/sads', ref= 'dev')
+install_github(repo = 'piLaboratory/sads', ref= 'dev', build_vignettes = TRUE)
 ```
+
+When running under Windows, you will need to install the Rtools package to build the vignettes locally.
 
 An experimental branch implementing Lindsey's (1999) correction for the log-likelihood
 of continuous density distributions when used for discrete data can be installed by:
 
 ```r
 library(devtools)
-install_github(repo = 'piLaboratory/sads', ref= 'trueLL')
+install_github(repo = 'piLaboratory/sads', ref= 'trueLL', build_vignettes = TRUE)
 ```
 
 

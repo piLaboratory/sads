@@ -1,6 +1,12 @@
-0.3.2 (TBR)
-* Fixed qbs not accepting non-integer N
-* Added a "prop" argument for plotting relative rank abundances
+0.4.0 (2017-06-11)
+* added a "prop" argument for plotting relative rank abundances
+* changed many details in plotting functions related to above change
+* fixed registering external calls for R version 3.4
+* fixed qbs not accepting non-integer N
+* added continuous integration tests with TravisCI/AppVeyor
+* added clarifications for building vignettes on README
+* fixed a bug where plotprofmle would ignore input parameters
+* tweaked fitgeom optimization a bit
 
 0.3.1 (2016-05-12)
 * Fixed a CRAN link on README
