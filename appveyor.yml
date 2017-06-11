@@ -13,13 +13,7 @@ install:
 # Adapt as necessary starting from here
 
 build_script:
-  - travis-tool.sh install_github hadley/devtools
   - travis-tool.sh install_deps
-
-# Probably not needed for packages with src/
-environment:
-  global:
-    USE_RTOOLS: true
 
 test_script:
   - travis-tool.sh run_tests
