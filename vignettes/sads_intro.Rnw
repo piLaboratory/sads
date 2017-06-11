@@ -93,8 +93,9 @@ pages:
 
 @ 
 <<Loading datasets>>=
-data(moths)# William's moth data
+data(moths)# William's moth data used by Fisher et al (1943)
 data(ARN82.eB.apr77)# Arntz et al. benthos data
+data(birds)# Bird census used by Preston (1948)
 @ %def 
 
 \subsection{Octaves}
@@ -132,6 +133,19 @@ plot(arn.oc)
 @ %def
 }
 
+The plot method for objects of class \code{octav} has 
+a logical argument \code{prop} that rescales the y-axis to relative frequencies of species in each octave,
+which can be used to compare different data sets:
+
+@ 
+<<octaves-relative-frequencies>>=
+plot(moths.oc, prop = TRUE, border=NA, col=NA)
+lines(octav(birds), mid = FALSE, prop = TRUE, col="red")
+lines(octav(moths), mid = FALSE, prop = TRUE)
+legend("topright", c("Preston's birds", "Fisher's moths"), col=c("red", "blue"), lty=1, bty="n")
+@ %def 
+
+
 \subsection{Rank-abundance plots}
 \label{sec:rank_abund}
 Function \code{rad} returns a data frame of sorted abundances and their ranks 
@@ -159,6 +173,18 @@ plot(moths.rad, ylab="Number of individuals")
 plot(arn.rad, ylab="Biomass")
 @ %def 
 }
+
+Again, the plot method for \code{rad}  has a logical argument \code{prop} 
+rescales the y-axis to depict relative abundances:
+
+@ 
+<<rads-relative-abundances>>=
+plot(moths.rad, prop = TRUE, type="n")
+lines(rad(birds), prop = TRUE, col="red")
+lines(rad(moths), prop = TRUE)
+legend("topright", c("Preston's birds", "Fisher's moths"), col=c("red", "blue"), lty=1, bty="n")
+@ %def 
+
 \section{Model fitting}
 \label{sec:ajuste-e-selecao}
 The \emph{sads} package provides maximum-likelihood fits of many

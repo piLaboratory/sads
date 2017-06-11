@@ -1,39 +1,56 @@
 setMethod("plot", "rad",
-          function(x, ...){
-            dots <- list(...)
-            if(!"log" %in% names(dots)) dots$log <- "y"
-            if(!"xlab" %in% names(dots)) dots$xlab = "Species Rank"
-            if(!"ylab" %in% names(dots)) dots$ylab = "Species Abundance"
-            if(!"frame.plot" %in% names(dots)) dots$frame.plot = TRUE
-            if(!"axes" %in% names(dots)){ 
-              do.call(plot, c(list(x = x[, 1], y = x[, 2], axes=FALSE), dots))
-              axis(2)
-              sc <- axisTicks(range(x[, 1]),nint=10,log=FALSE)
-              sc[sc==0] <- 1
-              axis(1,at=sc)
-            }
-            if("axes" %in% names(dots)){ 
-              do.call(plot, c(list(x = x[, 1], y = x[, 2]), dots))
-            }
-            
+          function(x, prop=FALSE, ...){
+              dots <- list(...)
+              if(!"log" %in% names(dots)) dots$log <- "y"
+              if(!"xlab" %in% names(dots)) dots$xlab = "Species Rank"
+              if(!"ylab" %in% names(dots)) {
+                  if(prop)
+                      dots$ylab = "Species Relative Abundance"
+                  else
+                      dots$ylab = "Species Abundance"
+              }
+              if(prop)
+                  sp.ab <- x[,2]/sum(x[,2])
+              else
+                  sp.ab <- x[,2]
+              if(!"frame.plot" %in% names(dots)) dots$frame.plot = TRUE
+              if(!"axes" %in% names(dots)){ 
+                  do.call(plot, c(list(x = x[, 1], y = sp.ab, axes=FALSE), dots))
+                  axis(2)
+                  sc <- axisTicks(range(x[, 1]),nint=10,log=FALSE)
+                  sc[sc==0] <- 1
+                  axis(1,at=sc)
+              }
+              if("axes" %in% names(dots)){ 
+                  do.call(plot, c(list(x = x[, 1], y = sp.ab), dots))
+              }
+              
           }
-            )
+          )
 
 setMethod("points", "rad",
-          function(x, ...){
+          function(x, prop = FALSE, ...){
             dots <- list(...)
             if(!"type" %in% names(dots)) dots$type = "p"
             if(!"col" %in% names(dots)) dots$col = "blue"
-            do.call(points, c(list(x = x[, 1], y = x[, 2]), dots)) 
+            if(prop)
+                  sp.ab <- x[,2]/sum(x[,2])
+              else
+                  sp.ab <- x[,2]
+            do.call(points, c(list(x = x[, 1], y = sp.ab), dots)) 
           }
           )
 
 setMethod("lines", "rad",
-          function(x, ...){
+          function(x, prop = FALSE, ...){
             dots <- list(...)
             if(!"type" %in% names(dots)) dots$type = "l"
             if(!"col" %in% names(dots)) dots$col = "blue"
-            do.call(lines, c(list(x = x[, 1], y = x[, 2]), dots)) 
+            if(prop)
+                  sp.ab <- x[,2]/sum(x[,2])
+            else
+                sp.ab <- x[,2]
+            do.call(lines, c(list(x = x[, 1], y = sp.ab), dots)) 
           }
 )
 
@@ -99,36 +116,44 @@ setMethod("lines","octav",
 
 setMethod("plot","fitsad",
           function(x, which=1:4, ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...){
-            if (ask) {
-              oask <- devAskNewPage(TRUE)
-              on.exit(devAskNewPage(oask))
-            }
-            if(1 %in% which){
-              oct.df <- octav(x)
-              oct.pred <- octavpred(x)
-              oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
-              oct.xlim <- range(c(oct.df[,1], oct.pred[,1]), na.rm=TRUE)
-              plot(oct.df, ylim = c(0,oct.ymax), xlim=oct.xlim, ...)
-              points(oct.pred, ...)
-            }
-            if(2 %in% which){
-              rad.df <- rad(x)
-              rad.pred <- radpred(x)
-              rad.ylim <- range(c(rad.df[, 2], rad.pred[, 2]), na.rm = TRUE)
-              plot(rad.df, ylim = rad.ylim, ...)
-              lines(rad.pred, ...)
-            }
-            if(3 %in% which){
-              qqsad(x, ...)
-            }
-            if(4 %in% which){
-              ppsad(x, ...)
-            }
+              dots <- list(...)
+              if (ask) {
+                  oask <- devAskNewPage(TRUE)
+                  on.exit(devAskNewPage(oask))
+              }
+              if(1 %in% which){
+                  oct.df <- octav(x)
+                  oct.pred <- octavpred(x)
+                  oct.xlim <- range(c(oct.df[,1], oct.pred[,1]), na.rm=TRUE)
+                  if("prop" %in% names(dots) && dots$prop)
+                      oct.ymax <- max(c(oct.df[, 3]/sum(oct.df[,3]), oct.pred[, 3]/sum(oct.pred[,3])), na.rm = TRUE)
+                  else
+                      oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
+                  plot(oct.df, ylim = c(0,oct.ymax), xlim=oct.xlim, ...)
+                  points(oct.pred, ...)
+              }
+              if(2 %in% which){
+                  rad.df <- rad(x)
+                  rad.pred <- radpred(x)
+                  if("prop" %in% names(dots) && dots$prop)
+                      rad.ylim <- range(c(rad.df[,2]/sum(rad.df[,2]), rad.pred[,2]/sum(rad.pred[,2]), na.rm = TRUE))
+                  else
+                      rad.ylim <- range(c(rad.df[,2], rad.pred[,2], na.rm = TRUE))
+                  plot(rad.df, ylim = rad.ylim, ...)
+                  lines(rad.pred, ...)
+              }
+              if(3 %in% which){
+                  qqsad(x, ...)
+              }
+              if(4 %in% which){
+                  ppsad(x, ...)
+              }
           }
           )
 
 setMethod("plot","fitrad",
           function(x, which=1:4, ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...){
+            dots <- list(...)
             if (ask) {
               oask <- devAskNewPage(TRUE)
               on.exit(devAskNewPage(oask))
@@ -136,15 +161,21 @@ setMethod("plot","fitrad",
             if(1 %in% which){
               oct.df <- octav(x)
               oct.pred <- octavpred(x)
-              oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
               oct.xlim <- range(c(oct.df[,1], oct.pred[,1]), na.rm=TRUE)
+              if("prop" %in% names(dots) && dots$prop)
+                  oct.ymax <- max(c(oct.df[, 3]/sum(oct.df[,3]), oct.pred[, 3]/sum(oct.pred[,3])), na.rm = TRUE)
+              else
+                  oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
               plot(oct.df, ylim = c(0,oct.ymax), xlim = oct.xlim, ...)
               points(oct.pred, ...)
             }
             if(2 %in% which){
               rad.df <- rad(x)
               rad.pred <- radpred(x)
-              rad.ylim <- range(c(rad.df[, 2], rad.pred[, 2]), na.rm = TRUE)
+              if("prop" %in% names(dots) && dots$prop)
+                  rad.ylim <- range(c(rad.df[,2]/sum(rad.df[,2]), rad.pred[,2]/sum(rad.pred[,2]), na.rm = TRUE))
+              else
+                  rad.ylim <- range(c(rad.df[, 2], rad.pred[, 2]), na.rm = TRUE)
               plot(rad.df, ylim = rad.ylim, ...)
               lines(rad.pred, ...)
             }
