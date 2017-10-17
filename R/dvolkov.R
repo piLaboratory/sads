@@ -14,6 +14,7 @@ dvolkov <- function(x, theta, m, J, order=96, log=FALSE){
 ######### INTERNAL USE ONLY! ######### 
 # Calculates the expected S from a Volkov distribution (used in rsad)
 Svolkov <- function(theta, m, J, order=96) {
+	warning("The use of this function outside sads core code is deprecated and will be removed in a future version!")
 	if(!is.finite(theta) | theta <= 0 | !is.finite(J) | J <= 0 | m <= 0 | m >= 1) return (NaN)
 	Cvolkov <- .C(C_volkov, res=as.double(rep(0,J)), theta0=as.double(theta), m0=as.double(m), J0=as.integer(J), N0=as.integer(order), total=as.double(0))
   Cvolkov$total
