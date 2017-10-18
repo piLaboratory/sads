@@ -264,10 +264,9 @@ showmle2 <- function(object) {
     if (object@optimizer=="optimx" && length(object@method)>1) {
       cat("Best method:",object@details$method.used,"\n")
     }
-	if (!is.null(object@details$convergence))
-		if(object@details$convergence > 0)
-	      cat("\nWarning: optimization did not converge (code ",
-          object@details$convergence,": ",object@details$message,")\n",sep="")
+    if(object@details$convergence > 0)
+        cat("\nWarning: optimization did not converge (code ",
+            object@details$convergence,": ",object@details$message,")\n",sep="")
   }
 setMethod("show", "fitsad", function(object){showmle2(object)})
 setMethod("show", "fitrad", function(object){showmle2(object)})
