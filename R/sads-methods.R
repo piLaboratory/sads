@@ -188,44 +188,6 @@ setMethod("plot","fitrad",
           }
           )
 
-## copy of the methods in bbmle 1.0.17, tweaked to work better with fitsad/fitrad classes
-## which do not have an explicit df attribute. Also fixes some inconsistencies
-## in the handling of parameters
-setMethod("AIC", "mle2",
-		  function (object, ..., k = 2) {
-			  L <- list(object, ...)
-			  if (!all(sapply(L, function(x) inherits(x, "mle2")))) 
-				  stop("all objects in list must be class mle2 or inherit from mle2")
-			  if (length(L) > 1) {
-				  logLiks <- lapply(L, logLik)
-				  AICs <- sapply(logLiks,AIC,k=k)
-				  df <- sapply(logLiks,attr,"df")
-			  data.frame(AIC=AICs,df=df)
-			  } else AIC(logLik(object), k=k)
-		  })
-
-setMethod("AICc","mle2",
-		  function (object, ..., nobs, k = 2){
-			  L <- list(object, ...)
-			  if (!all(sapply(L, function(x) inherits(x, "mle2")))) 
-				  stop("all objects in list must be class mle2 or inherit from mle2")
-			  if (missing(nobs)) {
-				  nobs <- sapply(L,match.fun("nobs"))
-			  }
-			  if (length(L) > 1) {
-				  if (length(unique(nobs)) > 1) 
-					  stop("nobs different: must have identical data for all objects")
-				  logLiks <- lapply(L, logLik)
-				  df <- sapply(logLiks,attr,"df")
-				  val <- -2*unlist(logLiks)+k*df+2*df*(df+1)/(nobs-df-1)
-				  data.frame(AICc = val, df = df)
-			  } else {
-				  df <- attr(logLik(object), "df")
-				  c(-2 * logLik(object)+k*df+2*df*(df+1)/(nobs-df-1))
-			  }
-		  }
-          )
-
 setMethod("nobs", "fitsad",
 		  function(object) length(object@data$x)
 		  )

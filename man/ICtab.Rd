@@ -1,29 +1,18 @@
 \name{ICtab}
 \docType{methods}
 \alias{nobs}
-\alias{AIC}
-\alias{AICc}
-\alias{AIC-methods}
-\alias{AICc-methods}
 \alias{nobs-methods}
-\alias{AIC,mle2-method}
-\alias{AICc,mle2-method}
 \alias{nobs,fitrad-method}
 \alias{nobs,fitsad-method}
 
-\title{Compute table of information criteria and auxiliary info}
+\title{Compute number of observations}
 
 \description{
-	This functions reimplement some functionality from package bbmle
-	to work better with objects from the classes \code{\link{fitsad-class}}
-	and \code{\link{fitrad-class}}. 
+	This functions is needed for calculating AICc. These may be removed in a future release.
 }
 
 \section{Methods}{
   \describe{
-    \item{AIC}{\code{signature("mle2")}: Akaike information criterion. }
-    \item{AICc}{\code{signature("mle2")}: Akaike information
-      criterion corrected for small samples. }
     \item{nobs}{\code{signature(object = "fitsad")}: Number of observations. }
     \item{nobs}{\code{signature(object = "fitrad")}: Number of observations. }
   }
