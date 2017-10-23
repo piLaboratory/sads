@@ -49,8 +49,7 @@ function(object, nseg=20, ratio=log(8), which=NULL, ask=NULL, col.line="blue", v
 })
 setMethod("plotprofmle", "mle2",
           function(object, nseg=20, ratio=log(8), which=NULL, ask=NULL, col.line="blue", varname=NULL, ...){
-    cat("NOTICE: Running a profile on the object. You should consider storing the profile\n")
-    cat("in a different variable\n")
+    warning("Running a profile on the object. You should consider storing the profile in a different variable.")
     plotprofmle(profile(object), nseg, ratio, which, ask, col.line, varname, ...)
 })
 
@@ -109,9 +108,7 @@ function(object, nseg=100, ratio=log(8), ...){
 })
 setMethod("likelregions", "mle2",
 function(object, nseg=100, ratio=log(8), ...){
-    cat("NOTICE: Running a profile on the object. You should consider storing the profile\n")
-    cat("in a different variable\n")
+    warning("Running a profile on the object. You should consider storing the profile in a different variable.")
     likelregions(profile(object), nseg, ratio, ...)
 })
 
-          

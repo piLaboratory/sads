@@ -1,3 +1,9 @@
+0.4.1 (2017-10-17)
+* fixed fitpareto to have 2 degrees of freedom
+* added Svolkov function
+* removed deprecated "representation" from class definitions
+* removed some checks for bugs in previous bbmle versions
+
 0.4.0 (2017-06-11)
 * added a "prop" argument for plotting relative rank abundances
 * changed many details in plotting functions related to above change

@@ -18,7 +18,7 @@ rsad <- function(S = NULL, frac,
                 bs = coef$S,
                 ls = coef$alpha * log ( 1 + coef$N / coef$alpha ),
                 mzsm = sum(coef$theta / (1:coef$J) *(1 - (1:coef$J)/coef$J)^(coef$theta - 1)),
-                volkov = Svolkov(coef$theta, coef$m, coef$J)
+                volkov = suppressWarnings(Svolkov(coef$theta, coef$m, coef$J))
                 )
   } else {
     if (is.null(S))

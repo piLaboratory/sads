@@ -5,7 +5,7 @@ fitpareto <- function(x, trunc, start.value, upper = 20, ...){
     if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
   }
   if(missing(start.value)){
-    alpha <- length(x)/sum(log(x)-log(min(x)))
+    alpha <- length(x)/sum(log(x)-log(min(x))) ## actually the analytical mle of shape
   } else{
     alpha <- start.value[1]
   }
@@ -15,9 +15,12 @@ fitpareto <- function(x, trunc, start.value, upper = 20, ...){
     LL <- function(shape, scale) -sum(dtrunc("pareto", x = x,
                                              coef = list(shape = shape, scale = scale), trunc = trunc, log = TRUE))
   }  
-  result <- do.call("mle2", c(list(LL, start = list(shape = alpha, scale=min(x)), fixed=list(scale=min(x)),
-                 data = list(x = x), method = "Brent", lower = 0, upper = upper), dots))
-  if(abs(as.numeric(result@coef) - upper) < 0.001) 
+  ##result <- do.call("mle2", c(list(LL, start = list(shape = alpha, scale=min(x)), fixed=list(scale=min(x)),
+  ##                                 data = list(x = x), method = "Brent", lower = 0, upper = upper), dots))
+  ## With both parameters free, because the fit has two degrees of freedom
+  result <- do.call("mle2", c(list(LL, start = list(shape = alpha, scale=min(x)),
+                                   data = list(x = x), method = "L-BFGS-B", upper= c(shape = upper, scale=min(x))), dots))
+  if(abs(as.numeric(result@coef[1]) - upper) < 0.001) 
     warning("mle equal to upper bound provided. \n Try value for the 'upper' argument")
   new("fitsad", result, sad="pareto", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc)) 
 }

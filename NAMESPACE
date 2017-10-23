@@ -43,3 +43,5 @@ import(
     methods,
     MASS,
     bbmle)
+## Deprecated functions! To be removed after GitHub issue #18
+export(Svolkov)

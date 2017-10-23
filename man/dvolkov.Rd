@@ -4,6 +4,7 @@
 \alias{pvolkov}
 \alias{qvolkov}
 \alias{rvolkov}
+\alias{Svolkov}
 
 \title{Neutral Biodiversity Theory distribution by Volkov \emph{et al.} }
 
@@ -17,6 +18,7 @@ dvolkov( x, theta, m, J, order=96, log = FALSE )
 pvolkov( q, theta, m , J, lower.tail = TRUE, log.p = FALSE )
 qvolkov( p, theta, m, J, lower.tail = TRUE, log.p = FALSE )
 rvolkov( n, theta, m, J)
+Svolkov( theta, m, J, order=96)
 }
 
 \arguments{
@@ -102,6 +104,8 @@ rvolkov( n, theta, m, J)
   a numeric interpolation with a step function (\code{approxfun})
   to find quantiles.
   Calculations can be slow for larger datasets.
+
+  A special function Svolkov is provided to estimate the expected community size from a Volkov distribution with parameters theta, m and J, but this function is deprecated. A more comprehensive function to estimate community sizes will be developed in the future.
 }
 
 \references{
@@ -127,7 +131,7 @@ rvolkov( n, theta, m, J)
 \examples{
 ## Volkov et al 2003 fig 1
 ## But without Preston correction to binning method
-## and only the line of expected by Volkov's model
+## and only the line of expected values by Volkov's model
 data( bci )
 bci.oct <- octav( bci, preston = FALSE )
 plot( bci.oct )
