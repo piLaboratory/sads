@@ -12,7 +12,7 @@ fitpoilog <- function(x, trunc = 0, ...){
         }
     }
     if (is.null(trunc)){
-        pl.par <- poilogMLE(x, startVals = c(mu = mean(log(x+0.1)) + log(0.5), sig = sd(log(x))), zTrunc = FALSE)$par
+        pl.par <- poilogMLE(x, startVals = c(mu = mean(log(x+0.1)) + log(0.5), sig = sd(log(x+0.1))), zTrunc = FALSE)$par
         LL <- function(mu, sig) -sum(dpoilog(x, mu, sig, log = TRUE))
     }
     result <- do.call("mle2", c(list(LL, start = as.list(pl.par), data = list(x = x)), dots))
