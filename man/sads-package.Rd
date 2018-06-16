@@ -8,11 +8,8 @@
 \description{
 \packageDescription{sads}
 }
-\details{
 
-The DESCRIPTION file:
-\packageDESCRIPTION{sads}
-\packageIndices{sads}
+\details{
 
 The distribution of abundances of species is one of the basic patterns of
   ecological communities. The empirical distributions of abundances (SADs)
@@ -27,12 +24,15 @@ The distribution of abundances of species is one of the basic patterns of
     \item Tools for quick diagnostic and comparison of models;
     \item Tools to simulate Poisson and Negative Binomial samples from
     abundances in communities.  
+  }
 }
+
 \author{
 \packageAuthor{sads}
 
 Maintainer: \packageMaintainer{sads}
 }
+
 \references{
   Magurran, A.E. 2004. \emph{Measuring Biological Diversity}. Blackwell.
 
@@ -46,7 +46,7 @@ Maintainer: \packageMaintainer{sads}
   Green,J. and Plotkin, J.B. 2007 A statistical theory for sampling
   species abundances. \emph{Ecology Letters 10}:1037--1045.
 
-  S{\ae}ther, B.E., Engen, S. and Gr{\o}tan, V. 2013. Species diversity and
+  Saether, B.E., Engen, S. and Grotan, V. 2013. Species diversity and
   community similarity in fluctuating environments: parametric
   approaches using species abundance distributions.
   \emph{Journal of Animal Ecology, 82}(4): 721--738.
