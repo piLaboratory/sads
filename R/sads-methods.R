@@ -124,12 +124,12 @@ setMethod("plot","fitsad",
               if(1 %in% which){
                   oct.df <- octav(x)
                   oct.pred <- octavpred(x)
-                  oct.xlim <- range(c(oct.df[,1], oct.pred[,1]), na.rm=TRUE)
+                  new.oc <- min(c(oct.df[,1], oct.pred[,1])) : max(c(oct.df[,1], oct.pred[,1]))
                   if("prop" %in% names(dots) && dots$prop)
                       oct.ymax <- max(c(oct.df[, 3]/sum(oct.df[,3]), oct.pred[, 3]/sum(oct.pred[,3])), na.rm = TRUE)
                   else
                       oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
-                  plot(oct.df, ylim = c(0,oct.ymax), xlim=oct.xlim, ...)
+                  plot(octav(x, oct=new.oc), ylim = c(0,oct.ymax), ...)     
                   points(oct.pred, ...)
               }
               if(2 %in% which){
@@ -161,12 +161,12 @@ setMethod("plot","fitrad",
             if(1 %in% which){
               oct.df <- octav(x)
               oct.pred <- octavpred(x)
-              oct.xlim <- range(c(oct.df[,1], oct.pred[,1]), na.rm=TRUE)
+              new.oc <- min(c(oct.df[,1], oct.pred[,1])) : max(c(oct.df[,1], oct.pred[,1]))
               if("prop" %in% names(dots) && dots$prop)
                   oct.ymax <- max(c(oct.df[, 3]/sum(oct.df[,3]), oct.pred[, 3]/sum(oct.pred[,3])), na.rm = TRUE)
               else
                   oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
-              plot(oct.df, ylim = c(0,oct.ymax), xlim = oct.xlim, ...)
+              plot(octav(x, oct=new.oc), ylim = c(0,oct.ymax), ...)     
               points(oct.pred, ...)
             }
             if(2 %in% which){

@@ -3,53 +3,61 @@ rsad <- function(S = NULL, frac,
                          "poilog","power", "powbend", "volkov", "weibull"), 
                  coef, trunc=NaN, sampling=c("poisson", "nbinom", "hypergeometric"), 
                  k, zeroes=FALSE, ssize=1) {
-  sampling <- match.arg(sampling)
-  sad <- match.arg(sad)
-  if (frac <= 0 | frac > 1) stop("Invalid value for frac, make sure 0 < frac <= 1")
-  if (sampling == "nbinom" & missing(k)) stop("For negative binomial sampling please provide a value for k")
-  if (ssize<1) stop("ssize must be at least one")
-  if (class(coef) != "list" | is.null(names(coef))) stop("coef must be a named list!")
-
-  # Handles parameters that give the community size
-  if (sad %in% c("bs", "ls", "mzsm", "volkov")) {
-    if (!is.null(S))
-      warning("For the selected sad the value of S is ignored")
-    S <- switch(sad, 
-                bs = coef$S,
-                ls = coef$alpha * log ( 1 + coef$N / coef$alpha ),
-                mzsm = sum(coef$theta / (1:coef$J) *(1 - (1:coef$J)/coef$J)^(coef$theta - 1)),
-                volkov = suppressWarnings(Svolkov(coef$theta, coef$m, coef$J))
-                )
-  } else {
-    if (is.null(S))
-      stop("The argument S is mandatory for the selected sad")
-  }
-
-  # Generates the "community"
-  if(is.nan(trunc)) {
-    sadr <- get(paste("r", sad, sep=""), mode = "function")
-    com <- do.call(sadr,c(list(n=S),coef))
-  } else {
-    com <- rtrunc(sad, n=S, trunc=trunc, coef=coef)
-  }
-
-  # Generates a sample from the community
-  sam <- switch(sampling,
-                poisson = rpois(S*ssize,lambda=frac*com),
-                nbinom = rnbinom(S*ssize,mu=frac*com,size=k),
-                hypergeometric = rfixed(com, frac, ssize)
-               )
-
-  # Treats "ssize" and "zeroes" arguments
-  if(ssize>1){
-    y <- data.frame(sample=rep(1:ssize,each=S), species=rep(1:S,ssize), abundance=sam)
-    if(!zeroes) y <- y[y$abundance>0,]
-  }
-  else {
-    y <- sam
-    if(!zeroes) y <- y[y>0]
-  }
-  return(y)
+    sampling <- match.arg(sampling)
+    if(is.character(sad)) {
+        sad <- match.arg(sad)
+        if (frac <= 0 | frac > 1) stop("Invalid value for frac, make sure 0 < frac <= 1")
+        if (sampling == "nbinom" & missing(k)) stop("For negative binomial sampling please provide a value for k")
+        if (ssize<1) stop("ssize must be at least one")
+        if (class(coef) != "list" | is.null(names(coef))) stop("coef must be a named list!")
+        ## Handles parameters that give the community size
+        if (sad %in% c("bs", "ls", "mzsm", "volkov")) {
+            if (!is.null(S))
+                warning("For the selected sad the value of S is ignored")
+            S <- switch(sad, 
+                        bs = coef$S,
+                        ls = coef$alpha * log ( 1 + coef$N / coef$alpha ),
+                        mzsm = sum(coef$theta / (1:coef$J) *(1 - (1:coef$J)/coef$J)^(coef$theta - 1)),
+                        volkov = suppressWarnings(Svolkov(coef$theta, coef$m, coef$J))
+                        )
+        } else {
+            if (is.null(S))
+                stop("The argument S is mandatory for the selected sad")
+        }
+        ## Generates the "community"
+        if(is.nan(trunc)) {
+            sadr <- get(paste("r", sad, sep=""), mode = "function")
+            com <- do.call(sadr,c(list(n=S),coef))
+        } else {
+            com <- rtrunc(sad, n=S, trunc=trunc, coef=coef)
+        }
+    }
+    ## If a numeric vector is provided in 'sad' this is treated as the sad of the community to be sampled
+    else
+        if (is.numeric(sad)) {
+            if(any(sad<=0)) stop("Argument 'sad' should be a string for a known distribution model or a vector of positive numbers")
+            S <- length(sad)
+            com <- sad
+        }
+    else
+        stop("Argument 'sad' should be a string for a known distribution model or a vector of positive numbers")
+    ## Generates a sample from the community
+    sam <- switch(sampling,
+                  poisson = rpois(S*ssize,lambda=frac*com),
+                  nbinom = rnbinom(S*ssize,mu=frac*com,size=k),
+                  hypergeometric = rfixed(com, frac, ssize)
+                  )
+    
+    ## Treats "ssize" and "zeroes" arguments
+    if(ssize>1){
+        y <- data.frame(sample=rep(1:ssize,each=S), species=rep(1:S,ssize), abundance=sam)
+        if(!zeroes) y <- y[y$abundance>0,]
+    }
+    else {
+        y <- sam
+        if(!zeroes) y <- y[y>0]
+    }
+    return(y)
 }
 
 

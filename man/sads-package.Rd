@@ -2,26 +2,16 @@
 \alias{sads-package}
 \alias{sads}
 \docType{package}
-
 \title{
-  Modeling Species Abundance Distributions 
+\packageTitle{sads}
+}
+\description{
+\packageDescription{sads}
 }
 
-\description{
-  Tools to fit probability distributions to species abundance
-  distributions (SADs) and species rank-abundance distributions (RADs)
-  using maximum likelihood.
-}
 \details{
-  \tabular{ll}{
-    Package: \tab sads\cr
-    Type: \tab Package\cr
-    Version: \tab 0.3.1\cr
-    Date: \tab 2016-05-12\cr
-    License: \tab gpl \cr
-    LazyLoad: \tab yes\cr
-  }
-  The distribution of abundances of species is one of the basic patterns of
+
+The distribution of abundances of species is one of the basic patterns of
   ecological communities. The empirical distributions of abundances (SADs)
   or their ranks (RADs) are traditionally
   modelled through probability distributions. Hence, the maximum
@@ -33,14 +23,14 @@
     broken-stick, Zipf, Zipf-Mandelbrodt, \dots ;
     \item Tools for quick diagnostic and comparison of models;
     \item Tools to simulate Poisson and Negative Binomial samples from
-    abundances in communities.
+    abundances in communities.  
   }
 }
 
 \author{
-  Paulo I. Prado, Murilo Dantas Miranda and Andre Chalom
+\packageAuthor{sads}
 
-  Maintainer: P.I. Prado  <prado@ib.usp.br>
+Maintainer: \packageMaintainer{sads}
 }
 
 \references{
@@ -55,12 +45,34 @@
   
   Green,J. and Plotkin, J.B. 2007 A statistical theory for sampling
   species abundances. \emph{Ecology Letters 10}:1037--1045.
+
+  Saether, B.E., Engen, S. and Grotan, V. 2013. Species diversity and
+  community similarity in fluctuating environments: parametric
+  approaches using species abundance distributions.
+  \emph{Journal of Animal Ecology, 82}(4): 721--738.
 }
 
+
 \keyword{ species abundance distributions, ecology, environmetrics,
-  maximum likelihood estimation}
+  maximum likelihood estimation }
 
 \seealso{
   vignettes of \pkg{sads}; \code{vegan-package} and \code{poilog-package}
 }
 
+\examples{
+## Rank-abundance plot
+plot( rad(moths) )
+## Preston's plots
+plot (octav(moths) )
+## Fit logseries model
+moths.ls <-  fitsad(moths, sad = 'ls')
+## Diagnostic plots
+par(mfrow=c(2,2))
+plot(moths.ls)
+par(mfrow = c(1,1))
+## Model summary
+summary(moths.ls)
+## Confidence interval
+confint(moths.ls)
+}

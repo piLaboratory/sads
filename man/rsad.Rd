@@ -26,20 +26,24 @@ rsad(S = NULL, frac, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","p
   }
   \item{frac}{
     single numeric \code{0 < frac <= 1}; fraction of the community
-    sampled. Notice that assumptions of Poisson and binomial sampling
+    sampled. Usually the proportion of total number of individuals or of
+    total area or volume sampled. Notice that assumptions of Poisson and binomial sampling
     are only valid for small values of \code{frac} (see Details).
   }
   \item{sad}{
+    numeric; a vector of positive real numbers depicting abundances of
+    species in a community or sample OR
     character; root name of community sad distribution - e.g., \kbd{lnorm}
     for the lognormal distribution \code{rlnorm}; \kbd{geom} for the geometric distribution
 	\code{rgeom} or \kbd{ls} for the lognormal distribution \code{\link{ls}}.
   }  
   \item{coef}{
     list with named arguments to be passed to the probability function defined by the
-    argument sad.
+    argument \kbd{sad}.
   }
   \item{trunc}{
-    The truncation point at which the random distribution should be truncated; see \code{\link{rtrunc}}.
+    The truncation point at which the random distribution defined in
+    argument \kbd{sad} should be truncated; see \code{\link{rtrunc}}.
     The default value of \code{NaN} means that no truncation is performed.
   }
   \item{sampling}{
@@ -64,9 +68,13 @@ rsad(S = NULL, frac, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","p
 
 \details{
   This function simulates one or more random samples taken from a community with \code{S}
-  species. The expected species abundances in the sampled community follow a
-  probability distribution given by the argument \code{sad}. A fraction \code{frac} of
-  the community is sampled, thus the expected abundance in the sample of each
+  species. The expected species abundances in the sampled community can
+  (i) follow a
+  probability distribution given by the argument \code{sad} or (ii) be a
+  numeric vector provided by the user through this same argument.
+  A fraction \code{frac} of
+  the whole set of units that made up the community (usually
+  individuals) is sampled. Hence the expected abundance in the sample of each
   species is \code{frac*n}, where n is the species' expected abundance in the
   community.
 
@@ -84,7 +92,7 @@ rsad(S = NULL, frac, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","p
   with the sampling intensity given by \code{frac}. The resulting values are
   realizations of a Poisson (or a Negative Binomial) random variable where the
   parameter that corresponds to the mean (=expected value of the variable) follows a probability
-  distribution given by the argument \code{sad}. Because these two
+  distribution or the numeric vector given by the argument \code{sad}. Because these two
   sampling schemes assume replacement but the sampled community is
   finite, they are valid only when the
   fraction of the sampled community is small (\code{frac}<<1).
@@ -99,7 +107,7 @@ rsad(S = NULL, frac, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","p
   
   For the broken-stick, logseries, MZSM and Volkov distributions, the expected value of \code{S}
   is deduced from the coefficients provided in the argument \code{coef}; thus, the value of the parameter
-  \code{S} is ignored and may be left blank. The formulas for the number of species in each case are:
+  \code{S} is ignored and may be left blank. The expressions for the number of species in each case are:
 
   * Broken-stick: coefficient S
   * Log-series: alpha log(1 + N/alpha)
