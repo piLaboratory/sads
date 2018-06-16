@@ -74,7 +74,7 @@ The current developer version can be installed from GitHub with:
 @
 <<install-dev-version, eval=FALSE >>=
 library(devtools)
-install_github(repo = 'piLaboratory/sads', ref= 'dev')
+install_github(repo = 'piLaboratory/sads', ref= 'dev', build_vignettes = TRUE)
 @ 
 
 And then load the package:
