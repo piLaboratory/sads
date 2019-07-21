@@ -40,6 +40,7 @@ importFrom("poilog", dpoilog, poilogMLE)
 ## Import all packages listed as Imports or Depends
 import(
     stats,
+    stats4,
     methods,
     MASS,
     bbmle)

@@ -7,6 +7,7 @@ Author: Paulo I. Prado, Murilo Dantas Miranda and Andre Chalom
 Maintainer: Paulo I. Prado <prado@ib.usp.br>
 Depends:
     stats,
+    stats4,
     bbmle (>= 1.0.19)
 Imports:
     MASS,
