@@ -10,7 +10,7 @@ bibentry(bibtype = "Manual",
                           person(given = "Andr\'e",
                                  family = "Chalom")
                           ),
-         url = "https://CRAN.R-project.org/package=sads"
+         url = "https://CRAN.R-project.org/package=sads",
          header = "To cite sads in publications please use:",
          textVersion  =
              paste0("Paulo I Prado, Murilo Dantas Miranda and",
