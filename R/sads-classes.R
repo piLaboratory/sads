@@ -31,4 +31,7 @@ distr.depr <- "The 'distr' slot of fitrad and fitsad objects have been deprecate
 #' @rdname summary.sads-class
 setClass("summary.sads", contains="summary.mle2", slots=c(fixed="numeric"))
 
+
 setClass("likelregions", contains="list", slots=c(names="character", ratio="numeric"))
+setClass("histogram", contains = "list") 
+
