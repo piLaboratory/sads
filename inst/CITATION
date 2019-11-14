@@ -1,0 +1,21 @@
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Manual",
+         title        = "{sads}: Maximum Likelihood Models for Species Abundance Distributions",
+         author       = c(person(given = "Paulo In\'acio",
+                                 family = "Prado"),
+                          person(given = "Murilo",
+                                 family = "Dantas Miranda"),
+                          person(given = "Andr\'e",
+                                 family = "Chalom")
+                          ),
+         url = "https://CRAN.R-project.org/package=sads",
+         header = "To cite sads in publications please use:",
+         textVersion  =
+             paste0("Paulo I Prado, Murilo Dantas Miranda and",
+                    "Andre Chalom(",
+                    year,
+                    ") sads: Maximum Likelihood Models for Species Abundance Distributions.",
+                    note, ".")
+         )

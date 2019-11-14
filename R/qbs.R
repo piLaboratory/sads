@@ -1,6 +1,7 @@
 qbs<-function(p, N, S, lower.tail = TRUE, log.p = FALSE){
   if (length(N) > 1 | length(S) > 1) stop("vectorization of parameters is not implemented")
-  if (N <= 0 | S <= 0 | !is.wholenumber(N) | !is.wholenumber(S))  return(rep(NaN, length(p)))
+  ##if (N <= 0 | S <= 0 | !is.wholenumber(N) | !is.wholenumber(S))  return(rep(NaN, length(p)))
+  if (!is.finite(N) | N <= 0 | !is.finite(S) | S <= 0 | !is.wholenumber(S))  return(rep(NaN, length(p)))
   if(log.p) p <- exp(p)
   if(!lower.tail) p <- 1-p
   ## Ugly: just to make qbs(1, ...) = N

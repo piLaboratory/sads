@@ -2,10 +2,10 @@
 % Please edit documentation in R/sads-classes.R, R/sads-methods.R
 \docType{class}
 \name{summary.sads-class}
-\alias{show,summary.sads-method}
-\alias{summary,fitrad-method}
-\alias{summary,fitsad-method}
 \alias{summary.sads-class}
+\alias{show,summary.sads-method}
+\alias{summary,fitsad-method}
+\alias{summary,fitrad-method}
 \title{Summary for fitsad/fitrad calls}
 \usage{
 \S4method{show}{summary.sads}(object)
@@ -21,4 +21,3 @@
 This function works almost exactly as bbmle's summary.mle2, but it includes a "fixed parameters" 
 line for models with fixed parameters, such as \code{\link{fitls}} or \code{fitvolkov}.
 }
-

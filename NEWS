@@ -1,3 +1,29 @@
+0.4.2 (2018-06-16)
+
+* fixed bug that does not allow zero values in non-truncated poilog, geom, nbinom
+* fix: diagnostic octav plot Plot #1 returned by plot methods for fitsad and fitrad methods had a truncated bar for the first octave.
+* sads-package.Rd updated to be syncronized with package metadata
+* rsads now allows a numeric vector in argument 'sads', to define an arbitrary community to be sampled
+
+0.4.1 (2017-10-17)
+* fixed fitpareto to have 2 degrees of freedom
+* added Svolkov function
+* removed deprecated "representation" from class definitions
+* removed some checks for bugs in previous bbmle versions
+
+0.4.0 (2017-06-11)
+* added a "prop" argument for plotting relative rank abundances
+* changed many details in plotting functions related to above change
+* fixed registering external calls for R version 3.4
+* fixed qbs not accepting non-integer N
+* added continuous integration tests with TravisCI/AppVeyor
+* added clarifications for building vignettes on README
+* fixed a bug where plotprofmle would ignore input parameters
+* tweaked fitgeom optimization a bit
+
+0.3.1 (2016-05-12)
+* Fixed a CRAN link on README
+
 0.3.0 (2016-05-11)
 * new functions for density, distribution, quantile and random generators function for the Pueyo's powerbend distribution
 * several new functionalities for random sad generation (rsad)

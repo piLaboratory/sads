@@ -2,14 +2,14 @@
 % Please edit documentation in R/sads-methods.R
 \docType{methods}
 \name{coefficients,fitsad-method}
-\alias{coefficients,fitrad-method}
 \alias{coefficients,fitsad-method}
-\alias{fitted,fitrad-method}
-\alias{fitted,fitsad-method}
-\alias{fitted.values,fitrad-method}
+\alias{coefficients,fitrad-method}
 \alias{fitted.values,fitsad-method}
-\alias{residuals,fitrad-method}
+\alias{fitted.values,fitrad-method}
+\alias{fitted,fitsad-method}
+\alias{fitted,fitrad-method}
 \alias{residuals,fitsad-method}
+\alias{residuals,fitrad-method}
 \title{Standard stats methods}
 \usage{
 \S4method{coefficients}{fitsad}(object, ...)
@@ -49,4 +49,3 @@ these are also used to calcutate \code{residuals}.
 Notice that radpred is a preferred interface for most calculations, specially if there are several
 ties.
 }
-

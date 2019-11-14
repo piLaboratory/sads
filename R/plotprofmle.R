@@ -2,7 +2,7 @@ setGeneric("plotprofmle",
     def=function(object, nseg=20, ratio=log(8), which=NULL, ask=NULL, col.line="blue", varname=NULL, ...) standardGeneric("plotprofmle")
     )
 setMethod("plotprofmle", "profile.mle2",
-function(object, nseg, ratio, which, ask, col.line, varname, ...){
+function(object, nseg=20, ratio=log(8), which=NULL, ask=NULL, col.line="blue", varname=NULL, ...){
   mleprof <- object@profile
   npar <- length(mleprof)
   if(missing(which))
@@ -48,10 +48,9 @@ function(object, nseg, ratio, which, ask, col.line, varname, ...){
   }
 })
 setMethod("plotprofmle", "mle2",
-    function(object, ...) {
-    cat("NOTICE: Running a profile on the object. You should consider storing the profile\n")
-    cat("in a different variable\n")
-    plotprofmle(profile(object), ...)
+          function(object, nseg=20, ratio=log(8), which=NULL, ask=NULL, col.line="blue", varname=NULL, ...){
+    warning("Running a profile on the object. You should consider storing the profile in a different variable.")
+    plotprofmle(profile(object), nseg, ratio, which, ask, col.line, varname, ...)
 })
 
 internal.spline <- function(mleprof, i, ratio, nseg) {
@@ -86,7 +85,7 @@ setGeneric("likelregions",
     def=function(object, nseg=100, ratio=log(8), ...) standardGeneric("likelregions")
     )
 setMethod("likelregions", "profile.mle2",
-function(object, nseg, ratio, ...){
+function(object, nseg=100, ratio=log(8), ...){
   mleprof <- object@profile
   npar <- length(mleprof)
   which <- 1:npar
@@ -108,10 +107,8 @@ function(object, nseg, ratio, ...){
   new("likelregions", out, names=names(mleprof), ratio=ratio)
 })
 setMethod("likelregions", "mle2",
-    function(object, ...) {
-    cat("NOTICE: Running a profile on the object. You should consider storing the profile\n")
-    cat("in a different variable\n")
-    likelregions(profile(object), ...)
+function(object, nseg=100, ratio=log(8), ...){
+    warning("Running a profile on the object. You should consider storing the profile in a different variable.")
+    likelregions(profile(object), nseg, ratio, ...)
 })
 
-          
