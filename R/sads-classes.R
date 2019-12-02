@@ -22,6 +22,7 @@ setClass("rad", contains="data.frame", validity = function(object) {
 setClass("fitsad", contains="mle2", slots=c(sad="character", distr="character", trunc="numeric"))
 setClass("fitrad", contains="mle2", slots=c(rad="character", distr="character", trunc="numeric", rad.tab="rad"))
 
+
 distr.depr <- "The 'distr' slot of fitrad and fitsad objects have been deprecated. Please see ?distr"
 
 #' Summary for fitsad/fitrad calls
@@ -35,3 +36,5 @@ setClass("summary.sads", contains="summary.mle2", slots=c(fixed="numeric"))
 setClass("likelregions", contains="list", slots=c(names="character", ratio="numeric"))
 setClass("histogram", contains = "list") 
 
+
+setClass("fitsad-cover", contains="mle2", slots=c(sad="character", trunc="numeric", hist="histogram"))
