@@ -9,7 +9,7 @@ fitgammaC <- function(x, trunc, start.value, ...){
           kahat <- function(k, dados){
               eq <- length(dados)*(log(k) - log(mean(dados)) - digamma(k)) + sum(log(dados))
           }
-          ka <- uniroot(kahat, interval = c(min(theta, ka), max(theta, ka)), dados = y)$root
+          ka <- uniroot(kahat, interval = c(min(theta, ka)/10, max(theta, ka)*10), dados = y)$root
           theta <- mean(y)/ka
       }
       else{
