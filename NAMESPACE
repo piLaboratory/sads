@@ -18,7 +18,7 @@ export(fitbs, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm,
        fitnbinom, fitpareto, fitpoilog, fitpower, fitrbs, fitvolkov, fitweibull, fitzipf,
        fitpowbend)
 ## Fitting functions for cover data
-export(fitgammaC, fitlnormC, fitparetoC, fitweibullC)
+export(fitgammaC, fitexpC, fitlnormC, fitparetoC, fitweibullC)
 ## General fitting and ploting  functions
 export(fitrad, fitsad, octav, octavpred, radpred, coverpred, pprad, ppsad, qqrad, qqsad, rad)
 ## Accessory functions
