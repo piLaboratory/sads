@@ -20,5 +20,5 @@ fitweibullC <- function(x, trunc, start.value, ...){
       LL <- function(shape, scale) -trueLL(x, dist = "weibull", coef = list( shape = shape, scale = scale), trunc = trunc)   
     }  
     result <- do.call("mle2", c(list(LL, start = list(shape = ka, scale = theta)), dots))
-    new("fitsad-cover", result, sad="weibull", trunc = ifelse(missing(trunc), NaN, trunc), hist = x) 
+    new("fitsadC", result, sad="weibull", trunc = ifelse(missing(trunc), NaN, trunc), hist = x) 
 }

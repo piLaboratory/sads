@@ -17,5 +17,5 @@ fitlnormC <- function(x, trunc, start.value, ...){
         LL <- function(meanlog, sdlog) -trueLL(x, dist = "lnorm", coef = list(meanlog = meanlog, sdlog = sdlog), trunc = trunc)
     }  
     result <- do.call("mle2", c(list(LL, start = list(meanlog = meanlog, sdlog = sdlog)), dots))
-    new("fitsad-cover", result, sad="lnorm", trunc = ifelse(missing(trunc), NaN, trunc), hist = x) 
+    new("fitsadC", result, sad="lnorm", trunc = ifelse(missing(trunc), NaN, trunc), hist = x) 
 }
