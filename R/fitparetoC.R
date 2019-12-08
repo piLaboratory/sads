@@ -24,5 +24,5 @@ fitparetoC <- function(x, trunc, start.value, upper = 20, ...){
     result <- do.call("mle2", c(list(LL, start = list(shape = alpha, scale= beta)), dots))
     if(abs(as.numeric(result@coef[1]) - upper) < 0.001) 
         warning("mle equal to upper bound provided. \n Try value for the 'upper' argument")
-    new("fitsad-cover", result, sad="pareto", trunc = ifelse(missing(trunc), NaN, trunc), hist = x) 
+    new("fitsadC", result, sad="pareto", trunc = ifelse(missing(trunc), NaN, trunc), hist = x) 
 }

@@ -39,5 +39,5 @@ fitgammaC <- function(x, trunc, start.value, ...){
       LL <- function(shape, rate) -trueLL(x, dist = "gamma",
                                           coef = list(shape = shape, rate = rate), trunc = trunc)  
   result <- do.call("mle2", c(list(LL, start = list(shape = ka, rate = 1/theta)), dots))
-  new("fitsad-cover", result, sad="gamma", trunc = ifelse(missing(trunc), NaN, trunc), hist = x)
+  new("fitsadC", result, sad="gamma", trunc = ifelse(missing(trunc), NaN, trunc), hist = x)
 }

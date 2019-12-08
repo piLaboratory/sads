@@ -20,5 +20,5 @@ fitexpC <- function(x, trunc = NULL, start.value, ...){
         LL <- function(rate) -trueLL(x, dist = "exp", coef = list(rate = rate), trunc = trunc)
     }
     result <- do.call("mle2", c(list(LL, start = list(rate = phat)), dots))  
-    new("fitsad-cover", result, sad = "exp", trunc = ifelse(is.null(trunc), NaN, trunc), hist = x)
+    new("fitsadC", result, sad = "exp", trunc = ifelse(is.null(trunc), NaN, trunc), hist = x)
 }
