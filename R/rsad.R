@@ -82,8 +82,8 @@ rpareto <- function(n, shape, scale = 1) qpareto(runif(n), shape, scale)
 rpoig <- function(n, frac, rate, shape) qpoig(runif(n), frac, rate, shape)
 rpoilog <- function(n, mu, sig) qpoilog(runif(n), mu, sig)
 rpoix <- function(n, frac, rate) qpoix(runif(n), frac, rate)
-rpower <- function(n, s, exact = FALSE, ...){
-    if(exact)
+rpower <- function(n, s, bissection = FALSE, ...){
+    if(bissection)
         qpower(runif(n), s)
     else
         rpldis(n = n, alpha = s, xmin=1, ...) ## uses faster function rpldis from poweRlaw package
@@ -97,7 +97,7 @@ rvolkov <- function(n, theta, m, J) shift_r("volkov", n, list(theta=theta,m=m,J=
 rzipf <-function(n, N, s) shift_r("zipf", n, list(N=N, s=s))
 
 ## rtrunc for truncated versions of [r] functions
-rtrunc <- function(f, n, trunc, coef, ....){
+rtrunc <- function(f, n, trunc, coef, ...){
     if(f == "power")
         rpldis(n = n, alpha = s, xmin = trunc, ...) ## uses faster function rpldis from poweRlaw package
     else

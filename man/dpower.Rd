@@ -43,9 +43,9 @@ rpower( n, s, bissection = FALSE, ...)
     logical; if TRUE (default), probabilities are P[X <= x],
     otherwise, P[X > x].
   }
-  \item{exact}{
-    logical; uses the bissection method to generate random number. If
-  FALSE calls poweRlaw::rpldis, which provides a continuous
+  \item{bissection}{
+    logical; uses the bissection method to generate random numbers? If
+  FALSE calls poweRlaw::rpldis, which provides a faster, continuous
   approximation for large numbers (Gilliespie 2015). 
     }
 }
