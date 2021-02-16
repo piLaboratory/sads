@@ -76,3 +76,12 @@ shift_r <- function(f, n, coef) {
   qz [ rr < d1 ] <- 0
   1+qz
 }
+
+## Incomplete beta function
+ibeta <- function(x, a, b, log = FALSE){
+    y <- pbeta(x, a, b, log.p = TRUE) + lbeta(a, b)
+    if(log)
+        return(y)
+    else
+        exp(y)
+}
