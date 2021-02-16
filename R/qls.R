@@ -4,10 +4,10 @@ qls <- function(p, N, alpha, lower.tail = TRUE, log.p = FALSE, fast = FALSE, low
         p <- 1 - p
     if (log.p)
         p <- exp(p)
-    if(fast){ 
+    if(fast){
+        P <- N / (N + alpha)
         f2 <- function(target){
             f1 <- function(x){
-                P <- N / (N + alpha)
                 (1 + ibeta(P, x+1, 1e-100) / log( 1 - P)) - target
                 ##pls(q = x, N = N, alpha = alpha, use.ibeta = TRUE ) - target
                 }

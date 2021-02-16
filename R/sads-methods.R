@@ -317,24 +317,25 @@ setMethod("show", "likelregions",
           
 ## radpred generic functions and methods ###
 setGeneric("radpred",
-def = function(object, sad, rad, coef, trunc , distr=NA, S, N) standardGeneric("radpred")
+def = function(object, sad, rad, coef, trunc , distr=NA, S, N, fast) standardGeneric("radpred")
            )
 
 ## if object is of class fitsad (no other argument should be provided)
 # Extracts information from object and uses method below
 setMethod("radpred",signature(object="fitsad", sad="missing", rad="missing",
-                              coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
-          function (object){
-			  ab = object@data$x
-			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
-					  trunc=object@trunc, S=length(ab), N=sum(ab))
-		  }
-		  )
+                              coef="missing", trunc="missing", distr="missing", S="missing", N="missing", fast = "ANY"),
+          function (object, fast){
+              if(missing(fast)) fast <- FALSE
+              ab = object@data$x
+              radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
+                      trunc=object@trunc, S=length(ab), N=sum(ab), fast = fast)
+          }
+          )
 
 ## if object is of class fitrad (no other argument should be provided)
 # Extracts information from object and uses method below
 setMethod("radpred",signature(object="fitrad", sad="missing", rad="missing",
-                              coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
+                              coef="missing", trunc="missing", distr="missing", S="missing", N="missing", fast = "missing"),
           function(object){
 			  ab = object@rad.tab$abund
 			  radpred(rad=object@rad, coef=as.list(bbmle::coef(object)), 
@@ -345,7 +346,7 @@ setMethod("radpred",signature(object="fitrad", sad="missing", rad="missing",
 ## if object is a numeric vector of abundances and rad argument is given (sad, S, N, distr,  arguments should be missing)
 # Extracts information from object and uses method below
 setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
-                              coef="list", trunc="ANY", distr="missing", S="missing", N="missing"),
+                              coef="list", trunc="ANY", distr="missing", S="missing", N="missing", fast = "missing"),
           function(object, sad, rad, coef, trunc){
 			  if(missing(trunc)) trunc <- NaN
 			  radpred(rad=rad, coef=coef, trunc=trunc, S=length(object), N= sum(object))
@@ -354,7 +355,7 @@ setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
 
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
 setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
-                              coef="list", trunc="ANY", distr="ANY", S="missing", N="missing"),
+                              coef="list", trunc="ANY", distr="ANY", S="missing", N="missing", fast = "missing"),
           function(object, sad, rad, coef, trunc, distr=NA){
         if(!is.na(distr)) warning("The parameter distr has been deprecated and is ignored, see ?distr")
 			  if(missing(trunc)) trunc <- NaN
@@ -365,7 +366,7 @@ setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
 ## if object is missing and rad is given. sad should not be given. All other arguments except distr should be given,
 ## except trunc (optional). This is the base method for all signatures using "rad" or "fitrad" 
 setMethod("radpred", signature(object="missing", sad="missing", rad="character",
-                              coef="list", trunc="ANY", distr="missing", S="numeric", N="numeric"),
+                              coef="list", trunc="ANY", distr="missing", S="numeric", N="numeric", fast = "missing"),
           function(object, sad, rad, coef, trunc, distr, S, N){
             y <- 1:S
             if(missing(trunc)) trunc <- NaN
@@ -379,16 +380,19 @@ setMethod("radpred", signature(object="missing", sad="missing", rad="character",
           }
           )
 
+##
+
 ## if object is missing and sad is given. rad should not be given.
 ## All other arguments except distr should be given, except trunc (optional)
 # This is the base method for all signatures using "sad" or "fitsad" 
 setMethod("radpred", signature(object="missing", sad="character", rad="missing",
-                               coef="list", trunc="ANY", distr="ANY", S="numeric", N="numeric"),
-          function(object, sad, rad, coef, trunc, distr=NA, S, N){
+                               coef="list", trunc="ANY", distr="ANY", S="numeric", N="numeric", fast = "ANY"),
+          function(object, sad, rad, coef, trunc, distr=NA, S, N, fast){
               if(!is.na(distr)) warning("The parameter distr has been deprecated and is ignored, see ?distr")
               distribution <- distr(sad)
               if(missing(trunc)) trunc <- NaN
-              if (distribution == "discrete"){
+              if(missing(fast)) fast <- FALSE
+              if (distribution == "discrete" & !fast){
                   ## Approximates the [q] function instead of calling it directly to save some
                   ## computational time (as [q] is inneficiently vectorized)
                   y <- 1:N
@@ -411,17 +415,20 @@ setMethod("radpred", signature(object="missing", sad="character", rad="missing",
                         ab[i] <- do.call(qsad, c(list(p = Y[i], lower.tail=FALSE), coef))
                   }
               }
-              else if(distribution == "continuous"){
+              else if(distribution == "continuous" | fast){
                 Y <- ppoints(S)
                 if(!is.nan(trunc))
                   ab <- do.call(qtrunc, list(sad, p = Y, coef = coef, lower.tail=F, trunc = trunc))
                 else{
-                  qsad <- get(paste("q", sad, sep=""), mode = "function")
-                  ab <- do.call(qsad, c(list(p = Y, lower.tail = F), coef))
+                    qsad <- get(paste("q", sad, sep=""), mode = "function")
+                    if(!fast)
+                        ab <- do.call(qsad, c(list(p = Y, lower.tail = F), coef))
+                    if(fast)
+                        ab <- do.call(qsad, c(list(p = Y, lower.tail = F, fast = TRUE), coef))
                 }
               } else
-                stop("Please provide a valid distribution") 
-                new("rad", data.frame(rank=1:S, abund=ab))
+                  stop("Please provide a valid distribution") 
+              new("rad", data.frame(rank=1:S, abund=ab))
           }
           )
 
