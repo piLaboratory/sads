@@ -24,6 +24,7 @@ rsad <- function(S = NULL, frac,
             if (is.null(S))
                 stop("The argument S is mandatory for the selected sad")
         }
+        S <- as.integer(S) ## S muts be integer
         ## Generates the "community"
         if(is.nan(trunc)) {
             sadr <- get(paste("r", sad, sep=""), mode = "function")
