@@ -45,10 +45,15 @@ rpower( n, s, bissection = FALSE, ...)
   }
   \item{bissection}{
     logical; uses the bissection method to generate random numbers? If
-  FALSE calls poweRlaw::rpldis, which provides a faster, continuous
-  approximation for large numbers (Gilliespie 2015). 
-    }
+    FALSE calls \code{poweRlaw::rpldis}, which provides a faster, continuous
+    approximation for large numbers (Gilliespie 2015). 
+  }
+
+  \item{\dots}{further arguments to be passed to \code{poweRlaw::rpldis}
+    when \code{bissection = TRUE}} 
+  
 }
+
 
 \details{
   The power density is a discrete probability distribution defined for
@@ -86,8 +91,8 @@ rpower( n, s, bissection = FALSE, ...)
 \author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
 
 \seealso{
-\code{dzeta} in \pkg{VGAM} package; \pkg{poweRlaw} package; \code{\link{fitpower}} for maximum likelihood estimation in
-the context of species abundance distributions. 
+\code{dzeta} in \pkg{VGAM} package; \pkg{poweRlaw} package;
+\code{\link{fitpower}} for maximum likelihood estimation in the context of species abundance distributions. 
 }
 
 \examples{

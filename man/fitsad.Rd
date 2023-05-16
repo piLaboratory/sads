@@ -27,7 +27,7 @@ fitsad(x, sad = c("bs","exp", "gamma","geom","lnorm","ls","mzsm","nbinom","paret
 
 fitbs(x, trunc, \dots)
 
-fitexp(x, trunc, \dots)
+fitexp(x, trunc = NULL, start.value, \dots)
 
 fitgamma(x, trunc, start.value,  \dots)
 
@@ -39,7 +39,7 @@ fitls(x, trunc, start.value, upper = length(x), \dots)
 
 fitmzsm(x, trunc, start.value, upper = length(x), \dots)
 
-fitnbinom(x, trunc=0, start.value, \dots)
+fitnbinom(x, trunc = 0, start.value, \dots)
 
 fitpareto(x, trunc, start.value,  upper = 20, \dots)
 
@@ -335,7 +335,8 @@ legend("topright", c("lognormal", "gamma", "weibull"),lty=1, col=c("blue","red",
 AICctab(AR.ln, AR.g, AR.wb, nobs=length(ARN82.eB.apr77), weights=TRUE) 
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda,
+\author{Paulo I Prado \email{prado@ib.usp.br}, Murilo Dantas Miranda and
+  Andre Chalom,
   after Ben Bolker, R Core Team, Robin Hanking, Vidar \enc{Grøtan}{Grotan} and Steinar Engen.}
 
 \encoding{UTF-8}

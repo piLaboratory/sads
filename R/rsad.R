@@ -100,7 +100,7 @@ rzipf <-function(n, N, s) shift_r("zipf", n, list(N=N, s=s))
 ## rtrunc for truncated versions of [r] functions
 rtrunc <- function(f, n, trunc, coef, ...){
     if(f == "power")
-        rpldis(n = n, alpha = s, xmin = trunc, ...) ## uses faster function rpldis from poweRlaw package
+        rpldis(n = n, alpha = coef$s, xmin = trunc, ...) ## uses faster function rpldis from poweRlaw package
     else
         qtrunc(f, runif(n), trunc, coef)
 }

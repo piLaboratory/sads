@@ -14,7 +14,7 @@
 dtrunc(f, x, trunc, coef, log = FALSE)
 ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
 qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
-rtrunc(f, n, trunc, coef)
+rtrunc(f, n, trunc, coef, \dots)
 }
 
 \arguments{
@@ -54,6 +54,11 @@ rtrunc(f, n, trunc, coef)
     logical; if TRUE (default), probabilities are P[X <= x],
     otherwise, P[X > x].
   }
+
+  \item{\dots}{in \code{rtrunc} further arguments to
+    be passed to \code{poweRlaw::rpldis} when argument argument
+    \code{f = "power"} and argument \code{bissection = FALSE}. The same for
+    \code{rpower} when and argument \code{bissection = FALSE}.}
 }
 
 \value{
