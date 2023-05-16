@@ -13,7 +13,7 @@
 #' @param distribution Character. The name of the distribution ("geom" for "fitgeom", "weibull" for "fitweibull", etc.
 distr <- function(distribution) {
   if (class(distribution)!="character") stop("Distribution must be from class character")
-  if (distribution %in% c("bs", "lnorm", "gamma", "pareto", "weibull"))
+  if (distribution %in% c("bs", "exp", "lnorm", "gamma", "pareto", "weibull"))
     return("continuous")
   if (distribution %in% c("gs", "geom", "rbs", "power", "powbend", "poilog", "nbinom", "mzsm", "mand", 
                           "ls", "volkov", "zipf"))
