@@ -13,3 +13,4 @@ testes/
 src/*.o
 src/*.so
 .*.swp
+*#*
