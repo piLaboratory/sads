@@ -5,14 +5,14 @@
 \title{Rank-abundance data frame}
 
 \description{Creates a data frame with ranked abundances of \code{rad-class} from a vector
-  of abundances or fitted model object.
+  of abundances, histogram, or fitted model object.
 }
 
 \usage{rad(x)}
 
 \arguments{
-  \item{x}{a numerical vector of abundances or an object of class
-    \code{fitsad} or \code{fitrad}.}
+  \item{x}{a numerical vector of abundances or an histogram, or an object of class
+    \code{fitsad}, \code{fitrad} or \code{fitsadC}.}
 }
 
 \value{
@@ -29,13 +29,15 @@
   Communities. \emph{Science, 147}: 250--260.
 }
 
-\seealso{ \code{\link{rad-class}} for methods to create a rank-abundance
-  data frame; \code{\link{radpred}} to get a \code{rad-class} object of predicted abundances from a
-  theoretical distribution;  \code{\link{fitsad-class}} and
+\seealso{
+  \code{\link{rad-class}} for methods to create a rank-abundance
+  data frame; \code{\link{radpred}} to get a \code{rad-class} object of
+  predicted abundances from a theoretical distribution;
+  \code{\link{fitsad-class}} , \code{\link{fitsadC-class}} and
   \code{\link{fitrad-class}} objects, from which you can also get an
-  object of class \code{rad}; \code{\link{qqrad}} for quantile-quantile plots from a
-  \code{rad-class} object, and \code{\link{pprad}} for
-  percentile-percentile plots. 
+  object of class \code{rad}; \code{\link{qqrad}} for quantile-quantile
+  plots from a \code{rad-class} object, and \code{\link{pprad}} for
+  percentile-percentile plots.
 }
 
 \examples{

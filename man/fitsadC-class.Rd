@@ -10,7 +10,7 @@
   This class extends \code{mle2-class} to encapsulate models of species
   abundance distributions (SADs) fitted by maximum likelihood, from data
   where species are classified in abundance classes (e.g, histograms or
-  frequency tables fo numebr of species in classes of abundances).
+  frequency tables of numebr of species in classes of abundances).
 }
 
 \section{Objects from the Class}{
@@ -86,13 +86,19 @@
 }
 
 \examples{
-## Some useful methods inherited from mle2-class
-coef(moths.ls)
-confint(moths.ls)
-logLik(moths.ls)
-## Model selection
-moths.ln <- fitsad(moths, "lnorm", trunc=0.5)
-AICctab(moths.ls, moths.ln, nobs=length(moths), base=TRUE)
+## Example of fitting a sad model to cover data 
+## Londo's decimal scale breakpoints
+Lbrk <- c(0, 1,3,5,10,15,25,35,45,55,65,75,85,95, 100)
+## To fit a sad to cover data, data sould be in histogram format
+kansas.h <- hist(kansas$cover, breaks = Lbrk, plot = FALSE)
+class(kansas.h) ## class "histogram"
+## Fit a lognormal distribution to the histogram object
+kansas.ln <- fitlnormC(kansas.h)
+class(kansas.ln)
+## Some methods inherited form mle2-class
+summary(kansas.ln)
+coef(kansas.ln)
+AIC(kansas.ln)
 }
 
 \keyword{classes}

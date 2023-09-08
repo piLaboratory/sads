@@ -342,6 +342,18 @@ setMethod("radpred",signature(object="fitrad", sad="missing", rad="missing",
 		  }
 		  )
 
+## if object is of class fitsadC (no other argument should be provided)
+# Extracts information from object and uses method below
+setMethod("radpred",signature(object="fitsadC", sad="missing", rad="missing",
+                              coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
+          function (object){
+			  ab = rep(object@hist$mids, object@hist$counts) 
+			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
+					  trunc=object@trunc, S=length(ab), N=sum(ab))
+		  }
+		  )
+
+
 ## if object is a numeric vector of abundances and rad argument is given (sad, S, N, distr,  arguments should be missing)
 # Extracts information from object and uses method below
 setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
@@ -574,6 +586,46 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
           }
 )
 
+## Methods for coverpred
+## If object is of class histogram and coefs and sads are given
+setMethod("coverpred", signature(object="histogram", sad="character",
+                                 coef="list", trunc="ANY", breaks="missing", S="missing"),
+          function(object, sad, coef, trunc, breaks, S){
+              if(missing(trunc)) trunc <- NaN
+              coverpred(sad = sad, coef = coef, trunc = trunc,
+                        breaks = object$breaks,
+                        S = sum(object@counts))
+              }
+          )
+
+## If object is of class fitsadC 
+setMethod("coverpred", signature(object="fitsadC",sad="missing",
+                                 coef="missing", trunc="missing", breaks="missing", S="missing"),
+          function(object, sad, coef, trunc, breaks, S){
+          coverpred(sad = object@sad,
+                    coef = as.list(bbmle::coef(object)),
+                    trunc = object@trunc,
+                    breaks = object@hist$breaks,
+                    S = sum(object@hist$counts))
+          }
+          )
+
+## coverpred workhorse for "sadsC"
+setMethod("coverpred", signature(object="missing",sad="character",
+                                 coef="list", trunc="ANY", breaks="numeric", S="numeric"),
+          function(object, sad, coef, trunc, breaks, S){
+              if(!is.nan(trunc)){
+                  Y <- do.call(ptrunc, c(list(sad, q = breaks, coef = coef, trunc = trunc), dots))
+              }
+              else{
+                  psad <- get(paste("p",sad,sep=""),mode="function")
+                  Y <- do.call(psad, c(list(q = breaks),coef, dots))
+              }
+              res <- list(breaks = breaks, upper = breaks[-1], prob = diff(Y), Freq = diff(Y)*S)
+              new("coverpred", res)
+          }
+          )
+
 ## Generic and methods for qqsad
 setGeneric("qqsad",
 def = function(x, sad, coef, trunc=NA, distr=NA, plot=TRUE, line=TRUE, ...) standardGeneric("qqsad"))
@@ -635,6 +687,15 @@ setMethod("qqsad",
           }
           )
 
+setMethod("qqsad",
+          signature(x="fitsadC", sad="missing", coef="missing",
+                    trunc="missing", distr="missing"),
+          function(x, sad, coef, trunc, distr, plot=TRUE, line=TRUE, ...){
+              qqsad(x=rep(x@hist$mids, x@hist$counts),
+                    sad=x@sad, coef=as.list(bbmle::coef(x)), 
+                    trunc=x@trunc, plot=plot, line=line, ...)
+          }
+          )
 
 ## Generic and methods for qqrad
 setGeneric("qqrad",
@@ -747,6 +808,18 @@ setMethod("ppsad",
           }
           )
 
+## If argument x is fitsadC class, arguments sad and coef should be missing
+setMethod("ppsad",
+          signature(x="fitsadC", sad="missing", coef="missing", trunc="missing"),
+          function (x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {          
+              sad <- x@sad
+              coef <- as.list(bbmle::coef(x))
+              trunc <- x@trunc
+              y <- rep(x@hist$mids, x@hist$counts) 
+              ppsad(x=y, sad=sad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+          }
+          )
+
 ## Generic function and methods for pprad ##
 setGeneric("pprad",
 def = function(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneric("pprad"))
@@ -812,7 +885,7 @@ setMethod("pprad",
 #' 
 #' Provide the standard interface for fitted objects
 #' 
-#' These methods are provided to allow for standard manipulation of \code{\link{fitsad}}
+#' These methods are provided to allow for standard manipulation of \code{\link{fitsad}}, \code{\link{fitsadC}} 
 #' and \code{\link{fitrad}} objects using the generic methods defined in the "stats" package.
 #' Please see the original man pages for each method.
 #' 
@@ -830,10 +903,16 @@ setMethod("pprad",
 setMethod("coefficients", signature(object="fitsad"),
           function(object, ...) bbmle::coef(object, ...))
 #' @rdname stats
+setMethod("coefficients", signature(object="fitsadC"),
+          function(object, ...) bbmle::coef(object, ...))
+#' @rdname stats
 setMethod("coefficients", signature(object="fitrad"),
           function(object, ...) bbmle::coef(object, ...))
 #' @rdname stats
 setMethod("fitted.values", signature(object="fitsad"),
+          function(object, ...) fitted(object, ...))
+#' @rdname stats
+setMethod("fitted.values", signature(object="fitsadC"),
           function(object, ...) fitted(object, ...))
 #' @rdname stats
 setMethod("fitted.values", signature(object="fitrad"),
@@ -843,6 +922,16 @@ setMethod("fitted", signature(object="fitsad"),
           function(object, ...) {
             rad <- radpred(object)$abund
             rad <- rad[rev(order(object@data$x))]
+            names(rad) <- as.character(1:length(rad))
+            return(rad)
+          }
+          )
+#' @rdname stats
+setMethod("fitted", signature(object="fitsadC"),
+          function(object, ...) {
+            y <-  rep(object@hist$mids, object@hist$counts) 
+            rad <- radpred(object)$abund
+            rad <- rad[rev(order(y))]
             names(rad) <- as.character(1:length(rad))
             return(rad)
           }
@@ -859,6 +948,14 @@ setMethod("fitted", signature(object="fitrad"),
 #' @rdname stats
 setMethod("residuals", signature(object="fitsad"),
           function(object, ...) object@data$x - fitted(object, ...))
+
+#' @rdname stats
+setMethod("residuals", signature(object="fitsadC"),
+          function(object, ...){
+              y <-  rep(object@hist$mids, object@hist$counts) 
+              y - fitted(object, ...)
+          })
+
 #' @rdname stats
 setMethod("residuals", signature(object="fitrad"),
           function(object, ...) object@rad.tab$abund - fitted(object, ...))

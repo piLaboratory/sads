@@ -86,11 +86,11 @@
 }
 
 \seealso{\code{\link{rad}} to get an object of the class from a vector
-  of abundances; \code{\link{radpred}} to get a \code{rad-class} object of predicted abundances from a
-  theoretical distribution, \code{\link{qqrad}} for quantile-quantile plots from a
+  of abundances or from an histogram; \code{\link{radpred}} to get a
+  \code{rad-class} object of predicted abundances from a theoretical
+  distribution, \code{\link{qqrad}} for quantile-quantile plots from a
   \code{rad-class} object, and \code{\link{pprad}} for
-  percentile-percentile plots.
-}
+  percentile-percentile plots.  }
 
 \examples{
 ## Creates a rad object from a vector of abundances

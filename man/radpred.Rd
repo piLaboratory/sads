@@ -71,7 +71,7 @@
 
 \arguments{
   
-  \item{object}{an object of class \code{fitrad} or \code{fitrad};
+  \item{object}{an object of class \code{fitrad} or \code{fitsad};
     fitted model of rank-abundance or species abundances
     distributions. Alternatively a numeric vector abundances of
     species. 
