@@ -112,7 +112,20 @@ setMethod("lines","octav",
             if(!prop) Y <- x$Freq
             do.call(lines, c(list(x = X, y = Y), dots))
           }
-)
+          )
+
+setMethod("points","coverpred",
+          function(x, prop = FALSE, mid = TRUE, ...){
+            dots <- list(...)
+            if(!"type" %in% names(dots)) dots$type="b"
+            if(!"col" %in% names(dots)) dots$col="blue"
+            if(mid) X <- x$mids
+            else X <- x$upper
+            if(prop) Y <- x$prob
+            if(!prop) Y <- x$Freq
+            do.call(points, c(list(x = X, y = Y), dots))
+          }
+          )
 
 setMethod("plot","fitsad",
           function(x, which=1:4, ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...){
@@ -131,6 +144,45 @@ setMethod("plot","fitsad",
                       oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
                   plot(octav(x, oct=new.oc), ylim = c(0,oct.ymax), ...)     
                   points(oct.pred, ...)
+              }
+              if(2 %in% which){
+                  rad.df <- rad(x)
+                  rad.pred <- radpred(x)
+                  if("prop" %in% names(dots) && dots$prop)
+                      rad.ylim <- range(c(rad.df[,2]/sum(rad.df[,2]), rad.pred[,2]/sum(rad.pred[,2]), na.rm = TRUE))
+                  else
+                      rad.ylim <- range(c(rad.df[,2], rad.pred[,2], na.rm = TRUE))
+                  plot(rad.df, ylim = rad.ylim, ...)
+                  lines(rad.pred, ...)
+              }
+              if(3 %in% which){
+                  qqsad(x, ...)
+              }
+              if(4 %in% which){
+                  ppsad(x, ...)
+              }
+          }
+          )
+
+setMethod("plot","fitsadC",
+          function(x, which=1:4, ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...){
+              dots <- list(...)
+              if (ask) {
+                  oask <- devAskNewPage(TRUE)
+                  on.exit(devAskNewPage(oask))
+              }
+              if(1 %in% which){
+                  c.pred <- coverpred(x)
+                  if("prop" %in% names(dots) && dots$prop){
+                      ylim <- range(c(c.pred$density, x@hist$prob))
+                      plot(x@hist, freq = FALSE, ...)
+                      points(c.pred, prop = TRUE)
+                      }                  
+                  else{ylim <- range(c(c.pred$Freq, x@hist$counts))
+                      plot(x@hist, freq = TRUE, ...)
+                      points(c.pred, prop = FALSE)
+                      }
+                      
               }
               if(2 %in% which){
                   rad.df <- rad(x)
@@ -586,34 +638,42 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
           }
 )
 
-## Methods for coverpred
+## coverpred generic functions and methods ###
+setGeneric("coverpred",
+def = function(object, sad, coef, trunc, breaks, mids, S, ...) standardGeneric("coverpred"))
+
 ## If object is of class histogram and coefs and sads are given
 setMethod("coverpred", signature(object="histogram", sad="character",
-                                 coef="list", trunc="ANY", breaks="missing", S="missing"),
-          function(object, sad, coef, trunc, breaks, S){
+                                 coef="list", trunc="ANY", breaks="missing", mids = "missing", S="missing"),
+          function(object, sad, coef, trunc, breaks, S, ...){
               if(missing(trunc)) trunc <- NaN
               coverpred(sad = sad, coef = coef, trunc = trunc,
                         breaks = object$breaks,
-                        S = sum(object@counts))
+                        mids = object$mids,
+                        S = sum(object$counts), ...)
               }
           )
 
 ## If object is of class fitsadC 
 setMethod("coverpred", signature(object="fitsadC",sad="missing",
-                                 coef="missing", trunc="missing", breaks="missing", S="missing"),
-          function(object, sad, coef, trunc, breaks, S){
+                                 coef="missing", trunc="missing", mids = "missing",
+                                 breaks="missing", S="missing"),
+          function(object, sad, coef, trunc, breaks, mids, S, ...){
           coverpred(sad = object@sad,
                     coef = as.list(bbmle::coef(object)),
                     trunc = object@trunc,
                     breaks = object@hist$breaks,
-                    S = sum(object@hist$counts))
+                    mids = object@hist$mids,
+                    S = sum(object@hist$counts), ...)
           }
           )
 
 ## coverpred workhorse for "sadsC"
 setMethod("coverpred", signature(object="missing",sad="character",
-                                 coef="list", trunc="ANY", breaks="numeric", S="numeric"),
-          function(object, sad, coef, trunc, breaks, S){
+                                 coef="list", trunc="ANY", breaks="numeric", mids = "ANY", S="numeric"),
+          function(object, sad, coef, trunc, breaks, mids, S, ...){
+              dots <- list(...)
+              if(missing(mids)) mids <- breaks[-length(breaks)] + diff(breaks)/2
               if(!is.nan(trunc)){
                   Y <- do.call(ptrunc, c(list(sad, q = breaks, coef = coef, trunc = trunc), dots))
               }
@@ -621,7 +681,7 @@ setMethod("coverpred", signature(object="missing",sad="character",
                   psad <- get(paste("p",sad,sep=""),mode="function")
                   Y <- do.call(psad, c(list(q = breaks),coef, dots))
               }
-              res <- list(breaks = breaks, upper = breaks[-1], prob = diff(Y), Freq = diff(Y)*S)
+              res <- list(breaks = breaks, mids = mids, upper = breaks[-1], prob = diff(Y), Freq = diff(Y)*S)
               new("coverpred", res)
           }
           )

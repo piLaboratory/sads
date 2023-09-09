@@ -17,7 +17,7 @@
   Objects created by a call to functions \code{\link{fitexpC}},
   \code{\link{fitgammaC}}, \code{\link{fitlnormC}},
   \code{\link{fitlparetoC}}, \code{\link{fitweibullC}}, which fit a
-  probability distribution to an table of frequency of species
+  probability distribution to a table of frequency of species
   abundances.
 }
 
@@ -87,18 +87,18 @@
 
 \examples{
 ## Example of fitting a sad model to cover data 
-## Londo's decimal scale breakpoints
-Lbrk <- c(0, 1,3,5,10,15,25,35,45,55,65,75,85,95, 100)
-## To fit a sad to cover data, data sould be in histogram format
-kansas.h <- hist(kansas$cover, breaks = Lbrk, plot = FALSE)
-class(kansas.h) ## class "histogram"
-## Fit a lognormal distribution to the histogram object
-kansas.ln <- fitlnormC(kansas.h)
-class(kansas.ln)
+## Cover scale
+Lbrk <- c(0,1,3,5,15,25,35,45,55,65,75,85,95,100)
+## To fit a sad model to cover data, data sould be in histogram format
+grass.h <- hist(grasslands$upper, breaks = Lbrk, plot = FALSE)
+class(grass.h) ## class "histogram"
+## Fit a Pareto distribution to the histogram object
+grass.p <- fitlnormC(grass.h)
+class(grass.p)
 ## Some methods inherited form mle2-class
-summary(kansas.ln)
-coef(kansas.ln)
-AIC(kansas.ln)
+summary(grass.p)
+coef(grass.p)
+AIC(grasss.p)
 }
 
 \keyword{classes}
