@@ -283,45 +283,59 @@ setMethod("nobs", "fitsad",
 		  )
 setMethod("nobs", "fitrad",
 		  function(object) length(object@rad.tab$abund)
+          )
+setMethod("nobs", "fitsadC",
+		  function(object) length(object@hist$counts)
 		  )
 
 ### Copy of functions from mle2, including some error-checking, slots specific to fitrad/fitsad and
 ### truncating the display of the call
 showmle2 <- function(object) {
     cat("Maximum likelihood estimation\nType: ")
+    if (inherits(object, "fitsadC")) {
+		cat (distr(object@sad), "distribution for abundance classes")
+		my.x <- rep(object@hist$mids, object@hist$counts)
+                cat("\nSpecies:",length(my.x),"classes breaks:",object@hist$breaks)
+    }
+    else{
 	if (inherits(object, "fitsad")) {
-		cat (distr(object@sad), " species abundance distribution")
-		my.x <- object@data$x
-	}
+            cat (distr(object@sad), " species abundance distribution")
+            my.x <- object@data$x
+	}    
 	else {
-		cat (distr(object@rad), "rank abundance distribution")
-		my.x <- object@rad.tab$abund
-	}
-	cat("\nSpecies:",length(my.x),"individuals:", sum(my.x), "\n")
+            cat (distr(object@rad), "rank abundance distribution")
+            my.x <- object@rad.tab$abund
+        }
+        cat("\nSpecies:",length(my.x),"individuals:", sum(my.x), "\n")
+    }
     cat("\nCall:\n")
-	# Summarizes the call to avoid printing pages of data
-	d <- object@call.orig$data$x
-	if (length(d) > 6) { 
-		d <- c(as.list(as.numeric(d[1:5])), "etc")
-		object@call.orig$data$x <- d
-	}
-	print(object@call.orig)
+    ## Summarizes the call to avoid printing pages of data
+    if (inherits(object, "fitsadC"))
+        d <- my.x
+    else
+        d <- object@call.orig$data$x
+    if (length(d) > 6) { 
+        d <- c(as.list(as.numeric(d[1:5])), "etc")
+        object@call.orig$data$x <- d
+    }
+    print(object@call.orig)
     cat("\nCoefficients:\n")
     print(coef(object))
     if(!is.nan(object@trunc)) {
-		cat(paste("\nTruncation point:", object@trunc, "\n"))
-	}
+        cat(paste("\nTruncation point:", object@trunc, "\n"))
+    }
     cat("\nLog-likelihood: ")
     cat(round(as.numeric(logLik(object)),2),"\n")
     if (object@optimizer=="optimx" && length(object@method)>1) {
-      cat("Best method:",object@details$method.used,"\n")
+        cat("Best method:",object@details$method.used,"\n")
     }
     if(object@details$convergence > 0)
         cat("\nWarning: optimization did not converge (code ",
             object@details$convergence,": ",object@details$message,")\n",sep="")
-  }
+}
 setMethod("show", "fitsad", function(object){showmle2(object)})
 setMethod("show", "fitrad", function(object){showmle2(object)})
+setMethod("show", "fitsadC", function(object){showmle2(object)})
 
 #### summary class dealing with fixed parameters (such as fitls, fitvolkov, etc)
 #' @rdname summary.sads-class

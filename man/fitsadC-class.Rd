@@ -10,7 +10,7 @@
   This class extends \code{mle2-class} to encapsulate models of species
   abundance distributions (SADs) fitted by maximum likelihood, from data
   where species are classified in abundance classes (e.g, histograms or
-  frequency tables of numebr of species in classes of abundances).
+  frequency tables of number of species in classes of abundances).
 }
 
 \section{Objects from the Class}{
