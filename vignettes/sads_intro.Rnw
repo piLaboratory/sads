@@ -461,7 +461,7 @@ AICctab(grass.e, grass.g, grass.l,
 A histogram with observed values can ploted simply with
 
 @
-<<grasslands hist plot, fig = TRUE >>=
+<<grasslands_hist_plot, fig = TRUE >>=
 plot(grass.h, main = "", xlab = "Abundance class")
 @ %def
 
@@ -484,7 +484,7 @@ We can then use this object to add the densities
 values predicted by each model:
 
 @
-<<grasslands coverpred plot, fig = TRUE>>=
+<<grasslands_coverpred_plot, fig = TRUE>>=
 ## Plot
 plot(grass.h, main = "", xlab = "Abundance class", xlim = c(0,40))
 ## Adds predicted points
