@@ -52,9 +52,14 @@ Maintainer: \packageMaintainer{sads}
   \emph{Journal of Animal Ecology, 82}(4): 721--738.
 }
 
+\keyword{distribution}
+\keyword{models}
+\concept{species abundance distributions}
+\concept{ecology}
+\concept{environmetrics}
+\concept{maximum likelihood estimation}
 
-\keyword{ species abundance distributions, ecology, environmetrics,
-  maximum likelihood estimation }
+
 
 \seealso{
   vignettes of \pkg{sads}; \code{vegan-package} and \code{poilog-package}
