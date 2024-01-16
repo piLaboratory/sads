@@ -9,7 +9,7 @@ rsad <- function(S = NULL, frac,
         if (frac <= 0 | frac > 1) stop("Invalid value for frac, make sure 0 < frac <= 1")
         if (sampling == "nbinom" & missing(k)) stop("For negative binomial sampling please provide a value for k")
         if (ssize<1) stop("ssize must be at least one")
-        if (class(coef) != "list" | is.null(names(coef))) stop("coef must be a named list!")
+        if (!inherits(coef, "list") | is.null(names(coef))) stop("coef must be a named list!")
         ## Handles parameters that give the community size
         if (sad %in% c("bs", "ls", "mzsm", "volkov")) {
             if (!is.null(S))

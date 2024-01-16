@@ -27,4 +27,4 @@ LazyData: true
 Encoding: UTF-8
 URL: http://piLaboratory.github.io/sads, https://github.com/piklprado/sads
 BugReports: https://github.com/piLaboratory/sads/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 7.2.3

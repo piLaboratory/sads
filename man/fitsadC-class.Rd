@@ -1,7 +1,19 @@
 \name{fitsadC-class}
 
+\Rdversion{1.1}
 \docType{class}
-
+\alias{fitsadC-class}
+%%\alias{coefficients,fitsadC-method}
+%\alias{coverpred,fitsadC,missing,missing,missing,missing,missing,missing-method}
+%%\alias{fitted,fitsadC-method}
+%%\alias{fitted.values,fitsadC-method}
+\alias{nobs,fitsadC-method}
+\alias{plot,fitsadC,ANY-method}
+\alias{ppsad,fitsadC,missing,missing,missing-method}
+\alias{qqsad,fitsadC,missing,missing,missing,missing-method}
+%% \alias{radpred,fitsadC,missing,missing,missing,missing,missing,missing,missing-method}
+%%\alias{residuals,fitsadC-method}
+\alias{show,fitsadC-method}
 
 \title{Class \code{"fitsadC"} for maximum likelihood fitting of
   species abundance distributions from data in abundance classes}
@@ -14,9 +26,10 @@
 }
 
 \section{Objects from the Class}{
-  Objects created by a call to functions \code{\link{fitexpC}},
+  Objects can be created by calls of the form \code{new("fitsadC",
+    ...)}, or, more commonly a call to functions \code{\link{fitexpC}},
   \code{\link{fitgammaC}}, \code{\link{fitlnormC}},
-  \code{\link{fitlparetoC}}, \code{\link{fitweibullC}}, which fit a
+  \code{\link{fitparetoC}}, \code{\link{fitweibullC}}, which fit a
   probability distribution to a table of frequency of species
   abundances.
 }
@@ -26,11 +39,10 @@
     \item{\code{sad}:}{Object of class \code{"character"}; root name of
       the species abundance distribution fitted. See man page of
       \code{fitsad} for available models.}
-    \item{\code{distr}:}{Deprecated since sads 0.2.4. See \code{\link{distr}} function}
     \item{\code{trunc}:}{Object of class \code{"numeric"}; truncation
       value used in the fitted model. 'NA' for a non-truncated
       distribution.}
-    \item{\code{hist}:}{Object of class \code{"histogram"}; a table of
+        \item{\code{hist}:}{Object of class \code{"histogram"}; a table of
   frequencies of species in abundance classes, returned by the function \code{hist}.}
     \item{\code{call}:}{Object of class \code{"language"}; The call to \code{\link{mle2}}.}
     \item{\code{call.orig}:}{Object of class \code{"language"} The call to \code{\link{mle2}},
@@ -49,14 +61,49 @@
     \item{\code{data}:}{Object of class \code{"data.frame"}; Data with which to evaluate the negative log-likelihood function.}
     \item{\code{formula}:}{Object of class \code{"character"}; If a formula was specified, a
       character vector giving the formula and parameter specifications. }
-    \item{\code{optimizer}:}{Object of class \code{"character"}; The optimizing function used. }
+    \item{\code{optimizer}:}{Object of class \code{"character"}; The
+      optimizing function used. }
   }
 }
-
 
 \section{Extends}{
   Class \code{"\linkS4class{mle2}"}, directly.
 }
+
+
+\section{Methods}{
+  \describe{
+    %%\item{coefficients}{\code{signature(object = "fitsadC")}: ... }
+    \item{coverpred}{\code{signature(object = "fitsadC", sad =
+	"missing", coef = "missing", trunc = "missing",
+	breaks = "missing", mids = "missing", S = "missing")}:
+      predicted number of species in
+      each abundance class see \code{\link{coverpred}} }
+    %%\item{fitted}{\code{signature(object = "fitsadC")}: ... }
+    %%\item{fitted.values}{\code{signature(object = "fitsadC")}: ... }
+    \item{nobs}{\code{signature(object = "fitsadC")}: Displays number of
+      observations (number of species) in the data to which the model was fitted.}
+    \item{plot}{\code{signature(x = "fitsadC", y = "ANY")}: diagnostic
+      plots of the fitted model. }
+    \item{ppsad}{\code{signature(x = "fitsadC", sad = "missing", coef =
+	"missing", trunc = "missing")}:
+      plot of observed vs predicted percentiles of the abundance
+      distribution, details in \code{\link{ppsad}}.  }
+    \item{qqsad}{\code{signature(x = "fitsadC", sad = "missing", coef =
+	"missing", trunc = "missing", distr = "missing")}: plot of observed vs
+      predicted quantiles of the abundance distribution, details in
+      \code{\link{qqsad}. } }
+    \item{radpred}{\code{signature(object = "fitsadC", sad = "missing",
+	rad = "missing", coef = "missing", trunc = "missing",
+	distr = "missing", S = "missing", N = "missing")}:
+      expected abundances of the 1st to n-th most abundant species, see \code{\link{rad}}
+      and \code{\link{radpred}}.  }
+    %%\item{residuals}{\code{signature(object = "fitsadC")}: ... }
+    \item{show}{\code{signature(object = "fitsadC")}: Displays object.}
+  } 
+}
+
+
 
 
 \references{
@@ -79,7 +126,7 @@
 }
 
 \seealso{\code{\link{mle2-class}} for all methods available from which
-  \code{fitsadC-class} inherits; \code{\link{fit*C}} for details on
+  \code{fitsadC-class} inherits; \code{\link{fitsadC}} for details on
   fitting SADs models from frequency tables; \code{\link{coverpred}} to
   get  frequencies of species in abundances classes predicted 
   from fitted models.
@@ -87,18 +134,22 @@
 
 \examples{
 ## Example of fitting a sad model to cover data 
-## Cover scale
+## Abundance classes: cover scale for plants
 Lbrk <- c(0,1,3,5,15,25,35,45,55,65,75,85,95,100)
 ## To fit a sad model to cover data, data sould be in histogram format
-grass.h <- hist(grasslands$upper, breaks = Lbrk, plot = FALSE)
+grass.h <- hist(grasslands$mids, breaks = Lbrk, plot = FALSE)
 class(grass.h) ## class "histogram"
-## Fit a Pareto distribution to the histogram object
-grass.p <- fitlnormC(grass.h)
+## Fits a Pareto distribution to the histogram object
+grass.p <- fitparetoC(grass.h)
 class(grass.p)
+## The class has a plot method to show diagnostic plots
+par(mfrow=c(2,2))
+plot(grass.p)
+par(mfrow=c(1,1))
 ## Some methods inherited form mle2-class
 summary(grass.p)
 coef(grass.p)
-AIC(grasss.p)
+AIC(grass.p)
 }
 
 \keyword{classes}

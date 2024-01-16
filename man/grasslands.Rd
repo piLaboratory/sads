@@ -15,11 +15,12 @@ data(grasslands)
   \describe{
     \item{class}{cover class as coded in the original data
       set.}
-    \item{cover}{interval of the cover class of each plant. Cover
+    \item{cover}{interval of the cover class for each plant species. Cover
   is the proportion of the area of the plot covered by all individuals
   of each species}
      \item{upper}{Upper limit of the cover class of each
-       plant}
+       plant species}
+     \item{mids}{Mid-point of the cover class for each plant sepcies}
    }
  }
 

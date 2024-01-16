@@ -115,14 +115,20 @@ setMethod("lines","octav",
           )
 
 setMethod("points","coverpred",
-          function(x, prop = FALSE, mid = TRUE, ...){
-            dots <- list(...)
+          function(x, y.scale = c("density", "Freq", "prob"), mid = TRUE, ...){
+              dots <- list(...)
+              y.scale = match.arg(y.scale)
             if(!"type" %in% names(dots)) dots$type="b"
             if(!"col" %in% names(dots)) dots$col="blue"
             if(mid) X <- x$mids
             else X <- x$upper
-            if(prop) Y <- x$prob
-            if(!prop) Y <- x$Freq
+              Y <- switch(y.scale,
+                          density = x$density,
+                          prob = x$prob,
+                          Freq = x$Freq
+                          )
+            ##if(which == "prob") Y <- x$prob
+            ##if(which) Y <- x$Freq
             do.call(points, c(list(x = X, y = Y), dots))
           }
           )
@@ -173,15 +179,17 @@ setMethod("plot","fitsadC",
               }
               if(1 %in% which){
                   c.pred <- coverpred(x)
-                  if("prop" %in% names(dots) && dots$prop){
-                      ylim <- range(c(c.pred$density, x@hist$prob))
-                      plot(x@hist, freq = FALSE, ...)
-                      points(c.pred, prop = TRUE)
-                      }                  
-                  else{ylim <- range(c(c.pred$Freq, x@hist$counts))
-                      plot(x@hist, freq = TRUE, ...)
-                      points(c.pred, prop = FALSE)
-                      }
+                  ## removed as proportion and frequency data does not make sense for abundance classes
+                  ## if("prop" %in% names(dots) && !dots$prop){
+                  ##     ylim <- range(c(c.pred$Freq, x@hist$counts))
+                  ##     plot(x@hist, freq = TRUE, xlab = "Abundance Class", main = "", ...)
+                  ##     points(c.pred, prop = FALSE)
+                  ##     }
+                  ##else{
+                      ylim <- range(c(c.pred$density, x@hist$density))
+                      plot(x@hist, freq = FALSE, xlab = "Abundance Class", main = "", ...)
+                      points(c.pred, y.scale = "density")
+                  ##  }
                       
               }
               if(2 %in% which){
@@ -658,7 +666,8 @@ def = function(object, sad, coef, trunc, breaks, mids, S, ...) standardGeneric("
 
 ## If object is of class histogram and coefs and sads are given
 setMethod("coverpred", signature(object="histogram", sad="character",
-                                 coef="list", trunc="ANY", breaks="missing", mids = "missing", S="missing"),
+                                 coef="list", trunc="ANY",
+                                 breaks="missing", mids = "missing", S="missing"),
           function(object, sad, coef, trunc, breaks, S, ...){
               if(missing(trunc)) trunc <- NaN
               coverpred(sad = sad, coef = coef, trunc = trunc,
@@ -670,8 +679,8 @@ setMethod("coverpred", signature(object="histogram", sad="character",
 
 ## If object is of class fitsadC 
 setMethod("coverpred", signature(object="fitsadC",sad="missing",
-                                 coef="missing", trunc="missing", mids = "missing",
-                                 breaks="missing", S="missing"),
+                                 coef="missing", trunc="missing", 
+                                 breaks="missing", mids = "missing", S="missing"),
           function(object, sad, coef, trunc, breaks, mids, S, ...){
           coverpred(sad = object@sad,
                     coef = as.list(bbmle::coef(object)),
@@ -684,7 +693,8 @@ setMethod("coverpred", signature(object="fitsadC",sad="missing",
 
 ## coverpred workhorse for "sadsC"
 setMethod("coverpred", signature(object="missing",sad="character",
-                                 coef="list", trunc="ANY", breaks="numeric", mids = "ANY", S="numeric"),
+                                 coef="list", trunc="ANY", breaks="numeric",
+                                 mids = "ANY", S="numeric"),
           function(object, sad, coef, trunc, breaks, mids, S, ...){
               dots <- list(...)
               if(missing(mids)) mids <- breaks[-length(breaks)] + diff(breaks)/2
@@ -695,7 +705,10 @@ setMethod("coverpred", signature(object="missing",sad="character",
                   psad <- get(paste("p",sad,sep=""),mode="function")
                   Y <- do.call(psad, c(list(q = breaks),coef, dots))
               }
-              res <- list(breaks = breaks, mids = mids, upper = breaks[-1], prob = diff(Y), Freq = diff(Y)*S)
+              prob <- diff(Y)
+              density <- prob/sum(prob*diff(breaks))
+              res <- list(breaks = breaks, mids = mids, upper = breaks[-1],
+                          Freq = prob*S, prob = prob, density = density)
               new("coverpred", res)
           }
           )
@@ -971,7 +984,7 @@ setMethod("pprad",
 #' Notice that radpred is a preferred interface for most calculations, specially if there are several
 #' ties.
 #' 
-#' @param object An object from class fitsad or fitrad
+#' @param object An object from class fitsad, fitrad or fitsadC
 #' @param \dots Other arguments to be forwarded for the lower level function
 #' @rdname stats
 setMethod("coefficients", signature(object="fitsad"),
