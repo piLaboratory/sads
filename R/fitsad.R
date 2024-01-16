@@ -1,4 +1,4 @@
-fitsad <- function(x, sad=c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto","poilog","power",
+fitsad <- function(x, sad=c("bs","exp","gamma","geom","lnorm","ls","mzsm","nbinom","pareto","poilog","power",
                             "powbend", "volkov", "weibull"), ...){ 
   dots <- list(...)
   sad <- match.arg(sad)

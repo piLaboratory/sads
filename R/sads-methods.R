@@ -112,7 +112,26 @@ setMethod("lines","octav",
             if(!prop) Y <- x$Freq
             do.call(lines, c(list(x = X, y = Y), dots))
           }
-)
+          )
+
+setMethod("points","coverpred",
+          function(x, y.scale = c("density", "Freq", "prob"), mid = TRUE, ...){
+              dots <- list(...)
+              y.scale = match.arg(y.scale)
+            if(!"type" %in% names(dots)) dots$type="b"
+            if(!"col" %in% names(dots)) dots$col="blue"
+            if(mid) X <- x$mids
+            else X <- x$upper
+              Y <- switch(y.scale,
+                          density = x$density,
+                          prob = x$prob,
+                          Freq = x$Freq
+                          )
+            ##if(which == "prob") Y <- x$prob
+            ##if(which) Y <- x$Freq
+            do.call(points, c(list(x = X, y = Y), dots))
+          }
+          )
 
 setMethod("plot","fitsad",
           function(x, which=1:4, ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...){
@@ -131,6 +150,47 @@ setMethod("plot","fitsad",
                       oct.ymax <- max(c(oct.df[, 3], oct.pred[, 3]), na.rm = TRUE)
                   plot(octav(x, oct=new.oc), ylim = c(0,oct.ymax), ...)     
                   points(oct.pred, ...)
+              }
+              if(2 %in% which){
+                  rad.df <- rad(x)
+                  rad.pred <- radpred(x)
+                  if("prop" %in% names(dots) && dots$prop)
+                      rad.ylim <- range(c(rad.df[,2]/sum(rad.df[,2]), rad.pred[,2]/sum(rad.pred[,2]), na.rm = TRUE))
+                  else
+                      rad.ylim <- range(c(rad.df[,2], rad.pred[,2], na.rm = TRUE))
+                  plot(rad.df, ylim = rad.ylim, ...)
+                  lines(rad.pred, ...)
+              }
+              if(3 %in% which){
+                  qqsad(x, ...)
+              }
+              if(4 %in% which){
+                  ppsad(x, ...)
+              }
+          }
+          )
+
+setMethod("plot","fitsadC",
+          function(x, which=1:4, ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...){
+              dots <- list(...)
+              if (ask) {
+                  oask <- devAskNewPage(TRUE)
+                  on.exit(devAskNewPage(oask))
+              }
+              if(1 %in% which){
+                  c.pred <- coverpred(x)
+                  ## removed as proportion and frequency data does not make sense for abundance classes
+                  ## if("prop" %in% names(dots) && !dots$prop){
+                  ##     ylim <- range(c(c.pred$Freq, x@hist$counts))
+                  ##     plot(x@hist, freq = TRUE, xlab = "Abundance Class", main = "", ...)
+                  ##     points(c.pred, prop = FALSE)
+                  ##     }
+                  ##else{
+                      ylim <- range(c(c.pred$density, x@hist$density))
+                      plot(x@hist, freq = FALSE, xlab = "Abundance Class", main = "", ...)
+                      points(c.pred, y.scale = "density")
+                  ##  }
+                      
               }
               if(2 %in% which){
                   rad.df <- rad(x)
@@ -231,45 +291,59 @@ setMethod("nobs", "fitsad",
 		  )
 setMethod("nobs", "fitrad",
 		  function(object) length(object@rad.tab$abund)
+          )
+setMethod("nobs", "fitsadC",
+		  function(object) length(object@hist$counts)
 		  )
 
 ### Copy of functions from mle2, including some error-checking, slots specific to fitrad/fitsad and
 ### truncating the display of the call
 showmle2 <- function(object) {
     cat("Maximum likelihood estimation\nType: ")
+    if (inherits(object, "fitsadC")) {
+		cat (distr(object@sad), "distribution for abundance classes")
+		my.x <- rep(object@hist$mids, object@hist$counts)
+                cat("\nSpecies:",length(my.x),"classes breaks:",object@hist$breaks)
+    }
+    else{
 	if (inherits(object, "fitsad")) {
-		cat (distr(object@sad), " species abundance distribution")
-		my.x <- object@data$x
-	}
+            cat (distr(object@sad), " species abundance distribution")
+            my.x <- object@data$x
+	}    
 	else {
-		cat (distr(object@rad), "rank abundance distribution")
-		my.x <- object@rad.tab$abund
-	}
-	cat("\nSpecies:",length(my.x),"individuals:", sum(my.x), "\n")
+            cat (distr(object@rad), "rank abundance distribution")
+            my.x <- object@rad.tab$abund
+        }
+        cat("\nSpecies:",length(my.x),"individuals:", sum(my.x), "\n")
+    }
     cat("\nCall:\n")
-	# Summarizes the call to avoid printing pages of data
-	d <- object@call.orig$data$x
-	if (length(d) > 6) { 
-		d <- c(as.list(as.numeric(d[1:5])), "etc")
-		object@call.orig$data$x <- d
-	}
-	print(object@call.orig)
+    ## Summarizes the call to avoid printing pages of data
+    if (inherits(object, "fitsadC"))
+        d <- my.x
+    else
+        d <- object@call.orig$data$x
+    if (length(d) > 6) { 
+        d <- c(as.list(as.numeric(d[1:5])), "etc")
+        object@call.orig$data$x <- d
+    }
+    print(object@call.orig)
     cat("\nCoefficients:\n")
     print(coef(object))
     if(!is.nan(object@trunc)) {
-		cat(paste("\nTruncation point:", object@trunc, "\n"))
-	}
+        cat(paste("\nTruncation point:", object@trunc, "\n"))
+    }
     cat("\nLog-likelihood: ")
     cat(round(as.numeric(logLik(object)),2),"\n")
     if (object@optimizer=="optimx" && length(object@method)>1) {
-      cat("Best method:",object@details$method.used,"\n")
+        cat("Best method:",object@details$method.used,"\n")
     }
     if(object@details$convergence > 0)
         cat("\nWarning: optimization did not converge (code ",
             object@details$convergence,": ",object@details$message,")\n",sep="")
-  }
+}
 setMethod("show", "fitsad", function(object){showmle2(object)})
 setMethod("show", "fitrad", function(object){showmle2(object)})
+setMethod("show", "fitsadC", function(object){showmle2(object)})
 
 #### summary class dealing with fixed parameters (such as fitls, fitvolkov, etc)
 #' @rdname summary.sads-class
@@ -341,6 +415,18 @@ setMethod("radpred",signature(object="fitrad", sad="missing", rad="missing",
 					  trunc=object@trunc, S=length(ab), N=sum(ab))
 		  }
 		  )
+
+## if object is of class fitsadC (no other argument should be provided)
+# Extracts information from object and uses method below
+setMethod("radpred",signature(object="fitsadC", sad="missing", rad="missing",
+                              coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
+          function (object){
+			  ab = rep(object@hist$mids, object@hist$counts) 
+			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
+					  trunc=object@trunc, S=length(ab), N=sum(ab))
+		  }
+		  )
+
 
 ## if object is a numeric vector of abundances and rad argument is given (sad, S, N, distr,  arguments should be missing)
 # Extracts information from object and uses method below
@@ -574,6 +660,59 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
           }
 )
 
+## coverpred generic functions and methods ###
+setGeneric("coverpred",
+def = function(object, sad, coef, trunc, breaks, mids, S, ...) standardGeneric("coverpred"))
+
+## If object is of class histogram and coefs and sads are given
+setMethod("coverpred", signature(object="histogram", sad="character",
+                                 coef="list", trunc="ANY",
+                                 breaks="missing", mids = "missing", S="missing"),
+          function(object, sad, coef, trunc, breaks, S, ...){
+              if(missing(trunc)) trunc <- NaN
+              coverpred(sad = sad, coef = coef, trunc = trunc,
+                        breaks = object$breaks,
+                        mids = object$mids,
+                        S = sum(object$counts), ...)
+              }
+          )
+
+## If object is of class fitsadC 
+setMethod("coverpred", signature(object="fitsadC",sad="missing",
+                                 coef="missing", trunc="missing", 
+                                 breaks="missing", mids = "missing", S="missing"),
+          function(object, sad, coef, trunc, breaks, mids, S, ...){
+          coverpred(sad = object@sad,
+                    coef = as.list(bbmle::coef(object)),
+                    trunc = object@trunc,
+                    breaks = object@hist$breaks,
+                    mids = object@hist$mids,
+                    S = sum(object@hist$counts), ...)
+          }
+          )
+
+## coverpred workhorse for "sadsC"
+setMethod("coverpred", signature(object="missing",sad="character",
+                                 coef="list", trunc="ANY", breaks="numeric",
+                                 mids = "ANY", S="numeric"),
+          function(object, sad, coef, trunc, breaks, mids, S, ...){
+              dots <- list(...)
+              if(missing(mids)) mids <- breaks[-length(breaks)] + diff(breaks)/2
+              if(!is.nan(trunc)){
+                  Y <- do.call(ptrunc, c(list(sad, q = breaks, coef = coef, trunc = trunc), dots))
+              }
+              else{
+                  psad <- get(paste("p",sad,sep=""),mode="function")
+                  Y <- do.call(psad, c(list(q = breaks),coef, dots))
+              }
+              prob <- diff(Y)
+              density <- prob/sum(prob*diff(breaks))
+              res <- list(breaks = breaks, mids = mids, upper = breaks[-1],
+                          Freq = prob*S, prob = prob, density = density)
+              new("coverpred", res)
+          }
+          )
+
 ## Generic and methods for qqsad
 setGeneric("qqsad",
 def = function(x, sad, coef, trunc=NA, distr=NA, plot=TRUE, line=TRUE, ...) standardGeneric("qqsad"))
@@ -635,6 +774,15 @@ setMethod("qqsad",
           }
           )
 
+setMethod("qqsad",
+          signature(x="fitsadC", sad="missing", coef="missing",
+                    trunc="missing", distr="missing"),
+          function(x, sad, coef, trunc, distr, plot=TRUE, line=TRUE, ...){
+              qqsad(x=rep(x@hist$mids, x@hist$counts),
+                    sad=x@sad, coef=as.list(bbmle::coef(x)), 
+                    trunc=x@trunc, plot=plot, line=line, ...)
+          }
+          )
 
 ## Generic and methods for qqrad
 setGeneric("qqrad",
@@ -747,6 +895,18 @@ setMethod("ppsad",
           }
           )
 
+## If argument x is fitsadC class, arguments sad and coef should be missing
+setMethod("ppsad",
+          signature(x="fitsadC", sad="missing", coef="missing", trunc="missing"),
+          function (x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {          
+              sad <- x@sad
+              coef <- as.list(bbmle::coef(x))
+              trunc <- x@trunc
+              y <- rep(x@hist$mids, x@hist$counts) 
+              ppsad(x=y, sad=sad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+          }
+          )
+
 ## Generic function and methods for pprad ##
 setGeneric("pprad",
 def = function(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneric("pprad"))
@@ -812,7 +972,7 @@ setMethod("pprad",
 #' 
 #' Provide the standard interface for fitted objects
 #' 
-#' These methods are provided to allow for standard manipulation of \code{\link{fitsad}}
+#' These methods are provided to allow for standard manipulation of \code{\link{fitsad}}, \code{\link{fitsadC}} 
 #' and \code{\link{fitrad}} objects using the generic methods defined in the "stats" package.
 #' Please see the original man pages for each method.
 #' 
@@ -824,16 +984,22 @@ setMethod("pprad",
 #' Notice that radpred is a preferred interface for most calculations, specially if there are several
 #' ties.
 #' 
-#' @param object An object from class fitsad or fitrad
+#' @param object An object from class fitsad, fitrad or fitsadC
 #' @param \dots Other arguments to be forwarded for the lower level function
 #' @rdname stats
 setMethod("coefficients", signature(object="fitsad"),
+          function(object, ...) bbmle::coef(object, ...))
+#' @rdname stats
+setMethod("coefficients", signature(object="fitsadC"),
           function(object, ...) bbmle::coef(object, ...))
 #' @rdname stats
 setMethod("coefficients", signature(object="fitrad"),
           function(object, ...) bbmle::coef(object, ...))
 #' @rdname stats
 setMethod("fitted.values", signature(object="fitsad"),
+          function(object, ...) fitted(object, ...))
+#' @rdname stats
+setMethod("fitted.values", signature(object="fitsadC"),
           function(object, ...) fitted(object, ...))
 #' @rdname stats
 setMethod("fitted.values", signature(object="fitrad"),
@@ -843,6 +1009,16 @@ setMethod("fitted", signature(object="fitsad"),
           function(object, ...) {
             rad <- radpred(object)$abund
             rad <- rad[rev(order(object@data$x))]
+            names(rad) <- as.character(1:length(rad))
+            return(rad)
+          }
+          )
+#' @rdname stats
+setMethod("fitted", signature(object="fitsadC"),
+          function(object, ...) {
+            y <-  rep(object@hist$mids, object@hist$counts) 
+            rad <- radpred(object)$abund
+            rad <- rad[rev(order(y))]
             names(rad) <- as.character(1:length(rad))
             return(rad)
           }
@@ -859,6 +1035,14 @@ setMethod("fitted", signature(object="fitrad"),
 #' @rdname stats
 setMethod("residuals", signature(object="fitsad"),
           function(object, ...) object@data$x - fitted(object, ...))
+
+#' @rdname stats
+setMethod("residuals", signature(object="fitsadC"),
+          function(object, ...){
+              y <-  rep(object@hist$mids, object@hist$counts) 
+              y - fitted(object, ...)
+          })
+
 #' @rdname stats
 setMethod("residuals", signature(object="fitrad"),
           function(object, ...) object@rad.tab$abund - fitted(object, ...))

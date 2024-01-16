@@ -1,3 +1,13 @@
+0.6.0 (2024-01-16)
+
+* New fitsadC-class for fitting abundance data pooled in abundance classe (e.g. coverage data for plants). Methods for fitting, ploting, etc adapted from fitsad-methods.
+* New coverpred-class for values predicted from models fitted to abundance classes with fitsadC
+* Function trueLL created to calculate likelihoods from datas in classes intervals.
+* New dataset with abundance classes addedd (grasslands)
+* Added a section in intro vignette about fitting sads to abundance classes models.
+* Small bug in rsads corrected
+* rpower now calls rpldis from poweRlaw package (way faster)
+
 0.4.2 (2018-06-16)
 
 * fixed bug that does not allow zero values in non-truncated poilog, geom, nbinom

@@ -68,6 +68,8 @@
       abundance octave, see \code{\link{octav}} and \code{\link{octavpred}}.} 
     \item{plot}{\code{signature(x = "fitsad", y = "ANY")}: diagnostic
       plots of the fitted model. }
+    \item{nobs}{\code{signature(object = "fitsad")}: Displays number of
+      observations (number of species) in the data to which the model was fitted.}
     \item{show}{\code{signature(object = "fitsad")}: Displays object.}
     \item{ppsad}{\code{signature(x = "fitsad", sad = "missing", coef =
 	"missing", trunc = "missing")}: plot of observed vs predicted

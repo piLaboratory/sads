@@ -74,6 +74,8 @@
     \item{plot}{\code{signature(x = "fitrad", y = "ANY")}: diagnostic
       plots of the fitted model. }
     \item{show}{\code{signature(object = "fitrad")}: Displays object.}
+    \item{nobs}{\code{signature(object = "fitrad")}: Displays number of
+      observations (number of species) in the data to which the model was fitted.}
     \item{pprad}{\code{signature(x = "fitrad", sad = "missing", coef =
 	"missing", trunc = "missing")}: plot of observed vs predicted
       percentiles of the abundance distribution, details in

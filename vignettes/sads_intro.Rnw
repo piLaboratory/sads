@@ -26,9 +26,10 @@
 
 \title{Fitting species abundance models with maximum likelihood \\ Quick reference for \code{sads} package}
 \author{Paulo In\'acio Prado,  Murilo Dantas Miranda and Andre Chalom \\ Theoretical Ecology Lab \\ LAGE at the Dep of Ecology, USP, Brazil \\ 
-  \url{http://ecologia.ib.usp.br/let/} \\ \url{prado@ib.usp.br}}
+  %\url{http://ecologia.ib.usp.br/let/} \\
+  \url{prado@ib.usp.br}}
 
-\date{May, 11, 2016}
+\date{\today}
 
 \maketitle
 
@@ -383,6 +384,123 @@ legend("topright",
        c("Logseries", "Poisson-lognormal", "Truncated lognormal"), 
        lty=1, col=c("blue","red", "green"))
 @ %def 
+
+\subsection{Abundance class data}
+
+For ecological communities, the representation of species abundances
+typically occurs through categorization. For instance, when assessing
+the abundance of sessile organisms, it is common practice to utilize a
+scale based on the coverage of sampling areas, beacause direct enumeration
+of individuals or estimation of biomass are  are extremely laborious.
+
+The package \code{sads} has a specific class for fitting continuous
+distributions for this kind of data. We will show the use of this
+class using the data from \citet{Vieira2020}, who provide the coverage
+class of each plant species in plots set in grasslands in
+Southern Brazil. The object \code{grasslands} has the data from plot
+'CA8', which has the largest number of species recorded in this study.
+
+@ 
+<<grasslands dataset>>=
+head(grasslands)
+@ %def
+
+The vector \code{cover} in this data frame has the cover class for
+each plant species, that is, the the proportion of the area of the
+plot covered by all individuals of each species. Coverage is expressed
+in a scale with 13 intervals, as defined by the breakpoints below:
+
+@ 
+<<grasslands breakpoints>>=
+(grass.brk <- c(0,1,3,5,seq(15,100, by=10),100) )
+@ %def
+
+We can tally the number of species in each cover class using a histogram:
+
+@ 
+<<grasslands histogram>>=
+ grass.h <- hist(grasslands$mids, breaks = grass.brk, plot = FALSE)
+@ %def
+
+The resulting object of the class \code{histogram} has the number of
+species in each cover class, as well as the classes midpoints:
+
+@
+<<grasslands histogram data>>=
+ data.frame(midpoint = grass.h$mids, N.spp = grass.h$counts) 
+@ %def
+
+
+The function \code{fitsadC} fits continuous distributions usually
+applied to describe this kind of data. The commands below fit all
+models currently available for abundance class data in the package
+\code{sads}. Note that the data is provided to this function through an object
+of the class \code{histogram}:
+
+@
+<<grasslands model fit >>=
+grass.e <- fitsadC(grass.h, 'exp') # Exponential
+grass.g <- fitsadC(grass.h, 'gamma') # Pareto
+grass.l <- fitsadC(grass.h, 'lnorm') # Log-normal
+grass.p <- fitsadC(grass.h, 'pareto') # Pareto
+grass.w <- fitsadC(grass.h, 'weibull') # Weibull
+@ %def
+
+The fitted models are of class \code{fitsadC}, for which most of the
+methods for diagnostics and model comparison showed in the previous sections are
+available. For instance, the fitted models can be compared in the
+usual way:
+
+@
+<<grasslands model selection >>=
+AICctab(grass.e, grass.g, grass.l,
+        grass.p, grass.w,
+        weights = TRUE, base = TRUE)
+@ %def
+
+A histogram with observed values can ploted simply with
+
+@
+<<grasslands_hist_plot, fig = TRUE >>=
+plot(grass.h, main = "", xlab = "Abundance class")
+@ %def
+
+By default, R plots histograms with classes of unequal size using a
+density scale. The function \code{coverpred} provides the number of
+species expected by a fiited model, in frequency, relative frequency
+and density scales.
+
+@
+<<grasslands coverpred >>=
+## Predicted by each model
+grass.e.p <- coverpred(grass.e)
+grass.g.p <- coverpred(grass.g)
+grass.l.p <- coverpred(grass.l)
+grass.p.p <- coverpred(grass.p)
+grass.w.p <- coverpred(grass.w)
+@ %def
+
+We can then use this object to add the densities
+values predicted by each model:
+
+@
+<<grasslands_coverpred_plot, fig = TRUE>>=
+## Plot
+plot(grass.h, main = "", xlab = "Abundance class", xlim = c(0,40))
+## Adds predicted points
+points(grass.e.p, col = 1)
+points(grass.g.p, col = 2)
+points(grass.l.p, col = 3)
+points(grass.p.p, col = 4)
+points(grass.w.p, col = 5)
+legend("topright",
+       legend = c("Exponential", "Gamma", "Log-normal", "Pareto", "Weibull"),
+       col = 1:5, bty = "n", 
+       lty = 1 , pch = 1)
+@ %def
+
+Please refer to the man pages of \code{fitsadC} and
+\code{fitsaC-class} for further methods and usage.
 
 \section{Simulations}
 

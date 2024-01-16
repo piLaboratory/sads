@@ -9,7 +9,7 @@ rsad <- function(S = NULL, frac,
         if (frac <= 0 | frac > 1) stop("Invalid value for frac, make sure 0 < frac <= 1")
         if (sampling == "nbinom" & missing(k)) stop("For negative binomial sampling please provide a value for k")
         if (ssize<1) stop("ssize must be at least one")
-        if (class(coef) != "list" | is.null(names(coef))) stop("coef must be a named list!")
+        if (!inherits(coef, "list") | is.null(names(coef))) stop("coef must be a named list!")
         ## Handles parameters that give the community size
         if (sad %in% c("bs", "ls", "mzsm", "volkov")) {
             if (!is.null(S))
@@ -24,6 +24,7 @@ rsad <- function(S = NULL, frac,
             if (is.null(S))
                 stop("The argument S is mandatory for the selected sad")
         }
+        S <- as.integer(S) ## S muts be integer
         ## Generates the "community"
         if(is.nan(trunc)) {
             sadr <- get(paste("r", sad, sep=""), mode = "function")
@@ -82,8 +83,12 @@ rpareto <- function(n, shape, scale = 1) qpareto(runif(n), shape, scale)
 rpoig <- function(n, frac, rate, shape) qpoig(runif(n), frac, rate, shape)
 rpoilog <- function(n, mu, sig) qpoilog(runif(n), mu, sig)
 rpoix <- function(n, frac, rate) qpoix(runif(n), frac, rate)
-rpower <- function(n, s) qpower(runif(n), s)
-
+rpower <- function(n, s, bissection = FALSE, ...){
+    if(bissection)
+        qpower(runif(n), s)
+    else
+        rpldis(n = n, alpha = s, xmin=1, ...) ## uses faster function rpldis from poweRlaw package
+}
 rgs <- function(n, k, S) shift_r("gs", n, list(k=k,S=S))
 rmand <- function (n, N, s, v) shift_r("mand", n, list(N=N,s=s,v=v))
 rmzsm <- function(n, J, theta) shift_r("mzsm", n, list(J=J, theta=theta))
@@ -93,6 +98,9 @@ rvolkov <- function(n, theta, m, J) shift_r("volkov", n, list(theta=theta,m=m,J=
 rzipf <-function(n, N, s) shift_r("zipf", n, list(N=N, s=s))
 
 ## rtrunc for truncated versions of [r] functions
-rtrunc <- function(f, n, trunc, coef)
-  qtrunc(f, runif(n), trunc, coef)
-
+rtrunc <- function(f, n, trunc, coef, ...){
+    if(f == "power")
+        rpldis(n = n, alpha = coef$s, xmin = trunc, ...) ## uses faster function rpldis from poweRlaw package
+    else
+        qtrunc(f, runif(n), trunc, coef)
+}

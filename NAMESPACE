@@ -14,16 +14,18 @@ export(qbs, qgs, qls, qmand, qmzsm, qpareto, qpoilog, qpower, qrbs, qvolkov, qzi
 export(rbs, rgs, rls, rmand, rmzsm, rpareto, rpoilog, rpower, rrbs, rvolkov, rzipf, rpoig, rpoix,
   rpowbend)
 ## Fitting functions for each distribution
-export(fitbs, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm,
+export(fitbs, fitexp, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm,
        fitnbinom, fitpareto, fitpoilog, fitpower, fitrbs, fitvolkov, fitweibull, fitzipf,
-	   fitpowbend)
+       fitpowbend)
+## Fitting functions for cover data
+export(fitgammaC, fitexpC, fitlnormC, fitparetoC, fitweibullC)
 ## General fitting and ploting  functions
-export(fitrad, fitsad, octav, octavpred, radpred, pprad, ppsad, qqrad, qqsad, rad)
+export(fitrad, fitsad, fitsadC, octav, octavpred, radpred, coverpred, pprad, ppsad, qqrad, qqsad, rad)
 ## Accessory functions
 export(plotprofmle, likelregions, pred.logser, dtrunc, ptrunc, qtrunc, rtrunc, rsad, updatesad, updaterad, distr)
 ## Explicit classes and methods export
-exportClasses(rad, octav, fitsad, fitrad, summary.sads)
-exportMethods(plot, points, lines, octavpred, radpred, qqsad, qqrad, plotprofmle, likelregions)
+exportClasses(rad, octav, fitsad, fitrad, fitsadC, summary.sads, coverpred)
+exportMethods(plot, points, lines, octavpred, radpred, coverpred, qqsad, qqrad, plotprofmle, trueLL, likelregions)
 # Methods that override bbmle counterparts:
 exportMethods(show, summary, nobs, AIC, AICc)
 # Standard stats methods
@@ -33,13 +35,15 @@ exportMethods(coefficients, fitted, fitted.values, residuals)
 importFrom("graphics", plot, points, lines, abline, axis, hist, par)
 importFrom("grDevices", axisTicks, dev.interactive, devAskNewPage)
 #importFrom("bbmle", AICc)
-## Import a single function from VGAM, GUILDS and poilog
+## Import a single function from VGAM, GUILDS, poilog and poweRlaw
 importFrom("VGAM",zeta)
 importFrom("GUILDS", maxLikelihood.ESF)
 importFrom("poilog", dpoilog, poilogMLE)
+importFrom("poweRlaw", rpldis)
 ## Import all packages listed as Imports or Depends
 import(
     stats,
+    stats4,
     methods,
     MASS,
     bbmle)

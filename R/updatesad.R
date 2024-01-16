@@ -3,7 +3,8 @@
 updatesad <- function(object, ...) {
 	dots <- list(...)
 	prof <- profile(object)
-	if(class(prof) == "profile.mle2") stop("Cannot update, profile did not find a better fit!")
+	##if(class(prof) == "profile.mle2") stop("Cannot update, profile did not find a better fit!")
+        if(inherits(prof,"profile.mle2")) stop("Cannot update, profile did not find a better fit!")
 	newcall <- as.list(object@call)
 	newcall[[1]] <- NULL # removes the "mle2" function name from the call
 	newcall[["control"]] <- NULL # removes the "control" slot
@@ -19,7 +20,7 @@ updatesad <- function(object, ...) {
 			newcall$start[[v]] <- as.numeric(prof@call.orig$fixed[v])
 	}
 	newobj <- do.call("mle2", newcall)
-	if(class(object) == "fitsad") 
+	if(inherits(object, "fitsad")) 
 		return (new("fitsad", newobj, sad=object@sad, distr=object@distr, trunc=object@trunc))
 	else # fitrad
 		return (new("fitrad", newobj, rad=object@rad, distr=object@distr, trunc=object@trunc, rad.tab=object@rad.tab))

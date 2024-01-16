@@ -1,6 +1,7 @@
 \name{fitsad}
 \alias{fitsad}
 \alias{fitbs}
+\alias{fitexp}
 \alias{fitgamma}
 \alias{fitgeom}
 \alias{fitlnorm}
@@ -21,10 +22,12 @@
 }
 
 \usage{
-fitsad(x, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
+fitsad(x, sad = c("bs","exp", "gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
        "poilog","power", "powbend", "volkov","weibull"), \dots)
 
 fitbs(x, trunc, \dots)
+
+fitexp(x, trunc = NULL, start.value, \dots)
 
 fitgamma(x, trunc, start.value,  \dots)
 
@@ -36,7 +39,7 @@ fitls(x, trunc, start.value, upper = length(x), \dots)
 
 fitmzsm(x, trunc, start.value, upper = length(x), \dots)
 
-fitnbinom(x, trunc=0, start.value, \dots)
+fitnbinom(x, trunc = 0, start.value, \dots)
 
 fitpareto(x, trunc, start.value,  upper = 20, \dots)
 
@@ -58,6 +61,8 @@ fitweibull(x, trunc, start.value,  \dots)
   }
   \item{sad}{
     character; root name of community sad distribution to be fitted.
+    \kbd{"bs"} for broken-stick distribution,
+    \kbd{"exp"} for exponential distribution,
     \kbd{"gamma"} for gamma distribution,
     \kbd{"geom"} for geometric distributions (not geometric series rad model,
     \code{\link{dgs}}),
@@ -108,130 +113,112 @@ fitweibull(x, trunc, start.value,  \dots)
   (see \code{\link{fitsad-class}}).
 }
 
-\details{
-  \code{fitsad} is simply a wrapper that calls the specific functions to fit
-  the distribution chosen with the argument \code{sad}. Users
-  can interchangeably use \code{fitsad} or the individual functions
-  detailed below 
-  (e.g. \code{fitsad(x, sad="geom", \dots)} is the same as
-  \code{fitgeom(x, \dots)} and so on).
+\details{ \code{fitsad} is simply a wrapper that calls the specific
+  functions to fit the distribution chosen with the argument
+  \code{sad}. Users can interchangeably use \code{fitsad} or the
+  individual functions detailed below (e.g. \code{fitsad(x, sad="geom",
+  \dots)} is the same as \code{fitgeom(x, \dots)} and so on).
   
-  The distributions are fitted by the
-  maximum likelihood method using numerical optimization,
-  with \code{mle2}.
-  The resulting object is of \code{fitsad-class}
-  which can be handled with \code{mle2} methods
-  for fitted models and has also some additional
-  methods for SADs models (see
-  \code{\link{fitsad-class}} and examples).
+  The distributions are fitted by the maximum likelihood method using
+  numerical optimization, with \code{mle2}.  The resulting object is of
+  \code{fitsad-class} which can be handled with \code{mle2} methods for
+  fitted models and has also some additional methods for SADs models
+  (see \code{\link{fitsad-class}} and examples).
   
-  Functions \code{fitgamma}, \code{fitlnorm} and \code{fitweibull} fit the
-  standard continuous distributions most used as SADs models.
-  As species with null abundances in the sample are in general unknown, the
-  fit to continuous distributions can be improved by truncation to some value
-  above zero (see example). Convergence problems can occur when fitting
-  with truncation, and can be solved with sensible starting values.
-  \code{fitgamma} uses Chapman's (1956) fitting method to find starting
-  values for the truncated gamma distribution, and \code{fitweibull}
-  uses Rinne's (2009, p. 413) method (thanks to Mario Jose Marques-Azevedo).
+  Functions \code{fitexp}, \code{fitgamma}, \code{fitlnorm} and
+  \code{fitweibull} fit the standard continuous distributions most used
+  as SADs models.  As species with null abundances in the sample are in
+  general unknown, the fit to continuous distributions can be improved
+  by truncation to some value above zero (see example). Convergence
+  problems can occur when fitting with truncation, and can be solved
+  with sensible starting values.  \code{fitgamma} uses Chapman's (1956)
+  fitting method to find starting values for the truncated gamma
+  distribution, and \code{fitweibull} uses Rinne's (2009, p. 413) method
+  (thanks to Mario Jose Marques-Azevedo).
 
   Functions \code{fitgeom}, \code{fitnbinom} fits geometric and negative
-  binomial distributions which are two discrete
-  standard distributions also used to fit SADs. Since species
-  with zero individuals in the sample are in general unknown,
-  these functions fit by default zero-truncated distributions.
-  To avoid zero-truncation set \code{trunc=NULL}.
-  Using the geometric distribution as a SAD model is not to be
-  confounded for fitting the Geometric series \code{\link{fitgs}}
-  as a rank-abundance distribution (RAD) model.
+  binomial distributions which are two discrete standard distributions
+  also used to fit SADs. Since species with zero individuals in the
+  sample are in general unknown, these functions fit by default
+  zero-truncated distributions.  To avoid zero-truncation set
+  \code{trunc=NULL}.  Using the geometric distribution as a SAD model is
+  not to be confounded for fitting the Geometric series
+  \code{\link{fitgs}} as a rank-abundance distribution (RAD) model.
 
-  Function \code{fitls} implements the original numerical recipe by Fisher (1943) to
-  fit the log-series distribution, given a vector of species abundances.
-  Alonso et al. (2008,
-  supplementary material) showed that this recipe gives the maximum
-  likelihood estimate of Fisher's alpha, the single parameter of the log-series.
-  Fitting is done through numerical optimization with the \code{uniroot}
-  function, following the code of the function \code{fishers.alpha} of the
-  \pkg{untb} package. After that, the estimated value of alpha parameter is
-  used as the starting value to get the Log-likelihood from the log-series density
-  function \code{dls}, using the function \code{mle2}.
-  The total number of individuals in the sample, \code{N}, is treated as a fixed
-  parameter in this implementation, in order to maintain coherence with 
-  similar parameters from \code{fitvolkov} and \code{fitmzsm} (see below).
-  Fixed parameters in the model specification do not contribute to the model
-  degrees of freedom, and are not accounted in standard error calculations.
+  Function \code{fitls} implements the original numerical recipe by
+  Fisher (1943) to fit the log-series distribution, given a vector of
+  species abundances.  Alonso et al. (2008, supplementary material)
+  showed that this recipe gives the maximum likelihood estimate of
+  Fisher's alpha, the single parameter of the log-series.  Fitting is
+  done through numerical optimization with the \code{uniroot} function,
+  following the code of the function \code{fishers.alpha} of the
+  \pkg{untb} package. After that, the estimated value of alpha parameter
+  is used as the starting value to get the Log-likelihood from the
+  log-series density function \code{dls}, using the function
+  \code{mle2}.  The total number of individuals in the sample, \code{N},
+  is treated as a fixed parameter in this implementation, in order to
+  maintain coherence with similar parameters from \code{fitvolkov} and
+  \code{fitmzsm} (see below).  Fixed parameters in the model
+  specification do not contribute to the model degrees of freedom, and
+  are not accounted in standard error calculations.
 
-  Functions \code{fitpower}, \code{fitpowbend} and \code{fitpareto} fit power-law distributions
-  with one and two-parameters, that have been suggested as SADs models.
-  The implementations of power and power-bend are for discrete
-  distributions that do not include zeroes. The Pareto distribution is
-  continuous and includes all non-negative numbers.
-  Fisher's logseries are a special case of the
-  power-bend, see \code{\link{dpowbend}} and Pueyo (2006). 
+  Functions \code{fitpower}, \code{fitpowbend} and \code{fitpareto} fit
+  power-law distributions with one and two-parameters, that have been
+  suggested as SADs models.  The implementations of power and power-bend
+  are for discrete distributions that do not include zeroes. The Pareto
+  distribution is continuous and includes all non-negative numbers.
+  Fisher's logseries are a special case of the power-bend, see
+  \code{\link{dpowbend}} and Pueyo (2006).
   
-  Function \code{fitbs} fits the Broken-stick distribution
-  (MacArthur 1960). It is defined only by the observed number of
-  elements \code{S} in the collection and collection size \code{N}.
-  Thus once a sample is taken,
-  the Broken-stick has no free parameters.
-  Therefore, there is no actual fitting, but still
-  \code{fitbs} calls
-  \code{mle2} with
-  fixed parameters \code{N} and \code{S} and \code{eval.only=TRUE}
-  to return an object of class \code{fitsad}
-  to keep compatibility with other
-  SADs models fitted to the same data.
-  Therefore, the resulting objects allows most of the
-  operations with SAD models, such as
-  comparison with other models through model selection,
-  diagnostic plots and so on
-  (see \code{\link{fitsad-class}}).
+  Function \code{fitbs} fits the Broken-stick distribution (MacArthur
+  1960). It is defined only by the observed number of elements \code{S}
+  in the collection and collection size \code{N}.  Thus once a sample is
+  taken, the Broken-stick has no free parameters.  Therefore, there is
+  no actual fitting, but still \code{fitbs} calls \code{mle2} with fixed
+  parameters \code{N} and \code{S} and \code{eval.only=TRUE} to return
+  an object of class \code{fitsad} to keep compatibility with other SADs
+  models fitted to the same data.  Therefore, the resulting objects
+  allows most of the operations with SAD models, such as comparison with
+  other models through model selection, diagnostic plots and so on (see
+  \code{\link{fitsad-class}}).
 
   Function \code{fitpoilog} fits the Poisson-lognormal distribution.
-  This is a compound distributions that describes the abundances
-  of species in Poisson sample of community that follows a
-  lognormal SAD. This is a sampling model of SAD, which is
-  approximated by the \sQuote{veil line} truncation of the lognormal
-  (Preston 1948). The Poisson-lognormal is the analytic
-  solution for this sampling model, as Fisher's log-series
-  is a analytic limit case for a Poisson-gamma
-  (a.k.a negative binomial) distribution. As geometric and
-  negative binomial distributions, the Poisson-lognormal
-  includes zero, but the fit is zero-truncated
-  by default, as for \code{fitgeom}, \code{fitnbinom}.
-  To avoid zero-truncation set \code{trunc=NULL}.
+  This is a compound distributions that describes the abundances of
+  species in Poisson sample of community that follows a lognormal
+  SAD. This is a sampling model of SAD, which is approximated by the
+  \sQuote{veil line} truncation of the lognormal (Preston 1948). The
+  Poisson-lognormal is the analytic solution for this sampling model, as
+  Fisher's log-series is a analytic limit case for a Poisson-gamma
+  (a.k.a negative binomial) distribution. As geometric and negative
+  binomial distributions, the Poisson-lognormal includes zero, but the
+  fit is zero-truncated by default, as for \code{fitgeom},
+  \code{fitnbinom}.  To avoid zero-truncation set \code{trunc=NULL}.
 
-  \code{fitmzsm} fits the metacommunity Zero-sum multinomial distribution
-  \code{\link{dmzsm}} from the Neutral Theory of Biodiversity
-  (Alonso and McKane 2004). The mZSM describes the SAD of a sample
-  taken from a neutral metacommunity under random drift.
-  It has two parameters,
-  the number of individuals in the sample \code{J} and \code{theta},
-  the \sQuote{fundamental biodiversity number}.
-  Because \code{J} is known from the sample size,
-  the fit resumes to estimate a single
-  parameter, \code{theta}. By default, \code{fitmzsm} fits mZSM to a vector of abundances
-  with Brent's one-dimensional method of optimization (see
-  \code{optim}). The log-series distribution (Fisher et al. 1943)
-  is a limiting case of mZSM (Hubbel 2001), and \code{theta} tends to
-  Fisher's alpha as \code{J} increases. In practice
-  the two models provide very similar fits to SADs (see example).
+  \code{fitmzsm} fits the metacommunity Zero-sum multinomial
+  distribution \code{\link{dmzsm}} from the Neutral Theory of
+  Biodiversity (Alonso and McKane 2004). The mZSM describes the SAD of a
+  sample taken from a neutral metacommunity under random drift.  It has
+  two parameters, the number of individuals in the sample \code{J} and
+  \code{theta}, the \sQuote{fundamental biodiversity number}.  Because
+  \code{J} is known from the sample size, the fit resumes to estimate a
+  single parameter, \code{theta}. By default, \code{fitmzsm} fits mZSM
+  to a vector of abundances with Brent's one-dimensional method of
+  optimization (see \code{optim}). The log-series distribution (Fisher
+  et al. 1943) is a limiting case of mZSM (Hubbel 2001), and
+  \code{theta} tends to Fisher's alpha as \code{J} increases. In
+  practice the two models provide very similar fits to SADs (see
+  example).
 
-  Function \code{fitvolkov} fits the SAD model for a community
-  under neutral drift with immigration
-  (Volkov et al. 2003).
-  The model is a stationary distribution deduced from
-  a stochastic process compatible with the Neutral Theory
-  of Biodiversity (Hubbell 2001). It 
-  has two
-  free parameters, the \sQuote{fundamental biodiversity number} \code{theta}, and the
-  immigration rate \code{m} (see \code{\link{dvolkov}})
-  \code{fitvolkov} builds on function \code{volkov} from package
-  \pkg{untb} to
-  fit Volkov's \emph{et al.} SAD model to a vector of abundances.
-  The fit can be extremely slow even for vectors
-  of moderate size.
-}
+  Function \code{fitvolkov} fits the SAD model for a community under
+  neutral drift with immigration (Volkov et al. 2003).  The model is a
+  stationary distribution deduced from a stochastic process compatible
+  with the Neutral Theory of Biodiversity (Hubbell 2001). It has two
+  free parameters, the \sQuote{fundamental biodiversity number}
+  \code{theta}, and the immigration rate \code{m} (see
+  \code{\link{dvolkov}}) \code{fitvolkov} builds on function
+  \code{volkov} from package \pkg{untb} to fit Volkov's \emph{et al.}
+  SAD model to a vector of abundances.  The fit can be extremely slow
+  even for vectors of moderate size.  }
 
 \references{
 
@@ -291,14 +278,12 @@ fitweibull(x, trunc, start.value,  \dots)
   \pkg{poilog} package (\enc{Grøtan}{Grotan} & Engen 2008).
 }
 
-\seealso{
-  \code{\link{dls}}, \code{\link{dmzsm}}, \code{\link{dpareto}},
-  \code{\link{dpoilog}}, \code{\link{dpower}},\code{ \link{dvolkov}}, \code{\link{dpowbend}}
-  for corresponding density functions created for fitting SADs;
-  standard distributions \code{dweibull},
-  \code{dgamma}, \code{dgeom}, \code{dlnorm}, \code{dnbinom};
-  \code{\link{fitsad-class}}.
-}
+\seealso{ \code{\link{dls}}, \code{\link{dmzsm}}, \code{\link{dpareto}},
+  \code{\link{dpoilog}}, \code{\link{dpower}},\code{ \link{dvolkov}},
+  \code{\link{dpowbend}} for corresponding density functions created for
+  fitting SADs; standard distributions \code{dexp}, \code{dgamma},
+  \code{dgeom}, \code{dlnorm}, \code{dnbinom}, \code{dweibull};
+  \code{\link{fitsad-class}}.  }
 
 \examples{
 
@@ -350,7 +335,8 @@ legend("topright", c("lognormal", "gamma", "weibull"),lty=1, col=c("blue","red",
 AICctab(AR.ln, AR.g, AR.wb, nobs=length(ARN82.eB.apr77), weights=TRUE) 
 }
 
-\author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda,
+\author{Paulo I Prado \email{prado@ib.usp.br}, Murilo Dantas Miranda and
+  Andre Chalom,
   after Ben Bolker, R Core Team, Robin Hanking, Vidar \enc{Grøtan}{Grotan} and Steinar Engen.}
 
 \encoding{UTF-8}

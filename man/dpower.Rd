@@ -16,7 +16,7 @@ version of power distribution with parameter \code{s}.
 dpower( x, s, log=FALSE)
 ppower( q, s, lower.tail=TRUE, log.p=FALSE)
 qpower( p, s, lower.tail= TRUE, log.p=FALSE)
-rpower( n, s)
+rpower( n, s, bissection = FALSE, ...)
 }
 
 \arguments{
@@ -43,7 +43,17 @@ rpower( n, s)
     logical; if TRUE (default), probabilities are P[X <= x],
     otherwise, P[X > x].
   }
+  \item{bissection}{
+    logical; uses the bissection method to generate random numbers? If
+    FALSE calls \code{poweRlaw::rpldis}, which provides a faster, continuous
+    approximation for large numbers (Gilliespie 2015). 
+  }
+
+  \item{\dots}{further arguments to be passed to \code{poweRlaw::rpldis}
+    when \code{bissection = TRUE}} 
+  
 }
+
 
 \details{
   The power density is a discrete probability distribution defined for
@@ -70,14 +80,19 @@ rpower( n, s)
 
 \references{
   Johnson N. L., Kemp, A. W. and Kotz S. (2005) \emph{Univariate Discrete
-  Distributions}, 3rd edition, Hoboken, New Jersey: Wiley. Section 11.2.20. 
+  Distributions}, 3rd edition, Hoboken, New Jersey: Wiley. Section
+  11.2.20.
+
+  Colin S. Gillespie (2015) Fitting Heavy Tailed Distributions: The
+  poweRlaw Package. \emph{Journal of Statistical Software, 64(2)}, 1-16. URL
+  http://www.jstatsoft.org/v64/i02/.
 }
 
 \author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
 
 \seealso{
-\code{dzeta} in \pkg{VGAM} package; \code{\link{fitpower}} for maximum likelihood estimation in
-the context of species abundance distributions. 
+\code{dzeta} in \pkg{VGAM} package; \pkg{poweRlaw} package;
+\code{\link{fitpower}} for maximum likelihood estimation in the context of species abundance distributions. 
 }
 
 \examples{

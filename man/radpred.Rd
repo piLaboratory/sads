@@ -4,6 +4,7 @@
 %\alias{radpred-methods}
 \alias{radpred,fitrad,missing,missing,missing,missing,missing,missing,missing-method}
 \alias{radpred,fitsad,missing,missing,missing,missing,missing,missing,missing-method}
+\alias{radpred,fitsadC,missing,missing,missing,missing,missing,missing,missing-method}
 \alias{radpred,missing,character,missing,list,ANY,ANY,numeric,numeric-method}
 \alias{radpred,missing,missing,character,list,ANY,missing,numeric,numeric-method}
 \alias{radpred,numeric,character,missing,list,ANY,ANY,missing,missing-method}
@@ -34,6 +35,14 @@
       ranked abundances of species
       predicted from a abundance distribution  model fitted with function
       \code{fitsad}.
+    }
+
+    \item{\code{signature(object = "fitsadC", sad = "missing", rad =
+	"missing", coef = "missing", trunc = "missing", distr = "missing",
+	S = "missing", N = "missing")}}{
+      ranked abundances of species
+      predicted from a abundance distribution  model fitted with function
+      \code{fitsadC}.
     }
 
     \item{\code{signature(object = "missing", sad = "character", rad =
@@ -71,7 +80,7 @@
 
 \arguments{
   
-  \item{object}{an object of class \code{fitrad} or \code{fitrad};
+  \item{object}{an object of class \code{fitrad} or \code{fitsad};
     fitted model of rank-abundance or species abundances
     distributions. Alternatively a numeric vector abundances of
     species. 

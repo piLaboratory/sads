@@ -1,7 +1,8 @@
 fitgs <- function(x, trunc, start.value, ...){
   if (any(x <= 0)) stop ("All x must be positive")
 	dots <-list(...)
-  if(class(x)!="rad") rad.tab <- rad(x)
+  ##if(class(x)!="rad") rad.tab <- rad(x)
+  if(!inherits(x, "rad")) rad.tab <- rad(x)
   else rad.tab <- x
   y <- rep(rad.tab$rank, rad.tab$abund)
   S <- length(rad.tab$abund)
