@@ -78,7 +78,7 @@ rzipf( n, N, s)
 
   Li, W. (2002) Zipf's Law everywhere. \emph{Glottometrics} 5:14-21
   
-  Zipf's Law. \url{http://en.wikipedia.org/wiki/Zipf's_law}.
+  Zipf's Law. \url{https://en.wikipedia.org/wiki/Zipf's_law}.
 }
 
 \author{Paulo I Prado \email{prado@ib.usp.br} and Murilo Dantas Miranda.}
