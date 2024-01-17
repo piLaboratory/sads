@@ -17,8 +17,12 @@
 }
 
 \section{Methods}{\describe{
-\item{code{signature(object="profile.mle2")}}{The preferred invocation for these methods.}
-\item{code{signature(object="mle2")}}{A convenience wrapper that calls \code{profile} on the mle2 object and runs the former method.}
+\item{plotprofmle}{\code{signature(object="profile.mle2")}:The preferred invocation for these methods.}
+\item{plotprofmle}{\code{signature(object="mle2")}:A convenience wrapper
+  that calls \code{profile} on the mle2 object and runs the former
+  method.}
+\item{likelregions}{\code{signature(object="profile.mle2")}:The preferred invocation for these methods.}
+\item{likelregions}{\code{signature(object="mle2")}:A convenience wrapper that calls \code{profile} on the mle2 object and runs the former method.}
 }}
 
 \usage{
