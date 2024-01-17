@@ -1,9 +1,13 @@
 # sads
+
 [![CRAN Status](https://img.shields.io/cran/v/sads.svg)](https://cran.r-project.org/package=sads)
 
 ### R package for fitting species abundance distributions
 
 **Paulo I. Prado, Murilo Miranda and Andre Chalom**
+
+Ecology Department, São Paulo University
+
 
 ### Installation
 
@@ -27,3 +31,6 @@ install_github(repo = 'piLaboratory/sads', ref= 'dev', build_vignettes = TRUE)
 When running under Windows, you will need to install the Rtools package to build the vignettes locally.
 
 
+### Using
+
+Please see the [package vignette](https://cran.r-project.org/web/packages/sads/vignettes/sads_intro.pdf).
