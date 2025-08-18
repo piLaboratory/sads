@@ -97,7 +97,7 @@
 
 
 \note{Class \code{fitsad} only adds three slots to class
-  \code{mle2}. The descriptions of slots inherited from \code{mle2-class}
+  \code{mle2}. The descriptions of slots inherited from \code{\link[bbmle]{mle2-class}}
   replicate those in \code{\link[bbmle]{mle2-class}}. 
 }
 

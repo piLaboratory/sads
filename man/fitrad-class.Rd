@@ -62,7 +62,7 @@
 
 
 \section{Extends}{
-  Class \code{\link{[bbmle]{mle2}}, directly.
+  Class \code{\link[bbmle]{mle2}}, directly.
 }
 
 \section{Methods}{

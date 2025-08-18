@@ -9,11 +9,11 @@ Authors@R: c(person(given = c("Paulo", "I."),
                         family = "Prado",
                         role = c("aut", "cre"),
                         email = "prado@ib.usp.br",
-			comment = c(ORCID = "0000-0002-7174-5005"),
+			comment = c(ORCID = "0000-0002-7174-5005")),
                  person(given = c("Murilo", "Dantas"),
                         family = "Miranda",
                         role = "aut"),
-                 person(given = "Andre",
+                 person(given = "André",
                         family = "Chalom",
                         role = "aut"))
 Depends:

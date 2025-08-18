@@ -125,7 +125,7 @@
   2012), which in turn builds on \code{\link[stats4]{mle-class}}. 
 }
 
-\seealso{\code{\link{mle2-class}} for all methods available from which
+\seealso{\code{\link[bbmle]{mle2-class}} for all methods available from which
   \code{fitsadC-class} inherits; \code{\link{fitsadC}} for details on
   fitting SADs models from frequency tables; \code{\link{coverpred}} to
   get  frequencies of species in abundances classes predicted 
