@@ -19,7 +19,7 @@ Or download binaries from [CRAN](https://cran.r-project.org/package=sads).
 
 ***Developer version***
 
-Master branch on GitHub has the release version, as available on CRAN. 
+The main branch on GitHub has the release version, as available on CRAN. 
 
 If you want to install the developer version: 
 
