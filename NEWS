@@ -1,3 +1,9 @@
+0.6.4 (2025-08-28)
+
+* Fix links to functions at other non-core packages (required by CRAN check)
+* Adds Authors@R filed in DESCRIPTION (required by CRAN check)
+* Typos in some man pages and vignette
+
 0.6.0 (2024-01-16)
 
 * New fitsadC-class for fitting abundance data pooled in abundance classe (e.g. coverage data for plants). Methods for fitting, ploting, etc adapted from fitsad-methods.

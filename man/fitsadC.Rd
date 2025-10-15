@@ -67,7 +67,7 @@ fitweibullC(x, trunc, start.value,  \dots)
 }
 
 \value{
-  An object of \code{fitsadC-class} which inherits from \code{mle2-class}
+  An object of \code{fitsadC-class} which inherits from \code{\link[bbmle]{mle2-class}}
   and thus has methods for handling
   results of maximum likelihood fits from \code{mle2}
   and also specific methods to handle SADs models

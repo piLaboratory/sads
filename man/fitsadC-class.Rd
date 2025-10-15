@@ -44,8 +44,8 @@
       distribution.}
         \item{\code{hist}:}{Object of class \code{"histogram"}; a table of
   frequencies of species in abundance classes, returned by the function \code{hist}.}
-    \item{\code{call}:}{Object of class \code{"language"}; The call to \code{\link{mle2}}.}
-    \item{\code{call.orig}:}{Object of class \code{"language"} The call to \code{\link{mle2}},
+    \item{\code{call}:}{Object of class \code{"language"}; The call to \code{\link[bbmle]{mle2}}.}
+    \item{\code{call.orig}:}{Object of class \code{"language"} The call to \code{\link[bbmle]{mle2}},
       saved in its original form (i.e. without data arguments
       evaluated).}
     \item{\code{coef}:}{Object of class \code{"numeric"}; Vector of estimated parameters.}
@@ -67,7 +67,7 @@
 }
 
 \section{Extends}{
-  Class \code{"\linkS4class{mle2}"}, directly.
+  Class \code{\link[bbmle]{mle2-class}}, directly.
 }
 
 
@@ -118,14 +118,14 @@
 
 \note{Class \code{fitsadC} only adds three slots to class
   \code{mle2}. The descriptions of slots inherited from \code{mle2-class}
-  replicate those in \code{\link{mle2-class}}. 
+  replicate those in \code{\link[bbmle]{mle2-class}}. 
 }
 
-\source{this class builds on \code{mle2-class} of \pkg{bbmle} package (Bolker
-  2012), which in turn builds on \code{mle-class}. 
+\source{this class builds on \code{\link[bbmle]{mle2-class}} of \pkg{bbmle} package (Bolker
+  2012), which in turn builds on \code{\link[stats4]{mle-class}}. 
 }
 
-\seealso{\code{\link{mle2-class}} for all methods available from which
+\seealso{\code{\link[bbmle]{mle2-class}} for all methods available from which
   \code{fitsadC-class} inherits; \code{\link{fitsadC}} for details on
   fitting SADs models from frequency tables; \code{\link{coverpred}} to
   get  frequencies of species in abundances classes predicted 
@@ -136,7 +136,7 @@
 ## Example of fitting a sad model to cover data 
 ## Abundance classes: cover scale for plants
 Lbrk <- c(0,1,3,5,15,25,35,45,55,65,75,85,95,100)
-## To fit a sad model to cover data, data sould be in histogram format
+## To fit a sad model to cover data, data should be in histogram format
 grass.h <- hist(grasslands$mids, breaks = Lbrk, plot = FALSE)
 class(grass.h) ## class "histogram"
 ## Fits a Pareto distribution to the histogram object
@@ -146,7 +146,7 @@ class(grass.p)
 par(mfrow=c(2,2))
 plot(grass.p)
 par(mfrow=c(1,1))
-## Some methods inherited form mle2-class
+## Some methods inherited form bbmle::mle2-class
 summary(grass.p)
 coef(grass.p)
 AIC(grass.p)

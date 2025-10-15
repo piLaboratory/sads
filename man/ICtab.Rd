@@ -33,7 +33,7 @@
   after Ben Bolker and  R Core Team.}
 
 
-\seealso{\code{\link{mle2-class}} for all methods available from which
+\seealso{\code{\link[bbmle]{mle2-class}} for all methods available from which
   \code{fitsad-class} inherits; \code{\link{fitsad}} for details on
   fitting SADs models.
 }

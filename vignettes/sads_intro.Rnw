@@ -335,10 +335,14 @@ moreover, the function \code{AICtab} and friends from the \emph{bbmle} package c
 AICtab(moths.ls, moths.pl, moths.ln, base=TRUE)
 @ %def 
 
-\textbf{NOTICE} that the information criterion methods do not differentiate between
-\code{fitsad} and \code{fitrad} methods. Because of this, it is possible to include
-\code{fitsad} and \code{fitrad} objects in the same IC-table without generating an error,
-but the result will be meaningless.
+\begin{shaded}
+  \textbf{Flawed model comparisons} \hfill The information criterion
+  methods do not differentiate between objects of \code{fitsad},
+  \code{fitrad} or \code{fitsadC} classes. Because of this, it is
+  possible to include \code{fitsad} and \code{fitrad} objects in the
+  same IC-table without generating an error, but the result will be
+  meaningless.
+\end{shaded}
 
 To compare visually fits first get octave tables:
 
@@ -390,8 +394,8 @@ legend("topright",
 For ecological communities, the representation of species abundances
 typically occurs through categorization. For instance, when assessing
 the abundance of sessile organisms, it is common practice to utilize a
-scale based on the coverage of sampling areas, beacause direct enumeration
-of individuals or estimation of biomass are  are extremely laborious.
+scale based on the coverage of sampling areas, because direct enumeration
+of individuals or estimation of biomass are extremely laborious.
 
 The package \code{sads} has a specific class for fitting continuous
 distributions for this kind of data. We will show the use of this
@@ -406,7 +410,7 @@ head(grasslands)
 @ %def
 
 The vector \code{cover} in this data frame has the cover class for
-each plant species, that is, the the proportion of the area of the
+each plant species, that is, the  proportion of the area of the
 plot covered by all individuals of each species. Coverage is expressed
 in a scale with 13 intervals, as defined by the breakpoints below:
 
@@ -467,7 +471,7 @@ plot(grass.h, main = "", xlab = "Abundance class")
 
 By default, R plots histograms with classes of unequal size using a
 density scale. The function \code{coverpred} provides the number of
-species expected by a fiited model, in frequency, relative frequency
+species expected by a fited model, in frequency, relative frequency
 and density scales.
 
 @
@@ -504,13 +508,14 @@ Please refer to the man pages of \code{fitsadC} and
 
 \section{Simulations}
 
-The function \code{rsad} returns random samples of a community with $S$ species. The mean abundances of the species in the communities
-are independent identically distributed (\emph{iid}) variables that
-follow a given probability distribution. The sample simulates a given
-number of draws of a fraction $a$ from the total number of individuals in
-the community. For instance, to simulate two Poisson samples of 10\%
-of a community with 10 species that follows a lognormal distribution
-with parameters $\mu=3$ and $\sigma=1.5$ use:
+The function \code{rsad} returns random samples of a community with
+$S$ species. The mean abundances of the species in the communities are
+independent identically distributed (\emph{iid}) variables that follow
+a given probability distribution. The sample simulates a given number
+of draws of a fraction $a$ from the total number of individuals in the
+community. For instance, to simulate two Poisson samples of 10\% of a
+community with 10 species that follows a lognormal distribution with
+parameters $\mu=3$ and $\sigma=1.5$ use:
 
 @ 
 <<rsad-example1>>=

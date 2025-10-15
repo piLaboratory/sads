@@ -17,7 +17,7 @@
   species abundance distributions}
 
 \description{
-  This class extends \code{mle2-class} to encapsulate models of species
+  This class extends \code{\link[bbmle]{mle2-class}} to encapsulate models of species
   abundance distributions (SADs) fitted by maximum likelihood.
 }
 
@@ -34,8 +34,8 @@
     \item{\code{distr}:}{Deprecated since sads 0.2.4. See \code{\link{distr}} function}
     \item{\code{trunc}:}{Object of class \code{"numeric"}; truncation
       value used in the fitted model. 'NA' for a non-truncated distribution.}
-    \item{\code{call}:}{Object of class \code{"language"}; The call to \code{\link{mle2}}.}
-    \item{\code{call.orig}:}{Object of class \code{"language"} The call to \code{\link{mle2}},
+    \item{\code{call}:}{Object of class \code{"language"}; The call to \code{\link[bbmle]{mle2}}.}
+    \item{\code{call.orig}:}{Object of class \code{"language"} The call to \code{\link[bbmle]{mle2}},
       saved in its original form (i.e. without data arguments
       evaluated).}
     \item{\code{coef}:}{Object of class \code{"numeric"}; Vector of estimated parameters.}
@@ -57,7 +57,7 @@
 
 
 \section{Extends}{
-  Class \code{"\linkS4class{mle2}"}, directly.
+  Class \code{\link[bbmle]{mle2-class}}, directly.
 }
 
 \section{Methods}{
@@ -97,15 +97,15 @@
 
 
 \note{Class \code{fitsad} only adds three slots to class
-  \code{mle2}. The descriptions of slots inherited from \code{mle2-class}
-  replicate those in \code{\link{mle2-class}}. 
+  \code{mle2}. The descriptions of slots inherited from \code{\link[bbmle]{mle2-class}}
+  replicate those in \code{\link[bbmle]{mle2-class}}. 
 }
 
-\source{this class builds on \code{mle2-class} of \pkg{bbmle} package (Bolker
-  2012), which in turn builds on \code{mle-class}. 
+\source{this class builds on \code{\link[bbmle]{mle2-class}} of \pkg{bbmle} package (Bolker
+  2012), which in turn builds on \code{\link[stats4]{mle-class}}. 
 }
 
-\seealso{\code{\link{mle2-class}} for all methods available from which
+\seealso{\code{\link[bbmle]{mle2-class}} for all methods available from which
   \code{fitsad-class} inherits; \code{\link{fitsad}} for details on
   fitting SADs models; \code{\link{octavpred}} and
   \code{\link{radpred}} to get rank-abundance and
