@@ -6,12 +6,11 @@
 \alias{plot,fitsad,ANY-method}
 \alias{show,fitsad-method}
 %\alias{ppsad,fitsad-method}
-\alias{ppsad,fitsad,missing,missing-method}
-\alias{ppsad,fitsad,missing,missing,missing-method}
+\alias{ppsad,fitsad,missing,missing,missing,missing-method}
 %\alias{qqsad,fitsad-method}
-\alias{qqsad,fitsad,missing,missing,missing,missing-method}
-%\alias{octavpred,fitsad,missing,missing,missing,missing,ANY,missing,missing-method}
-%\alias{radpred,fitsad,missing,missing,missing,missing,missing,missing,missing-method}
+\alias{qqsad,fitsad,missing,missing,missing,missing,missing-method}
+%\alias{octavpred,fitsad,missing,missing,missing,missing,missing,ANY,missing,missing-method}
+%\alias{radpred,fitsad,missing,missing,missing,missing,missing,missing,missing,missing-method}
 
 \title{Class \code{"fitsad"} for maximum likelihood fitting of
   species abundance distributions}
@@ -32,8 +31,12 @@
       the species abundance distribution fitted. See man page of
       \code{fitsad} for available models.}
     \item{\code{distr}:}{Deprecated since sads 0.2.4. See \code{\link{distr}} function}
-    \item{\code{trunc}:}{Object of class \code{"numeric"}; truncation
-      value used in the fitted model. 'NA' for a non-truncated distribution.}
+    \item{\code{trunc}:}{Object of class \code{"numeric"}; lower truncation
+      value used in the fitted model. 'NaN' for a model not truncated on
+      the left.}
+    \item{\code{trunc.max}:}{Object of class \code{"numeric"}; upper
+      truncation value used in the fitted model. 'NaN' for a model not
+      truncated on the right.}
     \item{\code{call}:}{Object of class \code{"language"}; The call to \code{\link[bbmle]{mle2}}.}
     \item{\code{call.orig}:}{Object of class \code{"language"} The call to \code{\link[bbmle]{mle2}},
       saved in its original form (i.e. without data arguments
@@ -63,8 +66,8 @@
 \section{Methods}{
   \describe{
     \item{octavpred}{\code{signature(object = "fitsad", sad = "missing",
-	rad = "missing", coef = "missing", trunc = "missing", oct = "ANY", S =
-	"missing", N = "missing")}: expected number of species per
+	rad = "missing", coef = "missing", trunc = "missing", trunc.max =
+	"missing", oct = "ANY", S = "missing", N = "missing")}: expected number of species per
       abundance octave, see \code{\link{octav}} and \code{\link{octavpred}}.} 
     \item{plot}{\code{signature(x = "fitsad", y = "ANY")}: diagnostic
       plots of the fitted model. }
@@ -72,15 +75,16 @@
       observations (number of species) in the data to which the model was fitted.}
     \item{show}{\code{signature(object = "fitsad")}: Displays object.}
     \item{ppsad}{\code{signature(x = "fitsad", sad = "missing", coef =
-	"missing", trunc = "missing")}: plot of observed vs predicted
+	"missing", trunc = "missing", trunc.max = "missing")}: plot of observed vs predicted
       percentiles of the abundance distribution, details in
       \code{\link{ppsad}}. } 
     \item{qqsad}{\code{signature(x = "fitsad", sad = "missing", coef =
-	"missing", trunc = "missing", distr = "missing")}: plot of observed vs predicted
+	"missing", trunc = "missing", trunc.max = "missing", distr = "missing")}: plot of observed vs predicted
       quantiles of the abundance distribution, details in
       \code{\link{qqsad}. } }
     \item{radpred}{\code{signature(object = "fitsad", sad = "missing",
-	rad = "missing", coef = "missing", trunc = "missing", distr =
+	rad = "missing", coef = "missing", trunc = "missing", trunc.max =
+	"missing", distr =
 	"missing", S = "missing", N = "missing")}: expected abundances
       of the 1st to n-th most abundant species, see \code{\link{rad}} and \code{\link{radpred}}. }
   }
@@ -96,7 +100,7 @@
   after Ben Bolker and  R Core Team.}
 
 
-\note{Class \code{fitsad} only adds three slots to class
+\note{Class \code{fitsad} only adds four slots to class
   \code{mle2}. The descriptions of slots inherited from \code{\link[bbmle]{mle2-class}}
   replicate those in \code{\link[bbmle]{mle2-class}}. 
 }
@@ -128,6 +132,9 @@ logLik(moths.ls)
 ## Model selection
 moths.ln <- fitsad(moths, "lnorm", trunc=0.5)
 AICctab(moths.ls, moths.ln, nobs=length(moths), base=TRUE)
+## A model truncated at a maximum (right truncation)
+moths.ln2 <- fitsad(moths, "lnorm", trunc.max=2500)
+moths.ln2@trunc.max
 }
 
 \keyword{classes}

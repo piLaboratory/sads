@@ -4,14 +4,14 @@
 \docType{class}
 \alias{fitsadC-class}
 %%\alias{coefficients,fitsadC-method}
-%\alias{coverpred,fitsadC,missing,missing,missing,missing,missing,missing-method}
+%\alias{coverpred,fitsadC,missing,missing,missing,missing,missing,missing,missing-method}
 %%\alias{fitted,fitsadC-method}
 %%\alias{fitted.values,fitsadC-method}
 \alias{nobs,fitsadC-method}
 \alias{plot,fitsadC,ANY-method}
-\alias{ppsad,fitsadC,missing,missing,missing-method}
-\alias{qqsad,fitsadC,missing,missing,missing,missing-method}
-%% \alias{radpred,fitsadC,missing,missing,missing,missing,missing,missing,missing-method}
+\alias{ppsad,fitsadC,missing,missing,missing,missing-method}
+\alias{qqsad,fitsadC,missing,missing,missing,missing,missing-method}
+%% \alias{radpred,fitsadC,missing,missing,missing,missing,missing,missing,missing,missing-method}
 %%\alias{residuals,fitsadC-method}
 \alias{show,fitsadC-method}
 
@@ -39,9 +39,12 @@
     \item{\code{sad}:}{Object of class \code{"character"}; root name of
       the species abundance distribution fitted. See man page of
       \code{fitsad} for available models.}
-    \item{\code{trunc}:}{Object of class \code{"numeric"}; truncation
-      value used in the fitted model. 'NA' for a non-truncated
-      distribution.}
+    \item{\code{trunc}:}{Object of class \code{"numeric"}; lower truncation
+      value used in the fitted model. 'NaN' for a model not truncated on
+      the left.}
+    \item{\code{trunc.max}:}{Object of class \code{"numeric"}; upper
+      truncation value used in the fitted model. 'NaN' for a model not
+      truncated on the right.}
         \item{\code{hist}:}{Object of class \code{"histogram"}; a table of
   frequencies of species in abundance classes, returned by the function \code{hist}.}
     \item{\code{call}:}{Object of class \code{"language"}; The call to \code{\link[bbmle]{mle2}}.}
@@ -75,7 +78,7 @@
   \describe{
     %%\item{coefficients}{\code{signature(object = "fitsadC")}: ... }
     \item{coverpred}{\code{signature(object = "fitsadC", sad =
-	"missing", coef = "missing", trunc = "missing",
+	"missing", coef = "missing", trunc = "missing", trunc.max = "missing",
 	breaks = "missing", mids = "missing", S = "missing")}:
       predicted number of species in
       each abundance class see \code{\link{coverpred}} }
@@ -86,15 +89,15 @@
     \item{plot}{\code{signature(x = "fitsadC", y = "ANY")}: diagnostic
       plots of the fitted model. }
     \item{ppsad}{\code{signature(x = "fitsadC", sad = "missing", coef =
-	"missing", trunc = "missing")}:
+	"missing", trunc = "missing", trunc.max = "missing")}:
       plot of observed vs predicted percentiles of the abundance
       distribution, details in \code{\link{ppsad}}.  }
     \item{qqsad}{\code{signature(x = "fitsadC", sad = "missing", coef =
-	"missing", trunc = "missing", distr = "missing")}: plot of observed vs
+	"missing", trunc = "missing", trunc.max = "missing", distr = "missing")}: plot of observed vs
       predicted quantiles of the abundance distribution, details in
       \code{\link{qqsad}. } }
     \item{radpred}{\code{signature(object = "fitsadC", sad = "missing",
-	rad = "missing", coef = "missing", trunc = "missing",
+	rad = "missing", coef = "missing", trunc = "missing", trunc.max = "missing",
 	distr = "missing", S = "missing", N = "missing")}:
       expected abundances of the 1st to n-th most abundant species, see \code{\link{rad}}
       and \code{\link{radpred}}.  }
@@ -102,6 +105,7 @@
     \item{show}{\code{signature(object = "fitsadC")}: Displays object.}
   } 
 }
+
 
 
 
@@ -116,7 +120,7 @@
   after Ben Bolker and  R Core Team.}
 
 
-\note{Class \code{fitsadC} only adds three slots to class
+\note{Class \code{fitsadC} only adds four slots to class
   \code{mle2}. The descriptions of slots inherited from \code{mle2-class}
   replicate those in \code{\link[bbmle]{mle2-class}}. 
 }
@@ -150,6 +154,9 @@ par(mfrow=c(1,1))
 summary(grass.p)
 coef(grass.p)
 AIC(grass.p)
+## A model truncated at a maximum (right truncation)
+grass.p2 <- fitparetoC(grass.h, trunc.max=100)
+grass.p2@trunc.max
 }
 
 \keyword{classes}

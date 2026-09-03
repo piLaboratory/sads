@@ -3,7 +3,7 @@
 \docType{class}
 
 \alias{fitrad-class}
-%\alias{octavpred,fitrad,missing,missing,missing,missing,ANY,missing,missing-method}
+%\alias{octavpred,fitrad,missing,missing,missing,missing,missing,ANY,missing,missing-method}
 \alias{plot,fitrad,ANY-method}
 \alias{show,fitrad-method}
 %\alias{pprad,fitrad-method}
@@ -11,8 +11,8 @@
 \alias{pprad,fitrad,missing,missing,missing,missing-method}
 %% \alias{qqrad,fitrad-method}
 \alias{qqrad,fitrad,missing,missing,missing,missing-method}
-%% \alias{octavpred,fitrad,missing,missing,missing,missing,ANY,missing,missing-method}
-%% \alias{radpred,fitrad,missing,missing,missing,missing,missing,missing,missing-method}
+%% \alias{octavpred,fitrad,missing,missing,missing,missing,missing,ANY,missing,missing-method}
+%% \alias{radpred,fitrad,missing,missing,missing,missing,missing,missing,missing,missing-method}
 
 \title{Class \code{"fitrad"} for maximum likelihood fitting of species
   rank-abundance distributions}
@@ -34,9 +34,12 @@
       the species abundance distribution fitted. See man page of
       \code{fitrad} for available models.}
     \item{\code{distr}:}{Deprecated since sads 0.2.4. See \code{\link{distr}} function}
-    \item{\code{trunc}:}{Object of class \code{"numeric"}; truncation
-      value used in the fitted model. 'NA' for a non-truncated
-      distribution.}
+    \item{\code{trunc}:}{Object of class \code{"numeric"}; lower truncation
+      value used in the fitted model. 'NaN' for a model not truncated on
+      the left.}
+    \item{\code{trunc.max}:}{Object of class \code{"numeric"}; upper
+      truncation value used in the fitted model. 'NaN' for a model not
+      truncated on the right.}
     \item{\code{rad.tab}:}{Object of class \code{"rad"}; rank-abundance
       table of observed abundances.}
     \item{\code{call}:}{Object of class \code{"language"}; The call to \code{\link[bbmle]{mle2}}.}
@@ -68,7 +71,8 @@
 \section{Methods}{
   \describe{
     \item{octavpred}{\code{signature(object = "fitrad", sad = "missing",
-	rad = "missing", coef = "missing", trunc = "missing", oct = "ANY", S =
+	rad = "missing", coef = "missing", trunc = "missing", trunc.max =
+	"missing", oct = "ANY", S =
 	"missing", N = "missing")}: expected number of species per
       abundance octave, see \code{\link{octav}} and \code{\link{octavpred}}.} 
     \item{plot}{\code{signature(x = "fitrad", y = "ANY")}: diagnostic
@@ -81,11 +85,12 @@
       percentiles of the abundance distribution, details in
       \code{\link{pprad}}. } 
     \item{qqrad}{\code{signature(x = "fitrad", sad = "missing", coef =
-	"missing", trunc = "missing")}: plot of observed vs predicted
+	"missing", trunc = "missing", trunc.max = "missing")}: plot of observed vs predicted
       quantiles of the abundance distribution, details in
       \code{\link{qqrad}. } }
     \item{radpred}{\code{signature(object = "fitrad", sad = "missing",
-	rad = "missing", coef = "missing", trunc = "missing", distr =
+	rad = "missing", coef = "missing", trunc = "missing", trunc.max =
+	"missing", distr =
 	"missing", S = "missing", N = "missing")}: expected abundances
       of the 1st to n-th most abundant species, see \code{\link{rad}} and \code{\link{radpred}}. }
   }
@@ -101,7 +106,7 @@
   after Ben Bolker and  R Core Team.}
 
 
-\note{Class \code{fitrad} only adds four slots to class
+\note{Class \code{fitrad} only adds five slots to class
   \code{\link[bbmle]{mle2-class}}. The descriptions of slots inherited from \code{\link[bbmle]{mle2-class}}
   replicate those in \code{\link[bbmle]{mle2-class}}. 
 }
@@ -133,6 +138,9 @@ logLik(ok.gser)
 ## Model selection
 ok.zipf <- fitrad(okland, "zipf")
 AICctab(ok.gser, ok.zipf, nobs=length(moths), base=TRUE)
+## A model truncated at a maximum (right truncation)
+ok.gser2 <- fitrad(okland, "gs", trunc.max=max(okland)+10)
+ok.gser2@trunc.max
 }
 
 \keyword{classes}

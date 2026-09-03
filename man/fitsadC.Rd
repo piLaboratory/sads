@@ -15,15 +15,15 @@
 \usage{
 fitsadC(x, sad = c("exp","gamma","lnorm","pareto", "weibull"), \dots)
 
-fitexpC(x, trunc = NULL, start.value, \dots)
+fitexpC(x, trunc = NULL, trunc.max = NULL, start.value, \dots)
 
-fitgammaC(x, trunc, start.value,  \dots)
+fitgammaC(x, trunc, trunc.max, start.value,  \dots)
 
-fitlnormC(x, trunc, start.value,  \dots)
+fitlnormC(x, trunc, trunc.max, start.value,  \dots)
 
-fitparetoC(x, trunc, start.value,  upper = 20, \dots)
+fitparetoC(x, trunc, trunc.max, start.value,  upper = 20, \dots)
 
-fitweibullC(x, trunc, start.value,  \dots)
+fitweibullC(x, trunc, trunc.max, start.value,  \dots)
 }
 
 \arguments{
@@ -40,8 +40,16 @@ fitweibullC(x, trunc, start.value,  \dots)
   }
   
   \item{trunc}{
-    non-negative integer, \code{trunc > min(x)}; truncation point to fit a
-    truncated distribution. 
+    non-negative integer, \code{trunc > min(x)}; lower truncation point to fit a
+    left-truncated distribution. 
+  }
+
+  \item{trunc.max}{
+    numeric, \code{trunc.max >= max(x)}; upper truncation point to fit a
+    right-truncated distribution. Can be combined with \code{trunc} to fit
+    a distribution truncated at both a minimum and a maximum. If missing
+    (the default for all functions), the distribution is not truncated
+    on the right. See \code{\link{dtrunc}} for details.
   }
   
   \item{start.value}{
@@ -60,7 +68,7 @@ fitweibullC(x, trunc, start.value,  \dots)
   
   \item{\dots}{
     in \code{fitsad} further arguments to be passed to the specific fitting
-    function (most used are \code{trunc}, \code{start.value})
+    function (most used are \code{trunc}, \code{trunc.max}, \code{start.value})
     In the specific fitting functions further
     arguments to be passed to \code{mle2}.
   }
@@ -158,6 +166,10 @@ points(grass.p.pred, col = 1)
 points(grass.l.pred, col = 2)
 points(grass.g.pred, col = 3)
 legend("topright", legend=c("Pareto","Log-normal", "Gamma"), col = 1:3, lty=1, pch =1) 
+
+## A Pareto distribution truncated at a maximum cover value
+grass.p2 <- fitparetoC(grass.h, trunc.max=100)
+grass.p2@trunc.max
 }
 
 \author{Paulo I Prado \email{prado@ib.usp.br}, Murilo Dantas Miranda and

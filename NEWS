@@ -1,3 +1,10 @@
+0.6.6 (development)
+
+* dtrunc, ptrunc, qtrunc and rtrunc now support truncation at a maximum value via a new trunc.max argument, in addition to the existing left-truncation (trunc). Both arguments can be combined for double (two-sided) truncation.
+* trunc.max propagated throughout the package: to fitsad, fitrad, fitsadC and every individual fitting function (fitbs, fitexp, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm, fitnbinom, fitpareto, fitpoilog, fitpowbend, fitpower, fitrbs, fitvolkov, fitweibull, fitzipf, and the abundance-class variants fitexpC, fitgammaC, fitlnormC, fitparetoC, fitweibullC); to trueLL, radpred, octavpred, coverpred, qqsad, qqrad, ppsad, pprad; and to rsad and updatesad.
+* New trunc.max slot added to fitsad-class, fitrad-class and fitsadC-class; displayed by show()/print() as "Upper truncation point" when set.
+* Fixed a pre-existing bug in octavpred's discrete "rad" workhorse method that passed an incorrect argument name (q instead of x) to dtrunc, which threw an error whenever trunc was set for a rank-abundance distribution fit.
+
 0.6.4 (2025-08-28)
 
 * Fix links to functions at other non-core packages (required by CRAN check)

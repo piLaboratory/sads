@@ -14,10 +14,10 @@
 
 \usage{
 fitrad(x, rad =c("gs", "mand", "rbs", "zipf"), \dots)
-fitgs(x, trunc, start.value, \dots)
-fitmand(x, trunc, start.value, \dots)
-fitrbs(x, trunc, \dots)
-fitzipf(x, N, trunc, start.value, upper = 20, \dots)
+fitgs(x, trunc, trunc.max, start.value, \dots)
+fitmand(x, trunc, trunc.max, start.value, \dots)
+fitrbs(x, trunc, trunc.max, \dots)
+fitzipf(x, N, trunc, trunc.max, start.value, upper = 20, \dots)
 }
 
 \arguments{
@@ -39,8 +39,16 @@ fitzipf(x, N, trunc, start.value, upper = 20, \dots)
   }
 
   \item{trunc}{
-    non-negative integer, \code{trunc > min(x)}; truncation point to fit a
-    truncated distribution.
+    non-negative integer, \code{trunc > min(x)}; lower truncation point to fit a
+    left-truncated distribution.
+  }
+
+  \item{trunc.max}{
+    numeric, \code{trunc.max >= max(x)}; upper truncation point to fit a
+    right-truncated distribution. Can be combined with \code{trunc} to fit
+    a distribution truncated at both a minimum and a maximum. If missing
+    (the default for all functions), the distribution is not truncated
+    on the right. See \code{\link{dtrunc}} for details.
   }
 
   \item{N}{
@@ -75,7 +83,7 @@ fitzipf(x, N, trunc, start.value, upper = 20, \dots)
   
   \item{\dots}{
     in fitrad further arguments to be passed to the specific fitting
-    function (most used are \code{trunc} and
+    function (most used are \code{trunc}, \code{trunc.max} and
     \code{start.value}%%and\code{trueLL}
     ). In the specific fitting functions further
     arguments to be passed to \code{mle2}.
@@ -200,6 +208,10 @@ lines(radpred(ok.gs))
 ok.zm <- fitrad(okland, "mand")
 AICctab(ok.gs, ok.zm, nobs=length(okland))
 lines(radpred(ok.zm), col="red")
+
+## A geometric series truncated at a maximum rank
+ok.gs2 <- fitrad(okland, "gs", trunc.max=max(okland)+10)
+ok.gs2@trunc.max
 }
 
 \author{Paulo I Prado \email{prado@ib.usp.br}, Andre Chalom and Murilo Dantas Miranda}

@@ -25,33 +25,33 @@
 fitsad(x, sad = c("bs","exp", "gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
        "poilog","power", "powbend", "volkov","weibull"), \dots)
 
-fitbs(x, trunc, \dots)
+fitbs(x, trunc, trunc.max, \dots)
 
-fitexp(x, trunc = NULL, start.value, \dots)
+fitexp(x, trunc = NULL, trunc.max = NULL, start.value, \dots)
 
-fitgamma(x, trunc, start.value,  \dots)
+fitgamma(x, trunc, trunc.max, start.value,  \dots)
 
-fitgeom(x, trunc = 0, start.value, \dots)
+fitgeom(x, trunc = 0, trunc.max = NULL, start.value, \dots)
 
-fitlnorm(x, trunc, start.value,  \dots)
+fitlnorm(x, trunc, trunc.max, start.value,  \dots)
 
-fitls(x, trunc, start.value, upper = length(x), \dots)
+fitls(x, trunc, trunc.max, start.value, upper = length(x), \dots)
 
-fitmzsm(x, trunc, start.value, upper = length(x), \dots)
+fitmzsm(x, trunc, trunc.max, start.value, upper = length(x), \dots)
 
-fitnbinom(x, trunc = 0, start.value, \dots)
+fitnbinom(x, trunc = 0, trunc.max = NULL, start.value, \dots)
 
-fitpareto(x, trunc, start.value,  upper = 20, \dots)
+fitpareto(x, trunc, trunc.max, start.value,  upper = 20, \dots)
 
-fitpoilog(x, trunc = 0, \dots)
+fitpoilog(x, trunc = 0, trunc.max = NULL, \dots)
 
-fitpower(x, trunc, start.value, upper = 20, \dots)
+fitpower(x, trunc, trunc.max, start.value, upper = 20, \dots)
 
-fitpowbend(x, trunc, start.value, \dots)
+fitpowbend(x, trunc, trunc.max, start.value, \dots)
 
-fitvolkov(x, trunc, start.value, \dots)
+fitvolkov(x, trunc, trunc.max, start.value, \dots)
 
-fitweibull(x, trunc, start.value,  \dots)
+fitweibull(x, trunc, trunc.max, start.value,  \dots)
 }
 
 \arguments{
@@ -79,9 +79,17 @@ fitweibull(x, trunc, start.value,  \dots)
   }
 
   \item{trunc}{
-    non-negative integer, \code{trunc > min(x)}; truncation point to fit a
-    truncated distribution. For "poilog", "geom" and "nbinom" set
+    non-negative integer, \code{trunc > min(x)}; lower truncation point to fit a
+    left-truncated distribution. For "poilog", "geom" and "nbinom" set
     trunc=NULL to avoid zero-truncation (see details).
+  }
+
+  \item{trunc.max}{
+    numeric, \code{trunc.max >= max(x)}; upper truncation point to fit a
+    right-truncated distribution. Can be combined with \code{trunc} to fit
+    a distribution truncated at both a minimum and a maximum. If missing
+    (the default for all functions), the distribution is not truncated
+    on the right. See \code{\link{dtrunc}} for details.
   }
 
   \item{start.value}{
@@ -99,7 +107,7 @@ fitweibull(x, trunc, start.value,  \dots)
   }
   \item{\dots}{
     in \code{fitsad} further arguments to be passed to the specific fitting
-    function (most used are \code{trunc}, \code{start.value})
+    function (most used are \code{trunc}, \code{trunc.max}, \code{start.value})
     In the specific fitting functions further
     arguments to be passed to \code{mle2}.
   }
@@ -124,6 +132,12 @@ fitweibull(x, trunc, start.value,  \dots)
   \code{fitsad-class} which can be handled with \code{mle2} methods for
   fitted models and has also some additional methods for SADs models
   (see \code{\link{fitsad-class}} and examples).
+
+  All fitting functions accept both \code{trunc}, to fit a distribution
+  left-truncated at a minimum abundance value, and \code{trunc.max}, to
+  fit a distribution right-truncated at a maximum abundance value. The
+  two can be combined to fit a distribution truncated at both ends. See
+  \code{\link{dtrunc}} for the underlying truncation machinery.
   
   Functions \code{fitexp}, \code{fitgamma}, \code{fitlnorm} and
   \code{fitweibull} fit the standard continuous distributions most used
@@ -321,6 +335,10 @@ moths.ln <- fitsad(moths, "lnorm", trunc=0.5)
 moths.pln <- fitsad(moths, "poilog")
 ## Model selection
 AICtab(moths.ln, moths.pln, moths.ls, moths.mzsm, weights=TRUE)
+
+## A lognormal truncated at both a minimum and a maximum abundance
+moths.ln2 <- fitsad(moths, "lnorm", trunc=0.5, trunc.max=2500)
+moths.ln2@trunc.max
 
 ## Biomass as abundance variable
 data(ARN82.eB.apr77) #benthonic marine animals
