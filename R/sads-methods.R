@@ -404,7 +404,7 @@ setMethod("radpred",signature(object="fitsad", sad="missing", rad="missing",
           function (object){
 			  ab = object@data$x
 			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
-					  trunc=object@trunc, trunc.max=object@trunc.max, S=length(ab), N=sum(ab))
+					  trunc=object@trunc, trunc.max=object@trunc.max, S=as.numeric(length(ab)), N=as.numeric(sum(ab)))
 		  }
 		  )
 
@@ -415,7 +415,7 @@ setMethod("radpred",signature(object="fitrad", sad="missing", rad="missing",
           function(object){
 			  ab = object@rad.tab$abund
 			  radpred(rad=object@rad, coef=as.list(bbmle::coef(object)), 
-					  trunc=object@trunc, trunc.max=object@trunc.max, S=length(ab), N=sum(ab))
+					  trunc=object@trunc, trunc.max=object@trunc.max, S=as.numeric(length(ab)), N=as.numeric(sum(ab)))
 		  }
 		  )
 
@@ -426,7 +426,7 @@ setMethod("radpred",signature(object="fitsadC", sad="missing", rad="missing",
           function (object){
 			  ab = rep(object@hist$mids, object@hist$counts) 
 			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
-					  trunc=object@trunc, trunc.max=object@trunc.max, S=length(ab), N=sum(ab))
+					  trunc=object@trunc, trunc.max=object@trunc.max, S=as.numeric(length(ab)), N=as.numeric(sum(ab)))
 		  }
 		  )
 
@@ -438,7 +438,7 @@ setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
           function(object, sad, rad, coef, trunc, trunc.max){
 			  if(missing(trunc)) trunc <- NaN
 			  if(missing(trunc.max)) trunc.max <- NaN
-			  radpred(rad=rad, coef=coef, trunc=trunc, trunc.max=trunc.max, S=length(object), N= sum(object))
+			  radpred(rad=rad, coef=coef, trunc=trunc, trunc.max=trunc.max, S=as.numeric(length(object)), N= as.numeric(sum(object)))
 		  }
 		  )
 
@@ -449,7 +449,7 @@ setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
         if(!is.na(distr)) warning("The parameter distr has been deprecated and is ignored, see ?distr")
 			  if(missing(trunc)) trunc <- NaN
 			  if(missing(trunc.max)) trunc.max <- NaN
-			  radpred(sad=sad, coef=coef, trunc=trunc, trunc.max=trunc.max, S=length(object), N= sum(object))
+			  radpred(sad=sad, coef=coef, trunc=trunc, trunc.max=trunc.max, S=as.numeric(length(object)), N= as.numeric(sum(object)))
 		  }
 		  )
 
@@ -588,7 +588,7 @@ setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
             x <- object@data$x
             if(missing(oct)) oct <- genoct(x)
             octavpred(sad = object@sad, coef = as.list(bbmle::coef(object)),
-                      trunc = object@trunc, trunc.max = object@trunc.max, oct = oct, S=length(x), N=sum(x), preston=preston, ...)
+                      trunc = object@trunc, trunc.max = object@trunc.max, oct = oct, S=as.numeric(length(x)), N=as.numeric(sum(x)), preston=preston, ...)
           }
           )
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
@@ -598,7 +598,7 @@ setMethod("octavpred", signature(object="numeric",sad="character", rad="missing"
             if(missing(oct)) oct <- genoct(object)
             if(missing(trunc)) trunc<-NaN
             if(missing(trunc.max)) trunc.max<-NaN
-            octavpred(sad=sad, coef=coef, trunc=trunc, trunc.max=trunc.max, oct=oct, S = length(object), N = sum(object),
+            octavpred(sad=sad, coef=coef, trunc=trunc, trunc.max=trunc.max, oct=oct, S = as.numeric(length(object)), N = as.numeric(sum(object)),
                       preston=preston, ...)
           }
           )
@@ -639,7 +639,7 @@ setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
             x <- object@rad.tab$abund
             if(missing(oct)) oct <- NaN
             octavpred(rad = object@rad, coef = as.list(bbmle::coef(object)),
-                      trunc = object@trunc, trunc.max = object@trunc.max, oct = oct, S=length(x), N=sum(x),
+                      trunc = object@trunc, trunc.max = object@trunc.max, oct = oct, S=as.numeric(length(x)), N=as.numeric(sum(x)),
                       preston=preston, ...)
           }
           )
@@ -650,7 +650,7 @@ setMethod("octavpred", signature(object="numeric",sad="missing", rad="character"
             if(missing(oct)) oct <- NaN
             if(missing(trunc)) trunc<-NaN
             if(missing(trunc.max)) trunc.max<-NaN
-            octavpred(rad=rad, coef=coef, trunc=trunc, trunc.max=trunc.max, oct=oct, S = length(object), N = sum(object),
+            octavpred(rad=rad, coef=coef, trunc=trunc, trunc.max=trunc.max, oct=oct, S = as.numeric(length(object)), N = as.numeric(sum(object)),
                       preston=preston, ...)
           }
 )
@@ -698,7 +698,7 @@ setMethod("coverpred", signature(object="histogram", sad="character",
               coverpred(sad = sad, coef = coef, trunc = trunc, trunc.max = trunc.max,
                         breaks = object$breaks,
                         mids = object$mids,
-                        S = sum(object$counts), ...)
+                        S = as.numeric(sum(object$counts)), ...)
               }
           )
 
@@ -713,7 +713,7 @@ setMethod("coverpred", signature(object="fitsadC",sad="missing",
                     trunc.max = object@trunc.max,
                     breaks = object@hist$breaks,
                     mids = object@hist$mids,
-                    S = sum(object@hist$counts), ...)
+                    S = as.numeric(sum(object@hist$counts)), ...)
           }
           )
 
