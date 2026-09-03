@@ -40,6 +40,10 @@ updaterad(object, \dots)
   profile is able to find a better fit, it runs a new optimization starting on this better fit.
   If the profiling does not find a new fit, the function exits with error.
   The actual processing is done by \code{updatesad}. \code{updaterad} is simply a convenience alias.
+
+  Truncation settings (\code{trunc} and \code{trunc.max}) of the original
+  fitted object are preserved in the object returned by \code{updatesad} and
+  \code{updaterad}.
 }
 
 \seealso{
@@ -49,3 +53,15 @@ updaterad(object, \dots)
 
 
 \author{Paulo I Prado \email{prado@ib.usp.br} and Andre Chalom}
+
+\examples{
+## An artificially poorly-converged fit (few iterations allowed),
+## truncated at both a minimum and a maximum abundance
+data(moths)
+moths.ln <- fitsad(moths, "lnorm", trunc = 0.5, trunc.max = 2500,
+                    start.value = c(meanlog = 1, sdlog = 1),
+                    control = list(maxit = 2))
+## updatesad finds a better fit and preserves the truncation settings
+moths.ln2 <- updatesad(moths.ln)
+moths.ln2@trunc.max
+}

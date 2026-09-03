@@ -13,7 +13,7 @@
 \usage{
 rsad(S = NULL, frac, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
                              "poilog","power", "powbend", "volkov", "weibull"), 
-                 coef, trunc=NaN, sampling=c("poisson", "nbinom", "hypergeometric"), 
+                 coef, trunc=NaN, trunc.max=NaN, sampling=c("poisson", "nbinom", "hypergeometric"), 
                  k, zeroes=FALSE, ssize=1) 
 }
 
@@ -42,9 +42,16 @@ rsad(S = NULL, frac, sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","p
     argument \kbd{sad}.
   }
   \item{trunc}{
-    The truncation point at which the random distribution defined in
-    argument \kbd{sad} should be truncated; see \code{\link{rtrunc}}.
-    The default value of \code{NaN} means that no truncation is performed.
+    The lower truncation point at which the random distribution defined in
+    argument \kbd{sad} should be left-truncated; see \code{\link{rtrunc}}.
+    The default value of \code{NaN} means that no lower truncation is performed.
+  }
+  \item{trunc.max}{
+    The upper truncation point at which the random distribution defined in
+    argument \kbd{sad} should be right-truncated; see \code{\link{rtrunc}}.
+    The default value of \code{NaN} means that no upper truncation is
+    performed. Can be combined with \code{trunc} to sample from a
+    distribution truncated at both a minimum and a maximum.
   }
   \item{sampling}{
     character; if \kbd{poisson} the sampling process is Poisson (independent sampling of
@@ -157,4 +164,9 @@ plot(octav(samp2))
 samp2.pred <- octavpred(samp2, sad="poilog", coef= list(mu=5+log(0.1), sig=2), trunc=0)
 ## Adding the line in the Preston plot
 lines(samp2.pred)
+
+## A Poisson sample from a lognormal community truncated at both
+## a minimum and a maximum abundance
+samp3 <- rsad(S = 100, frac=0.1, sad="lnorm", coef=list(meanlog=5, sdlog=2),
+              trunc=0.5, trunc.max=2500)
 }

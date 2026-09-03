@@ -8,10 +8,10 @@
 %% \alias{ppsad-methods}
 \alias{ppsad,fitsad-method}
 %% \alias{ppsad,fitsad,missing,missing-method}
-%% \alias{ppsad,fitsad,missing,missing,missing-method}
+%% \alias{ppsad,fitsad,missing,missing,missing,missing-method}
 \alias{ppsad,numeric-method}
 \alias{ppsad,numeric,character,list-method}
-\alias{ppsad,numeric,character,list,ANY-method}
+\alias{ppsad,numeric,character,list,ANY,ANY-method}
 %% \alias{pprad-methods}
 \alias{pprad,fitrad-method}
 %% \alias{pprad,fitrad,missing,missing-method}
@@ -37,27 +37,29 @@
   \describe{
 
     \item{ppsad}{\code{signature(x = "fitsad", sad = "missing", coef =
-	"missing", trunc = "missing", plot="ANY", line="ANY")}:
+	"missing", trunc = "missing", trunc.max = "missing", plot="ANY",
+	line="ANY")}:
       quantile-quantile plot for a fitted model of species abundances (a
       \code{\link{fitsad-class}} object). Only argument \code{x} should be provided.
     }
     \item{ppsad}{\code{signature(x = "numeric", sad = "character", coef =
-	"list", trunc = "ANY", plot="ANY", line="ANY")}:
+	"list", trunc = "ANY", trunc.max = "ANY", plot="ANY", line="ANY")}:
       quantile-quantile plot of a numeric vector of abundances (\code{x}) vs a species
       abundance distributions defined by the following arguments.
     }
     \item{pprad}{\code{signature(x = "fitrad", rad = "missing", coef =
-	"missing", trunc = "missing", plot="ANY", line="ANY")}:
+	"missing", trunc = "missing", trunc.max = "missing", plot="ANY",
+	line="ANY")}:
       quantile-quantile plot for a fitted model of species abundances
       ranks (a \code{\link{fitrad-class}} object). Only argument \code{x} should be provided.
     }
     \item{pprad}{\code{signature(x = "rad", rad = "character", coef =
-	"list", trunc = "ANY", plot="ANY", line="ANY")}:
+	"list", trunc = "ANY", trunc.max = "ANY", plot="ANY", line="ANY")}:
       quantile-quantile plot of a table of abundance ranks (\code{x}) vs a species
       rank-abundance distribution defined by the following arguments.
     }    
     \item{pprad}{\code{signature(x = "numeric", rad = "character", coef =
-	"list", trunc = "ANY", plot="ANY", line="ANY")}:
+	"list", trunc = "ANY", trunc.max = "ANY", plot="ANY", line="ANY")}:
       quantile-quantile plot of a numeric vector of abundances (\code{x}) vs a species
       rank-abundance distribution defined by the following arguments.
     }
@@ -66,11 +68,11 @@
 
 \usage{
 \S4method{ppsad}{fitsad}(x, plot=TRUE, line=TRUE, \dots)
-\S4method{ppsad}{numeric}(x, sad, coef, trunc=NA, plot=TRUE,
+\S4method{ppsad}{numeric}(x, sad, coef, trunc=NA, trunc.max=NA, plot=TRUE,
 line=TRUE, \dots)
 \S4method{pprad}{fitrad}(x, plot=TRUE, line=TRUE, \dots)
-\S4method{pprad}{rad}(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, \dots)
-\S4method{pprad}{numeric}(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, \dots)
+\S4method{pprad}{rad}(x, rad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, \dots)
+\S4method{pprad}{numeric}(x, rad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, \dots)
 }
 
 \arguments{
@@ -89,8 +91,13 @@ line=TRUE, \dots)
     Parameters should be named as in the corresponding density
     function, and in the same order
   }
-  \item{trunc}{non-negative integer, trunc > min(x); truncation point to fit a
-    truncated distribution.
+  \item{trunc}{non-negative integer, trunc > min(x); lower truncation point
+    to fit a left-truncated distribution.
+  }
+  \item{trunc.max}{numeric, trunc.max >= max(x); upper truncation point
+    to fit a right-truncated distribution. Can be combined with
+    \code{trunc} for a distribution truncated at both ends. See
+    \code{\link{dtrunc}} for details.
   }
   \item{plot}{
     logical; if 'TRUE' a percentile-percentile plot is produced. If not,
@@ -141,4 +148,9 @@ pprad(okland, rad="rbs", coef=as.list(coef(ok.bs)))
 pprad(ok.gs)
 pprad(okland, rad="gs", coef=as.list(coef(ok.gs)))
 par(mfrow=c(1,1))
+
+## Truncating at both a minimum and a maximum
+moths.ln2 <- fitsad(moths, "lnorm", trunc=0.5, trunc.max=2500)
+ppsad(moths.ln2)
+ppsad(moths, sad="lnorm", coef=as.list(coef(moths.ln2)), trunc=0.5, trunc.max=2500)
 }

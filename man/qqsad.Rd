@@ -6,20 +6,19 @@
 \alias{qqrad}
 %% \alias{qqsad-methods}
 \alias{qqsad,fitsad-method}
-%% \alias{qqsad,fitsad,missing,missing,missing,missing-method}
+%% \alias{qqsad,fitsad,missing,missing,missing,missing,missing-method}
 \alias{qqsad,integer-method}
 \alias{qqsad,numeric-method}
-\alias{qqsad,numeric,character,list,ANY,ANY-method}
+\alias{qqsad,numeric,character,list,ANY,ANY,ANY-method}
 %% \alias{qqrad-methods}
 \alias{qqrad,fitrad-method}
-\alias{qqrad,fitrad,missing,missing,missing-method}
-%\alias{qqrad,fitrad,missing,missing,missing,missing-method}
+\alias{qqrad,fitrad,missing,missing,missing,missing-method}
 \alias{qqrad,integer-method}
 \alias{qqrad,numeric-method}
-\alias{qqrad,numeric,character,list,ANY-method}
+\alias{qqrad,numeric,character,list,ANY,ANY-method}
 \alias{qqrad,numeric,character,list,ANY,character-method}
 \alias{qqrad,rad-method}
-\alias{qqrad,rad,character,list,ANY-method}
+\alias{qqrad,rad,character,list,ANY,ANY-method}
 \alias{qqrad,rad,character,list,ANY,character-method}
 
 \title{Quantile-quantile plots for species-abundance and
@@ -36,27 +35,30 @@
   \describe{
 
     \item{qqsad}{\code{signature(x = "fitsad", sad = "missing", coef =
-	"missing", trunc = "missing", distr = "missing", plot="ANY", line="ANY")}:
+	"missing", trunc = "missing", trunc.max = "missing", distr =
+	"missing", plot="ANY", line="ANY")}:
       quantile-quantile plot for a fitted model of species abundances (a
       \code{\link{fitsad-class}} object). Only argument \code{x} should be provided
     }
     \item{qqsad}{\code{signature(x = "numeric", sad = "character", coef =
-	"list", trunc = "ANY", distr = "ANY", plot="ANY", line="ANY")}:
+	"list", trunc = "ANY", trunc.max = "ANY", distr = "ANY", plot="ANY",
+	line="ANY")}:
       quantile-quantile plot of a numeric vector of abundances (\code{x}) vs a species
       abundance distributions defined by the following arguments.
     }
     \item{qqrad}{\code{signature(x = "fitrad", rad = "missing", coef =
-	"missing", trunc = "missing", plot="ANY", line="ANY")}:
+	"missing", trunc = "missing", trunc.max = "missing", plot="ANY",
+	line="ANY")}:
       quantile-quantile plot for a fitted model of species abundances
       ranks (a \code{\link{fitrad-class}} object). Only argument \code{x} should be provided
     }
     \item{qqrad}{\code{signature(x = "rad", rad = "character", coef =
-	"list", trunc = "ANY", plot="ANY", line="ANY")}:
+	"list", trunc = "ANY", trunc.max = "ANY", plot="ANY", line="ANY")}:
       quantile-quantile plot of a table of abundance ranks (\code{x}) vs a species
       rank-abundance distribution defined by the following arguments.
     }    
     \item{qqrad}{\code{signature(x = "numeric", rad = "character", coef =
-	"list", trunc = "ANY", plot="ANY", line="ANY")}:
+	"list", trunc = "ANY", trunc.max = "ANY", plot="ANY", line="ANY")}:
       quantile-quantile plot of a numeric vector of abundances (\code{x}) vs a species
       rank-abundance distribution defined by the following arguments.
     }
@@ -65,11 +67,11 @@
 
 \usage{
 \S4method{qqsad}{fitsad}(x, plot=TRUE, line=TRUE, \dots)
-\S4method{qqsad}{numeric}(x, sad, coef, trunc=NA, distr, plot=TRUE,
+\S4method{qqsad}{numeric}(x, sad, coef, trunc=NA, trunc.max=NA, distr, plot=TRUE,
 line=TRUE, \dots)
 \S4method{qqrad}{fitrad}(x, plot=TRUE, line=TRUE, \dots)
-\S4method{qqrad}{rad}(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, \dots)
-\S4method{qqrad}{numeric}(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, \dots)
+\S4method{qqrad}{rad}(x, rad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, \dots)
+\S4method{qqrad}{numeric}(x, rad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, \dots)
 }
 
 \arguments{
@@ -88,8 +90,13 @@ line=TRUE, \dots)
     Parameters should be named as in the corresponding density
     function, and in the same order
   }
-  \item{trunc}{non-negative integer, \code{trunc > min(x)}; truncation point to fit a
-    truncated distribution.
+  \item{trunc}{non-negative integer, \code{trunc > min(x)}; lower truncation
+    point to fit a left-truncated distribution.
+  }
+  \item{trunc.max}{numeric, \code{trunc.max >= max(x)}; upper truncation
+    point to fit a right-truncated distribution. Can be combined with
+    \code{trunc} for a distribution truncated at both ends. See
+    \code{\link{dtrunc}} for details.
   }
   \item{distr}{Deprecated since sads 0.2.4. See \code{\link{distr}} function}
   \item{plot}{
@@ -141,4 +148,9 @@ qqrad(okland, rad="rbs", coef=as.list(coef(ok.bs)))
 qqrad(ok.gs)
 qqrad(okland, rad="gs", coef=as.list(coef(ok.gs)))
 par(mfrow=c(1,1))
+
+## Truncating at both a minimum and a maximum
+moths.ln2 <- fitsad(moths, "lnorm", trunc=0.5, trunc.max=2500)
+qqsad(moths.ln2)
+qqsad(moths, sad="lnorm", coef=as.list(coef(moths.ln2)), trunc=0.5, trunc.max=2500)
 }
