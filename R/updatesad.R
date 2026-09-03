@@ -21,8 +21,8 @@ updatesad <- function(object, ...) {
 	}
 	newobj <- do.call("mle2", newcall)
 	if(inherits(object, "fitsad")) 
-		return (new("fitsad", newobj, sad=object@sad, distr=object@distr, trunc=object@trunc))
+		return (new("fitsad", newobj, sad=object@sad, distr=object@distr, trunc=object@trunc, trunc.max=object@trunc.max))
 	else # fitrad
-		return (new("fitrad", newobj, rad=object@rad, distr=object@distr, trunc=object@trunc, rad.tab=object@rad.tab))
+		return (new("fitrad", newobj, rad=object@rad, distr=object@distr, trunc=object@trunc, trunc.max=object@trunc.max, rad.tab=object@rad.tab))
 }
 updaterad <- function(object, ...) updatesad(object, ...)

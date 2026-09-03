@@ -5,16 +5,17 @@
 \alias{qtrunc}
 \alias{rtrunc}
 
-\title{Left-truncation of density, probability and quantile of distributions}
+\title{Left- and right-truncation of density, probability and quantile of distributions}
 
 \description{Returns density, probability, quantile values and random generation for
-  distribution functions left-truncated at a specified value.}
+  distribution functions truncated at a specified minimum value (left
+  truncation), a specified maximum value (right truncation), or both.}
 
 \usage{
-dtrunc(f, x, trunc, coef, log = FALSE)
-ptrunc(f, q, trunc, coef, lower.tail=TRUE, log.p=FALSE)
-qtrunc(f, p, trunc, coef, lower.tail = TRUE, log.p = FALSE)
-rtrunc(f, n, trunc, coef, \dots)
+dtrunc(f, x, trunc, trunc.max, coef, log = FALSE)
+ptrunc(f, q, trunc, trunc.max, coef, lower.tail=TRUE, log.p=FALSE)
+qtrunc(f, p, trunc, trunc.max, coef, lower.tail = TRUE, log.p = FALSE)
+rtrunc(f, n, trunc, trunc.max, coef, \dots)
 }
 
 \arguments{
@@ -30,7 +31,16 @@ rtrunc(f, n, trunc, coef, \dots)
   }
   
   \item{trunc}{
-    numeric, \code{trunc > min(x)}. Truncation value (see details).
+    numeric, \code{trunc < max(x)}. Lower truncation value, for
+    left-truncation (see details). If missing, the distribution is
+    not truncated on the left.
+  }
+  
+  \item{trunc.max}{
+    numeric, \code{trunc.max > min(x)}, and \code{trunc.max > trunc}
+    if \code{trunc} is also provided. Upper truncation value, for
+    right-truncation (see details). If missing, the distribution is
+    not truncated on the right.
   }
   
   \item{p}{
@@ -57,42 +67,56 @@ rtrunc(f, n, trunc, coef, \dots)
 
   \item{\dots}{in \code{rtrunc} further arguments to
     be passed to \code{poweRlaw::rpldis} when argument argument
-    \code{f = "power"} and argument \code{bissection = FALSE}. The same for
+    \code{f = "power"}, \code{trunc.max} is missing, and argument
+    \code{bissection = FALSE}. The same for
     \code{rpower} when and argument \code{bissection = FALSE}.}
 }
 
 \value{
-  \code{dtrunc} gives the (log) density defined by \code{f} left-truncated at \code{trunc}.
+  \code{dtrunc} gives the (log) density defined by \code{f}
+  truncated at \code{trunc} and/or \code{trunc.max}.
   \code{ptrunc} gives the (log) distribution function defined by
-  \code{f} left-truncated at \code{trunc}.
-  \code{qtrunc} gives the quantile of the density defined by \code{f} left-truncated at \code{trunc}.
-  \code{rtrunc} generates a sample from the density defined by \code{f} left-truncated at \code{trunc}.
+  \code{f} truncated at \code{trunc} and/or \code{trunc.max}.
+  \code{qtrunc} gives the quantile of the density defined by \code{f}
+  truncated at \code{trunc} and/or \code{trunc.max}.
+  \code{rtrunc} generates a sample from the density defined by
+  \code{f} truncated at \code{trunc} and/or \code{trunc.max}.
 }
 
 \details{
   Given a distribution with probability distribution function (PDF) g
   and cumulative distribution function (CDF) G, a random variable
-  \code{x} with these distributions left-truncated at \code{trunc} has
-  its PDF:
+  \code{x} with this distribution truncated to the interval
+  \code{(trunc, trunc.max]} has its PDF:
 
-  g'(x) = g(x)/(1 - G(trunc)) for any x <= trunc and zero otherwise 
+  g'(x) = g(x)/(G(trunc.max) - G(trunc)) for any trunc < x <= trunc.max, and zero otherwise
 
   and CDF:
 
-  G'(x) = (G(max(x,trunc)) - G(trunc)) / (1 - G(trunc))
+  G'(x) = (G(min(max(x,trunc),trunc.max)) - G(trunc)) / (G(trunc.max) - G(trunc))
 
-  \code{dtrunc} and \code{ptrunc} calculates the left-truncated
+  If \code{trunc} is not provided, \code{G(trunc)} above is taken to
+  be zero (no truncation on the left, i.e. left tail included down to
+  the support of \code{f}). If \code{trunc.max} is not provided,
+  \code{G(trunc.max)} above is taken to be one (no truncation on the
+  right, i.e. right tail included up to the support of \code{f}). At
+  least one of \code{trunc} or \code{trunc.max} must be given for
+  truncation to be applied; if both are missing, \code{dtrunc},
+  \code{ptrunc}, \code{qtrunc} and \code{rtrunc} return the same
+  values as the underlying, non-truncated functions.
+
+  \code{dtrunc} and \code{ptrunc} calculate the truncated
   distributions functions
   g'(x) and G'(x) defined above for
   a vector of values \code{x} from any
   standard distribution function available in R.
-  This means the 'upper tail' of a continuous distribution
-  is rescaled to integrate to one.
+  This means the truncated tail(s) of a continuous distribution
+  are dropped and the remaining density is rescaled to integrate to one.
   Accordingly, for discrete distributions, the probabilities
-  for all \code{x}>trunc are rescaled to sum one.
+  for all \code{x} in \code{(trunc, trunc.max]} are rescaled to sum one.
   \code{qtrunc} is the inverse function of \code{ptrunc}.
 
-  Left-truncated distributions can be used to
+  Left-, right- and doubly-truncated distributions can be used to
   describe the species abundance distributions (SADs),
   specially for continuous distributions
   (e.g., truncated lognormal distribution).
@@ -130,6 +154,20 @@ B <- dlnorm( 1:5 , meanlog = 1, sdlog = 1.5 ) /
 ## checking
 identical( A, B )
 
+## Right-truncation (truncation at a maximum)
+A <- dtrunc("lnorm", x = 1:5, trunc.max = 3,
+       coef = list( meanlog=1, sdlog=1.5 ) )
+## same as
+B <- dlnorm( 1:5 , meanlog = 1, sdlog = 1.5 ) /
+  ( plnorm ( 3 , meanlog = 1, sdlog = 1.5 ) )
+B[ 1:5 > 3 ] <- 0
+## checking
+identical( A, B )
+
+## Truncation at both a minimum and a maximum
+dtrunc("lnorm", x = 1:5, trunc = 0.5, trunc.max = 3,
+       coef = list( meanlog=1, sdlog=1.5 ) )
+
 A <- ptrunc("pois", q = 1:5, trunc = 0,
        coef = list( lambda = 1.5 ) )
 ## same as
@@ -141,7 +179,9 @@ identical(A,B)
 
 # Random generation
 rtrunc("ls", 100, coef=list(N=1000, alpha=50), trunc=5)
-}
 
+# Random generation, truncated at a maximum
+rtrunc("lnorm", 100, coef=list(meanlog=1, sdlog=1.5), trunc.max=3)
+}
 
 

@@ -1,6 +1,9 @@
-fitgammaC <- function(x, trunc, start.value, ...){
+fitgammaC <- function(x, trunc, trunc.max, start.value, ...){
   dots <- list(...)
   if (any(x$breaks < 0)) stop ("All x must be positive")
+  if (!missing(trunc.max)){
+    if (max(x$breaks)>trunc.max) stop("trunc.max should not be lower than the highest data value")
+  }
   if(missing(start.value)){
       if(missing(trunc)){
           y <- rep(x$mids, x$counts)
@@ -33,11 +36,13 @@ fitgammaC <- function(x, trunc, start.value, ...){
       ka <- start.value[1]
       theta <-start.value[2]
   }
-  if(missing(trunc))
-      LL <- function(shape, rate) -trueLL(x, dist = "gamma", coef = list(shape = shape, rate = rate))
+  trunc.args <- list()
+  if (!missing(trunc)) trunc.args$trunc <- trunc
+  if (!missing(trunc.max)) trunc.args$trunc.max <- trunc.max
+  if (length(trunc.args) > 0)
+      LL <- function(shape, rate) -do.call(trueLL, c(list(x, dist = "gamma", coef = list(shape = shape, rate = rate)), trunc.args))
   else
-      LL <- function(shape, rate) -trueLL(x, dist = "gamma",
-                                          coef = list(shape = shape, rate = rate), trunc = trunc)  
+      LL <- function(shape, rate) -trueLL(x, dist = "gamma", coef = list(shape = shape, rate = rate))
   result <- do.call("mle2", c(list(LL, start = list(shape = ka, rate = 1/theta)), dots))
-  new("fitsadC", result, sad="gamma", trunc = ifelse(missing(trunc), NaN, trunc), hist = x)
+  new("fitsadC", result, sad="gamma", trunc = ifelse(missing(trunc), NaN, trunc), trunc.max = ifelse(missing(trunc.max), NaN, trunc.max), hist = x)
 }

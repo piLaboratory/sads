@@ -19,8 +19,8 @@ setClass("rad", contains="data.frame", validity = function(object) {
 }
 )
 
-setClass("fitsad", contains="mle2", slots=c(sad="character", distr="character", trunc="numeric"))
-setClass("fitrad", contains="mle2", slots=c(rad="character", distr="character", trunc="numeric", rad.tab="rad"))
+setClass("fitsad", contains="mle2", slots=c(sad="character", distr="character", trunc="numeric", trunc.max="numeric"))
+setClass("fitrad", contains="mle2", slots=c(rad="character", distr="character", trunc="numeric", trunc.max="numeric", rad.tab="rad"))
 
 
 distr.depr <- "The 'distr' slot of fitrad and fitsad objects have been deprecated. Please see ?distr"
@@ -38,4 +38,4 @@ setClass("histogram", contains = "list")
 setClass("coverpred", contains = "list") 
 
 
-setClass("fitsadC", contains="mle2", slots=c(sad="character", trunc="numeric", hist="histogram"))
+setClass("fitsadC", contains="mle2", slots=c(sad="character", trunc="numeric", trunc.max="numeric", hist="histogram"))
