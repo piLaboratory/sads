@@ -10,7 +10,7 @@
 \alias{pprad,fitrad,missing,missing-method}
 \alias{pprad,fitrad,missing,missing,missing,missing-method}
 %% \alias{qqrad,fitrad-method}
-\alias{qqrad,fitrad,missing,missing,missing,missing-method}
+%% \alias{qqrad,fitrad,missing,missing,missing,missing-method}
 %% \alias{octavpred,fitrad,missing,missing,missing,missing,missing,ANY,missing,missing-method}
 %% \alias{radpred,fitrad,missing,missing,missing,missing,missing,missing,missing,missing-method}
 

@@ -77,7 +77,7 @@ likelregions(object, nseg=100, ratio=log(8), \dots)
   the upper and lower limits of the likelihood profile for each model
   parameter, a slot with parameter names, and a slot with likelihood
   ratio used to build the profile, as provided in argument
-  \code{ratio}. See \code{\link{plotpromle-class}} for details about
+  \code{ratio}. See \code{\link{likelregions-class}} for details about
   this object class.
   
   \code{plotprofmle} returns NULL. This function is called for its side
