@@ -11,6 +11,7 @@
 #' this is handled automatically, and attempts to set the "distr" argument explicitly are ignored.
 #' 
 #' @param distribution Character. The name of the distribution ("geom" for "fitgeom", "weibull" for "fitweibull", etc.
+#' @return a character vector of length one with the values "discrete", "continuous" or a "NA" with a warning. 
 distr <- function(distribution) {
     ##if (class(distribution)!="character") stop("Distribution must be from class character")
     if(!inherits(distribution, "character")) stop("Distribution must be from class character")

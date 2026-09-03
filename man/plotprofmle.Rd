@@ -71,6 +71,20 @@ likelregions(object, nseg=100, ratio=log(8), \dots)
   \item{\dots}{further arguments to be passed to \code{plot}.}
 }
 
+\value{
+  \code{likelregions} returns an object of
+  \code{likelregions-class}, which is has a data slot with lists with
+  the upper and lower limits of the likelihood profile for each model
+  parameter, a slot with parameter names, and a slot with likelihood
+  ratio used to build the profile, as provided in argument
+  \code{ratio}. See \code{\link{plotpromle-class}} for details about
+  this object class.
+  
+  \code{plotprofmle} returns NULL. This function is called for its side
+  effect, which is generating a plot of the likelihood profiles for each
+  model parameter.
+}
+
 \details{
   Log-likelihood profile plots are the basic diagnostic for model
   fitting by maximum likelihood methods. The profiles show the minimum of the log-likelihood function
