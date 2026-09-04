@@ -4,6 +4,8 @@
 * trunc.max propagated throughout the package: to fitsad, fitrad, fitsadC and every individual fitting function (fitbs, fitexp, fitgamma, fitgeom, fitgs, fitlnorm, fitls, fitmand, fitmzsm, fitnbinom, fitpareto, fitpoilog, fitpowbend, fitpower, fitrbs, fitvolkov, fitweibull, fitzipf, and the abundance-class variants fitexpC, fitgammaC, fitlnormC, fitparetoC, fitweibullC); to trueLL, radpred, octavpred, coverpred, qqsad, qqrad, ppsad, pprad; and to rsad and updatesad.
 * New trunc.max slot added to fitsad-class, fitrad-class and fitsadC-class; displayed by show()/print() as "Upper truncation point" when set.
 * Fixed a pre-existing bug in octavpred's discrete "rad" workhorse method that passed an incorrect argument name (q instead of x) to dtrunc, which threw an error whenever trunc was set for a rank-abundance distribution fit.
+* Fixed a memory-exhaustion regression in radpred, octavpred and coverpred introduced by the wider trunc.max dispatch signature: when S/N were passed as R integers (as length()/sum() naturally produce), S4 method resolution fell back to an expensive inherited-method search that could exhaust available memory. This affected standard usage such as plot() on a fitted model and octav(). Fixed by coercing S/N to numeric before dispatch at all internal call sites.
+* Fixed a duplicated Rd alias (qqrad,fitrad-method) between fitrad-class.Rd and qqsad.Rd, and a broken cross-reference in plotprofmle.Rd (linked to a nonexistent plotpromle-class instead of likelregions-class), both flagged by R CMD check.
 
 0.6.4 (2025-08-28)
 
