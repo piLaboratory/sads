@@ -120,8 +120,16 @@
 }
 
 \references{
-  May, R.M. 1975. Patterns of Species Abundance and Diversity. In
-  Cody, M.L. and Diamond, J.M. (Eds) \emph{Ecology and Evolution of
+  Alonso, D., & McKane, A.J. 2004. Sampling Hubbell's
+  neutral theory of biodiversity. \emph{Ecology letters, 7}: 901--910.
+
+  Fisher, R.A., Corbert, A.S. and Williams, C.B. 1943. The Relation
+  between the number of species and the number of individuals in a random
+  sample of an animal population.
+  \emph{The Journal of Animal Ecology, 12}: 42--58.
+
+  May, R.M. 1975. Patterns of Species Abundance and Diversity. In Cody,
+  M.L. and Diamond, J.M. (Eds) \emph{Ecology and Evolution of
     Communities}. Harvard University Press. pp 81--120.
 }
 
@@ -130,8 +138,9 @@
 }
 
 \examples{
-## Predicted frequencies from a fitted model
-## meta-community zero-sum multinomial for BCI data
+## Predicted frequencies from a fitted model meta-community zero-sum
+## multinomial for pooled samples of Moths caught with light traps at
+## Rothamsted 1933-1936 (Fisher et al. 1943)
 moths.mzsm <- fitsad(moths, "mzsm")
 moths.mzsm.r <- radpred(moths.mzsm)
 ## Rank-abundance plot with observed and predicted frequencies
@@ -146,7 +155,7 @@ moths.lzsm.r <-
 ## Adding predicted frequencies to the plot
 lines(moths.lzsm.r, col = "red")
 
-## Predictions from a model truncated at both a minimum and a maximum
+## Predictions from a model truncated at both a minimum and a maximum abundances
 moths.ln2 <- fitsad(moths, "lnorm", trunc = 0.5, trunc.max = 2500)
 moths.ln2.r <- radpred(moths.ln2)
 }
