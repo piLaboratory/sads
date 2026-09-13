@@ -146,7 +146,8 @@ which can be used to compare different data sets:
 plot(moths.oc, prop = TRUE, border=NA, col=NA)
 lines(octav(birds), mid = FALSE, prop = TRUE, col="red")
 lines(octav(moths), mid = FALSE, prop = TRUE)
-legend("topright", c("Preston's birds", "Fisher's moths"), col=c("red", "blue"), lty=1, bty="n")
+legend("topright", c("Preston's birds", "Fisher's moths"),
+       col=c("red", "blue"), lty=1, bty="n")
 @ %def 
 
 
@@ -258,7 +259,7 @@ par(mfrow=c(1,1))
 @ %def
 
 \begin{shaded}
-  \textbf{Likelihood intervals and confindence intervals:} \hfill
+  \textbf{Likelihood intervals and confidence intervals:} \hfill
   Likelihood intervals include all values of the parameters that have up to a given 
   log-likelihood absolute difference to the maximum likelihood estimate.
   This difference is the log-likelihood ratio and is set with the argument \code{ratio} 
@@ -311,7 +312,7 @@ function \code{fitrad}:
 \begin{shaded}
   \textbf{Comparison to \code{radfit} from \emph{vegan} package:} \hfill
   
-  fits by \code{fitsad}, \code{fitrad} and \code{radfit} of \emph{vegan} 
+  fits by \code{fitsad}, \code{fitrad} of \emph{sads} and fits by \code{radfit} of \emph{vegan} 
   package provide similar estimates of model coefficients 
   but not comparable likelihood values. The reason for this is the fact each function fits models that assign 
   probability values to data in different ways. Function \code{fitsad} fits PDFs to observed abundances and \code{fitrad} fits PDFs 
