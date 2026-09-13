@@ -49,7 +49,7 @@ rls(n, N, alpha)
   was originally proposed by Fisher (1943) to relate the expected number
   of species in a sample from a biological community to the sample size as:
 
-%  \deqn{S = \alpha  \log \left( 1 + \frac{N}{\alpha} \right)}{S = alpha * log(1 + N/alpha)}
+  \deqn{S = \alpha  \log \left( 1 + \frac{N}{\alpha} \right)}{S = alpha * log(1 + N/alpha)}
 
   Where alpha is the single parameter of the log-series distribution,
   often used as a diversity index. From this relation follows that the

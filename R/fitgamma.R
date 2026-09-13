@@ -1,9 +1,12 @@
-fitgamma <- function(x, trunc, start.value, ...){
+fitgamma <- function(x, trunc, trunc.max, start.value, ...){
   dots <- list(...)
   if (any(x <= 0)) stop ("All x must be positive")
   if (!missing(trunc)){
     if (min(x)<=trunc) stop("truncation point should, be lower than the lowest data value")
 }
+  if (!missing(trunc.max)){
+    if (max(x)>trunc.max) stop("trunc.max should not be lower than the highest data value")
+  }
   if(missing(start.value)){
       if(missing(trunc)){
           ka <- (mean(x)/sd(x))^2
@@ -36,12 +39,14 @@ fitgamma <- function(x, trunc, start.value, ...){
       ka <- start.value[1]
       theta <-start.value[2]
   }
-  if (missing(trunc)){
+  trunc.args <- list()
+  if (!missing(trunc)) trunc.args$trunc <- trunc
+  if (!missing(trunc.max)) trunc.args$trunc.max <- trunc.max
+  if (length(trunc.args) > 0){
+      LL <- function(shape, rate) -sum(do.call(dtrunc, c(list("gamma", x = x, coef = list(shape = shape, rate = rate), log = TRUE), trunc.args)))
+  } else {
       LL <- function(shape, rate) -sum(dgamma(x, shape, rate, log = TRUE))
   }
-  else {
-      LL <- function(shape, rate) -sum(dtrunc("gamma", x = x, coef = list(shape = shape, rate = rate), trunc = trunc, log = TRUE))
-  }  
   result <- do.call("mle2", c(list(LL, start = list(shape = ka, rate = 1/theta), data = list(x = x)), dots))
-  new("fitsad", result, sad="gamma", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc)) 
+  new("fitsad", result, sad="gamma", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc), trunc.max = ifelse(missing(trunc.max), NaN, trunc.max))
 }

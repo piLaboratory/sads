@@ -2,10 +2,10 @@
 \docType{methods}
 \alias{trueLL}
 \alias{trueLL-methods}
-\alias{trueLL,fitsad,missing,missing,missing,ANY,ANY-method}
-\alias{trueLL,fitrad,missing,missing,missing,ANY,ANY-method}
-\alias{trueLL,numeric,character,list,ANY,ANY,ANY-method}
-\alias{trueLL,histogram,character,list,ANY,missing,missing-method}
+\alias{trueLL,fitsad,missing,missing,missing,missing,ANY,ANY-method}
+\alias{trueLL,fitrad,missing,missing,missing,missing,ANY,ANY-method}
+\alias{trueLL,numeric,character,list,ANY,ANY,ANY,ANY-method}
+\alias{trueLL,histogram,character,list,ANY,ANY,missing,missing-method}
 
 \title{True likelihood for continuous variables}
 
@@ -18,22 +18,22 @@
 \section{Methods}{
   \describe{
     \item{\code{signature(object = "fitsad", dist = "missing", coef = "missing", 
-			trunc = "missing", dec.places = "ANY", breaks="ANY", \dots)}}{
+			trunc = "missing", trunc.max = "missing", dec.places = "ANY", breaks="ANY", \dots)}}{
       log-likelihood value of an abundance distribution model \code{object} fitted with
       function \code{fitsad}.
     }
     \item{\code{signature(object = "fitrad", dist = "missing", coef = "missing", 
-			trunc = "missing", dec.places = "ANY", breaks="ANY", \dots)}}{
+			trunc = "missing", trunc.max = "missing", dec.places = "ANY", breaks="ANY", \dots)}}{
       log-likelihood value of an abundance distribution model \code{object} fitted with
       function \code{fitrad}.
     }
-    \item{\code{signature(x = "numeric", dist = "character", coef = "list",
-	trunc = "ANY", dec.places = "ANY", breaks="ANY", \dots)}}{
+    \item{\code{signature(object = "numeric", dist = "character", coef = "list",
+	trunc = "ANY", trunc.max = "ANY", dec.places = "ANY", breaks="ANY", \dots)}}{
       log-likelihood value of a vector of abundances \code{object}, fitted to a
       continuous distribution named by \code{dist} with parameters defined in \code{coef}.
     }
     \item{\code{signature(object = "histogram", dist = "character", coef = "list", 
-			trunc = "missing", dec.places = "ANY", breaks="ANY", \dots)}}{
+			trunc = "ANY", trunc.max = "ANY", dec.places = "missing", breaks="missing", \dots)}}{
       log-likelihood value of the abundances given by histogram \code{object}, fitted to a
       continuous distribution named by \code{dist} with parameters defined in \code{coef}.
     }
@@ -55,9 +55,15 @@
   }
   \item{trunc}{
     real number \code{trunc <= min(x)}; value from which the density distribution is
-    truncated. Currently only lower-tail truncation (or right-truncation)
-    is implemented. If this argument is omitted the whole
-    distribution is used (default).
+    left-truncated. If this argument is omitted the
+    distribution is not left-truncated (default).
+  }
+  \item{trunc.max}{
+    real number \code{trunc.max >= max(x)}; value above which the density
+    distribution is right-truncated. Can be combined with \code{trunc}
+    for a distribution truncated at both ends. If this argument is
+    omitted the distribution is not right-truncated (default). See
+    \code{\link{dtrunc}} for details.
   }
   \item{dec.places}{
     positive integer; number of decimal places used in the measurement of
@@ -151,5 +157,10 @@ xll <- trueLL(xh, dist="lnorm", coef = list(meanlog=mean(log(x)), sd=sd(log(x)))
 xp <- diff(plnorm(xh$breaks, mean(log(x)), sd(log(x))))
 xll2 <- sum( rep(log(xp), xh$counts))
 all.equal(xll, xll2) # should be TRUE
+
+## trueLL for a distribution truncated at both a minimum and a maximum
+x2 <- x[x > 1 & x < 60]
+trueLL(x2, "lnorm", coef=list(meanlog=mean(log(x)), sdlog=sd(log(x))),
+       trunc=1, trunc.max=60, dec.places=1)
 }
 \keyword{methods}

@@ -332,6 +332,9 @@ showmle2 <- function(object) {
     if(!is.nan(object@trunc)) {
         cat(paste("\nTruncation point:", object@trunc, "\n"))
     }
+    if(!is.nan(object@trunc.max)) {
+        cat(paste("\nUpper truncation point:", object@trunc.max, "\n"))
+    }
     cat("\nLog-likelihood: ")
     cat(round(as.numeric(logLik(object)),2),"\n")
     if (object@optimizer=="optimx" && length(object@method)>1) {
@@ -391,39 +394,39 @@ setMethod("show", "likelregions",
           
 ## radpred generic functions and methods ###
 setGeneric("radpred",
-def = function(object, sad, rad, coef, trunc , distr=NA, S, N) standardGeneric("radpred")
+def = function(object, sad, rad, coef, trunc, trunc.max, distr=NA, S, N) standardGeneric("radpred")
            )
 
 ## if object is of class fitsad (no other argument should be provided)
 # Extracts information from object and uses method below
 setMethod("radpred",signature(object="fitsad", sad="missing", rad="missing",
-                              coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
+                              coef="missing", trunc="missing", trunc.max="missing", distr="missing", S="missing", N="missing"),
           function (object){
 			  ab = object@data$x
 			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
-					  trunc=object@trunc, S=length(ab), N=sum(ab))
+					  trunc=object@trunc, trunc.max=object@trunc.max, S=as.numeric(length(ab)), N=as.numeric(sum(ab)))
 		  }
 		  )
 
 ## if object is of class fitrad (no other argument should be provided)
 # Extracts information from object and uses method below
 setMethod("radpred",signature(object="fitrad", sad="missing", rad="missing",
-                              coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
+                              coef="missing", trunc="missing", trunc.max="missing", distr="missing", S="missing", N="missing"),
           function(object){
 			  ab = object@rad.tab$abund
 			  radpred(rad=object@rad, coef=as.list(bbmle::coef(object)), 
-					  trunc=object@trunc, S=length(ab), N=sum(ab))
+					  trunc=object@trunc, trunc.max=object@trunc.max, S=as.numeric(length(ab)), N=as.numeric(sum(ab)))
 		  }
 		  )
 
 ## if object is of class fitsadC (no other argument should be provided)
 # Extracts information from object and uses method below
 setMethod("radpred",signature(object="fitsadC", sad="missing", rad="missing",
-                              coef="missing", trunc="missing", distr="missing", S="missing", N="missing"),
+                              coef="missing", trunc="missing", trunc.max="missing", distr="missing", S="missing", N="missing"),
           function (object){
 			  ab = rep(object@hist$mids, object@hist$counts) 
 			  radpred(sad=object@sad, coef=as.list(bbmle::coef(object)),
-					  trunc=object@trunc, S=length(ab), N=sum(ab))
+					  trunc=object@trunc, trunc.max=object@trunc.max, S=as.numeric(length(ab)), N=as.numeric(sum(ab)))
 		  }
 		  )
 
@@ -431,32 +434,39 @@ setMethod("radpred",signature(object="fitsadC", sad="missing", rad="missing",
 ## if object is a numeric vector of abundances and rad argument is given (sad, S, N, distr,  arguments should be missing)
 # Extracts information from object and uses method below
 setMethod("radpred",signature(object="numeric", sad="missing", rad="character",
-                              coef="list", trunc="ANY", distr="missing", S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc){
+                              coef="list", trunc="ANY", trunc.max="ANY", distr="missing", S="missing", N="missing"),
+          function(object, sad, rad, coef, trunc, trunc.max){
 			  if(missing(trunc)) trunc <- NaN
-			  radpred(rad=rad, coef=coef, trunc=trunc, S=length(object), N= sum(object))
+			  if(missing(trunc.max)) trunc.max <- NaN
+			  radpred(rad=rad, coef=coef, trunc=trunc, trunc.max=trunc.max, S=as.numeric(length(object)), N= as.numeric(sum(object)))
 		  }
 		  )
 
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
 setMethod("radpred",signature(object="numeric", sad="character", rad="missing",
-                              coef="list", trunc="ANY", distr="ANY", S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, distr=NA){
+                              coef="list", trunc="ANY", trunc.max="ANY", distr="ANY", S="missing", N="missing"),
+          function(object, sad, rad, coef, trunc, trunc.max, distr=NA){
         if(!is.na(distr)) warning("The parameter distr has been deprecated and is ignored, see ?distr")
 			  if(missing(trunc)) trunc <- NaN
-			  radpred(sad=sad, coef=coef, trunc=trunc, S=length(object), N= sum(object))
+			  if(missing(trunc.max)) trunc.max <- NaN
+			  radpred(sad=sad, coef=coef, trunc=trunc, trunc.max=trunc.max, S=as.numeric(length(object)), N= as.numeric(sum(object)))
 		  }
 		  )
 
 ## if object is missing and rad is given. sad should not be given. All other arguments except distr should be given,
-## except trunc (optional). This is the base method for all signatures using "rad" or "fitrad" 
+## except trunc and trunc.max (optional). This is the base method for all signatures using "rad" or "fitrad" 
 setMethod("radpred", signature(object="missing", sad="missing", rad="character",
-                              coef="list", trunc="ANY", distr="missing", S="numeric", N="numeric"),
-          function(object, sad, rad, coef, trunc, distr, S, N){
+                              coef="list", trunc="ANY", trunc.max="ANY", distr="missing", S="numeric", N="numeric"),
+          function(object, sad, rad, coef, trunc, trunc.max, distr, S, N){
             y <- 1:S
             if(missing(trunc)) trunc <- NaN
-            if(!is.nan(trunc))
-              ab <- do.call(dtrunc, c(list(rad, x = y, coef = coef, trunc = trunc)))*N
+            if(missing(trunc.max)) trunc.max <- NaN
+            if(!is.nan(trunc) || !is.nan(trunc.max)){
+              trunc.args <- list()
+              if(!is.nan(trunc)) trunc.args$trunc <- trunc
+              if(!is.nan(trunc.max)) trunc.args$trunc.max <- trunc.max
+              ab <- do.call(dtrunc, c(list(rad, x = y, coef = coef), trunc.args))*N
+            }
             else{
               drad <- get(paste("d", rad, sep=""),  mode = "function")
               ab <- do.call(drad, c(list(x = y), coef))*N
@@ -466,21 +476,25 @@ setMethod("radpred", signature(object="missing", sad="missing", rad="character",
           )
 
 ## if object is missing and sad is given. rad should not be given.
-## All other arguments except distr should be given, except trunc (optional)
+## All other arguments except distr should be given, except trunc and trunc.max (optional)
 # This is the base method for all signatures using "sad" or "fitsad" 
 setMethod("radpred", signature(object="missing", sad="character", rad="missing",
-                               coef="list", trunc="ANY", distr="ANY", S="numeric", N="numeric"),
-          function(object, sad, rad, coef, trunc, distr=NA, S, N){
+                               coef="list", trunc="ANY", trunc.max="ANY", distr="ANY", S="numeric", N="numeric"),
+          function(object, sad, rad, coef, trunc, trunc.max, distr=NA, S, N){
               if(!is.na(distr)) warning("The parameter distr has been deprecated and is ignored, see ?distr")
               distribution <- distr(sad)
               if(missing(trunc)) trunc <- NaN
+              if(missing(trunc.max)) trunc.max <- NaN
+              trunc.args <- list()
+              if(!is.nan(trunc)) trunc.args$trunc <- trunc
+              if(!is.nan(trunc.max)) trunc.args$trunc.max <- trunc.max
               if (distribution == "discrete"){
                   ## Approximates the [q] function instead of calling it directly to save some
                   ## computational time (as [q] is inneficiently vectorized)
                   y <- 1:N
                   Y <- ppoints(S)
-                  if(!is.nan(trunc))
-                    X <- do.call(ptrunc, list(sad, q = y, coef = coef, lower.tail=F, trunc = trunc))
+                  if(length(trunc.args) > 0)
+                    X <- do.call(ptrunc, c(list(sad, q = y, coef = coef, lower.tail=F), trunc.args))
                   else {
                     psad <- get(paste("p", sad, sep=""), mode = "function")
                     qsad <- get(paste("q", sad, sep=""), mode = "function")
@@ -491,16 +505,16 @@ setMethod("radpred", signature(object="missing", sad="character", rad="missing",
                   for (i in 1:length(ab)) {
                       if (!is.na(ab[i])) break;
                       cat("Note: extreme values generated by radpred. Calculations will take a while...\n")
-                      if(! is.nan(trunc))
-                        ab[i] <- do.call(qtrunc, list(sad, p = Y[i], coef = coef, lower.tail=FALSE, trunc = trunc))
+                      if(length(trunc.args) > 0)
+                        ab[i] <- do.call(qtrunc, c(list(sad, p = Y[i], coef = coef, lower.tail=FALSE), trunc.args))
                       else
                         ab[i] <- do.call(qsad, c(list(p = Y[i], lower.tail=FALSE), coef))
                   }
               }
               else if(distribution == "continuous"){
                 Y <- ppoints(S)
-                if(!is.nan(trunc))
-                  ab <- do.call(qtrunc, list(sad, p = Y, coef = coef, lower.tail=F, trunc = trunc))
+                if(length(trunc.args) > 0)
+                  ab <- do.call(qtrunc, c(list(sad, p = Y, coef = coef, lower.tail=F), trunc.args))
                 else{
                   qsad <- get(paste("q", sad, sep=""), mode = "function")
                   ab <- do.call(qsad, c(list(p = Y, lower.tail = F), coef))
@@ -564,43 +578,48 @@ prestonfy <- function(res, y) {
           
 ## octavpred generic functions and methods ###
 setGeneric("octavpred",
-def = function(object, sad, rad, coef, trunc, oct, S, N, preston=FALSE, ...) standardGeneric("octavpred"))
+def = function(object, sad, rad, coef, trunc, trunc.max, oct, S, N, preston=FALSE, ...) standardGeneric("octavpred"))
 
 ## if object is of class fitsad (no other argument should be provided)
 setMethod("octavpred", signature(object="fitsad",sad="missing", rad="missing",
-                                 coef="missing", trunc="missing", oct="ANY",
+                                 coef="missing", trunc="missing", trunc.max="missing", oct="ANY",
                                  S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
+          function(object, sad, rad, coef, trunc, trunc.max, oct, S, N, preston, ...){
             x <- object@data$x
             if(missing(oct)) oct <- genoct(x)
             octavpred(sad = object@sad, coef = as.list(bbmle::coef(object)),
-                      trunc = object@trunc, oct = oct, S=length(x), N=sum(x), preston=preston, ...)
+                      trunc = object@trunc, trunc.max = object@trunc.max, oct = oct, S=as.numeric(length(x)), N=as.numeric(sum(x)), preston=preston, ...)
           }
           )
 ## if object is a numeric vector of abundances and sad argument is given (rad, S, N,  arguments should be missing)
 setMethod("octavpred", signature(object="numeric",sad="character", rad="missing",
-                                 coef="list", oct="ANY", trunc="ANY", S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
+                                 coef="list", oct="ANY", trunc="ANY", trunc.max="ANY", S="missing", N="missing"),
+          function(object, sad, rad, coef, trunc, trunc.max, oct, S, N, preston, ...){
             if(missing(oct)) oct <- genoct(object)
             if(missing(trunc)) trunc<-NaN
-            octavpred(sad=sad, coef=coef, trunc=trunc, oct=oct, S = length(object), N = sum(object),
+            if(missing(trunc.max)) trunc.max<-NaN
+            octavpred(sad=sad, coef=coef, trunc=trunc, trunc.max=trunc.max, oct=oct, S = as.numeric(length(object)), N = as.numeric(sum(object)),
                       preston=preston, ...)
           }
           )
 ## Octavpred workhorse for "sads"
 setMethod("octavpred", signature(object="missing",sad="character", rad="missing",
-                                 coef="list", trunc="ANY", oct="ANY", S="numeric", N="numeric"),
-          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
+                                 coef="list", trunc="ANY", trunc.max="ANY", oct="ANY", S="numeric", N="numeric"),
+          function(object, sad, rad, coef, trunc, trunc.max, oct, S, N, preston, ...){
             dots <- list(...)
             if(missing(oct)) oct <- genoct(N)
             if(missing(trunc)) trunc <- NaN
+            if(missing(trunc.max)) trunc.max <- NaN
             oct <- unique(oct)
+            trunc.args <- list()
+            if(!is.nan(trunc)) trunc.args$trunc <- trunc
+            if(!is.nan(trunc.max)) trunc.args$trunc.max <- trunc.max
             if (preston) {
-              return(octav(radpred(sad=sad, coef=coef, trunc=trunc, distr=NA, S=S, N=N)$abund, preston=TRUE))
+              return(octav(do.call(radpred, c(list(sad=sad, coef=coef), trunc.args, list(distr=NA, S=S, N=N)))$abund, preston=TRUE))
             } else {
               n <- 2^oct
-              if(!is.nan(trunc)){
-                Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef, trunc = trunc), dots))
+              if(length(trunc.args) > 0){
+                Y <- do.call(ptrunc, c(list(sad, q = n, coef = coef), trunc.args, dots))
               }
               else{
                 psad <- get(paste("p",sad,sep=""),mode="function")
@@ -614,37 +633,42 @@ setMethod("octavpred", signature(object="missing",sad="character", rad="missing"
 
 ## if object is of class fitrad (no other argument should be provided, except oct (optional))
 setMethod("octavpred", signature(object="fitrad",sad="missing", rad="missing",
-                                 coef="missing", trunc="missing", oct="ANY",
+                                 coef="missing", trunc="missing", trunc.max="missing", oct="ANY",
                                  S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
+          function(object, sad, rad, coef, trunc, trunc.max, oct, S, N, preston, ...){
             x <- object@rad.tab$abund
             if(missing(oct)) oct <- NaN
             octavpred(rad = object@rad, coef = as.list(bbmle::coef(object)),
-                      trunc = object@trunc, oct = oct, S=length(x), N=sum(x),
+                      trunc = object@trunc, trunc.max = object@trunc.max, oct = oct, S=as.numeric(length(x)), N=as.numeric(sum(x)),
                       preston=preston, ...)
           }
           )
 ## if object is a numeric vector of abundances and rad argument is given (sad, S, N,  arguments should be missing)
 setMethod("octavpred", signature(object="numeric",sad="missing", rad="character",
-                                 coef="list", trunc="ANY", oct="ANY", S="missing", N="missing"),
-          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
+                                 coef="list", trunc="ANY", trunc.max="ANY", oct="ANY", S="missing", N="missing"),
+          function(object, sad, rad, coef, trunc, trunc.max, oct, S, N, preston, ...){
             if(missing(oct)) oct <- NaN
             if(missing(trunc)) trunc<-NaN
-            octavpred(rad=rad, coef=coef, trunc=trunc, oct=oct, S = length(object), N = sum(object),
+            if(missing(trunc.max)) trunc.max<-NaN
+            octavpred(rad=rad, coef=coef, trunc=trunc, trunc.max=trunc.max, oct=oct, S = as.numeric(length(object)), N = as.numeric(sum(object)),
                       preston=preston, ...)
           }
 )
 ## Octavpred workhorse for "rads"
 setMethod("octavpred", signature(object="missing",sad="missing", rad="character",
-                                 coef="list", trunc="ANY", oct="ANY", S="numeric", N="numeric"),
-          function(object, sad, rad, coef, trunc, oct, S, N, preston, ...){
+                                 coef="list", trunc="ANY", trunc.max="ANY", oct="ANY", S="numeric", N="numeric"),
+          function(object, sad, rad, coef, trunc, trunc.max, oct, S, N, preston, ...){
             dots <- list(...)
             # Setting oct to nan to prevent "missing argument"
             if(missing(oct)) oct <- NaN
             else oct <- unique(oct)
             if(missing(trunc)) trunc<-NaN
-            if(!is.nan(trunc)){
-              ab <- do.call(dtrunc, c(list(f=rad, q = 1:S, coef=coef,trunc = trunc),dots))*N
+            if(missing(trunc.max)) trunc.max<-NaN
+            trunc.args <- list()
+            if(!is.nan(trunc)) trunc.args$trunc <- trunc
+            if(!is.nan(trunc.max)) trunc.args$trunc.max <- trunc.max
+            if(length(trunc.args) > 0){
+              ab <- do.call(dtrunc, c(list(f=rad, x = 1:S, coef=coef), trunc.args, dots))*N
             }
             else{
               drad <- get(paste("d",rad,sep=""),mode="function")
@@ -662,44 +686,51 @@ setMethod("octavpred", signature(object="missing",sad="missing", rad="character"
 
 ## coverpred generic functions and methods ###
 setGeneric("coverpred",
-def = function(object, sad, coef, trunc, breaks, mids, S, ...) standardGeneric("coverpred"))
+def = function(object, sad, coef, trunc, trunc.max, breaks, mids, S, ...) standardGeneric("coverpred"))
 
 ## If object is of class histogram and coefs and sads are given
 setMethod("coverpred", signature(object="histogram", sad="character",
-                                 coef="list", trunc="ANY",
+                                 coef="list", trunc="ANY", trunc.max="ANY",
                                  breaks="missing", mids = "missing", S="missing"),
-          function(object, sad, coef, trunc, breaks, S, ...){
+          function(object, sad, coef, trunc, trunc.max, breaks, S, ...){
               if(missing(trunc)) trunc <- NaN
-              coverpred(sad = sad, coef = coef, trunc = trunc,
+              if(missing(trunc.max)) trunc.max <- NaN
+              coverpred(sad = sad, coef = coef, trunc = trunc, trunc.max = trunc.max,
                         breaks = object$breaks,
                         mids = object$mids,
-                        S = sum(object$counts), ...)
+                        S = as.numeric(sum(object$counts)), ...)
               }
           )
 
 ## If object is of class fitsadC 
 setMethod("coverpred", signature(object="fitsadC",sad="missing",
-                                 coef="missing", trunc="missing", 
+                                 coef="missing", trunc="missing", trunc.max="missing",
                                  breaks="missing", mids = "missing", S="missing"),
-          function(object, sad, coef, trunc, breaks, mids, S, ...){
+          function(object, sad, coef, trunc, trunc.max, breaks, mids, S, ...){
           coverpred(sad = object@sad,
                     coef = as.list(bbmle::coef(object)),
                     trunc = object@trunc,
+                    trunc.max = object@trunc.max,
                     breaks = object@hist$breaks,
                     mids = object@hist$mids,
-                    S = sum(object@hist$counts), ...)
+                    S = as.numeric(sum(object@hist$counts)), ...)
           }
           )
 
 ## coverpred workhorse for "sadsC"
 setMethod("coverpred", signature(object="missing",sad="character",
-                                 coef="list", trunc="ANY", breaks="numeric",
+                                 coef="list", trunc="ANY", trunc.max="ANY", breaks="numeric",
                                  mids = "ANY", S="numeric"),
-          function(object, sad, coef, trunc, breaks, mids, S, ...){
+          function(object, sad, coef, trunc, trunc.max, breaks, mids, S, ...){
               dots <- list(...)
+              if(missing(trunc)) trunc <- NaN
+              if(missing(trunc.max)) trunc.max <- NaN
               if(missing(mids)) mids <- breaks[-length(breaks)] + diff(breaks)/2
-              if(!is.nan(trunc)){
-                  Y <- do.call(ptrunc, c(list(sad, q = breaks, coef = coef, trunc = trunc), dots))
+              trunc.args <- list()
+              if(!is.nan(trunc)) trunc.args$trunc <- trunc
+              if(!is.nan(trunc.max)) trunc.args$trunc.max <- trunc.max
+              if(length(trunc.args) > 0){
+                  Y <- do.call(ptrunc, c(list(sad, q = breaks, coef = coef), trunc.args, dots))
               }
               else{
                   psad <- get(paste("p",sad,sep=""),mode="function")
@@ -715,22 +746,25 @@ setMethod("coverpred", signature(object="missing",sad="character",
 
 ## Generic and methods for qqsad
 setGeneric("qqsad",
-def = function(x, sad, coef, trunc=NA, distr=NA, plot=TRUE, line=TRUE, ...) standardGeneric("qqsad"))
+def = function(x, sad, coef, trunc=NA, trunc.max=NA, distr=NA, plot=TRUE, line=TRUE, ...) standardGeneric("qqsad"))
 
 ## method for class numeric
 ## if x is numeric (abundances), all other arguments should be given.
-## Only trunc, plot and line are optional because they have default values
+## Only trunc, trunc.max, plot and line are optional because they have default values
 setMethod("qqsad",
           signature(x="numeric", sad="character", coef="list", distr="ANY"),
-          function(x, sad, coef, trunc=NA, distr=NA, plot=TRUE, line=TRUE, ...){
+          function(x, sad, coef, trunc=NA, trunc.max=NA, distr=NA, plot=TRUE, line=TRUE, ...){
         if(!is.na(distr)) warning("The parameter distr has been deprecated and is ignored, see ?distr")
         distribution <- distr(sad)
               x.sorted <- sort(x)
               S <- length(x)
+              trunc.args <- list()
+              if(!is.na(trunc)) trunc.args$trunc <- trunc
+              if(!is.na(trunc.max)) trunc.args$trunc.max <- trunc.max
               if(distribution == "discrete"){
                   q <- 1:sum(x)
-                  if(!is.na(trunc)){
-                      p <- do.call(ptrunc, list(sad, q = q, coef=coef, trunc=trunc))
+                  if(length(trunc.args) > 0){
+                      p <- do.call(ptrunc, c(list(sad, q = q, coef=coef), trunc.args))
                   }
                   else{
                       psad <- get(paste("p", sad, sep=""), mode = "function")
@@ -741,8 +775,8 @@ setMethod("qqsad",
               }
         else if(distribution == "continuous"){
             p <- ppoints(S)
-            if(!is.na(trunc))
-                q <- do.call(qtrunc, list(sad, p = p, trunc = trunc, coef=coef))
+            if(length(trunc.args) > 0)
+                q <- do.call(qtrunc, c(list(sad, p = p, coef=coef), trunc.args))
             else{
                 qsad <- get(paste("q", sad, sep=""), mode = "function")
                 q <- do.call(qsad, c(list(p = p), coef))
@@ -767,34 +801,37 @@ setMethod("qqsad",
 ## plot and line have default values and are optional
 setMethod("qqsad",
           signature(x="fitsad", sad="missing", coef="missing",
-                    trunc="missing", distr="missing"),
-          function(x, sad, coef, trunc, distr, plot=TRUE, line=TRUE, ...){
+                    trunc="missing", trunc.max="missing", distr="missing"),
+          function(x, sad, coef, trunc, trunc.max, distr, plot=TRUE, line=TRUE, ...){
               qqsad(x=x@data$x, sad=x@sad, coef=as.list(bbmle::coef(x)), 
-                    trunc=x@trunc, plot=plot, line=line, ...)
+                    trunc=x@trunc, trunc.max=x@trunc.max, plot=plot, line=line, ...)
           }
           )
 
 setMethod("qqsad",
           signature(x="fitsadC", sad="missing", coef="missing",
-                    trunc="missing", distr="missing"),
-          function(x, sad, coef, trunc, distr, plot=TRUE, line=TRUE, ...){
+                    trunc="missing", trunc.max="missing", distr="missing"),
+          function(x, sad, coef, trunc, trunc.max, distr, plot=TRUE, line=TRUE, ...){
               qqsad(x=rep(x@hist$mids, x@hist$counts),
                     sad=x@sad, coef=as.list(bbmle::coef(x)), 
-                    trunc=x@trunc, plot=plot, line=line, ...)
+                    trunc=x@trunc, trunc.max=x@trunc.max, plot=plot, line=line, ...)
           }
           )
 
 ## Generic and methods for qqrad
 setGeneric("qqrad",
-def = function(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneric("qqrad"))
+def = function(x, rad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, ...) standardGeneric("qqrad"))
 
 ## If x is an object of class rad
 setMethod("qqrad",
           signature(x="rad", rad="character", coef="list"),
-          function(x, rad , coef, trunc=NA, plot=TRUE, line=TRUE, ...){
+          function(x, rad , coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, ...){
               pr <- cumsum(x$abund/sum(x$abund))
-              if(!is.na(trunc))
-                  q <- do.call(qtrunc, list(rad, p = pr, coef = coef, trunc = trunc))
+              trunc.args <- list()
+              if(!is.na(trunc)) trunc.args$trunc <- trunc
+              if(!is.na(trunc.max)) trunc.args$trunc.max <- trunc.max
+              if(length(trunc.args) > 0)
+                  q <- do.call(qtrunc, c(list(rad, p = pr, coef = coef), trunc.args))
               else{
                   qrad <- get(paste("q", rad, sep=""), mode = "function")
                   q <- do.call(qrad, c(list(p = pr), coef))
@@ -814,9 +851,9 @@ setMethod("qqrad",
 ## If object is of class numeric arguments rad and coef should be provided
 setMethod("qqrad",
           signature(x="numeric", rad="character", coef="list"),
-          function(x, rad , coef, trunc=NA, plot=TRUE, line=TRUE, ...){
+          function(x, rad , coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, ...){
               y <- rad(x)
-              qqrad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+              qqrad(x=y, rad=rad, coef=coef, trunc=trunc, trunc.max=trunc.max, plot=plot, line=line, ...)
           }
           )
 
@@ -832,30 +869,34 @@ setMethod("qqrad",
 
 ## If object is of class fitrad arguments rad or coef should be missing
 setMethod("qqrad",
-          signature(x="fitrad", rad="missing", coef="missing", trunc="missing"),
-          function(x, rad , coef, trunc, plot=TRUE, line=TRUE, ...){
+          signature(x="fitrad", rad="missing", coef="missing", trunc="missing", trunc.max="missing"),
+          function(x, rad , coef, trunc, trunc.max, plot=TRUE, line=TRUE, ...){
               rad <- x@rad
               coef <- as.list(bbmle::coef(x))
               trunc <- x@trunc
+              trunc.max <- x@trunc.max
               y <- x@rad.tab
-              qqrad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+              qqrad(x=y, rad=rad, coef=coef, trunc=trunc, trunc.max=trunc.max, plot=plot, line=line, ...)
           }
           )
 
 
 ## Generic function and methods for ppsad ##
 setGeneric("ppsad",
-def = function(x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneric("ppsad"))
+def = function(x, sad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, ...) standardGeneric("ppsad"))
 
 ## If x is numeric arguments sad and coef should be provided
 setMethod("ppsad",
           signature(x="numeric", sad="character", coef="list"),
-          function (x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
+          function (x, sad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, ...) {
               x.sorted <- sort(x)
               S <- length(x)
               z <- ppoints(S)
-              if(!is.na(trunc)){
-				  p <- do.call(ptrunc, list(sad, q = x.sorted, coef = coef, trunc = trunc))
+              trunc.args <- list()
+              if(!is.na(trunc)) trunc.args$trunc <- trunc
+              if(!is.na(trunc.max)) trunc.args$trunc.max <- trunc.max
+              if(length(trunc.args) > 0){
+				  p <- do.call(ptrunc, c(list(sad, q = x.sorted, coef = coef), trunc.args))
               }
 			  else{
 				  psad <- get(paste("p", sad, sep=""), mode = "function")
@@ -885,40 +926,45 @@ setMethod("ppsad",
 
 ## If argument x is fitsad class, arguments sad and coef should be missing
 setMethod("ppsad",
-          signature(x="fitsad", sad="missing", coef="missing", trunc="missing"),
-          function (x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {          
+          signature(x="fitsad", sad="missing", coef="missing", trunc="missing", trunc.max="missing"),
+          function (x, sad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, ...) {          
               sad <- x@sad
               coef <- as.list(bbmle::coef(x))
               trunc <- x@trunc
+              trunc.max <- x@trunc.max
               y <- x@data$x
-              ppsad(x=y, sad=sad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+              ppsad(x=y, sad=sad, coef=coef, trunc=trunc, trunc.max=trunc.max, plot=plot, line=line, ...)
           }
           )
 
 ## If argument x is fitsadC class, arguments sad and coef should be missing
 setMethod("ppsad",
-          signature(x="fitsadC", sad="missing", coef="missing", trunc="missing"),
-          function (x, sad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {          
+          signature(x="fitsadC", sad="missing", coef="missing", trunc="missing", trunc.max="missing"),
+          function (x, sad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, ...) {          
               sad <- x@sad
               coef <- as.list(bbmle::coef(x))
               trunc <- x@trunc
+              trunc.max <- x@trunc.max
               y <- rep(x@hist$mids, x@hist$counts) 
-              ppsad(x=y, sad=sad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+              ppsad(x=y, sad=sad, coef=coef, trunc=trunc, trunc.max=trunc.max, plot=plot, line=line, ...)
           }
           )
 
 ## Generic function and methods for pprad ##
 setGeneric("pprad",
-def = function(x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) standardGeneric("pprad"))
+def = function(x, rad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, ...) standardGeneric("pprad"))
 
 ## If argument is of class rad arguments rad and coef should be provided
 setMethod("pprad",
           signature(x="rad", rad="character", coef="list"),
-          function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
+          function (x, rad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, ...) {
               rad.tab <- x
               pr <- cumsum(rad.tab$abund/sum(rad.tab$abund))
-              if(!is.na(trunc)){
-                  p <- do.call(ptrunc, list(rad, q = rad.tab$rank, coef = coef, trunc = trunc))
+              trunc.args <- list()
+              if(!is.na(trunc)) trunc.args$trunc <- trunc
+              if(!is.na(trunc.max)) trunc.args$trunc.max <- trunc.max
+              if(length(trunc.args) > 0){
+                  p <- do.call(ptrunc, c(list(rad, q = rad.tab$rank, coef = coef), trunc.args))
               }
               else{
                   prad <- get(paste("p", rad, sep=""), mode = "function")
@@ -939,9 +985,9 @@ setMethod("pprad",
 ## If argument is of class numeric arguments rad and coef should be provided
 setMethod("pprad",
           signature(x="numeric", rad="character", coef="list"),
-          function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
+          function (x, rad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, ...) {
               y <- rad(x)
-              pprad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+              pprad(x=y, rad=rad, coef=coef, trunc=trunc, trunc.max=trunc.max, plot=plot, line=line, ...)
           }
           )
 
@@ -958,12 +1004,13 @@ setMethod("pprad",
 ## If argument is of class fitrad arguments rad and coef should be missing
 setMethod("pprad",
           signature(x="fitrad", rad="missing", coef="missing"),
-          function (x, rad, coef, trunc=NA, plot=TRUE, line=TRUE, ...) {
+          function (x, rad, coef, trunc=NA, trunc.max=NA, plot=TRUE, line=TRUE, ...) {
               rad <- x@rad
               coef <- as.list(bbmle::coef(x))
               trunc <- x@trunc
+              trunc.max <- x@trunc.max
               y <- x@rad.tab
-              pprad(x=y, rad=rad, coef=coef, trunc=trunc, plot=plot, line=line, ...)
+              pprad(x=y, rad=rad, coef=coef, trunc=trunc, trunc.max=trunc.max, plot=plot, line=line, ...)
           }
           )
 

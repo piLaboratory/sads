@@ -1,4 +1,4 @@
-fitvolkov <- function(x, trunc, start.value, ...){
+fitvolkov <- function(x, trunc, trunc.max, start.value, ...){
   dots <- list(...)
   if (any(x <= 0) | any(!is.wholenumber(x))) stop ("All x must be positive integers")
   if(missing(start.value)){
@@ -18,16 +18,20 @@ fitvolkov <- function(x, trunc, start.value, ...){
   if (!missing(trunc)){
     if (min(x)<=trunc) stop("truncation point should be lower than the lowest data value")
   }
-  if (missing(trunc)){
+  if (!missing(trunc.max)){
+    if (max(x)>trunc.max) stop("trunc.max should not be lower than the highest data value")
+  }
+  trunc.args <- list()
+  if (!missing(trunc)) trunc.args$trunc <- trunc
+  if (!missing(trunc.max)) trunc.args$trunc.max <- trunc.max
+  if (length(trunc.args) > 0){
+    LL <- function(theta, m, J) {
+      -sum(do.call(dtrunc, c(list("volkov", x = x,
+                  coef = list(J = J, m = m, theta = theta), log = TRUE), trunc.args)))
+    }
+  } else {
     LL <- function(theta, m, J) -sum(dvolkov(x,  theta = theta, m = m, J = J, log = TRUE))
   }
-  else {
-    LL <- function(theta, m, J) {
-      -sum(dtrunc("volkov", x = x,
-                  coef = list(J = J, m = m, theta = theta),
-                  trunc = trunc, log = TRUE))
-    }
-  }
   result <- do.call("mle2", c(list(minuslogl=LL, start = list(theta = thetahat, m = mhat), fixed=list(J=sum(x)), data = list(x = x)), dots))  
-  new("fitsad", result, sad="volkov", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc))
+  new("fitsad", result, sad="volkov", distr = distr.depr, trunc = ifelse(missing(trunc), NaN, trunc), trunc.max = ifelse(missing(trunc.max), NaN, trunc.max))
 }

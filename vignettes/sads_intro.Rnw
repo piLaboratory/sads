@@ -74,8 +74,11 @@ The current developer version can be installed from GitHub with:
 
 @
 <<install-dev-version, eval=FALSE >>=
-library(devtools)
-install_github(repo = 'piLaboratory/sads', ref= 'dev', build_vignettes = TRUE)
+library(remote)
+remotes::install_github("pilaboratory/sads",
+                        ref="trunc_max",
+                        dependencies = c("Depends", "Imports"),
+                        build_vignettes = TRUE)
 @ 
 
 And then load the package:
@@ -143,7 +146,8 @@ which can be used to compare different data sets:
 plot(moths.oc, prop = TRUE, border=NA, col=NA)
 lines(octav(birds), mid = FALSE, prop = TRUE, col="red")
 lines(octav(moths), mid = FALSE, prop = TRUE)
-legend("topright", c("Preston's birds", "Fisher's moths"), col=c("red", "blue"), lty=1, bty="n")
+legend("topright", c("Preston's birds", "Fisher's moths"),
+       col=c("red", "blue"), lty=1, bty="n")
 @ %def 
 
 
@@ -255,7 +259,7 @@ par(mfrow=c(1,1))
 @ %def
 
 \begin{shaded}
-  \textbf{Likelihood intervals and confindence intervals:} \hfill
+  \textbf{Likelihood intervals and confidence intervals:} \hfill
   Likelihood intervals include all values of the parameters that have up to a given 
   log-likelihood absolute difference to the maximum likelihood estimate.
   This difference is the log-likelihood ratio and is set with the argument \code{ratio} 
@@ -308,7 +312,7 @@ function \code{fitrad}:
 \begin{shaded}
   \textbf{Comparison to \code{radfit} from \emph{vegan} package:} \hfill
   
-  fits by \code{fitsad}, \code{fitrad} and \code{radfit} of \emph{vegan} 
+  fits by \code{fitsad}, \code{fitrad} of \emph{sads} and fits by \code{radfit} of \emph{vegan} 
   package provide similar estimates of model coefficients 
   but not comparable likelihood values. The reason for this is the fact each function fits models that assign 
   probability values to data in different ways. Function \code{fitsad} fits PDFs to observed abundances and \code{fitrad} fits PDFs 
@@ -392,7 +396,7 @@ legend("topright",
 \subsection{Abundance class data}
 
 For ecological communities, the representation of species abundances
-typically occurs through categorization. For instance, when assessing
+often occurs through categorization. For instance, when assessing
 the abundance of sessile organisms, it is common practice to utilize a
 scale based on the coverage of sampling areas, because direct enumeration
 of individuals or estimation of biomass are extremely laborious.
@@ -423,7 +427,7 @@ We can tally the number of species in each cover class using a histogram:
 
 @ 
 <<grasslands histogram>>=
- grass.h <- hist(grasslands$mids, breaks = grass.brk, plot = FALSE)
+grass.h <- hist(grasslands$mids, breaks = grass.brk, plot = FALSE)
 @ %def
 
 The resulting object of the class \code{histogram} has the number of
@@ -431,23 +435,24 @@ species in each cover class, as well as the classes midpoints:
 
 @
 <<grasslands histogram data>>=
- data.frame(midpoint = grass.h$mids, N.spp = grass.h$counts) 
+data.frame(midpoint = grass.h$mids, N.spp = grass.h$counts) 
 @ %def
 
 
-The function \code{fitsadC} fits continuous distributions usually
-applied to describe this kind of data. The commands below fit all
-models currently available for abundance class data in the package
-\code{sads}. Note that the data is provided to this function through an object
-of the class \code{histogram}:
+The function \code{fitsadC} fits continuous distributions commonly
+used to describe this type of data. The code below fits all available
+models for abundance-class data in the \code{sads} package. Note that
+the data must be passed as a \code{histogram} object. Additionally, we
+set the \code{trunc.max} argument to the maximum possible cover value
+for this dataset (100\%) to right-truncate the distribution.
 
 @
 <<grasslands model fit >>=
-grass.e <- fitsadC(grass.h, 'exp') # Exponential
-grass.g <- fitsadC(grass.h, 'gamma') # Pareto
-grass.l <- fitsadC(grass.h, 'lnorm') # Log-normal
-grass.p <- fitsadC(grass.h, 'pareto') # Pareto
-grass.w <- fitsadC(grass.h, 'weibull') # Weibull
+grass.e <- fitsadC(grass.h, 'exp', trunc.max = 100) # Exponential
+grass.g <- fitsadC(grass.h, 'gamma', trunc.max = 100) # Pareto
+grass.l <- fitsadC(grass.h, 'lnorm', trunc.max = 100) # Log-normal
+grass.p <- fitsadC(grass.h, 'pareto', trunc.max = 100) # Pareto
+grass.w <- fitsadC(grass.h, 'weibull', trunc.max = 100) # Weibull
 @ %def
 
 The fitted models are of class \code{fitsadC}, for which most of the

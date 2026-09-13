@@ -2,9 +2,9 @@
 \docType{methods}
 \alias{coverpred}
 \alias{coverpred-methods}
-\alias{coverpred,fitsadC,missing,missing,missing,missing,missing,missing-method}
-\alias{coverpred,histogram,character,list,ANY,missing,missing,missing-method}
-\alias{coverpred,missing,character,list,ANY,numeric,ANY,numeric-method}
+\alias{coverpred,fitsadC,missing,missing,missing,missing,missing,missing,missing-method}
+\alias{coverpred,histogram,character,list,ANY,ANY,missing,missing,missing-method}
+\alias{coverpred,missing,character,list,ANY,ANY,numeric,ANY,numeric-method}
 
 \title{ ~~ Methods for Function \code{coverpred} in Package \pkg{sads} ~~}
 
@@ -15,15 +15,15 @@
 \section{Methods}{
   \describe{
     \item{\code{signature(object = "fitsadC", sad = "missing",
-	coef = "missing", trunc = "missing", breaks = "missing",
-	mids = "missing", S = "missing")}}{
+	coef = "missing", trunc = "missing", trunc.max = "missing",
+	breaks = "missing", mids = "missing", S = "missing")}}{
       number of species in each abundance class
       predicted from a sads model fitted with function
       \code{fitsadC}.
     }
 
     \item{\code{signature(object = "histogram", sad = "character",
-	coef = "list", trunc = "ANY", breaks = "missing",
+	coef = "list", trunc = "ANY", trunc.max = "ANY", breaks = "missing",
 	mids = "missing", S = "missing")}}{
       number of species in each abundance class
       predicted from abundance distribution named by \code{sad} with
@@ -33,7 +33,7 @@
     }
     
     \item{\code{signature(object = "missing", sad = "character",
-	coef = "list", trunc = "ANY", breaks = "numeric",
+	coef = "list", trunc = "ANY", trunc.max = "ANY", breaks = "numeric",
 	mids = "ANY", S = "numeric")}}{
       number of species each abundance class
       predicted from abundance distribution named by \code{sad} with
@@ -59,8 +59,13 @@
     distribution given in \code{sad}. Parameters should be named as in the corresponding density
     function, and in the same order.
   }
-  \item{trunc}{non-negative integer, trunc > min(x); truncation point
-    if fitted distribution is truncated.
+  \item{trunc}{non-negative integer, trunc > min(x); lower truncation point
+    if fitted distribution is left-truncated.
+  }
+  \item{trunc.max}{numeric, trunc.max >= max(x); upper truncation point
+    if fitted distribution is right-truncated. Can be combined with
+    \code{trunc} for a distribution truncated at both ends. See
+    \code{\link{dtrunc}} for details.
   }
   \item{breaks}{real vector; breakpoints of abundance classes.
   }
@@ -97,4 +102,8 @@ points(grass.p.pred)
 grass.p.pred2 <- coverpred(grass.h, sad = "pareto", coef = list(shape = 1, scale = 0.5)) 
 ## Adds the new predicted values to the plot
 points(grass.p.pred2, col = "red") 
+
+## A model truncated at both a minimum and a maximum cover value
+grass.p3 <- fitparetoC(grass.h, trunc.max=100)
+grass.p3.pred <- coverpred(grass.p3)
 }

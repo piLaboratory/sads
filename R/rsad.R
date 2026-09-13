@@ -1,7 +1,7 @@
 rsad <- function(S = NULL, frac, 
                  sad = c("bs","gamma","geom","lnorm","ls","mzsm","nbinom","pareto",
                          "poilog","power", "powbend", "volkov", "weibull"), 
-                 coef, trunc=NaN, sampling=c("poisson", "nbinom", "hypergeometric"), 
+                 coef, trunc=NaN, trunc.max=NaN, sampling=c("poisson", "nbinom", "hypergeometric"), 
                  k, zeroes=FALSE, ssize=1) {
     sampling <- match.arg(sampling)
     if(is.character(sad)) {
@@ -26,11 +26,14 @@ rsad <- function(S = NULL, frac,
         }
         S <- as.integer(S) ## S muts be integer
         ## Generates the "community"
-        if(is.nan(trunc)) {
+        if(is.nan(trunc) && is.nan(trunc.max)) {
             sadr <- get(paste("r", sad, sep=""), mode = "function")
             com <- do.call(sadr,c(list(n=S),coef))
         } else {
-            com <- rtrunc(sad, n=S, trunc=trunc, coef=coef)
+            trunc.args <- list()
+            if(!is.nan(trunc)) trunc.args$trunc <- trunc
+            if(!is.nan(trunc.max)) trunc.args$trunc.max <- trunc.max
+            com <- do.call(rtrunc, c(list(sad, n=S), trunc.args, list(coef=coef)))
         }
     }
     ## If a numeric vector is provided in 'sad' this is treated as the sad of the community to be sampled
@@ -98,9 +101,9 @@ rvolkov <- function(n, theta, m, J) shift_r("volkov", n, list(theta=theta,m=m,J=
 rzipf <-function(n, N, s) shift_r("zipf", n, list(N=N, s=s))
 
 ## rtrunc for truncated versions of [r] functions
-rtrunc <- function(f, n, trunc, coef, ...){
-    if(f == "power")
+rtrunc <- function(f, n, trunc, trunc.max, coef, ...){
+    if(f == "power" && missing(trunc.max))
         rpldis(n = n, alpha = coef$s, xmin = trunc, ...) ## uses faster function rpldis from poweRlaw package
     else
-        qtrunc(f, runif(n), trunc, coef)
+        qtrunc(f, runif(n), trunc, trunc.max, coef)
 }

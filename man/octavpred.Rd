@@ -4,12 +4,12 @@
 
 \alias{octavpred}
 %\alias{octavpred-methods}
-\alias{octavpred,fitrad,missing,missing,missing,missing,ANY,missing,missing-method}
-\alias{octavpred,fitsad,missing,missing,missing,missing,ANY,missing,missing-method}
-\alias{octavpred,missing,character,missing,list,ANY,ANY,numeric,numeric-method}
-\alias{octavpred,missing,missing,character,list,ANY,ANY,numeric,numeric-method}
-\alias{octavpred,numeric,character,missing,list,ANY,ANY,missing,missing-method}
-\alias{octavpred,numeric,missing,character,list,ANY,ANY,missing,missing-method}
+\alias{octavpred,fitrad,missing,missing,missing,missing,missing,ANY,missing,missing-method}
+\alias{octavpred,fitsad,missing,missing,missing,missing,missing,ANY,missing,missing-method}
+\alias{octavpred,missing,character,missing,list,ANY,ANY,ANY,numeric,numeric-method}
+\alias{octavpred,missing,missing,character,list,ANY,ANY,ANY,numeric,numeric-method}
+\alias{octavpred,numeric,character,missing,list,ANY,ANY,ANY,missing,missing-method}
+\alias{octavpred,numeric,missing,character,list,ANY,ANY,ANY,missing,missing-method}
 
 \title{Predicted frequencies of species in octaves}
 
@@ -22,38 +22,40 @@
 \section{Methods}{
   \describe{
     \item{\code{signature(object = "fitrad", sad = "missing", rad =
-	"missing", coef = "missing", trunc = "missing", oct = "ANY", S =
-	"missing", N = "missing")}}{number of species in each octave
-      predicted from a rank-abundance model fitted with function
-      \code{fitrad}.
+	"missing", coef = "missing", trunc = "missing", trunc.max =
+	"missing", oct = "ANY", S = "missing", N = "missing")}}{number of
+      species in each octave predicted from a rank-abundance model
+      fitted with function \code{fitrad}.
     }
     \item{\code{signature(object = "fitsad", sad = "missing", rad =
-	"missing", coef = "missing", trunc = "missing", oct = "ANY", S =
-	"missing", N = "missing")}}{ number of species in each octave
-      predicted from an abundance distribution model fitted with function
-      \code{fitsad}.
+	"missing", coef = "missing", trunc = "missing", trunc.max =
+	"missing", oct = "ANY", S = "missing", N = "missing")}}{ number of
+      species in each octave predicted from an abundance distribution
+      model fitted with function \code{fitsad}.
     }
     \item{\code{signature(object = "missing", sad = "character", rad =
-	"missing", coef = "list", trunc = "ANY", oct = "ANY", S = "numeric",
-	N = "numeric")}}{number of species in each octave predicted from an
-      abundance distribution named by \code{sad} with parameters
-      defined in \code{coef}. 
+	"missing", coef = "list", trunc = "ANY", trunc.max = "ANY", oct =
+	"ANY", S = "numeric", N = "numeric")}}{number of species in each
+      octave predicted from an abundance distribution named by
+      \code{sad} with parameters defined in \code{coef}. 
     }
     \item{\code{signature(object = "numeric", sad = "character", rad =
-	"missing", coef = "list", trunc = "ANY", oct = "ANY", S = "missing",
-	N = "missing")}}{same as previous method, but with \code{S} and
-      \code{N} taken from a vector of abundances given by \code{object}.
+	"missing", coef = "list", trunc = "ANY", trunc.max = "ANY", oct =
+	"ANY", S = "missing", N = "missing")}}{same as previous method, but
+      with \code{S} and \code{N} taken from a vector of abundances
+      given by \code{object}.
     }
     \item{\code{signature(object = "missing", sad = "missing", rad =
-	"character", coef = "list", trunc = "ANY", oct = "ANY", S =
-	"numeric", N = "numeric")}}{number of species in each octave predicted from an
-      rank-abundance distribution named by \code{rad} with parameters
-      defined in \code{coef}. 
+	"character", coef = "list", trunc = "ANY", trunc.max = "ANY", oct =
+	"ANY", S = "numeric", N = "numeric")}}{number of species in each
+      octave predicted from an rank-abundance distribution named by
+      \code{rad} with parameters defined in \code{coef}. 
     }
     \item{\code{signature(object = "numeric", sad = "missing", rad =
-	"character", coef = "list", trunc = "ANY", oct = "ANY", S =
-	"missing", N = "missing")}}{same as previous method, but with \code{S} and
-      \code{N} taken from a vector of abundances given by \code{object}.
+	"character", coef = "list", trunc = "ANY", trunc.max = "ANY", oct =
+	"ANY", S = "missing", N = "missing")}}{same as previous method, but
+      with \code{S} and \code{N} taken from a vector of abundances
+      given by \code{object}.
     }
   }
 }
@@ -72,8 +74,13 @@
     Parameters should be named as in the corresponding density
     function, and in the same order.
   }
-  \item{trunc}{non-negative integer, \code{trunc > min(x)}; truncation point
-    if fitted distribution is truncated.
+  \item{trunc}{non-negative integer, \code{trunc > min(x)}; lower truncation
+    point if fitted distribution is left-truncated.
+  }
+  \item{trunc.max}{numeric, \code{trunc.max >= max(x)}; upper truncation
+    point if fitted distribution is right-truncated. Can be combined with
+    \code{trunc} for a distribution truncated at both ends. See
+    \code{\link{dtrunc}} for details.
   }
   \item{oct}{integer vector; the octaves to tabulate abundances, see \link{octav}.
     If not provided, the \code{octavpred} method will generate an educated guess.
@@ -114,4 +121,8 @@ lines(bci.mzsm.oc)
 bci.lzsm.oc <- octavpred( bci, sad = "volkov", coef =list(theta = 44, m = 0.15, J=sum(bci)) )
 ## Adding predicted frequencies to the plot
 lines(bci.lzsm.oc, col = "red")
+
+## Predictions from a model truncated at both a minimum and a maximum
+bci.ln2 <- fitsad(bci, "lnorm", trunc = 0.5, trunc.max = 2500)
+bci.ln2.oc <- octavpred(bci.ln2)
 }

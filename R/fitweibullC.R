@@ -1,6 +1,9 @@
-fitweibullC <- function(x, trunc, start.value, ...){
+fitweibullC <- function(x, trunc, trunc.max, start.value, ...){
     dots <- list(...)
     if (any(x$breaks < 0)) stop ("All x must be positive")
+    if (!missing(trunc.max)){
+        if (max(x$breaks)>trunc.max) stop("trunc.max should not be lower than the highest data value")
+    }
     if (missing(start.value)) {
         f <- function(shape, x){
             n <- length(x)
@@ -13,12 +16,15 @@ fitweibullC <- function(x, trunc, start.value, ...){
         ka <- start.value[1]
         theta <-start.value[2]
     }
-    if (missing(trunc)){
-       LL <- function(shape, scale) -trueLL(x, dist = "weibull", coef = list( shape = shape, scale = scale)) 
+    trunc.args <- list()
+    if (!missing(trunc)) trunc.args$trunc <- trunc
+    if (!missing(trunc.max)) trunc.args$trunc.max <- trunc.max
+    if (length(trunc.args) > 0){
+      LL <- function(shape, scale) -do.call(trueLL, c(list(x, dist = "weibull", coef = list( shape = shape, scale = scale)), trunc.args))
     }
     else {
-      LL <- function(shape, scale) -trueLL(x, dist = "weibull", coef = list( shape = shape, scale = scale), trunc = trunc)   
+       LL <- function(shape, scale) -trueLL(x, dist = "weibull", coef = list( shape = shape, scale = scale)) 
     }  
     result <- do.call("mle2", c(list(LL, start = list(shape = ka, scale = theta)), dots))
-    new("fitsadC", result, sad="weibull", trunc = ifelse(missing(trunc), NaN, trunc), hist = x) 
+    new("fitsadC", result, sad="weibull", trunc = ifelse(missing(trunc), NaN, trunc), trunc.max = ifelse(missing(trunc.max), NaN, trunc.max), hist = x) 
 }
