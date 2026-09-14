@@ -11,7 +11,7 @@
 data(grasslands)
 }
 
-\format{ A data-frame with one plant species per row, and three vectors:
+\format{ A data-frame with one plant species per row, and four vectors:
   \describe{
     \item{class}{cover class as coded in the original data
       set.}
